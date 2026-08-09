@@ -1,0 +1,342 @@
+import { useEffect, useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
+
+function AddRabbitMortality() {
+  const navigate = useNavigate();
+
+  const [rabbits, setRabbits] = useState([]);
+
+  const [formData, setFormData] = useState({
+    rabbit_id: "",
+    mortality_date: new Date().toISOString().split("T")[0],
+    quantity: 1,
+    cause: "",
+    notes: "",
+  });
+
+  useEffect(() => {
+    loadRabbits();
+  }, []);
+
+  async function loadRabbits() {
+    try {
+      const response = await fetch(
+        "http://localhost:5000/api/rabbits"
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        console.error(data);
+        setRabbits([]);
+        return;
+      }
+
+      setRabbits(data);
+    } catch (err) {
+      console.error(err);
+      setRabbits([]);
+    }
+  }
+
+  function handleChange(e) {
+    const { name, value } = e.target;
+
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  }
+
+  const selectedRabbit = rabbits.find(
+    (rabbit) =>
+      Number(rabbit.id) === Number(formData.rabbit_id)
+  );
+
+  const availableQuantity = selectedRabbit
+    ? Number(selectedRabbit.quantity || 0)
+    : 0;
+
+  const mortalityQuantity = Number(formData.quantity || 0);
+
+  const noRabbitSelected = !formData.rabbit_id;
+
+  const rabbitUnavailable =
+    selectedRabbit && availableQuantity <= 0;
+
+  const quantityTooHigh =
+    selectedRabbit &&
+    mortalityQuantity > availableQuantity;
+
+  const invalidQuantity =
+    mortalityQuantity <= 0;
+
+  const canSave =
+    !noRabbitSelected &&
+    !rabbitUnavailable &&
+    !quantityTooHigh &&
+    !invalidQuantity;
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+
+    if (!formData.rabbit_id) {
+      alert("Please select a rabbit.");
+      return;
+    }
+
+    if (availableQuantity <= 0) {
+      alert(
+        `${selectedRabbit.name || "This rabbit"} has 0 available. Mortality cannot be recorded.`
+      );
+      return;
+    }
+
+    if (mortalityQuantity <= 0) {
+      alert("Mortality quantity must be greater than zero.");
+      return;
+    }
+
+    if (mortalityQuantity > availableQuantity) {
+      alert(
+        `Mortality quantity cannot exceed the ${availableQuantity} rabbit(s) available.`
+      );
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        "http://localhost:5000/api/rabbit-mortality",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        alert(
+          data.message ||
+            "Failed to record mortality."
+        );
+        return;
+      }
+
+      alert(data.message);
+
+      navigate("/rabbit-mortality");
+    } catch (err) {
+      console.error(err);
+      alert("Failed to record rabbit mortality.");
+    }
+  }
+
+  return (
+    <div>
+      {/* Header */}
+
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginBottom: "20px",
+          gap: "20px",
+        }}
+      >
+        <div>
+          <h1>☠️ Record Rabbit Mortality</h1>
+
+          <p>
+            Record a rabbit death and automatically
+            update the rabbit quantity.
+          </p>
+        </div>
+
+        <Link
+          className="button"
+          to="/rabbit-mortality"
+        >
+          ← Back
+        </Link>
+      </div>
+
+      {/* Form */}
+
+      <div className="card">
+        <form onSubmit={handleSubmit}>
+
+          {/* Rabbit */}
+
+          <label>Rabbit</label>
+
+          <select
+            name="rabbit_id"
+            value={formData.rabbit_id}
+            onChange={handleChange}
+            required
+          >
+            <option value="">
+              Select Rabbit
+            </option>
+
+            {rabbits.map((rabbit) => (
+              <option
+                key={rabbit.id}
+                value={rabbit.id}
+              >
+                {rabbit.tag_number} -{" "}
+                {rabbit.name || "Rabbit"}{" "}
+                ({Number(rabbit.quantity || 0)} available)
+              </option>
+            ))}
+          </select>
+
+          {/* Availability warning */}
+
+          {rabbitUnavailable && (
+            <p
+              style={{
+                color: "#b71c1c",
+                fontWeight: "bold",
+                marginTop: "8px",
+              }}
+            >
+              ⚠️ {selectedRabbit.name || "This rabbit"} has
+              0 available. Mortality cannot be recorded.
+            </p>
+          )}
+
+          {selectedRabbit &&
+            availableQuantity > 0 && (
+              <p
+                style={{
+                  color: "#2E7D32",
+                  fontWeight: "bold",
+                  marginTop: "8px",
+                }}
+              >
+                ✅ {availableQuantity} rabbit(s) available
+                for mortality recording.
+              </p>
+            )}
+
+          <br />
+
+          {/* Date */}
+
+          <label>Mortality Date</label>
+
+          <input
+            type="date"
+            name="mortality_date"
+            value={formData.mortality_date}
+            onChange={handleChange}
+            required
+          />
+
+          <br />
+          <br />
+
+          {/* Quantity */}
+
+          <label>Quantity</label>
+
+          <input
+            type="number"
+            min="1"
+            max={
+              availableQuantity > 0
+                ? availableQuantity
+                : undefined
+            }
+            name="quantity"
+            value={formData.quantity}
+            onChange={handleChange}
+            required
+          />
+
+          {quantityTooHigh && (
+            <p
+              style={{
+                color: "#b71c1c",
+                fontWeight: "bold",
+                marginTop: "8px",
+              }}
+            >
+              ⚠️ Quantity cannot exceed{" "}
+              {availableQuantity} available.
+            </p>
+          )}
+
+          {invalidQuantity && (
+            <p
+              style={{
+                color: "#b71c1c",
+                fontWeight: "bold",
+                marginTop: "8px",
+              }}
+            >
+              ⚠️ Quantity must be greater than zero.
+            </p>
+          )}
+
+          <br />
+
+          {/* Cause */}
+
+          <label>Cause</label>
+
+          <input
+            type="text"
+            name="cause"
+            value={formData.cause}
+            onChange={handleChange}
+            placeholder="e.g. Disease, injury, unknown"
+          />
+
+          <br />
+          <br />
+
+          {/* Notes */}
+
+          <label>Notes</label>
+
+          <textarea
+            rows="4"
+            name="notes"
+            value={formData.notes}
+            onChange={handleChange}
+            placeholder="Additional notes"
+          />
+
+          <br />
+          <br />
+
+          {/* Submit */}
+
+          <button
+            className="button"
+            type="submit"
+            disabled={!canSave}
+            style={{
+              opacity: canSave ? 1 : 0.5,
+              cursor: canSave
+                ? "pointer"
+                : "not-allowed",
+            }}
+          >
+            💾 Save Mortality Record
+          </button>
+
+        </form>
+      </div>
+    </div>
+  );
+}
+
+export default AddRabbitMortality;

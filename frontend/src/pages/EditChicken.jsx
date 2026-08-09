@@ -1,0 +1,230 @@
+import { useEffect, useState } from "react";
+import { useNavigate, useParams, Link } from "react-router-dom";
+
+function EditChicken() {
+  const { id } = useParams();
+  const navigate = useNavigate();
+
+  const [formData, setFormData] = useState({
+    tag_number: "",
+    name: "",
+    breed: "",
+    type: "Layer",
+    sex: "Female",
+    hatch_date: "",
+    source: "",
+    quantity: 1,
+    status: "Active",
+    purchase_price: "",
+    notes: "",
+  });
+
+  useEffect(() => {
+    loadChicken();
+  }, []);
+
+  async function loadChicken() {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/chickens/${id}`
+      );
+
+      const data = await response.json();
+
+      setFormData(data);
+
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  function handleChange(e) {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  }
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/chickens/${id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
+
+      const data = await response.json();
+
+      alert(data.message);
+
+      if (response.ok) {
+        navigate("/chickens");
+      }
+
+    } catch (err) {
+      console.error(err);
+      alert("Failed to update chicken.");
+    }
+  }
+
+  return (
+    <div className="page">
+
+      <div className="page-header">
+        <h1>🐔 Edit Chicken</h1>
+      </div>
+
+      <div className="card">
+
+        <form onSubmit={handleSubmit}>
+
+          <label>Tag Number</label>
+          <input
+            type="text"
+            name="tag_number"
+            value={formData.tag_number || ""}
+            onChange={handleChange}
+            required
+          />
+
+          <br /><br />
+
+          <label>Name</label>
+          <input
+            type="text"
+            name="name"
+            value={formData.name || ""}
+            onChange={handleChange}
+          />
+
+          <br /><br />
+
+          <label>Breed</label>
+          <input
+            type="text"
+            name="breed"
+            value={formData.breed || ""}
+            onChange={handleChange}
+            required
+          />
+
+          <br /><br />
+
+          <label>Type</label>
+          <select
+            name="type"
+            value={formData.type || "Layer"}
+            onChange={handleChange}
+          >
+            <option>Layer</option>
+            <option>Broiler</option>
+            <option>Cockerel</option>
+            <option>Cock</option>
+            <option>Hen</option>
+            <option>Chick</option>
+          </select>
+
+          <br /><br />
+
+          <label>Sex</label>
+          <select
+            name="sex"
+            value={formData.sex || "Female"}
+            onChange={handleChange}
+          >
+            <option>Female</option>
+            <option>Male</option>
+          </select>
+
+          <br /><br />
+
+          <label>Hatch Date</label>
+          <input
+            type="date"
+            name="hatch_date"
+            value={formData.hatch_date?.split("T")[0] || ""}
+            onChange={handleChange}
+          />
+
+          <br /><br />
+
+          <label>Source</label>
+          <input
+            type="text"
+            name="source"
+            value={formData.source || ""}
+            onChange={handleChange}
+          />
+
+          <br /><br />
+
+          <label>Quantity</label>
+          <input
+            type="number"
+            name="quantity"
+            value={formData.quantity || 1}
+            onChange={handleChange}
+          />
+
+          <br /><br />
+
+          <label>Status</label>
+          <select
+            name="status"
+            value={formData.status || "Active"}
+            onChange={handleChange}
+          >
+            <option>Active</option>
+            <option>Sold</option>
+            <option>Dead</option>
+          </select>
+
+          <br /><br />
+
+          <label>Purchase Price</label>
+          <input
+            type="number"
+            step="0.01"
+            name="purchase_price"
+            value={formData.purchase_price || ""}
+            onChange={handleChange}
+          />
+
+          <br /><br />
+
+          <label>Notes</label>
+          <textarea
+            rows="4"
+            name="notes"
+            value={formData.notes || ""}
+            onChange={handleChange}
+          />
+
+          <br /><br />
+
+          <div style={{ display: "flex", gap: "10px" }}>
+            <button className="button" type="submit">
+              💾 Update
+            </button>
+
+            <Link className="button" to="/chickens">
+              Cancel
+            </Link>
+          </div>
+
+        </form>
+
+      </div>
+
+    </div>
+  );
+}
+
+export default EditChicken;
