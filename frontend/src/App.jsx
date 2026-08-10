@@ -24,7 +24,7 @@ import AddWeightRecord from "./pages/AddWeightRecord";
 import Breeding from "./pages/Breeding";
 import AddBreeding from "./pages/AddBreeding";
 
-import Kidding from "./pages/Kidding";
+import Kidding from "./pages/kidding";
 import AddKidding from "./pages/AddKidding";
 
 // ======================
