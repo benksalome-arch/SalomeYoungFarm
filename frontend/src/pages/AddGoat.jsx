@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import API_URL from "../api";
 
 function AddGoat() {
   const navigate = useNavigate();
@@ -28,7 +29,7 @@ function AddGoat() {
 
     try {
       const response = await fetch(
-        "http://localhost:5000/api/goats",
+        `${API_URL}/api/goats`,
         {
           method: "POST",
           headers: {
