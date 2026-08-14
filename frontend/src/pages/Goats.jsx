@@ -3,33 +3,63 @@ import { Link } from "react-router-dom";
 
 import GoatTable from "../components/GoatTable";
 import SearchBar from "../components/SearchBar";
+import API_URL from "../api";
 
 function Goats() {
   const [goats, setGoats] = useState([]);
   const [search, setSearch] = useState("");
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/goats")
-      .then((res) => {
-        console.log("Response status:", res.status);
-        return res.json();
-      })
-      .then((data) => {
-        console.log("Goats from API:", data);
-        setGoats(data);
-      })
-      .catch((err) => {
-        console.error("Fetch error:", err);
+    async function loadGoats() {
+      try {
+        const response = await fetch(
+          `${API_URL}/api/goats`
+        );
+
+        console.log(
+          "Goats response status:",
+          response.status
+        );
+
+        const data = await response.json();
+
+        console.log(
+          "Goats from API:",
+          data
+        );
+
+        if (!response.ok) {
+          throw new Error(
+            data.message ||
+              "Failed to load goats."
+          );
+        }
+
+        setGoats(
+          Array.isArray(data)
+            ? data
+            : []
+        );
+      } catch (error) {
+        console.error(
+          "Goats fetch error:",
+          error
+        );
+
         setGoats([]);
-      });
+      }
+    }
+
+    loadGoats();
   }, []);
 
-  const filteredGoats = goats.filter((goat) =>
-    `${goat.tag || goat.tag_number || ""} ${
-      goat.name || ""
-    } ${goat.breed || ""}`
-      .toLowerCase()
-      .includes(search.toLowerCase())
+  const filteredGoats = goats.filter(
+    (goat) =>
+      `${goat.tag || goat.tag_number || ""} ${
+        goat.name || ""
+      } ${goat.breed || ""}`
+        .toLowerCase()
+        .includes(search.toLowerCase())
   );
 
   return (
@@ -92,7 +122,9 @@ function Goats() {
       >
         <SearchBar
           value={search}
-          onChange={(e) => setSearch(e.target.value)}
+          onChange={(e) =>
+            setSearch(e.target.value)
+          }
         />
       </div>
 
@@ -106,7 +138,9 @@ function Goats() {
           boxSizing: "border-box",
         }}
       >
-        <GoatTable goats={filteredGoats} />
+        <GoatTable
+          goats={filteredGoats}
+        />
       </div>
     </div>
   );
