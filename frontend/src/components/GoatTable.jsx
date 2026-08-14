@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import API_URL from "../api";
 
 function GoatTable({ goats }) {
   async function deleteGoat(id) {
@@ -8,7 +9,7 @@ function GoatTable({ goats }) {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/api/goats/${id}`,
+        `${API_URL}/api/goats/${id}`,
         {
           method: "DELETE",
         }
@@ -17,15 +18,25 @@ function GoatTable({ goats }) {
       const data = await response.json();
 
       if (!response.ok) {
-        alert(data.message || "Failed to delete goat.");
+        alert(
+          data.message ||
+            "Failed to delete goat."
+        );
         return;
       }
 
-      alert(data.message || "Goat deleted successfully.");
+      alert(
+        data.message ||
+          "Goat deleted successfully."
+      );
 
       window.location.reload();
     } catch (err) {
-      console.error(err);
+      console.error(
+        "Delete goat error:",
+        err
+      );
+
       alert("Failed to delete goat.");
     }
   }
@@ -38,24 +49,22 @@ function GoatTable({ goats }) {
         maxWidth: "100%",
         minWidth: 0,
         boxSizing: "border-box",
-        overflow: "hidden",
+        overflowX: "auto",
       }}
     >
       <table
-        className="table"
         style={{
           width: "100%",
-          maxWidth: "100%",
-          minWidth: 0,
+          borderCollapse: "collapse",
           tableLayout: "fixed",
-          boxSizing: "border-box",
+          minWidth: "850px",
         }}
       >
         <thead>
           <tr>
             <th
               style={{
-                width: "8%",
+                width: "9%",
                 fontSize: "13px",
                 padding: "11px 5px",
               }}
@@ -65,7 +74,7 @@ function GoatTable({ goats }) {
 
             <th
               style={{
-                width: "13%",
+                width: "15%",
                 fontSize: "13px",
                 padding: "11px 5px",
               }}
@@ -85,7 +94,7 @@ function GoatTable({ goats }) {
 
             <th
               style={{
-                width: "9%",
+                width: "10%",
                 fontSize: "13px",
                 padding: "11px 5px",
               }}
@@ -95,7 +104,7 @@ function GoatTable({ goats }) {
 
             <th
               style={{
-                width: "15%",
+                width: "12%",
                 fontSize: "13px",
                 padding: "11px 5px",
               }}
@@ -160,7 +169,9 @@ function GoatTable({ goats }) {
                     whiteSpace: "nowrap",
                   }}
                 >
-                  {goat.tag || goat.tag_number || "-"}
+                  {goat.tag ||
+                    goat.tag_number ||
+                    "-"}
                 </td>
 
                 <td
@@ -172,7 +183,9 @@ function GoatTable({ goats }) {
                     whiteSpace: "nowrap",
                   }}
                 >
-                  <strong>{goat.name || "-"}</strong>
+                  <strong>
+                    {goat.name || "-"}
+                  </strong>
                 </td>
 
                 <td
@@ -207,7 +220,9 @@ function GoatTable({ goats }) {
                   }}
                 >
                   {goat.date_of_birth
-                    ? String(goat.date_of_birth).split("T")[0]
+                    ? String(
+                        goat.date_of_birth
+                      ).split("T")[0]
                     : "-"}
                 </td>
 
@@ -234,11 +249,14 @@ function GoatTable({ goats }) {
                     style={{
                       display: "inline-block",
                       background:
-                        goat.status === "Healthy"
+                        goat.status ===
+                        "Healthy"
                           ? "#4CAF50"
-                          : goat.status === "Sick"
+                          : goat.status ===
+                            "Sick"
                           ? "#E53935"
-                          : goat.status === "Sold"
+                          : goat.status ===
+                            "Sold"
                           ? "#1565C0"
                           : "#FB8C00",
                       color: "white",
@@ -249,7 +267,8 @@ function GoatTable({ goats }) {
                       whiteSpace: "nowrap",
                     }}
                   >
-                    {goat.status || "Unknown"}
+                    {goat.status ||
+                      "Unknown"}
                   </span>
                 </td>
 
@@ -261,7 +280,8 @@ function GoatTable({ goats }) {
                   <div
                     style={{
                       display: "flex",
-                      justifyContent: "center",
+                      justifyContent:
+                        "center",
                       alignItems: "center",
                       gap: "4px",
                       flexWrap: "wrap",
@@ -271,9 +291,11 @@ function GoatTable({ goats }) {
                       className="button"
                       to={`/goats/${goat.id}`}
                       style={{
-                        padding: "6px 8px",
+                        padding:
+                          "6px 8px",
                         fontSize: "11px",
-                        whiteSpace: "nowrap",
+                        whiteSpace:
+                          "nowrap",
                       }}
                     >
                       👁 View
@@ -283,9 +305,11 @@ function GoatTable({ goats }) {
                       className="button"
                       to={`/goats/edit/${goat.id}`}
                       style={{
-                        padding: "6px 8px",
+                        padding:
+                          "6px 8px",
                         fontSize: "11px",
-                        whiteSpace: "nowrap",
+                        whiteSpace:
+                          "nowrap",
                       }}
                     >
                       ✏ Edit
@@ -294,14 +318,21 @@ function GoatTable({ goats }) {
                     <button
                       type="button"
                       className="button"
-                      onClick={() => deleteGoat(goat.id)}
+                      onClick={() =>
+                        deleteGoat(
+                          goat.id
+                        )
+                      }
                       style={{
-                        padding: "6px 8px",
+                        padding:
+                          "6px 8px",
                         fontSize: "11px",
-                        background: "#D32F2F",
+                        background:
+                          "#D32F2F",
                         color: "white",
                         border: "none",
-                        whiteSpace: "nowrap",
+                        whiteSpace:
+                          "nowrap",
                         cursor: "pointer",
                       }}
                     >
