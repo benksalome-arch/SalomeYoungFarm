@@ -1,3 +1,4 @@
+﻿import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -11,7 +12,7 @@ function Rabbits() {
   async function loadRabbits() {
     try {
       const response = await fetch(
-        "http://localhost:5000/api/rabbits"
+        "${API_URL}/api/rabbits"
       );
 
       const data = await response.json();
@@ -36,7 +37,7 @@ function Rabbits() {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/api/rabbits/${id}`,
+        `${API_URL}/api/rabbits/${id}`,
         {
           method: "DELETE",
         }
@@ -97,7 +98,7 @@ function Rabbits() {
               lineHeight: 1.2,
             }}
           >
-            🐇 Rabbits
+            ðŸ‡ Rabbits
           </h1>
 
           <p
@@ -117,7 +118,7 @@ function Rabbits() {
             flexShrink: 0,
           }}
         >
-          ➕ Add Rabbit
+          âž• Add Rabbit
         </Link>
       </div>
 
@@ -365,7 +366,7 @@ function Rabbits() {
                           whiteSpace: "nowrap",
                         }}
                       >
-                        👁 View
+                        ðŸ‘ View
                       </Link>
 
                       <Link
@@ -377,7 +378,7 @@ function Rabbits() {
                           whiteSpace: "nowrap",
                         }}
                       >
-                        ✏ Edit
+                        âœ Edit
                       </Link>
 
                       <button
@@ -398,7 +399,7 @@ function Rabbits() {
                           cursor: "pointer",
                         }}
                       >
-                        🗑 Delete
+                        ðŸ—‘ Delete
                       </button>
                     </div>
                   </td>

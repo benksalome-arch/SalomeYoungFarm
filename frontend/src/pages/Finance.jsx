@@ -1,3 +1,4 @@
+﻿import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -11,7 +12,7 @@ function Finance() {
   async function loadTransactions() {
     try {
       const response = await fetch(
-        "http://localhost:5000/api/finance"
+        "${API_URL}/api/finance"
       );
 
       const data = await response.json();
@@ -85,7 +86,7 @@ function Finance() {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/api/finance/${id}`,
+        `${API_URL}/api/finance/${id}`,
         {
           method: "DELETE",
         }
@@ -164,7 +165,7 @@ function Finance() {
               lineHeight: 1.2,
             }}
           >
-            💰 Finance Management
+            ðŸ’° Finance Management
           </h1>
 
           <p
@@ -185,7 +186,7 @@ function Finance() {
             flexShrink: 0,
           }}
         >
-          ➕ Add Transaction
+          âž• Add Transaction
         </Link>
       </div>
 
@@ -304,7 +305,7 @@ function Finance() {
               whiteSpace: "nowrap",
             }}
           >
-            ➕ Add Transaction
+            âž• Add Transaction
           </Link>
         </div>
 
@@ -582,7 +583,7 @@ function Finance() {
                                 "nowrap",
                             }}
                           >
-                            ✏ Edit
+                            âœ Edit
                           </Link>
 
                           <button
@@ -608,7 +609,7 @@ function Finance() {
                                 "pointer",
                             }}
                           >
-                            🗑 Delete
+                            ðŸ—‘ Delete
                           </button>
                         </div>
                       </td>

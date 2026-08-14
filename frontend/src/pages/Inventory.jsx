@@ -1,3 +1,4 @@
+﻿import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -11,7 +12,7 @@ function Inventory() {
   async function loadItems() {
     try {
       const response = await fetch(
-        "http://localhost:5000/api/inventory"
+        "${API_URL}/api/inventory"
       );
 
       const data = await response.json();
@@ -36,7 +37,7 @@ function Inventory() {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/api/inventory/${id}`,
+        `${API_URL}/api/inventory/${id}`,
         {
           method: "DELETE",
         }
@@ -116,7 +117,7 @@ function Inventory() {
               lineHeight: 1.2,
             }}
           >
-            📦 Inventory
+            ðŸ“¦ Inventory
           </h1>
 
           <p
@@ -137,7 +138,7 @@ function Inventory() {
             flexShrink: 0,
           }}
         >
-          ➕ Add Item
+          âž• Add Item
         </Link>
       </div>
 
@@ -292,8 +293,8 @@ function Inventory() {
                         }}
                       >
                         {isLow
-                          ? "🔴 Low"
-                          : "🟢 OK"}
+                          ? "ðŸ”´ Low"
+                          : "ðŸŸ¢ OK"}
                       </span>
                     </td>
 
@@ -353,7 +354,7 @@ function Inventory() {
                             whiteSpace: "nowrap",
                           }}
                         >
-                          ✏ Edit
+                          âœ Edit
                         </Link>
 
                         <button
@@ -372,7 +373,7 @@ function Inventory() {
                             cursor: "pointer",
                           }}
                         >
-                          🗑 Delete
+                          ðŸ—‘ Delete
                         </button>
                       </div>
                     </td>

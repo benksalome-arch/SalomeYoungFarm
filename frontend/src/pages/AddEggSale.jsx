@@ -1,3 +1,4 @@
+﻿import API_URL from "../api";
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
@@ -31,7 +32,7 @@ function AddEggSale() {
 
     try {
       const response = await fetch(
-        "http://localhost:5000/api/egg-sales",
+        "${API_URL}/api/egg-sales",
         {
           method: "POST",
           headers: {
@@ -59,7 +60,7 @@ function AddEggSale() {
     <div className="page">
 
       <div className="page-header">
-        <h1>🥚 Record Egg Sale</h1>
+        <h1>ðŸ¥š Record Egg Sale</h1>
       </div>
 
       <div className="card">
@@ -138,7 +139,7 @@ function AddEggSale() {
 
           <div style={{ display: "flex", gap: "10px" }}>
             <button className="button" type="submit">
-              💾 Save
+              ðŸ’¾ Save
             </button>
 
             <Link className="button" to="/egg-sales">

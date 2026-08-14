@@ -1,3 +1,4 @@
+﻿import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 
@@ -31,7 +32,7 @@ function AddRabbitBreeding() {
       setLoadingRabbits(true);
 
       const response = await fetch(
-        "http://localhost:5000/api/rabbits"
+        "${API_URL}/api/rabbits"
       );
 
       const data = await response.json();
@@ -136,7 +137,7 @@ function AddRabbitBreeding() {
 
     try {
       const response = await fetch(
-        "http://localhost:5000/api/rabbit-breeding",
+        "${API_URL}/api/rabbit-breeding",
         {
           method: "POST",
           headers: {
@@ -191,7 +192,7 @@ function AddRabbitBreeding() {
         }}
       >
         <div>
-          <h1>❤️ Add Rabbit Breeding Record</h1>
+          <h1>â¤ï¸ Add Rabbit Breeding Record</h1>
 
           <p>
             Record a breeding event for this female rabbit.
@@ -202,7 +203,7 @@ function AddRabbitBreeding() {
           className="button"
           to={`/rabbits/${id}/breeding`}
         >
-          ← Back to Breeding
+          â† Back to Breeding
         </Link>
       </div>
 
@@ -232,7 +233,7 @@ function AddRabbitBreeding() {
                 color: "#1B5E20",
               }}
             >
-              🐇{" "}
+              ðŸ‡{" "}
               <strong>
                 {femaleRabbit.tag_number}
               </strong>
@@ -459,7 +460,7 @@ function AddRabbitBreeding() {
                 maleRabbits.length === 0
               }
             >
-              💾 Save Breeding Record
+              ðŸ’¾ Save Breeding Record
             </button>
 
             <Link

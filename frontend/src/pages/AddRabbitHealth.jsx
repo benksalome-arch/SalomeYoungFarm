@@ -1,3 +1,4 @@
+﻿import API_URL from "../api";
 import { useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 
@@ -62,7 +63,7 @@ function AddRabbitHealth() {
       setSaving(true);
 
       const response = await fetch(
-        "http://localhost:5000/api/rabbit-health",
+        "${API_URL}/api/rabbit-health",
         {
           method: "POST",
           headers: {
@@ -126,7 +127,7 @@ function AddRabbitHealth() {
         }}
       >
         <div>
-          <h1>🏥 Add Rabbit Health Record</h1>
+          <h1>ðŸ¥ Add Rabbit Health Record</h1>
 
           <p>
             Record a medical treatment or health event.
@@ -137,7 +138,7 @@ function AddRabbitHealth() {
           className="button"
           to={`/rabbits/${id}/health`}
         >
-          ← Back to Health
+          â† Back to Health
         </Link>
       </div>
 
@@ -154,7 +155,7 @@ function AddRabbitHealth() {
             fontWeight: "600",
           }}
         >
-          ⚠️ {error}
+          âš ï¸ {error}
         </div>
       )}
 
@@ -308,7 +309,7 @@ function AddRabbitHealth() {
                 marginTop: "8px",
               }}
             >
-              💰 This cost will automatically be
+              ðŸ’° This cost will automatically be
               recorded as a Rabbit Health expense in
               Finance.
             </p>
@@ -376,7 +377,7 @@ function AddRabbitHealth() {
             >
               {saving
                 ? "Saving..."
-                : "💾 Save Health Record"}
+                : "ðŸ’¾ Save Health Record"}
             </button>
 
             <Link

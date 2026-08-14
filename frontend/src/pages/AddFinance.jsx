@@ -1,3 +1,4 @@
+﻿import API_URL from "../api";
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
@@ -27,7 +28,7 @@ function AddFinance() {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:5000/api/finance", {
+      const response = await fetch("${API_URL}/api/finance", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -86,7 +87,7 @@ function AddFinance() {
             color: "#111",
           }}
         >
-          💰 Add Transaction
+          ðŸ’° Add Transaction
         </h1>
 
         <p
@@ -245,7 +246,7 @@ function AddFinance() {
             }}
           >
             <button className="button" type="submit">
-              💾 Save Transaction
+              ðŸ’¾ Save Transaction
             </button>
 
             <Link className="button" to="/finance">

@@ -1,3 +1,4 @@
+﻿import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -11,7 +12,7 @@ function Chickens() {
   async function loadChickens() {
     try {
       const response = await fetch(
-        "http://localhost:5000/api/chickens"
+        "${API_URL}/api/chickens"
       );
 
       const data = await response.json();
@@ -40,7 +41,7 @@ function Chickens() {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/api/chickens/${id}`,
+        `${API_URL}/api/chickens/${id}`,
         {
           method: "DELETE",
         }
@@ -120,7 +121,7 @@ function Chickens() {
               lineHeight: 1.2,
             }}
           >
-            🐔 Chickens
+            ðŸ” Chickens
           </h1>
 
           <p
@@ -140,7 +141,7 @@ function Chickens() {
             flexShrink: 0,
           }}
         >
-          ➕ Add Chicken
+          âž• Add Chicken
         </Link>
       </div>
 
@@ -346,7 +347,7 @@ function Chickens() {
                           whiteSpace: "nowrap",
                         }}
                       >
-                        👁 View
+                        ðŸ‘ View
                       </Link>
 
                       <Link
@@ -358,7 +359,7 @@ function Chickens() {
                           whiteSpace: "nowrap",
                         }}
                       >
-                        ✏ Edit
+                        âœ Edit
                       </Link>
 
                       <button
@@ -379,7 +380,7 @@ function Chickens() {
                           cursor: "pointer",
                         }}
                       >
-                        🗑 Delete
+                        ðŸ—‘ Delete
                       </button>
                     </div>
                   </td>

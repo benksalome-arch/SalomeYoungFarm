@@ -1,3 +1,4 @@
+﻿import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -18,7 +19,7 @@ function EditGoat() {
   });
 
   useEffect(() => {
-    fetch(`http://localhost:5000/api/goats/${id}`)
+    fetch(`${API_URL}/api/goats/${id}`)
       .then((res) => res.json())
       .then((data) => {
         setFormData({
@@ -59,7 +60,7 @@ function EditGoat() {
       };
 
       const response = await fetch(
-        `http://localhost:5000/api/goats/${id}`,
+        `${API_URL}/api/goats/${id}`,
         {
           method: "PUT",
           headers: {
@@ -94,7 +95,7 @@ function EditGoat() {
         boxSizing: "border-box",
       }}
     >
-      <h1>✏️ Edit Goat</h1>
+      <h1>âœï¸ Edit Goat</h1>
 
       <form onSubmit={handleSubmit}>
         <p>Tag</p>

@@ -1,3 +1,4 @@
+﻿import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 
@@ -6,7 +7,7 @@ function Health() {
   const [records, setRecords] = useState([]);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/api/health/${id}`)
+    fetch(`${API_URL}/api/health/${id}`)
       .then((res) => res.json())
       .then((data) => setRecords(data))
       .catch(console.error);
@@ -15,7 +16,7 @@ function Health() {
   return (
     <div className="page">
       <div className="page-header">
-        <h1>💉 Health Records</h1>
+        <h1>ðŸ’‰ Health Records</h1>
         <p>Vaccinations, deworming and treatment history.</p>
       </div>
 
@@ -28,11 +29,11 @@ function Health() {
           }}
         >
           <Link className="button" to={`/goats/${id}`}>
-            ← Back to Goat
+            â† Back to Goat
           </Link>
 
           <Link className="button" to={`/goats/${id}/health/add`}>
-            ➕ Add Health Record
+            âž• Add Health Record
           </Link>
         </div>
 

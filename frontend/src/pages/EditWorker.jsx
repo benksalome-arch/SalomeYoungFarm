@@ -1,3 +1,4 @@
+﻿import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 
@@ -19,7 +20,7 @@ function EditWorker() {
   async function loadWorker() {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/workers/${id}`
+        `${API_URL}/api/workers/${id}`
       );
 
       const data = await response.json();
@@ -51,7 +52,7 @@ function EditWorker() {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/api/workers/${id}`,
+        `${API_URL}/api/workers/${id}`,
         {
           method: "PUT",
           headers: {
@@ -77,7 +78,7 @@ function EditWorker() {
     <div className="page">
 
       <div className="page-header">
-        <h1>✏ Edit Worker</h1>
+        <h1>âœ Edit Worker</h1>
         <p>Update worker information.</p>
       </div>
 
@@ -145,7 +146,7 @@ function EditWorker() {
             }}
           >
             <button className="button" type="submit">
-              💾 Save Changes
+              ðŸ’¾ Save Changes
             </button>
 
             <Link className="button" to="/workers">

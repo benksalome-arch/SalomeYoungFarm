@@ -1,3 +1,4 @@
+﻿import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 
@@ -32,7 +33,7 @@ function AddRabbitWeight() {
       setError("");
 
       const response = await fetch(
-        `http://localhost:5000/api/rabbits/${id}`
+        `${API_URL}/api/rabbits/${id}`
       );
 
       const data = await response.json();
@@ -92,7 +93,7 @@ function AddRabbitWeight() {
       setSaving(true);
 
       const response = await fetch(
-        "http://localhost:5000/api/rabbit-weight",
+        "${API_URL}/api/rabbit-weight",
         {
           method: "POST",
           headers: {
@@ -159,7 +160,7 @@ function AddRabbitWeight() {
           className="button"
           to="/rabbits"
         >
-          ← Back to Rabbits
+          â† Back to Rabbits
         </Link>
       </div>
     );
@@ -183,7 +184,7 @@ function AddRabbitWeight() {
         }}
       >
         <div>
-          <h1>⚖ Add Rabbit Weight</h1>
+          <h1>âš– Add Rabbit Weight</h1>
 
           <p>
             Record a new weight for{" "}
@@ -198,7 +199,7 @@ function AddRabbitWeight() {
           className="button"
           to={`/rabbits/${id}/weight`}
         >
-          ← Back to Weight History
+          â† Back to Weight History
         </Link>
       </div>
 
@@ -384,7 +385,7 @@ function AddRabbitWeight() {
             >
               {saving
                 ? "Saving..."
-                : "💾 Save Weight Record"}
+                : "ðŸ’¾ Save Weight Record"}
             </button>
 
             <Link

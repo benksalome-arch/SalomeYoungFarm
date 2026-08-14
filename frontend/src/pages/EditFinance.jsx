@@ -1,3 +1,4 @@
+﻿import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 
@@ -21,7 +22,7 @@ function EditFinance() {
   async function loadTransaction() {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/finance/${id}`
+        `${API_URL}/api/finance/${id}`
       );
 
       const data = await response.json();
@@ -56,7 +57,7 @@ function EditFinance() {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/api/finance/${id}`,
+        `${API_URL}/api/finance/${id}`,
         {
           method: "PUT",
           headers: {
@@ -118,7 +119,7 @@ function EditFinance() {
             color: "#111",
           }}
         >
-          ✏️ Edit Transaction
+          âœï¸ Edit Transaction
         </h1>
 
         <p
@@ -283,7 +284,7 @@ function EditFinance() {
             }}
           >
             <button className="button" type="submit">
-              💾 Update
+              ðŸ’¾ Update
             </button>
 
             <Link className="button" to="/finance">

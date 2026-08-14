@@ -1,3 +1,4 @@
+﻿import API_URL from "../api";
 import { useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 
@@ -25,7 +26,7 @@ function AddKidding() {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:5000/api/kidding", {
+      const response = await fetch("${API_URL}/api/kidding", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -49,7 +50,7 @@ function AddKidding() {
     <div className="page">
       <div className="card">
 
-        <h1>🍼 Register Kidding</h1>
+        <h1>ðŸ¼ Register Kidding</h1>
 
         <form onSubmit={handleSubmit}>
 
@@ -106,7 +107,7 @@ function AddKidding() {
           <br />
 
           <button className="button" type="submit">
-            💾 Save
+            ðŸ’¾ Save
           </button>
 
           {" "}

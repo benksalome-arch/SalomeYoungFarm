@@ -1,3 +1,4 @@
+﻿import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
@@ -21,7 +22,7 @@ function AddRabbitMortality() {
   async function loadRabbits() {
     try {
       const response = await fetch(
-        "http://localhost:5000/api/rabbits"
+        "${API_URL}/api/rabbits"
       );
 
       const data = await response.json();
@@ -106,7 +107,7 @@ function AddRabbitMortality() {
 
     try {
       const response = await fetch(
-        "http://localhost:5000/api/rabbit-mortality",
+        "${API_URL}/api/rabbit-mortality",
         {
           method: "POST",
           headers: {
@@ -149,7 +150,7 @@ function AddRabbitMortality() {
         }}
       >
         <div>
-          <h1>☠️ Record Rabbit Mortality</h1>
+          <h1>â˜ ï¸ Record Rabbit Mortality</h1>
 
           <p>
             Record a rabbit death and automatically
@@ -161,7 +162,7 @@ function AddRabbitMortality() {
           className="button"
           to="/rabbit-mortality"
         >
-          ← Back
+          â† Back
         </Link>
       </div>
 
@@ -206,7 +207,7 @@ function AddRabbitMortality() {
                 marginTop: "8px",
               }}
             >
-              ⚠️ {selectedRabbit.name || "This rabbit"} has
+              âš ï¸ {selectedRabbit.name || "This rabbit"} has
               0 available. Mortality cannot be recorded.
             </p>
           )}
@@ -220,7 +221,7 @@ function AddRabbitMortality() {
                   marginTop: "8px",
                 }}
               >
-                ✅ {availableQuantity} rabbit(s) available
+                âœ… {availableQuantity} rabbit(s) available
                 for mortality recording.
               </p>
             )}
@@ -268,7 +269,7 @@ function AddRabbitMortality() {
                 marginTop: "8px",
               }}
             >
-              ⚠️ Quantity cannot exceed{" "}
+              âš ï¸ Quantity cannot exceed{" "}
               {availableQuantity} available.
             </p>
           )}
@@ -281,7 +282,7 @@ function AddRabbitMortality() {
                 marginTop: "8px",
               }}
             >
-              ⚠️ Quantity must be greater than zero.
+              âš ï¸ Quantity must be greater than zero.
             </p>
           )}
 
@@ -330,7 +331,7 @@ function AddRabbitMortality() {
                 : "not-allowed",
             }}
           >
-            💾 Save Mortality Record
+            ðŸ’¾ Save Mortality Record
           </button>
 
         </form>

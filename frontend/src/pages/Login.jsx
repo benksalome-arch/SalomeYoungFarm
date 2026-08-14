@@ -1,7 +1,5 @@
-import { useState } from "react";
-
-const API_URL =
-  import.meta.env.VITE_API_URL || "http://localhost:5000";
+﻿import { useState } from "react";
+import API_URL from "../api";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -28,11 +26,18 @@ function Login() {
       const data = await response.json();
 
       if (!response.ok) {
-        alert(data.message || "Login failed.");
+        alert(
+          data.message ||
+            "Login failed."
+        );
         return;
       }
 
-      localStorage.setItem("token", data.token);
+      localStorage.setItem(
+        "token",
+        data.token
+      );
+
       localStorage.setItem(
         "user",
         JSON.stringify(data.user)
@@ -42,8 +47,14 @@ function Login() {
 
       window.location.href = "/";
     } catch (err) {
-      console.error(err);
-      alert("Unable to connect to server.");
+      console.error(
+        "Login error:",
+        err
+      );
+
+      alert(
+        "Unable to connect to server."
+      );
     }
   }
 
@@ -61,50 +72,65 @@ function Login() {
         className="card"
         style={{
           width: "400px",
+          maxWidth: "90%",
           padding: "30px",
+          boxSizing: "border-box",
         }}
       >
-        <h1 style={{ textAlign: "center" }}>
-          🐐 Salome Young Farm
+        <h1
+          style={{
+            textAlign: "center",
+            marginBottom: "25px",
+          }}
+        >
+          🔐 Login
         </h1>
 
-        <p style={{ textAlign: "center" }}>
-          Login
-        </p>
-
         <form onSubmit={handleLogin}>
-          <label>Email</label>
+          <div
+            style={{
+              marginBottom: "18px",
+            }}
+          >
+            <label>Email</label>
 
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
+            <input
+              type="email"
+              value={email}
+              onChange={(e) =>
+                setEmail(e.target.value)
+              }
+              required
+            />
+          </div>
 
-          <br />
-          <br />
+          <div
+            style={{
+              marginBottom: "25px",
+            }}
+          >
+            <label>Password</label>
 
-          <label>Password</label>
-
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-
-          <br />
-          <br />
+            <input
+              type="password"
+              value={password}
+              onChange={(e) =>
+                setPassword(
+                  e.target.value
+                )
+              }
+              required
+            />
+          </div>
 
           <button
-            className="button"
             type="submit"
+            className="button"
             style={{
               width: "100%",
             }}
           >
-            Login
+            🔐 Login
           </button>
         </form>
       </div>

@@ -1,3 +1,4 @@
+﻿import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 
@@ -16,7 +17,7 @@ function RabbitBreeding() {
       setLoading(true);
 
       const response = await fetch(
-        `http://localhost:5000/api/rabbit-breeding/rabbit/${id}`
+        `${API_URL}/api/rabbit-breeding/rabbit/${id}`
       );
 
       const data = await response.json();
@@ -53,7 +54,7 @@ function RabbitBreeding() {
         }}
       >
         <div>
-          <h1>❤️ Rabbit Breeding</h1>
+          <h1>â¤ï¸ Rabbit Breeding</h1>
 
           <p>
             Breeding history for this female rabbit.
@@ -71,14 +72,14 @@ function RabbitBreeding() {
             className="button"
             to={`/rabbits/${id}/breeding/add`}
           >
-            ➕ Add Breeding
+            âž• Add Breeding
           </Link>
 
           <Link
             className="button"
             to={`/rabbits/${id}`}
           >
-            ← Back to Profile
+            â† Back to Profile
           </Link>
         </div>
       </div>

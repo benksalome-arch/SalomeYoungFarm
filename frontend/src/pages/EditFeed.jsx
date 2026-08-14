@@ -1,3 +1,4 @@
+﻿import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 
@@ -24,7 +25,7 @@ function EditFeed() {
   async function loadFeed() {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/feed/${id}`
+        `${API_URL}/api/feed/${id}`
       );
 
       const data = await response.json();
@@ -59,7 +60,7 @@ function EditFeed() {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/api/feed/${id}`,
+        `${API_URL}/api/feed/${id}`,
         {
           method: "PUT",
           headers: {
@@ -84,7 +85,7 @@ function EditFeed() {
     <div className="page">
 
       <div className="page-header">
-        <h1>✏ Edit Feed</h1>
+        <h1>âœ Edit Feed</h1>
       </div>
 
       <div className="card">
@@ -196,7 +197,7 @@ function EditFeed() {
 
           <div style={{ display: "flex", gap: "10px" }}>
             <button className="button" type="submit">
-              💾 Update Feed
+              ðŸ’¾ Update Feed
             </button>
 
             <Link className="button" to="/feed">

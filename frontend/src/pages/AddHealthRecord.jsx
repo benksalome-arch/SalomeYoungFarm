@@ -1,3 +1,4 @@
+﻿import API_URL from "../api";
 import { useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 
@@ -26,7 +27,7 @@ function AddHealthRecord() {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:5000/api/health", {
+      const response = await fetch("${API_URL}/api/health", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -48,7 +49,7 @@ function AddHealthRecord() {
   return (
     <div className="page">
       <div className="card">
-        <h1>💉 Add Health Record</h1>
+        <h1>ðŸ’‰ Add Health Record</h1>
 
         <form onSubmit={handleSubmit}>
 

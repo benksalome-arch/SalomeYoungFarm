@@ -1,3 +1,4 @@
+﻿import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 
@@ -24,7 +25,7 @@ function EditInventory() {
   async function loadItem() {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/inventory/${id}`
+        `${API_URL}/api/inventory/${id}`
       );
 
       const data = await response.json();
@@ -59,7 +60,7 @@ function EditInventory() {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/api/inventory/${id}`,
+        `${API_URL}/api/inventory/${id}`,
         {
           method: "PUT",
           headers: {
@@ -83,7 +84,7 @@ function EditInventory() {
   return (
     <div className="page">
       <div className="page-header">
-        <h1>✏ Edit Inventory Item</h1>
+        <h1>âœ Edit Inventory Item</h1>
       </div>
 
       <div className="card">
@@ -199,7 +200,7 @@ function EditInventory() {
 
           <div style={{ display: "flex", gap: "10px" }}>
             <button className="button" type="submit">
-              💾 Update Item
+              ðŸ’¾ Update Item
             </button>
 
             <Link className="button" to="/inventory">

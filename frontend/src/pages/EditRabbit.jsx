@@ -1,3 +1,4 @@
+﻿import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 
@@ -25,7 +26,7 @@ function EditRabbit() {
   async function loadRabbit() {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/rabbits/${id}`
+        `${API_URL}/api/rabbits/${id}`
       );
 
       const data = await response.json();
@@ -71,7 +72,7 @@ function EditRabbit() {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/api/rabbits/${id}`,
+        `${API_URL}/api/rabbits/${id}`,
         {
           method: "PUT",
           headers: {
@@ -99,7 +100,7 @@ function EditRabbit() {
     <div className="page">
 
       <div className="page-header">
-        <h1>🐇 Edit Rabbit</h1>
+        <h1>ðŸ‡ Edit Rabbit</h1>
       </div>
 
       <div className="card">
@@ -219,7 +220,7 @@ function EditRabbit() {
 
           <div style={{ display: "flex", gap: "10px" }}>
             <button className="button" type="submit">
-              💾 Update
+              ðŸ’¾ Update
             </button>
 
             <Link className="button" to="/rabbits">

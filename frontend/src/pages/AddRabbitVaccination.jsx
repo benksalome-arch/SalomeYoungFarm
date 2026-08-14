@@ -1,3 +1,4 @@
+﻿import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
@@ -23,7 +24,7 @@ function AddRabbitVaccination() {
   async function loadRabbits() {
     try {
       const response = await fetch(
-        "http://localhost:5000/api/rabbits"
+        "${API_URL}/api/rabbits"
       );
 
       const data = await response.json();
@@ -53,7 +54,7 @@ function AddRabbitVaccination() {
 
     try {
       const response = await fetch(
-        "http://localhost:5000/api/rabbit-vaccinations",
+        "${API_URL}/api/rabbit-vaccinations",
         {
           method: "POST",
           headers: {
@@ -89,14 +90,14 @@ function AddRabbitVaccination() {
         }}
       >
         <div>
-          <h1>💉 Record Rabbit Vaccination</h1>
+          <h1>ðŸ’‰ Record Rabbit Vaccination</h1>
         </div>
 
         <Link
           className="button"
           to="/rabbit-vaccinations"
         >
-          ← Back
+          â† Back
         </Link>
       </div>
 
@@ -204,7 +205,7 @@ function AddRabbitVaccination() {
               className="button"
               type="submit"
             >
-              💾 Save
+              ðŸ’¾ Save
             </button>
 
             <Link

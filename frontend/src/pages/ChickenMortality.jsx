@@ -1,3 +1,4 @@
+﻿import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -11,7 +12,7 @@ function ChickenMortality() {
   async function loadRecords() {
     try {
       const response = await fetch(
-        "http://localhost:5000/api/chicken-mortality"
+        "${API_URL}/api/chicken-mortality"
       );
 
       const data = await response.json();
@@ -31,7 +32,7 @@ function ChickenMortality() {
     try {
 
       const response = await fetch(
-        `http://localhost:5000/api/chicken-mortality/${id}`,
+        `${API_URL}/api/chicken-mortality/${id}`,
         {
           method: "DELETE",
         }
@@ -69,7 +70,7 @@ function ChickenMortality() {
         }}
       >
         <div>
-          <h1>☠️ Chicken Mortality</h1>
+          <h1>â˜ ï¸ Chicken Mortality</h1>
           <p>Track chicken deaths and flock losses.</p>
         </div>
 
@@ -77,7 +78,7 @@ function ChickenMortality() {
           className="button"
           to="/chicken-mortality/add"
         >
-          ➕ Record Mortality
+          âž• Record Mortality
         </Link>
 
       </div>
@@ -144,7 +145,7 @@ function ChickenMortality() {
                         deleteRecord(record.id)
                       }
                     >
-                      🗑 Delete
+                      ðŸ—‘ Delete
                     </button>
 
                   </td>

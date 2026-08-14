@@ -1,3 +1,4 @@
+﻿import API_URL from "../api";
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
@@ -27,7 +28,7 @@ function AddFeed() {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:5000/api/feed", {
+      const response = await fetch("${API_URL}/api/feed", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -50,7 +51,7 @@ function AddFeed() {
     <div className="page">
 
       <div className="page-header">
-        <h1>🌾 Add Feed</h1>
+        <h1>ðŸŒ¾ Add Feed</h1>
         <p>Add feed to stock.</p>
       </div>
 
@@ -163,7 +164,7 @@ function AddFeed() {
 
           <div style={{ display: "flex", gap: "10px" }}>
             <button className="button" type="submit">
-              💾 Save Feed
+              ðŸ’¾ Save Feed
             </button>
 
             <Link className="button" to="/feed">

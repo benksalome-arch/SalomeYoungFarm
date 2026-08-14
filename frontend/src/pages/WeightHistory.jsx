@@ -1,3 +1,4 @@
+﻿import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import WeightChart from "../components/WeightChart";
@@ -7,7 +8,7 @@ function WeightHistory() {
   const [records, setRecords] = useState([]);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/api/weight/${id}`)
+    fetch(`${API_URL}/api/weight/${id}`)
       .then((res) => res.json())
       .then((data) => {
         setRecords(data.reverse());
@@ -18,7 +19,7 @@ function WeightHistory() {
   return (
     <div className="page">
       <div className="page-header">
-        <h1>⚖ Weight History</h1>
+        <h1>âš– Weight History</h1>
         <p>Track the goat's weight over time.</p>
       </div>
 
@@ -36,11 +37,11 @@ function WeightHistory() {
           }}
         >
           <Link className="button" to={`/goats/${id}`}>
-            ← Back to Goat
+            â† Back to Goat
           </Link>
 
           <Link className="button" to={`/goats/${id}/weight/add`}>
-            ➕ Add Weight
+            âž• Add Weight
           </Link>
         </div>
 

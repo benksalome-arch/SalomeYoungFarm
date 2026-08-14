@@ -1,3 +1,4 @@
+﻿import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -10,7 +11,7 @@ function Workers() {
 
   async function loadWorkers() {
     try {
-      const response = await fetch("http://localhost:5000/api/workers");
+      const response = await fetch("${API_URL}/api/workers");
       const data = await response.json();
       setWorkers(data);
     } catch (error) {
@@ -24,7 +25,7 @@ function Workers() {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/api/workers/${id}`,
+        `${API_URL}/api/workers/${id}`,
         {
           method: "DELETE",
         }
@@ -46,7 +47,7 @@ function Workers() {
     <div className="page">
 
       <div className="page-header">
-        <h1>👥 Worker Management</h1>
+        <h1>ðŸ‘¥ Worker Management</h1>
         <p>Manage users who can access Salome Young Farm.</p>
       </div>
 
@@ -62,7 +63,7 @@ function Workers() {
           <h2>Workers</h2>
 
           <Link className="button" to="/workers/add">
-            ➕ Add Worker
+            âž• Add Worker
           </Link>
         </div>
 
@@ -102,7 +103,7 @@ function Workers() {
                   <td>{worker.role}</td>
 
                   <td>
-                    {worker.active ? "🟢 Active" : "🔴 Disabled"}
+                    {worker.active ? "ðŸŸ¢ Active" : "ðŸ”´ Disabled"}
                   </td>
 
                   <td>
@@ -122,14 +123,14 @@ function Workers() {
                         className="button"
                         to={`/workers/edit/${worker.id}`}
                       >
-                        ✏ Edit
+                        âœ Edit
                       </Link>
 
                       <button
                         className="button"
                         onClick={() => deleteWorker(worker.id)}
                       >
-                        🗑 Delete
+                        ðŸ—‘ Delete
                       </button>
 
                     </div>

@@ -1,3 +1,4 @@
+﻿import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 
@@ -13,7 +14,7 @@ function ChickenProfile() {
   async function loadChicken() {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/chickens/${id}`
+        `${API_URL}/api/chickens/${id}`
       );
 
       const data = await response.json();
@@ -39,12 +40,12 @@ function ChickenProfile() {
         }}
       >
         <div>
-          <h1>🐔 {chicken.name || chicken.tag_number}</h1>
+          <h1>ðŸ” {chicken.name || chicken.tag_number}</h1>
           <p>Chicken Profile</p>
         </div>
 
         <Link className="button" to="/chickens">
-          ← Back
+          â† Back
         </Link>
       </div>
 

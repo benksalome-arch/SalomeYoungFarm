@@ -1,5 +1,5 @@
 const API_URL =
   import.meta.env.VITE_API_URL ||
-  "http://localhost:5000";
+  "https://fortunate-courage-production-ac0d.up.railway.app";
 
 export default API_URL;

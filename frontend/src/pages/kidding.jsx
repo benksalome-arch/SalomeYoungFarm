@@ -1,3 +1,4 @@
+﻿import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -10,7 +11,7 @@ function Kidding() {
 
   async function loadRecords() {
     try {
-      const response = await fetch("http://localhost:5000/api/kidding");
+      const response = await fetch("${API_URL}/api/kidding");
       const data = await response.json();
       setRecords(data);
     } catch (error) {
@@ -28,7 +29,7 @@ function Kidding() {
     <div className="page">
 
       <div className="page-header">
-        <h1>🍼 Kidding Records</h1>
+        <h1>ðŸ¼ Kidding Records</h1>
         <p>All goat births.</p>
       </div>
 
@@ -42,7 +43,7 @@ function Kidding() {
           }}
         >
           <Link className="button" to="/breeding">
-            ← Back to Breeding
+            â† Back to Breeding
           </Link>
         </div>
 

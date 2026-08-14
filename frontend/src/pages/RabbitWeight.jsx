@@ -1,3 +1,4 @@
+﻿import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 
@@ -16,7 +17,7 @@ function RabbitWeight() {
       setLoading(true);
 
       const response = await fetch(
-        `http://localhost:5000/api/rabbit-weight/rabbit/${id}`
+        `${API_URL}/api/rabbit-weight/rabbit/${id}`
       );
 
       const data = await response.json();
@@ -52,7 +53,7 @@ function RabbitWeight() {
         }}
       >
         <div>
-          <h1>⚖ Rabbit Weight History</h1>
+          <h1>âš– Rabbit Weight History</h1>
 
           <p>
             Track weight changes for this rabbit.
@@ -70,14 +71,14 @@ function RabbitWeight() {
             className="button"
             to={`/rabbits/${id}/weight/add`}
           >
-            ➕ Add Weight
+            âž• Add Weight
           </Link>
 
           <Link
             className="button"
             to={`/rabbits/${id}`}
           >
-            ← Back to Profile
+            â† Back to Profile
           </Link>
         </div>
       </div>

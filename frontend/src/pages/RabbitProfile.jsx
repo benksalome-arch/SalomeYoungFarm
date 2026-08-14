@@ -1,3 +1,4 @@
+﻿import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 
@@ -16,7 +17,7 @@ function RabbitProfile() {
       setLoading(true);
 
       const response = await fetch(
-        `http://localhost:5000/api/rabbits/${id}`
+        `${API_URL}/api/rabbits/${id}`
       );
 
       const data = await response.json();
@@ -78,7 +79,7 @@ function RabbitProfile() {
           className="button"
           to="/rabbits"
         >
-          ← Back to Rabbits
+          â† Back to Rabbits
         </Link>
       </div>
     );
@@ -108,7 +109,7 @@ function RabbitProfile() {
       >
         <div>
           <h1>
-            🐇 {rabbit.name || "Rabbit"}
+            ðŸ‡ {rabbit.name || "Rabbit"}
           </h1>
 
           <p>
@@ -120,7 +121,7 @@ function RabbitProfile() {
           className="button"
           to={`/rabbits/edit/${rabbit.id}`}
         >
-          ✏ Edit
+          âœ Edit
         </Link>
       </div>
 
@@ -247,7 +248,7 @@ function RabbitProfile() {
           className="button"
           to={`/rabbits/${rabbit.id}/health`}
         >
-          🏥 Health
+          ðŸ¥ Health
         </Link>
 
         {/* Vaccinations */}
@@ -256,7 +257,7 @@ function RabbitProfile() {
           className="button"
           to="/rabbit-vaccinations"
         >
-          💉 Vaccinations
+          ðŸ’‰ Vaccinations
         </Link>
 
         {/* Weight */}
@@ -265,7 +266,7 @@ function RabbitProfile() {
           className="button"
           to={`/rabbits/${rabbit.id}/weight`}
         >
-          ⚖ Weight
+          âš– Weight
         </Link>
 
         {/* Breeding */}
@@ -274,7 +275,7 @@ function RabbitProfile() {
           className="button"
           to={`/rabbits/${rabbit.id}/breeding`}
         >
-          ❤️ Breeding
+          â¤ï¸ Breeding
         </Link>
 
         {/* Litters - not implemented yet */}
@@ -288,7 +289,7 @@ function RabbitProfile() {
             cursor: "not-allowed",
           }}
         >
-          🐇 Litters
+          ðŸ‡ Litters
         </button>
       </div>
 
@@ -305,7 +306,7 @@ function RabbitProfile() {
           className="button"
           to="/rabbits"
         >
-          ← Back to Rabbits
+          â† Back to Rabbits
         </Link>
       </div>
     </div>

@@ -1,3 +1,4 @@
+﻿import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -11,7 +12,7 @@ function EggProduction() {
   async function loadRecords() {
     try {
       const response = await fetch(
-        "http://localhost:5000/api/egg-production"
+        "${API_URL}/api/egg-production"
       );
 
       const data = await response.json();
@@ -26,7 +27,7 @@ function EggProduction() {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/api/egg-production/${id}`,
+        `${API_URL}/api/egg-production/${id}`,
         {
           method: "DELETE",
         }
@@ -52,12 +53,12 @@ function EggProduction() {
         }}
       >
         <div>
-          <h1>🥚 Egg Production</h1>
+          <h1>ðŸ¥š Egg Production</h1>
           <p>Daily egg collection records.</p>
         </div>
 
         <Link className="button" to="/egg-production/add">
-          ➕ Record Production
+          âž• Record Production
         </Link>
       </div>
 
@@ -92,7 +93,7 @@ function EggProduction() {
                       className="button"
                       onClick={() => deleteRecord(record.id)}
                     >
-                      🗑 Delete
+                      ðŸ—‘ Delete
                     </button>
                   </td>
                 </tr>

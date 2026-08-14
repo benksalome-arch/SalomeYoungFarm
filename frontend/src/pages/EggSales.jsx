@@ -1,3 +1,4 @@
+﻿import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -11,7 +12,7 @@ function EggSales() {
   async function loadSales() {
     try {
       const response = await fetch(
-        "http://localhost:5000/api/egg-sales"
+        "${API_URL}/api/egg-sales"
       );
 
       const data = await response.json();
@@ -34,7 +35,7 @@ function EggSales() {
     try {
 
       const response = await fetch(
-        `http://localhost:5000/api/egg-sales/${id}`,
+        `${API_URL}/api/egg-sales/${id}`,
         {
           method: "DELETE",
         }
@@ -77,12 +78,12 @@ function EggSales() {
         }}
       >
         <div>
-          <h1>🥚 Egg Sales</h1>
+          <h1>ðŸ¥š Egg Sales</h1>
           <p>Manage egg sales and income.</p>
         </div>
 
         <Link className="button" to="/egg-sales/add">
-          ➕ Record Sale
+          âž• Record Sale
         </Link>
       </div>
 
@@ -177,7 +178,7 @@ function EggSales() {
                         deleteSale(sale.id)
                       }
                     >
-                      🗑 Delete
+                      ðŸ—‘ Delete
                     </button>
 
                   </td>
