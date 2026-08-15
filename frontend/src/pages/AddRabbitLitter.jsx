@@ -1,4 +1,4 @@
-﻿import API_URL from "../api";
+import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -28,7 +28,7 @@ function AddRabbitLitter() {
       setLoading(true);
 
       const response = await fetch(
-        "${API_URL}/api/rabbit-breeding"
+        `${API_URL}/api/rabbit-breeding`
       );
 
       const data = await response.json();
@@ -93,7 +93,7 @@ function AddRabbitLitter() {
       setSaving(true);
 
       const response = await fetch(
-        "${API_URL}/api/rabbit-litters",
+        `${API_URL}/api/rabbit-litters`,
         {
           method: "POST",
           headers: {
@@ -147,7 +147,7 @@ function AddRabbitLitter() {
         }}
       >
         <div>
-          <h1>ðŸ‡ Record Rabbit Litter</h1>
+          <h1>🐇 Record Rabbit Litter</h1>
 
           <p>
             Record the kits produced from a rabbit breeding.
@@ -158,7 +158,7 @@ function AddRabbitLitter() {
           className="button"
           to="/rabbit-litters"
         >
-          â† Back to Litters
+          ← Back to Litters
         </Link>
       </div>
 
@@ -214,10 +214,10 @@ function AddRabbitLitter() {
                 >
                   {breeding.female_tag_number} -{" "}
                   {breeding.female_name || "Female"}{" "}
-                  Ã—{" "}
+                  ×{" "}
                   {breeding.male_tag_number || "Unknown"} -{" "}
                   {breeding.male_name || "Male"}{" "}
-                  â€”{" "}
+                  —{" "}
                   {breeding.breeding_date
                     ? breeding.breeding_date.split("T")[0]
                     : ""}
@@ -355,7 +355,7 @@ function AddRabbitLitter() {
             >
               {saving
                 ? "Saving..."
-                : "ðŸ’¾ Save Litter Record"}
+                : "💾 Save Litter Record"}
             </button>
 
             <Link

@@ -1,4 +1,4 @@
-﻿import API_URL from "../api";
+import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 
@@ -53,7 +53,7 @@ function RabbitWeight() {
         }}
       >
         <div>
-          <h1>âš– Rabbit Weight History</h1>
+          <h1>⚖ Rabbit Weight History</h1>
 
           <p>
             Track weight changes for this rabbit.
@@ -71,14 +71,14 @@ function RabbitWeight() {
             className="button"
             to={`/rabbits/${id}/weight/add`}
           >
-            âž• Add Weight
+            ➕ Add Weight
           </Link>
 
           <Link
             className="button"
             to={`/rabbits/${id}`}
           >
-            â† Back to Profile
+            ← Back to Profile
           </Link>
         </div>
       </div>

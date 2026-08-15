@@ -1,4 +1,4 @@
-﻿import API_URL from "../api";
+import API_URL from "../api";
 import { useEffect, useState } from "react";
 
 function Reports() {
@@ -27,12 +27,12 @@ function Reports() {
         inventoryRes,
         financeRes,
       ] = await Promise.all([
-        fetch("${API_URL}/api/goats"),
-        fetch("${API_URL}/api/chickens"),
-        fetch("${API_URL}/api/rabbits"),
-        fetch("${API_URL}/api/feed"),
-        fetch("${API_URL}/api/inventory"),
-        fetch("${API_URL}/api/finance"),
+        fetch(`${API_URL}/api/goats`),
+        fetch(`${API_URL}/api/chickens`),
+        fetch(`${API_URL}/api/rabbits`),
+        fetch(`${API_URL}/api/feed`),
+        fetch(`${API_URL}/api/inventory`),
+        fetch(`${API_URL}/api/finance`),
       ]);
 
       const [
@@ -191,7 +191,7 @@ function Reports() {
               lineHeight: 1.2,
             }}
           >
-            ðŸ“Š Farm Reports
+            📊 Farm Reports
           </h1>
 
           <p
@@ -213,7 +213,7 @@ function Reports() {
             flexShrink: 0,
           }}
         >
-          ðŸ–¨ Print Report
+          🖨 Print Report
         </button>
       </div>
 
@@ -240,7 +240,7 @@ function Reports() {
             overflow: "hidden",
           }}
         >
-          <h3>ðŸ Goats</h3>
+          <h3>🐐 Goats</h3>
           <h2>{goats.length}</h2>
         </div>
 
@@ -252,7 +252,7 @@ function Reports() {
             overflow: "hidden",
           }}
         >
-          <h3>ðŸ” Chickens</h3>
+          <h3>🐔 Chickens</h3>
           <h2>{chickens.length}</h2>
         </div>
 
@@ -264,7 +264,7 @@ function Reports() {
             overflow: "hidden",
           }}
         >
-          <h3>ðŸ‡ Rabbits</h3>
+          <h3>🐇 Rabbits</h3>
           <h2>{rabbits.length}</h2>
         </div>
 
@@ -276,7 +276,7 @@ function Reports() {
             overflow: "hidden",
           }}
         >
-          <h3>ðŸ¾ Total Animals</h3>
+          <h3>🐾 Total Animals</h3>
           <h2>{totalAnimals}</h2>
         </div>
 
@@ -288,7 +288,7 @@ function Reports() {
             overflow: "hidden",
           }}
         >
-          <h3>ðŸŒ¾ Feed Types</h3>
+          <h3>🌾 Feed Types</h3>
           <h2>{feed.length}</h2>
         </div>
 
@@ -300,7 +300,7 @@ function Reports() {
             overflow: "hidden",
           }}
         >
-          <h3>ðŸ“¦ Inventory Items</h3>
+          <h3>📦 Inventory Items</h3>
           <h2>{inventory.length}</h2>
         </div>
       </div>
@@ -318,7 +318,7 @@ function Reports() {
           overflow: "hidden",
         }}
       >
-        <h2>ðŸ’° Financial Summary</h2>
+        <h2>💰 Financial Summary</h2>
 
         <div
           style={{
@@ -387,7 +387,7 @@ function Reports() {
           marginBottom: "25px",
         }}
       >
-        <h2>ðŸ’µ Financial Transactions</h2>
+        <h2>💵 Financial Transactions</h2>
 
         <div
           style={{
@@ -613,7 +613,7 @@ function Reports() {
           overflow: "hidden",
         }}
       >
-        <h2>ðŸ¾ Animal Summary</h2>
+        <h2>🐾 Animal Summary</h2>
 
         <table
           className="table"
@@ -653,17 +653,17 @@ function Reports() {
 
           <tbody>
             <tr>
-              <td>ðŸ Goats</td>
+              <td>🐐 Goats</td>
               <td>{goats.length}</td>
             </tr>
 
             <tr>
-              <td>ðŸ” Chickens</td>
+              <td>🐔 Chickens</td>
               <td>{chickens.length}</td>
             </tr>
 
             <tr>
-              <td>ðŸ‡ Rabbits</td>
+              <td>🐇 Rabbits</td>
               <td>{rabbits.length}</td>
             </tr>
 

@@ -1,4 +1,4 @@
-﻿import API_URL from "../api";
+import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 
@@ -40,12 +40,12 @@ function ChickenProfile() {
         }}
       >
         <div>
-          <h1>ðŸ” {chicken.name || chicken.tag_number}</h1>
+          <h1>🐔 {chicken.name || chicken.tag_number}</h1>
           <p>Chicken Profile</p>
         </div>
 
         <Link className="button" to="/chickens">
-          â† Back
+          ← Back
         </Link>
       </div>
 

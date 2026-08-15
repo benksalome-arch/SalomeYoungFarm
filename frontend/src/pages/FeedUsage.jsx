@@ -1,4 +1,4 @@
-﻿import API_URL from "../api";
+import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -12,7 +12,7 @@ function FeedUsage() {
   async function loadUsage() {
     try {
       const response = await fetch(
-        "${API_URL}/api/feed-usage"
+        `${API_URL}/api/feed-usage`
       );
 
       const data = await response.json();
@@ -54,7 +54,7 @@ function FeedUsage() {
       >
 
         <div>
-          <h1>ðŸŒ¾ Feed Usage</h1>
+          <h1>🌾 Feed Usage</h1>
           <p>Daily feed consumption records.</p>
         </div>
 
@@ -62,7 +62,7 @@ function FeedUsage() {
           className="button"
           to="/feed/usage/add"
         >
-          âž• Record Usage
+          ➕ Record Usage
         </Link>
 
       </div>
@@ -123,7 +123,7 @@ function FeedUsage() {
                       className="button"
                       onClick={() => deleteUsage(item.id)}
                     >
-                      ðŸ—‘ Delete
+                      🗑 Delete
                     </button>
 
                   </td>

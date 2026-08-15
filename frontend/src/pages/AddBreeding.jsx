@@ -1,4 +1,4 @@
-﻿import API_URL from "../api";
+import API_URL from "../api";
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
@@ -17,7 +17,7 @@ function AddBreeding() {
   });
 
   useEffect(() => {
-    fetch("${API_URL}/api/goats")
+    fetch(`${API_URL}/api/goats`)
       .then((res) => res.json())
       .then((data) => setGoats(data))
       .catch(console.error);
@@ -44,7 +44,7 @@ function AddBreeding() {
   async function handleSubmit(e) {
     e.preventDefault();
 
-    const response = await fetch("${API_URL}/api/breeding", {
+    const response = await fetch(`${API_URL}/api/breeding`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -61,7 +61,7 @@ function AddBreeding() {
   return (
     <div className="page">
       <div className="card">
-        <h1>ðŸ§¬ New Breeding Record</h1>
+        <h1>🧬 New Breeding Record</h1>
 
         <form onSubmit={handleSubmit}>
 
@@ -137,7 +137,7 @@ function AddBreeding() {
           <br />
 
           <button className="button" type="submit">
-            ðŸ’¾ Save
+            💾 Save
           </button>
 
           {" "}

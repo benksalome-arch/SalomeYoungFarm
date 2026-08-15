@@ -1,4 +1,4 @@
-﻿import API_URL from "../api";
+import API_URL from "../api";
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
@@ -29,7 +29,7 @@ function AddInventory() {
 
     try {
       const response = await fetch(
-        "${API_URL}/api/inventory",
+        `${API_URL}/api/inventory`,
         {
           method: "POST",
           headers: {
@@ -55,7 +55,7 @@ function AddInventory() {
     <div className="page">
 
       <div className="page-header">
-        <h1>ðŸ“¦ Add Inventory Item</h1>
+        <h1>📦 Add Inventory Item</h1>
         <p>Add feed, medicine, equipment or supplies.</p>
       </div>
 
@@ -173,7 +173,7 @@ function AddInventory() {
 
           <div style={{ display: "flex", gap: "10px" }}>
             <button className="button" type="submit">
-              ðŸ’¾ Save Item
+              💾 Save Item
             </button>
 
             <Link className="button" to="/inventory">

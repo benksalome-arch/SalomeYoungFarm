@@ -1,8 +1,8 @@
-﻿import API_URL from "../api";
+import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 
-const API = "${API_URL}";
+const API = `${API_URL}`;
 
 function GoatProfile() {
   const { id } = useParams();
@@ -89,7 +89,7 @@ function GoatProfile() {
         }}
       >
         <div>
-          <h1>ðŸ {goat.name}</h1>
+          <h1>🐐 {goat.name}</h1>
           <p style={{ color: "#666" }}>
             Goat Profile
           </p>
@@ -99,7 +99,7 @@ function GoatProfile() {
           to="/goats"
           className="button"
         >
-          â† Back
+          ← Back
         </Link>
       </div>
 
@@ -141,7 +141,7 @@ function GoatProfile() {
                 borderRadius: 12,
               }}
             >
-              ðŸ
+              🐐
             </div>
           )}
 
@@ -293,33 +293,33 @@ function GoatProfile() {
               className="button"
               to={`/goats/edit/${goat.id}`}
             >
-              âœ Edit Goat
+              ✏ Edit Goat
             </Link>
 
             <Link
               className="button"
               to={`/goats/${goat.id}/health`}
             >
-              ðŸ’‰ Health
+              💉 Health
             </Link>
 
             <Link
               className="button"
               to={`/goats/${goat.id}/weight`}
             >
-              âš– Weight
+              ⚖ Weight
             </Link>
 
             <button className="button">
-              ðŸ§¬ Breeding
+              🧬 Breeding
             </button>
 
             <button className="button">
-              ðŸ Kids
+              🐐 Kids
             </button>
 
             <button className="button">
-              ðŸ–¨ Print
+              🖨 Print
             </button>
           </div>
         </div>

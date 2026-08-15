@@ -1,4 +1,4 @@
-﻿import API_URL from "../api";
+import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -12,7 +12,7 @@ function Feed() {
   async function loadFeeds() {
     try {
       const response = await fetch(
-        "${API_URL}/api/feed"
+        `${API_URL}/api/feed`
       );
 
       const data = await response.json();
@@ -113,7 +113,7 @@ function Feed() {
               lineHeight: 1.2,
             }}
           >
-            ðŸŒ¾ Feed Management
+            🌾 Feed Management
           </h1>
 
           <p
@@ -134,7 +134,7 @@ function Feed() {
             flexShrink: 0,
           }}
         >
-          âž• Add Feed
+          ➕ Add Feed
         </Link>
       </div>
 
@@ -302,7 +302,7 @@ function Feed() {
                             whiteSpace: "nowrap",
                           }}
                         >
-                          {isLow ? "ðŸ”´ Low" : "ðŸŸ¢ OK"}
+                          {isLow ? "🔴 Low" : "🟢 OK"}
                         </span>
                       </td>
 
@@ -332,7 +332,7 @@ function Feed() {
                               whiteSpace: "nowrap",
                             }}
                           >
-                            âœ Edit
+                            ✏ Edit
                           </Link>
 
                           <button
@@ -351,7 +351,7 @@ function Feed() {
                               cursor: "pointer",
                             }}
                           >
-                            ðŸ—‘ Delete
+                            🗑 Delete
                           </button>
                         </div>
                       </td>

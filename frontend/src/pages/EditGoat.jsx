@@ -1,4 +1,4 @@
-﻿import API_URL from "../api";
+import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -95,7 +95,7 @@ function EditGoat() {
         boxSizing: "border-box",
       }}
     >
-      <h1>âœï¸ Edit Goat</h1>
+      <h1>✏️ Edit Goat</h1>
 
       <form onSubmit={handleSubmit}>
         <p>Tag</p>

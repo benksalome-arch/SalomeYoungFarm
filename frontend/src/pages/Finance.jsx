@@ -1,4 +1,4 @@
-﻿import API_URL from "../api";
+import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -12,7 +12,7 @@ function Finance() {
   async function loadTransactions() {
     try {
       const response = await fetch(
-        "${API_URL}/api/finance"
+        `${API_URL}/api/finance`
       );
 
       const data = await response.json();
@@ -165,7 +165,7 @@ function Finance() {
               lineHeight: 1.2,
             }}
           >
-            ðŸ’° Finance Management
+            💰 Finance Management
           </h1>
 
           <p
@@ -186,7 +186,7 @@ function Finance() {
             flexShrink: 0,
           }}
         >
-          âž• Add Transaction
+          ➕ Add Transaction
         </Link>
       </div>
 
@@ -305,7 +305,7 @@ function Finance() {
               whiteSpace: "nowrap",
             }}
           >
-            âž• Add Transaction
+            ➕ Add Transaction
           </Link>
         </div>
 
@@ -583,7 +583,7 @@ function Finance() {
                                 "nowrap",
                             }}
                           >
-                            âœ Edit
+                            ✏ Edit
                           </Link>
 
                           <button
@@ -609,7 +609,7 @@ function Finance() {
                                 "pointer",
                             }}
                           >
-                            ðŸ—‘ Delete
+                            🗑 Delete
                           </button>
                         </div>
                       </td>

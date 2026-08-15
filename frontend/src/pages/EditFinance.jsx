@@ -1,4 +1,4 @@
-﻿import API_URL from "../api";
+import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 
@@ -119,7 +119,7 @@ function EditFinance() {
             color: "#111",
           }}
         >
-          âœï¸ Edit Transaction
+          ✏️ Edit Transaction
         </h1>
 
         <p
@@ -284,7 +284,7 @@ function EditFinance() {
             }}
           >
             <button className="button" type="submit">
-              ðŸ’¾ Update
+              💾 Update
             </button>
 
             <Link className="button" to="/finance">

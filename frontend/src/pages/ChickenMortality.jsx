@@ -1,4 +1,4 @@
-﻿import API_URL from "../api";
+import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -12,7 +12,7 @@ function ChickenMortality() {
   async function loadRecords() {
     try {
       const response = await fetch(
-        "${API_URL}/api/chicken-mortality"
+        `${API_URL}/api/chicken-mortality`
       );
 
       const data = await response.json();
@@ -78,7 +78,7 @@ function ChickenMortality() {
           className="button"
           to="/chicken-mortality/add"
         >
-          âž• Record Mortality
+          ➕ Record Mortality
         </Link>
 
       </div>
@@ -145,7 +145,7 @@ function ChickenMortality() {
                         deleteRecord(record.id)
                       }
                     >
-                      ðŸ—‘ Delete
+                      🗑 Delete
                     </button>
 
                   </td>

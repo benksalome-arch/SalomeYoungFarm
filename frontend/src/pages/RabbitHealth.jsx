@@ -1,4 +1,4 @@
-﻿import API_URL from "../api";
+import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 
@@ -117,7 +117,7 @@ function RabbitHealth() {
         }}
       >
         <div>
-          <h1>ðŸ¥ Rabbit Health Records</h1>
+          <h1>🏥 Rabbit Health Records</h1>
 
           <p>
             Medical history for this rabbit.
@@ -135,14 +135,14 @@ function RabbitHealth() {
             className="button"
             to={`/rabbits/${id}/health/add`}
           >
-            âž• Add Health Record
+            ➕ Add Health Record
           </Link>
 
           <Link
             className="button"
             to={`/rabbits/${id}`}
           >
-            â† Back to Profile
+            ← Back to Profile
           </Link>
         </div>
       </div>
@@ -389,7 +389,7 @@ function RabbitHealth() {
                         fontSize: "12px",
                       }}
                     >
-                      ðŸ—‘ Delete
+                      🗑 Delete
                     </button>
                   </td>
                 </tr>

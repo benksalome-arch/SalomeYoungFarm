@@ -1,4 +1,4 @@
-﻿import API_URL from "../api";
+import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
@@ -22,7 +22,7 @@ function AddRabbitMortality() {
   async function loadRabbits() {
     try {
       const response = await fetch(
-        "${API_URL}/api/rabbits"
+        `${API_URL}/api/rabbits`
       );
 
       const data = await response.json();
@@ -107,7 +107,7 @@ function AddRabbitMortality() {
 
     try {
       const response = await fetch(
-        "${API_URL}/api/rabbit-mortality",
+        `${API_URL}/api/rabbit-mortality`,
         {
           method: "POST",
           headers: {
@@ -162,7 +162,7 @@ function AddRabbitMortality() {
           className="button"
           to="/rabbit-mortality"
         >
-          â† Back
+          ← Back
         </Link>
       </div>
 
@@ -221,7 +221,7 @@ function AddRabbitMortality() {
                   marginTop: "8px",
                 }}
               >
-                âœ… {availableQuantity} rabbit(s) available
+                ✅ {availableQuantity} rabbit(s) available
                 for mortality recording.
               </p>
             )}
@@ -331,7 +331,7 @@ function AddRabbitMortality() {
                 : "not-allowed",
             }}
           >
-            ðŸ’¾ Save Mortality Record
+            💾 Save Mortality Record
           </button>
 
         </form>

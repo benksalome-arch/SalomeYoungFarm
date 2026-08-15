@@ -1,4 +1,4 @@
-﻿import API_URL from "../api";
+import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 
@@ -16,7 +16,7 @@ function Health() {
   return (
     <div className="page">
       <div className="page-header">
-        <h1>ðŸ’‰ Health Records</h1>
+        <h1>💉 Health Records</h1>
         <p>Vaccinations, deworming and treatment history.</p>
       </div>
 
@@ -29,11 +29,11 @@ function Health() {
           }}
         >
           <Link className="button" to={`/goats/${id}`}>
-            â† Back to Goat
+            ← Back to Goat
           </Link>
 
           <Link className="button" to={`/goats/${id}/health/add`}>
-            âž• Add Health Record
+            ➕ Add Health Record
           </Link>
         </div>
 

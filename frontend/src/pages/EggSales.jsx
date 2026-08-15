@@ -1,4 +1,4 @@
-﻿import API_URL from "../api";
+import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -12,7 +12,7 @@ function EggSales() {
   async function loadSales() {
     try {
       const response = await fetch(
-        "${API_URL}/api/egg-sales"
+        `${API_URL}/api/egg-sales`
       );
 
       const data = await response.json();
@@ -78,12 +78,12 @@ function EggSales() {
         }}
       >
         <div>
-          <h1>ðŸ¥š Egg Sales</h1>
+          <h1>🥚 Egg Sales</h1>
           <p>Manage egg sales and income.</p>
         </div>
 
         <Link className="button" to="/egg-sales/add">
-          âž• Record Sale
+          ➕ Record Sale
         </Link>
       </div>
 
@@ -178,7 +178,7 @@ function EggSales() {
                         deleteSale(sale.id)
                       }
                     >
-                      ðŸ—‘ Delete
+                      🗑 Delete
                     </button>
 
                   </td>

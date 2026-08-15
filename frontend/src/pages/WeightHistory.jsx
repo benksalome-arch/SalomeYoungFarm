@@ -1,4 +1,4 @@
-﻿import API_URL from "../api";
+import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import WeightChart from "../components/WeightChart";
@@ -19,7 +19,7 @@ function WeightHistory() {
   return (
     <div className="page">
       <div className="page-header">
-        <h1>âš– Weight History</h1>
+        <h1>⚖ Weight History</h1>
         <p>Track the goat's weight over time.</p>
       </div>
 
@@ -37,11 +37,11 @@ function WeightHistory() {
           }}
         >
           <Link className="button" to={`/goats/${id}`}>
-            â† Back to Goat
+            ← Back to Goat
           </Link>
 
           <Link className="button" to={`/goats/${id}/weight/add`}>
-            âž• Add Weight
+            ➕ Add Weight
           </Link>
         </div>
 

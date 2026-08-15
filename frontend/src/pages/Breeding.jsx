@@ -1,4 +1,4 @@
-﻿import API_URL from "../api";
+import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -12,7 +12,7 @@ function Breeding() {
 
   async function loadRecords() {
     try {
-      const response = await fetch("${API_URL}/api/breeding");
+      const response = await fetch(`${API_URL}/api/breeding`);
       const data = await response.json();
       setRecords(data);
     } catch (error) {
@@ -47,7 +47,7 @@ function Breeding() {
   return (
     <div className="page">
       <div className="page-header">
-        <h1>ðŸ§¬ Breeding Management</h1>
+        <h1>🧬 Breeding Management</h1>
         <p>Manage breeding records.</p>
       </div>
 
@@ -64,11 +64,11 @@ function Breeding() {
 
           <div style={{ display: "flex", gap: "10px" }}>
             <Link className="button" to="/kidding">
-              ðŸ¼ Kidding Records
+              🍼 Kidding Records
             </Link>
 
             <Link className="button" to="/breeding/add">
-              âž• New Breeding
+              ➕ New Breeding
             </Link>
           </div>
         </div>
@@ -121,14 +121,14 @@ function Breeding() {
                         navigate(`/breeding/${record.id}/kidding`)
                       }
                     >
-                      ðŸ¼ Register Birth
+                      🍼 Register Birth
                     </button>
 
                     <button
                       className="button"
                       onClick={() => deleteRecord(record.id)}
                     >
-                      ðŸ—‘ Delete
+                      🗑 Delete
                     </button>
                   </td>
                 </tr>

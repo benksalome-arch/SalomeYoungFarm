@@ -1,4 +1,4 @@
-﻿import API_URL from "../api";
+import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 
@@ -54,7 +54,7 @@ function RabbitBreeding() {
         }}
       >
         <div>
-          <h1>â¤ï¸ Rabbit Breeding</h1>
+          <h1>❤️ Rabbit Breeding</h1>
 
           <p>
             Breeding history for this female rabbit.
@@ -72,14 +72,14 @@ function RabbitBreeding() {
             className="button"
             to={`/rabbits/${id}/breeding/add`}
           >
-            âž• Add Breeding
+            ➕ Add Breeding
           </Link>
 
           <Link
             className="button"
             to={`/rabbits/${id}`}
           >
-            â† Back to Profile
+            ← Back to Profile
           </Link>
         </div>
       </div>

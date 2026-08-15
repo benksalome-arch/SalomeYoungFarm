@@ -1,4 +1,4 @@
-﻿import API_URL from "../api";
+import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -32,12 +32,12 @@ function Dashboard() {
         inventoryRes,
         financeRes,
       ] = await Promise.all([
-        fetch("${API_URL}/api/goats"),
-        fetch("${API_URL}/api/chickens"),
-        fetch("${API_URL}/api/rabbits"),
-        fetch("${API_URL}/api/feed"),
-        fetch("${API_URL}/api/inventory"),
-        fetch("${API_URL}/api/finance"),
+        fetch(`${API_URL}/api/goats`),
+        fetch(`${API_URL}/api/chickens`),
+        fetch(`${API_URL}/api/rabbits`),
+        fetch(`${API_URL}/api/feed`),
+        fetch(`${API_URL}/api/inventory`),
+        fetch(`${API_URL}/api/finance`),
       ]);
 
       const [
@@ -169,7 +169,7 @@ function Dashboard() {
         }}
       >
         <PageHeader
-          title="ðŸ¡ Salome Young Farm Dashboard"
+          title="🏡 Salome Young Farm Dashboard"
           subtitle="Farm Overview"
         />
       </div>
@@ -190,51 +190,51 @@ function Dashboard() {
         }}
       >
         <StatCard
-          icon="ðŸ"
+          icon="🐐"
           title="Goats"
           value={goats.length}
         />
 
         <StatCard
-          icon="ðŸ”"
+          icon="🐔"
           title="Chickens"
           value={chickens.length}
         />
 
         <StatCard
-          icon="ðŸ‡"
+          icon="🐇"
           title="Rabbits"
           value={rabbits.length}
         />
 
         <StatCard
-          icon="ðŸŒ¾"
+          icon="🌾"
           title="Feed Types"
           value={feed.length}
         />
 
         <StatCard
-          icon="ðŸ“¦"
+          icon="📦"
           title="Inventory Items"
           value={inventory.length}
         />
 
         <StatCard
-          icon="ðŸ’°"
+          icon="💰"
           title="Income"
           value={`KES ${totalIncome.toLocaleString()}`}
           color="#2e7d32"
         />
 
         <StatCard
-          icon="ðŸ’¸"
+          icon="💸"
           title="Expenses"
           value={`KES ${totalExpense.toLocaleString()}`}
           color="#d32f2f"
         />
 
         <StatCard
-          icon="ðŸ“ˆ"
+          icon="📈"
           title="Profit"
           value={`KES ${profit.toLocaleString()}`}
           color="#1565c0"
@@ -530,42 +530,42 @@ function Dashboard() {
                 className="button"
                 to="/goats/add"
               >
-                ðŸ Add Goat
+                🐐 Add Goat
               </Link>
 
               <Link
                 className="button"
                 to="/chickens/add"
               >
-                ðŸ” Add Chicken
+                🐔 Add Chicken
               </Link>
 
               <Link
                 className="button"
                 to="/rabbits/add"
               >
-                ðŸ‡ Add Rabbit
+                🐇 Add Rabbit
               </Link>
 
               <Link
                 className="button"
                 to="/feed/add"
               >
-                ðŸŒ¾ Add Feed
+                🌾 Add Feed
               </Link>
 
               <Link
                 className="button"
                 to="/finance/add"
               >
-                ðŸ’° Finance Entry
+                💰 Finance Entry
               </Link>
 
               <Link
                 className="button"
                 to="/reports"
               >
-                ðŸ“Š Reports
+                📊 Reports
               </Link>
             </div>
           </div>
@@ -592,19 +592,19 @@ function Dashboard() {
               }}
             >
               <li>
-                âœ… Dashboard connected
+                ✅ Dashboard connected
               </li>
               <li>
-                âœ… Finance connected
+                ✅ Finance connected
               </li>
               <li>
-                âœ… Feed connected
+                ✅ Feed connected
               </li>
               <li>
-                âœ… Chicken module active
+                ✅ Chicken module active
               </li>
               <li>
-                âœ… Rabbit module active
+                ✅ Rabbit module active
               </li>
             </ul>
           </div>

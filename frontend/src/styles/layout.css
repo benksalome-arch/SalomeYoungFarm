@@ -122,3 +122,84 @@ body {
     padding: 15px;
   }
 }
+
+/* =========================================================
+   GLOBAL RESPONSIVE TABLE / PAGE FIXES
+   ========================================================= */
+
+html,
+body,
+#root {
+  min-width: 0;
+}
+
+main,
+.page,
+.card {
+  min-width: 0;
+}
+
+.card {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  max-width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.table th,
+.table td {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  word-break: normal;
+  vertical-align: middle;
+}
+
+.table th {
+  white-space: normal;
+  line-height: 1.25;
+}
+
+.table td {
+  white-space: normal;
+  line-height: 1.35;
+}
+
+@media (max-width: 900px) {
+  .page {
+    padding: 20px;
+  }
+
+  .table {
+    font-size: 13px;
+  }
+
+  .table th,
+  .table td {
+    padding: 9px 6px;
+  }
+
+  .button {
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 650px) {
+  .page {
+    padding: 15px;
+  }
+
+  .table {
+    min-width: 680px;
+  }
+
+  .table th,
+  .table td {
+    padding: 8px 5px;
+    font-size: 12px;
+  }
+}

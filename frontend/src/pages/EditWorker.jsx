@@ -1,4 +1,4 @@
-﻿import API_URL from "../api";
+import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 
@@ -78,7 +78,7 @@ function EditWorker() {
     <div className="page">
 
       <div className="page-header">
-        <h1>âœ Edit Worker</h1>
+        <h1>✏ Edit Worker</h1>
         <p>Update worker information.</p>
       </div>
 
@@ -146,7 +146,7 @@ function EditWorker() {
             }}
           >
             <button className="button" type="submit">
-              ðŸ’¾ Save Changes
+              💾 Save Changes
             </button>
 
             <Link className="button" to="/workers">

@@ -1,4 +1,4 @@
-﻿import API_URL from "../api";
+import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
@@ -22,7 +22,7 @@ function AddFeedUsage() {
 
   async function loadFeeds() {
     try {
-      const response = await fetch("${API_URL}/api/feed");
+      const response = await fetch(`${API_URL}/api/feed`);
       const data = await response.json();
       setFeeds(data);
     } catch (err) {
@@ -50,7 +50,7 @@ function AddFeedUsage() {
 
     try {
       const response = await fetch(
-        "${API_URL}/api/feed-usage",
+        `${API_URL}/api/feed-usage`,
         {
           method: "POST",
           headers: {
@@ -82,12 +82,12 @@ function AddFeedUsage() {
         }}
       >
         <div>
-          <h1>ðŸŒ¾ Record Feed Usage</h1>
+          <h1>🌾 Record Feed Usage</h1>
           <p>Record daily feed consumption.</p>
         </div>
 
         <Link className="button" to="/feed/usage">
-          â† Back
+          ← Back
         </Link>
       </div>
 
@@ -169,7 +169,7 @@ function AddFeedUsage() {
           <br /><br />
 
           <button className="button" type="submit">
-            ðŸ’¾ Save
+            💾 Save
           </button>
 
         </form>

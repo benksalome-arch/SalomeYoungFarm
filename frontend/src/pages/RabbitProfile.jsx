@@ -1,4 +1,4 @@
-﻿import API_URL from "../api";
+import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 
@@ -79,7 +79,7 @@ function RabbitProfile() {
           className="button"
           to="/rabbits"
         >
-          â† Back to Rabbits
+          ← Back to Rabbits
         </Link>
       </div>
     );
@@ -109,7 +109,7 @@ function RabbitProfile() {
       >
         <div>
           <h1>
-            ðŸ‡ {rabbit.name || "Rabbit"}
+            🐇 {rabbit.name || "Rabbit"}
           </h1>
 
           <p>
@@ -121,7 +121,7 @@ function RabbitProfile() {
           className="button"
           to={`/rabbits/edit/${rabbit.id}`}
         >
-          âœ Edit
+          ✏ Edit
         </Link>
       </div>
 
@@ -248,7 +248,7 @@ function RabbitProfile() {
           className="button"
           to={`/rabbits/${rabbit.id}/health`}
         >
-          ðŸ¥ Health
+          🏥 Health
         </Link>
 
         {/* Vaccinations */}
@@ -257,7 +257,7 @@ function RabbitProfile() {
           className="button"
           to="/rabbit-vaccinations"
         >
-          ðŸ’‰ Vaccinations
+          💉 Vaccinations
         </Link>
 
         {/* Weight */}
@@ -266,7 +266,7 @@ function RabbitProfile() {
           className="button"
           to={`/rabbits/${rabbit.id}/weight`}
         >
-          âš– Weight
+          ⚖ Weight
         </Link>
 
         {/* Breeding */}
@@ -275,7 +275,7 @@ function RabbitProfile() {
           className="button"
           to={`/rabbits/${rabbit.id}/breeding`}
         >
-          â¤ï¸ Breeding
+          ❤️ Breeding
         </Link>
 
         {/* Litters - not implemented yet */}
@@ -289,7 +289,7 @@ function RabbitProfile() {
             cursor: "not-allowed",
           }}
         >
-          ðŸ‡ Litters
+          🐇 Litters
         </button>
       </div>
 
@@ -306,7 +306,7 @@ function RabbitProfile() {
           className="button"
           to="/rabbits"
         >
-          â† Back to Rabbits
+          ← Back to Rabbits
         </Link>
       </div>
     </div>

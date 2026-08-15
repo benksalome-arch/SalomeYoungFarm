@@ -1,4 +1,4 @@
-﻿import API_URL from "../api";
+import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 
@@ -100,7 +100,7 @@ function EditRabbit() {
     <div className="page">
 
       <div className="page-header">
-        <h1>ðŸ‡ Edit Rabbit</h1>
+        <h1>🐇 Edit Rabbit</h1>
       </div>
 
       <div className="card">
@@ -220,7 +220,7 @@ function EditRabbit() {
 
           <div style={{ display: "flex", gap: "10px" }}>
             <button className="button" type="submit">
-              ðŸ’¾ Update
+              💾 Update
             </button>
 
             <Link className="button" to="/rabbits">

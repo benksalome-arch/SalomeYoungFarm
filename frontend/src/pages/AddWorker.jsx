@@ -1,4 +1,4 @@
-﻿import API_URL from "../api";
+import API_URL from "../api";
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
@@ -24,7 +24,7 @@ function AddWorker() {
 
     try {
       const response = await fetch(
-        "${API_URL}/api/workers",
+        `${API_URL}/api/workers`,
         {
           method: "POST",
           headers: {
@@ -50,7 +50,7 @@ function AddWorker() {
     <div className="page">
 
       <div className="page-header">
-        <h1>âž• Add Worker</h1>
+        <h1>➕ Add Worker</h1>
         <p>Create a new user account.</p>
       </div>
 
@@ -118,7 +118,7 @@ function AddWorker() {
             }}
           >
             <button className="button" type="submit">
-              ðŸ’¾ Save Worker
+              💾 Save Worker
             </button>
 
             <Link className="button" to="/workers">

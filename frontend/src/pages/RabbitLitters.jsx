@@ -1,4 +1,4 @@
-﻿import API_URL from "../api";
+import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -16,7 +16,7 @@ function RabbitLitters() {
       setLoading(true);
 
       const response = await fetch(
-        "${API_URL}/api/rabbit-litters"
+        `${API_URL}/api/rabbit-litters`
       );
 
       const data = await response.json();
@@ -96,7 +96,7 @@ function RabbitLitters() {
         }}
       >
         <div>
-          <h1>ðŸ‡ Rabbit Litters</h1>
+          <h1>🐇 Rabbit Litters</h1>
 
           <p>
             Record and track rabbit births and kits.
@@ -107,7 +107,7 @@ function RabbitLitters() {
           className="button"
           to="/rabbit-litters/add"
         >
-          âž• Record Litter
+          ➕ Record Litter
         </Link>
       </div>
 
@@ -205,7 +205,7 @@ function RabbitLitters() {
                     >
                       {deleting === litter.id
                         ? "Deleting..."
-                        : "ðŸ—‘ Delete"}
+                        : "🗑 Delete"}
                     </button>
                   </td>
                 </tr>

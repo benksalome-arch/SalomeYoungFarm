@@ -1,4 +1,4 @@
-﻿import API_URL from "../api";
+import API_URL from "../api";
 import { useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 
@@ -24,7 +24,7 @@ function AddWeightRecord() {
     e.preventDefault();
 
     try {
-      const response = await fetch("${API_URL}/api/weight", {
+      const response = await fetch(`${API_URL}/api/weight`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -45,7 +45,7 @@ function AddWeightRecord() {
   return (
     <div className="page">
       <div className="card">
-        <h1>âš– Add Weight Record</h1>
+        <h1>⚖ Add Weight Record</h1>
 
         <form onSubmit={handleSubmit}>
           <p>Date</p>
@@ -79,7 +79,7 @@ function AddWeightRecord() {
           <br />
 
           <button className="button" type="submit">
-            ðŸ’¾ Save Weight
+            💾 Save Weight
           </button>
 
           {" "}

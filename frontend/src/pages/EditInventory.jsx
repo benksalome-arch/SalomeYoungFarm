@@ -1,4 +1,4 @@
-﻿import API_URL from "../api";
+import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 
@@ -84,7 +84,7 @@ function EditInventory() {
   return (
     <div className="page">
       <div className="page-header">
-        <h1>âœ Edit Inventory Item</h1>
+        <h1>✏ Edit Inventory Item</h1>
       </div>
 
       <div className="card">
@@ -200,7 +200,7 @@ function EditInventory() {
 
           <div style={{ display: "flex", gap: "10px" }}>
             <button className="button" type="submit">
-              ðŸ’¾ Update Item
+              💾 Update Item
             </button>
 
             <Link className="button" to="/inventory">
