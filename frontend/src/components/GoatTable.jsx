@@ -19,8 +19,7 @@ function GoatTable({ goats }) {
 
       if (!response.ok) {
         alert(
-          data.message ||
-            "Failed to delete goat."
+          data.message || "Failed to delete goat."
         );
         return;
       }
@@ -42,310 +41,345 @@ function GoatTable({ goats }) {
   }
 
   return (
-    <div
-      className="card"
-      style={{
-        width: "100%",
-        maxWidth: "100%",
-        minWidth: 0,
-        boxSizing: "border-box",
-        overflowX: "auto",
-      }}
-    >
-      <table
-        style={{
-          width: "100%",
-          borderCollapse: "collapse",
-          tableLayout: "fixed",
-          minWidth: "850px",
-        }}
-      >
-        <thead>
-          <tr>
-            <th
-              style={{
-                width: "9%",
-                fontSize: "13px",
-                padding: "11px 5px",
-              }}
-            >
-              Tag
-            </th>
+    <>
+      <style>
+        {`
+          .goat-table-card {
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
+            overflow: hidden;
+          }
 
-            <th
-              style={{
-                width: "15%",
-                fontSize: "13px",
-                padding: "11px 5px",
-              }}
-            >
-              Name
-            </th>
+          .goat-table {
+            width: 100%;
+            max-width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+          }
 
-            <th
-              style={{
-                width: "13%",
-                fontSize: "13px",
-                padding: "11px 5px",
-              }}
-            >
-              Breed
-            </th>
+          .goat-table th,
+          .goat-table td {
+            box-sizing: border-box;
+            overflow-wrap: anywhere;
+          }
 
-            <th
-              style={{
-                width: "10%",
-                fontSize: "13px",
-                padding: "11px 5px",
-              }}
-            >
-              Sex
-            </th>
+          .goat-action-buttons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+            flex-wrap: wrap;
+            width: 100%;
+            box-sizing: border-box;
+          }
 
-            <th
-              style={{
-                width: "12%",
-                fontSize: "13px",
-                padding: "11px 5px",
-              }}
-            >
-              Birth Date
-            </th>
+          .goat-action-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+            min-width: 0;
+            padding: 6px 7px;
+            font-size: 11px;
+            line-height: 1.1;
+            white-space: normal;
+            text-decoration: none;
+          }
 
-            <th
-              style={{
-                width: "10%",
-                fontSize: "13px",
-                padding: "11px 5px",
-              }}
-            >
-              Weight
-            </th>
+          @media (max-width: 900px) {
+            .goat-table th,
+            .goat-table td {
+              font-size: 11px !important;
+              padding: 8px 3px !important;
+            }
 
-            <th
-              style={{
-                width: "12%",
-                fontSize: "13px",
-                padding: "11px 5px",
-              }}
-            >
-              Status
-            </th>
+            .goat-action-buttons {
+              flex-direction: column;
+              gap: 4px;
+            }
 
-            <th
-              style={{
-                width: "20%",
-                fontSize: "13px",
-                padding: "11px 5px",
-              }}
-            >
-              Actions
-            </th>
-          </tr>
-        </thead>
+            .goat-action-button {
+              width: 100%;
+              font-size: 10px;
+              padding: 6px 3px;
+            }
+          }
 
-        <tbody>
-          {goats.length === 0 ? (
+          @media (max-width: 650px) {
+            .goat-table th,
+            .goat-table td {
+              font-size: 10px !important;
+              padding: 7px 2px !important;
+            }
+
+            .goat-action-button {
+              font-size: 9px;
+              padding: 5px 2px;
+            }
+          }
+        `}
+      </style>
+
+      <div className="card goat-table-card">
+        <table className="goat-table">
+          <colgroup>
+            <col style={{ width: "10%" }} />
+            <col style={{ width: "13%" }} />
+            <col style={{ width: "13%" }} />
+            <col style={{ width: "10%" }} />
+            <col style={{ width: "13%" }} />
+            <col style={{ width: "10%" }} />
+            <col style={{ width: "10%" }} />
+            <col style={{ width: "21%" }} />
+          </colgroup>
+
+          <thead>
             <tr>
-              <td
-                colSpan="8"
+              <th
                 style={{
-                  textAlign: "center",
-                  padding: "30px 10px",
-                  fontSize: "14px",
+                  fontSize: "13px",
+                  padding: "11px 5px",
                 }}
               >
-                No goats found.
-              </td>
+                Tag
+              </th>
+
+              <th
+                style={{
+                  fontSize: "13px",
+                  padding: "11px 5px",
+                }}
+              >
+                Name
+              </th>
+
+              <th
+                style={{
+                  fontSize: "13px",
+                  padding: "11px 5px",
+                }}
+              >
+                Breed
+              </th>
+
+              <th
+                style={{
+                  fontSize: "13px",
+                  padding: "11px 5px",
+                }}
+              >
+                Sex
+              </th>
+
+              <th
+                style={{
+                  fontSize: "13px",
+                  padding: "11px 5px",
+                }}
+              >
+                Birth Date
+              </th>
+
+              <th
+                style={{
+                  fontSize: "13px",
+                  padding: "11px 5px",
+                }}
+              >
+                Weight
+              </th>
+
+              <th
+                style={{
+                  fontSize: "13px",
+                  padding: "11px 5px",
+                }}
+              >
+                Status
+              </th>
+
+              <th
+                style={{
+                  fontSize: "13px",
+                  padding: "11px 5px",
+                }}
+              >
+                Actions
+              </th>
             </tr>
-          ) : (
-            goats.map((goat) => (
-              <tr key={goat.id}>
+          </thead>
+
+          <tbody>
+            {goats.length === 0 ? (
+              <tr>
                 <td
+                  colSpan="8"
                   style={{
-                    padding: "11px 5px",
                     textAlign: "center",
-                    fontSize: "13px",
-                    whiteSpace: "nowrap",
+                    padding: "30px 10px",
+                    fontSize: "14px",
                   }}
                 >
-                  {goat.tag ||
-                    goat.tag_number ||
-                    "-"}
-                </td>
-
-                <td
-                  style={{
-                    padding: "11px 5px",
-                    fontSize: "13px",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    whiteSpace: "nowrap",
-                  }}
-                >
-                  <strong>
-                    {goat.name || "-"}
-                  </strong>
-                </td>
-
-                <td
-                  style={{
-                    padding: "11px 5px",
-                    fontSize: "13px",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    whiteSpace: "nowrap",
-                  }}
-                >
-                  {goat.breed || "-"}
-                </td>
-
-                <td
-                  style={{
-                    padding: "11px 5px",
-                    textAlign: "center",
-                    fontSize: "13px",
-                    whiteSpace: "nowrap",
-                  }}
-                >
-                  {goat.sex || "-"}
-                </td>
-
-                <td
-                  style={{
-                    padding: "11px 5px",
-                    textAlign: "center",
-                    fontSize: "12px",
-                    whiteSpace: "nowrap",
-                  }}
-                >
-                  {goat.date_of_birth
-                    ? String(
-                        goat.date_of_birth
-                      ).split("T")[0]
-                    : "-"}
-                </td>
-
-                <td
-                  style={{
-                    padding: "11px 5px",
-                    textAlign: "center",
-                    fontSize: "12px",
-                    whiteSpace: "nowrap",
-                  }}
-                >
-                  {goat.weight
-                    ? `${goat.weight} kg`
-                    : "-"}
-                </td>
-
-                <td
-                  style={{
-                    padding: "11px 5px",
-                    textAlign: "center",
-                  }}
-                >
-                  <span
-                    style={{
-                      display: "inline-block",
-                      background:
-                        goat.status ===
-                        "Healthy"
-                          ? "#4CAF50"
-                          : goat.status ===
-                            "Sick"
-                          ? "#E53935"
-                          : goat.status ===
-                            "Sold"
-                          ? "#1565C0"
-                          : "#FB8C00",
-                      color: "white",
-                      padding: "6px 8px",
-                      borderRadius: "20px",
-                      fontSize: "11px",
-                      fontWeight: "bold",
-                      whiteSpace: "nowrap",
-                    }}
-                  >
-                    {goat.status ||
-                      "Unknown"}
-                  </span>
-                </td>
-
-                <td
-                  style={{
-                    padding: "9px 4px",
-                  }}
-                >
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent:
-                        "center",
-                      alignItems: "center",
-                      gap: "4px",
-                      flexWrap: "wrap",
-                    }}
-                  >
-                    <Link
-                      className="button"
-                      to={`/goats/${goat.id}`}
-                      style={{
-                        padding:
-                          "6px 8px",
-                        fontSize: "11px",
-                        whiteSpace:
-                          "nowrap",
-                      }}
-                    >
-                      👁 View
-                    </Link>
-
-                    <Link
-                      className="button"
-                      to={`/goats/edit/${goat.id}`}
-                      style={{
-                        padding:
-                          "6px 8px",
-                        fontSize: "11px",
-                        whiteSpace:
-                          "nowrap",
-                      }}
-                    >
-                      ✏ Edit
-                    </Link>
-
-                    <button
-                      type="button"
-                      className="button"
-                      onClick={() =>
-                        deleteGoat(
-                          goat.id
-                        )
-                      }
-                      style={{
-                        padding:
-                          "6px 8px",
-                        fontSize: "11px",
-                        background:
-                          "#D32F2F",
-                        color: "white",
-                        border: "none",
-                        whiteSpace:
-                          "nowrap",
-                        cursor: "pointer",
-                      }}
-                    >
-                      🗑 Delete
-                    </button>
-                  </div>
+                  No goats found.
                 </td>
               </tr>
-            ))
-          )}
-        </tbody>
-      </table>
-    </div>
+            ) : (
+              goats.map((goat) => (
+                <tr key={goat.id}>
+                  <td
+                    style={{
+                      padding: "11px 5px",
+                      textAlign: "center",
+                      fontSize: "13px",
+                      overflowWrap: "anywhere",
+                    }}
+                  >
+                    {goat.tag ||
+                      goat.tag_number ||
+                      "-"}
+                  </td>
+
+                  <td
+                    style={{
+                      padding: "11px 5px",
+                      fontSize: "13px",
+                      overflowWrap: "anywhere",
+                    }}
+                  >
+                    <strong>
+                      {goat.name || "-"}
+                    </strong>
+                  </td>
+
+                  <td
+                    style={{
+                      padding: "11px 5px",
+                      fontSize: "13px",
+                      overflowWrap: "anywhere",
+                    }}
+                  >
+                    {goat.breed || "-"}
+                  </td>
+
+                  <td
+                    style={{
+                      padding: "11px 5px",
+                      textAlign: "center",
+                      fontSize: "13px",
+                      overflowWrap: "anywhere",
+                    }}
+                  >
+                    {goat.sex || "-"}
+                  </td>
+
+                  <td
+                    style={{
+                      padding: "11px 5px",
+                      textAlign: "center",
+                      fontSize: "12px",
+                      overflowWrap: "anywhere",
+                    }}
+                  >
+                    {goat.date_of_birth
+                      ? String(
+                          goat.date_of_birth
+                        ).split("T")[0]
+                      : "-"}
+                  </td>
+
+                  <td
+                    style={{
+                      padding: "11px 5px",
+                      textAlign: "center",
+                      fontSize: "12px",
+                      overflowWrap: "anywhere",
+                    }}
+                  >
+                    {goat.weight
+                      ? `${goat.weight} kg`
+                      : "-"}
+                  </td>
+
+                  <td
+                    style={{
+                      padding: "11px 5px",
+                      textAlign: "center",
+                    }}
+                  >
+                    <span
+                      style={{
+                        display: "inline-block",
+                        maxWidth: "100%",
+                        boxSizing: "border-box",
+                        background:
+                          goat.status === "Healthy"
+                            ? "#4CAF50"
+                            : goat.status === "Sick"
+                            ? "#E53935"
+                            : goat.status ===
+                              "Sold"
+                            ? "#1565C0"
+                            : "#FB8C00",
+                        color: "white",
+                        padding: "6px 7px",
+                        borderRadius: "20px",
+                        fontSize: "11px",
+                        fontWeight: "bold",
+                        overflowWrap: "anywhere",
+                      }}
+                    >
+                      {goat.status ||
+                        "Unknown"}
+                    </span>
+                  </td>
+
+                  <td
+                    style={{
+                      padding: "8px 4px",
+                      textAlign: "center",
+                      verticalAlign: "middle",
+                    }}
+                  >
+                    <div className="goat-action-buttons">
+                      <Link
+                        className="button goat-action-button"
+                        to={`/goats/${goat.id}`}
+                      >
+                        👁 View
+                      </Link>
+
+                      <Link
+                        className="button goat-action-button"
+                        to={`/goats/edit/${goat.id}`}
+                      >
+                        ✏ Edit
+                      </Link>
+
+                      <button
+                        type="button"
+                        className="button goat-action-button"
+                        onClick={() =>
+                          deleteGoat(goat.id)
+                        }
+                        style={{
+                          background: "#D32F2F",
+                          color: "white",
+                          border: "none",
+                          cursor: "pointer",
+                        }}
+                      >
+                        🗑 Delete
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
+    </>
   );
 }
 
