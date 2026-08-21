@@ -43,6 +43,7 @@ exports.getWorkerById = (req, res) => {
 };
 
 // Create worker
+// Workers created by an administrator are active immediately.
 exports.createWorker = async (req, res) => {
   const {
     full_name,
@@ -56,8 +57,8 @@ exports.createWorker = async (req, res) => {
 
     db.query(
       `INSERT INTO users
-      (full_name,email,password,role)
-      VALUES (?,?,?,?)`,
+      (full_name,email,password,role,active)
+      VALUES (?,?,?,?,1)`,
       [
         full_name,
         email,
