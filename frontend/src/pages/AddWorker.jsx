@@ -1,15 +1,17 @@
 import API_URL from "../api";
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 function AddWorker() {
   const navigate = useNavigate();
+  const { user } = useAuth();
 
   const [formData, setFormData] = useState({
     full_name: "",
     email: "",
     password: "",
-    role: "Worker",
+    role: "worker",
   });
 
   function handleChange(e) {
@@ -22,6 +24,18 @@ function AddWorker() {
   async function handleSubmit(e) {
     e.preventDefault();
 
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      alert("Your session has expired. Please log in again.");
+      return;
+    }
+
+    if (!user || user.role !== "admin") {
+      alert("Administrator access required.");
+      return;
+    }
+
     try {
       const response = await fetch(
         `${API_URL}/api/workers`,
@@ -29,6 +43,7 @@ function AddWorker() {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify(formData),
         }
@@ -36,13 +51,18 @@ function AddWorker() {
 
       const data = await response.json();
 
-      alert(data.message);
+      if (!response.ok) {
+        alert(data.message || "Failed to create worker.");
+        return;
+      }
+
+      alert(data.message || "Worker created successfully!");
 
       navigate("/workers");
 
     } catch (error) {
       console.error(error);
-      alert("Failed to create worker.");
+      alert("Failed to connect to the server.");
     }
   }
 
@@ -104,8 +124,8 @@ function AddWorker() {
             value={formData.role}
             onChange={handleChange}
           >
-            <option value="Worker">Worker</option>
-            <option value="Admin">Admin</option>
+            <option value="worker">Worker</option>
+            <option value="admin">Administrator</option>
           </select>
 
           <br />

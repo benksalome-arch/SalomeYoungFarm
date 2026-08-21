@@ -10,36 +10,68 @@ function Workers() {
   }, []);
 
   async function loadWorkers() {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      alert("Your session has expired. Please log in again.");
+      return;
+    }
+
     try {
-      const response = await fetch(`${API_URL}/api/workers`);
+      const response = await fetch(`${API_URL}/api/workers`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
       const data = await response.json();
+
+      if (!response.ok) {
+        alert(data.message || "Failed to load workers.");
+        return;
+      }
+
       setWorkers(data);
     } catch (error) {
       console.error(error);
-      alert("Failed to load workers.");
+      alert("Failed to connect to the server.");
     }
   }
 
   async function deleteWorker(id) {
     if (!window.confirm("Delete this worker?")) return;
 
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      alert("Your session has expired. Please log in again.");
+      return;
+    }
+
     try {
       const response = await fetch(
         `${API_URL}/api/workers/${id}`,
         {
           method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
 
       const data = await response.json();
 
-      alert(data.message);
+      if (!response.ok) {
+        alert(data.message || "Failed to delete worker.");
+        return;
+      }
+
+      alert(data.message || "Worker deleted successfully!");
 
       loadWorkers();
-
     } catch (error) {
       console.error(error);
-      alert("Failed to delete worker.");
+      alert("Failed to connect to the server.");
     }
   }
 
@@ -103,11 +135,15 @@ function Workers() {
                   <td>{worker.role}</td>
 
                   <td>
-                    {worker.active ? "🟢 Active" : "🔴 Disabled"}
+                    {worker.active
+                      ? "🟢 Active"
+                      : "🔴 Disabled"}
                   </td>
 
                   <td>
-                    {new Date(worker.created_at).toLocaleDateString()}
+                    {new Date(
+                      worker.created_at
+                    ).toLocaleDateString()}
                   </td>
 
                   <td>
@@ -128,7 +164,9 @@ function Workers() {
 
                       <button
                         className="button"
-                        onClick={() => deleteWorker(worker.id)}
+                        onClick={() =>
+                          deleteWorker(worker.id)
+                        }
                       >
                         🗑 Delete
                       </button>

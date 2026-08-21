@@ -1,29 +1,48 @@
 import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 function EditWorker() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { user } = useAuth();
 
   const [formData, setFormData] = useState({
     full_name: "",
     email: "",
-    role: "Worker",
+    role: "worker",
     active: true,
   });
 
   useEffect(() => {
     loadWorker();
-  }, []);
+  }, [id]);
 
   async function loadWorker() {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      alert("Your session has expired. Please log in again.");
+      return;
+    }
+
     try {
       const response = await fetch(
-        `${API_URL}/api/workers/${id}`
+        `${API_URL}/api/workers/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
 
       const data = await response.json();
+
+      if (!response.ok) {
+        alert(data.message || "Failed to load worker.");
+        return;
+      }
 
       setFormData({
         full_name: data.full_name,
@@ -34,7 +53,7 @@ function EditWorker() {
 
     } catch (error) {
       console.error(error);
-      alert("Failed to load worker.");
+      alert("Failed to connect to the server.");
     }
   }
 
@@ -50,6 +69,18 @@ function EditWorker() {
   async function handleSubmit(e) {
     e.preventDefault();
 
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      alert("Your session has expired. Please log in again.");
+      return;
+    }
+
+    if (!user || user.role !== "admin") {
+      alert("Administrator access required.");
+      return;
+    }
+
     try {
       const response = await fetch(
         `${API_URL}/api/workers/${id}`,
@@ -57,6 +88,7 @@ function EditWorker() {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify(formData),
         }
@@ -64,13 +96,18 @@ function EditWorker() {
 
       const data = await response.json();
 
-      alert(data.message);
+      if (!response.ok) {
+        alert(data.message || "Failed to update worker.");
+        return;
+      }
+
+      alert(data.message || "Worker updated successfully!");
 
       navigate("/workers");
 
     } catch (error) {
       console.error(error);
-      alert("Failed to update worker.");
+      alert("Failed to connect to the server.");
     }
   }
 
@@ -119,8 +156,8 @@ function EditWorker() {
             value={formData.role}
             onChange={handleChange}
           >
-            <option value="Worker">Worker</option>
-            <option value="Admin">Admin</option>
+            <option value="worker">Worker</option>
+            <option value="admin">Administrator</option>
           </select>
 
           <br />
