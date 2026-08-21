@@ -4,14 +4,49 @@ const router = express.Router();
 
 const workersController = require("../controllers/workersController");
 
-router.get("/", workersController.getAllWorkers);
+const {
+  authenticateToken,
+  requireAdmin,
+} = require("../middleware/authMiddleware");
 
-router.get("/:id", workersController.getWorkerById);
+// Get all workers
+router.get(
+  "/",
+  authenticateToken,
+  requireAdmin,
+  workersController.getAllWorkers
+);
 
-router.post("/", workersController.createWorker);
+// Get one worker
+router.get(
+  "/:id",
+  authenticateToken,
+  requireAdmin,
+  workersController.getWorkerById
+);
 
-router.put("/:id", workersController.updateWorker);
+// Create worker
+router.post(
+  "/",
+  authenticateToken,
+  requireAdmin,
+  workersController.createWorker
+);
 
-router.delete("/:id", workersController.deleteWorker);
+// Update worker
+router.put(
+  "/:id",
+  authenticateToken,
+  requireAdmin,
+  workersController.updateWorker
+);
+
+// Delete worker
+router.delete(
+  "/:id",
+  authenticateToken,
+  requireAdmin,
+  workersController.deleteWorker
+);
 
 module.exports = router;
