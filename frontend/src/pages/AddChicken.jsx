@@ -9,7 +9,7 @@ function AddChicken() {
     tag_number: "",
     name: "",
     breed: "",
-    type: "Layer",
+    type: "",
     sex: "Female",
     hatch_date: "",
     source: "",
@@ -39,16 +39,13 @@ function AddChicken() {
     };
 
     try {
-      const response = await fetch(
-        `${API_URL}/api/chickens`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(payload),
-        }
-      );
+      const response = await fetch(`${API_URL}/api/chickens`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
 
       const data = await response.json();
 
@@ -57,7 +54,6 @@ function AddChicken() {
       if (response.ok) {
         navigate("/chickens");
       }
-
     } catch (err) {
       console.error(err);
       alert("Failed to save chicken.");
@@ -69,6 +65,7 @@ function AddChicken() {
 
       <div className="page-header">
         <h1>🐔 Add Chicken</h1>
+        <p>Add a new chicken or group of chickens to the farm.</p>
       </div>
 
       <div className="card">
@@ -84,7 +81,8 @@ function AddChicken() {
             required
           />
 
-          <br /><br />
+          <br />
+          <br />
 
           <label>Name</label>
           <input
@@ -94,7 +92,8 @@ function AddChicken() {
             onChange={handleChange}
           />
 
-          <br /><br />
+          <br />
+          <br />
 
           <label>Breed</label>
           <input
@@ -103,25 +102,23 @@ function AddChicken() {
             value={formData.breed}
             onChange={handleChange}
             required
+            placeholder="e.g. Kenbro, Kienyeji, Sasso"
           />
 
-          <br /><br />
+          <br />
+          <br />
 
           <label>Type</label>
-          <select
+          <input
+            type="text"
             name="type"
             value={formData.type}
             onChange={handleChange}
-          >
-            <option value="Layer">Layer</option>
-            <option value="Broiler">Broiler</option>
-            <option value="Cockerel">Cockerel</option>
-            <option value="Cock">Cock</option>
-            <option value="Hen">Hen</option>
-            <option value="Chick">Chick</option>
-          </select>
+            placeholder="e.g. Layer, Broiler, Hen, Cockerel"
+          />
 
-          <br /><br />
+          <br />
+          <br />
 
           <label>Sex</label>
           <select
@@ -133,7 +130,8 @@ function AddChicken() {
             <option value="Male">Male</option>
           </select>
 
-          <br /><br />
+          <br />
+          <br />
 
           <label>Hatch Date</label>
           <input
@@ -143,7 +141,8 @@ function AddChicken() {
             onChange={handleChange}
           />
 
-          <br /><br />
+          <br />
+          <br />
 
           <label>Source</label>
           <input
@@ -151,9 +150,11 @@ function AddChicken() {
             name="source"
             value={formData.source}
             onChange={handleChange}
+            placeholder="e.g. Kenchic, Farm hatchery"
           />
 
-          <br /><br />
+          <br />
+          <br />
 
           <label>Quantity</label>
           <input
@@ -165,7 +166,8 @@ function AddChicken() {
             required
           />
 
-          <br /><br />
+          <br />
+          <br />
 
           <label>Status</label>
           <select
@@ -178,7 +180,8 @@ function AddChicken() {
             <option value="Dead">Dead</option>
           </select>
 
-          <br /><br />
+          <br />
+          <br />
 
           <label>Purchase Price</label>
           <input
@@ -191,7 +194,8 @@ function AddChicken() {
             placeholder="0.00"
           />
 
-          <br /><br />
+          <br />
+          <br />
 
           <label>Notes</label>
           <textarea
@@ -199,9 +203,11 @@ function AddChicken() {
             rows="4"
             value={formData.notes}
             onChange={handleChange}
+            placeholder="Additional information..."
           />
 
-          <br /><br />
+          <br />
+          <br />
 
           <div style={{ display: "flex", gap: "10px" }}>
             <button className="button" type="submit">

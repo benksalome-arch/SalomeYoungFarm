@@ -18,7 +18,8 @@ exports.getBreedingRecords = (req, res) => {
 
   db.query(sql, (err, results) => {
     if (err) {
-      console.error(err);
+      console.error("Get breeding records error:", err);
+
       return res.status(500).json({
         message: "Database error",
       });
@@ -41,47 +42,119 @@ exports.addBreedingRecord = (req, res) => {
     notes,
   } = req.body;
 
-  const sql = `
-    INSERT INTO goat_breeding
-    (
-      doe_id,
-      buck_id,
-      mating_date,
-      expected_kidding,
-      veterinarian,
-      notes
-    )
-    VALUES (?, ?, ?, ?, ?, ?)
+  // -------------------------------
+  // Validate required fields
+  // -------------------------------
+
+  if (!doe_id || !buck_id || !mating_date || !expected_kidding) {
+    return res.status(400).json({
+      message:
+        "Doe, buck, mating date and expected kidding date are required.",
+    });
+  }
+
+  // -------------------------------
+  // Check if the same breeding
+  // already exists
+  // -------------------------------
+
+  const duplicateCheckSql = `
+    SELECT id
+    FROM goat_breeding
+    WHERE doe_id = ?
+      AND buck_id = ?
+      AND mating_date = ?
+    LIMIT 1
   `;
 
   db.query(
-    sql,
-    [
-      doe_id,
-      buck_id,
-      mating_date,
-      expected_kidding,
-      veterinarian,
-      notes,
-    ],
-    (err, result) => {
-      if (err) {
-        console.error(err);
+    duplicateCheckSql,
+    [doe_id, buck_id, mating_date],
+    (checkErr, existingRecords) => {
+      if (checkErr) {
+        console.error(
+          "Check duplicate breeding error:",
+          checkErr
+        );
+
         return res.status(500).json({
-          message: err.message,
+          message:
+            "Database error while checking breeding record.",
         });
       }
 
-      res.json({
-        message: "Breeding record added successfully.",
-        id: result.insertId,
-      });
+      // -------------------------------
+      // Duplicate found
+      // -------------------------------
+
+      if (existingRecords.length > 0) {
+        return res.status(409).json({
+          message:
+            "This breeding record already exists for this doe, buck and mating date.",
+        });
+      }
+
+      // -------------------------------
+      // Insert new breeding record
+      // -------------------------------
+
+      const sql = `
+        INSERT INTO goat_breeding
+        (
+          doe_id,
+          buck_id,
+          mating_date,
+          expected_kidding,
+          veterinarian,
+          notes
+        )
+        VALUES (?, ?, ?, ?, ?, ?)
+      `;
+
+      db.query(
+        sql,
+        [
+          doe_id,
+          buck_id,
+          mating_date,
+          expected_kidding,
+          veterinarian || null,
+          notes || null,
+        ],
+        (err, result) => {
+          if (err) {
+            console.error(
+              "Add breeding record error:",
+              err
+            );
+
+            // Handle duplicate database errors too
+            if (err.code === "ER_DUP_ENTRY") {
+              return res.status(409).json({
+                message:
+                  "This breeding record already exists.",
+              });
+            }
+
+            return res.status(500).json({
+              message:
+                "Database error while saving breeding record.",
+            });
+          }
+
+          res.status(201).json({
+            message:
+              "Breeding record added successfully.",
+            id: result.insertId,
+          });
+        }
+      );
     }
   );
 };
 
 // ===============================
-// Mark as Kidded
+// Mark breeding as Kidded
 // ===============================
 exports.markKidding = (req, res) => {
   const { id } = req.params;
@@ -93,16 +166,27 @@ exports.markKidding = (req, res) => {
     WHERE id = ?
     `,
     [id],
-    (err) => {
+    (err, result) => {
       if (err) {
-        console.error(err);
+        console.error(
+          "Mark breeding as kidded error:",
+          err
+        );
+
         return res.status(500).json({
-          message: "Database error",
+          message: "Database error.",
+        });
+      }
+
+      if (result.affectedRows === 0) {
+        return res.status(404).json({
+          message: "Breeding record not found.",
         });
       }
 
       res.json({
-        message: "Kidding recorded successfully.",
+        message:
+          "Breeding record marked as Kidded successfully.",
       });
     }
   );
@@ -117,16 +201,28 @@ exports.deleteBreedingRecord = (req, res) => {
   db.query(
     "DELETE FROM goat_breeding WHERE id = ?",
     [id],
-    (err) => {
+    (err, result) => {
       if (err) {
-        console.error(err);
+        console.error(
+          "Delete breeding record error:",
+          err
+        );
+
         return res.status(500).json({
-          message: "Database error",
+          message:
+            "Database error while deleting breeding record.",
+        });
+      }
+
+      if (result.affectedRows === 0) {
+        return res.status(404).json({
+          message: "Breeding record not found.",
         });
       }
 
       res.json({
-        message: "Breeding record deleted successfully.",
+        message:
+          "Breeding record deleted successfully.",
       });
     }
   );

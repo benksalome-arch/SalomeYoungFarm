@@ -56,46 +56,22 @@ function Dashboard() {
         financeRes.json(),
       ]);
 
-      setGoats(
-        Array.isArray(goatsData)
-          ? goatsData
-          : []
-      );
-
+      setGoats(Array.isArray(goatsData) ? goatsData : []);
       setChickens(
-        Array.isArray(chickensData)
-          ? chickensData
-          : []
+        Array.isArray(chickensData) ? chickensData : []
       );
-
       setRabbits(
-        Array.isArray(rabbitsData)
-          ? rabbitsData
-          : []
+        Array.isArray(rabbitsData) ? rabbitsData : []
       );
-
-      setFeed(
-        Array.isArray(feedData)
-          ? feedData
-          : []
-      );
-
+      setFeed(Array.isArray(feedData) ? feedData : []);
       setInventory(
-        Array.isArray(inventoryData)
-          ? inventoryData
-          : []
+        Array.isArray(inventoryData) ? inventoryData : []
       );
-
       setFinance(
-        Array.isArray(financeData)
-          ? financeData
-          : []
+        Array.isArray(financeData) ? financeData : []
       );
     } catch (err) {
-      console.error(
-        "Failed to load dashboard:",
-        err
-      );
+      console.error("Failed to load dashboard:", err);
 
       setGoats([]);
       setChickens([]);
@@ -126,27 +102,20 @@ function Dashboard() {
   }
 
   const totalIncome = finance
-    .filter(
-      (item) => item.type === "Income"
-    )
+    .filter((item) => item.type === "Income")
     .reduce(
-      (sum, item) =>
-        sum + Number(item.amount || 0),
+      (sum, item) => sum + Number(item.amount || 0),
       0
     );
 
   const totalExpense = finance
-    .filter(
-      (item) => item.type === "Expense"
-    )
+    .filter((item) => item.type === "Expense")
     .reduce(
-      (sum, item) =>
-        sum + Number(item.amount || 0),
+      (sum, item) => sum + Number(item.amount || 0),
       0
     );
 
-  const profit =
-    totalIncome - totalExpense;
+  const profit = totalIncome - totalExpense;
 
   return (
     <div
@@ -157,7 +126,62 @@ function Dashboard() {
         boxSizing: "border-box",
       }}
     >
-      {/* HEADER */}
+      {/* =========================
+          FARM HEADER
+      ========================= */}
+
+      <div
+        style={{
+          background: "#ffffff",
+          borderRadius: "14px",
+          padding: "18px 22px",
+          marginBottom: "25px",
+          boxShadow: "0 3px 14px rgba(0,0,0,0.06)",
+          display: "flex",
+          alignItems: "center",
+          gap: "18px",
+          boxSizing: "border-box",
+        }}
+      >
+        <img
+          src="/salome_young_farm_logo.png"
+          alt="Salome Young Farm"
+          style={{
+            width: "82px",
+            height: "82px",
+            objectFit: "contain",
+            flexShrink: 0,
+          }}
+        />
+
+        <div>
+          <h1
+            style={{
+              margin: 0,
+              fontSize: "28px",
+              fontWeight: "700",
+              color: "#17221a",
+              lineHeight: "1.2",
+            }}
+          >
+            Salome Young Farm
+          </h1>
+
+          <p
+            style={{
+              margin: "6px 0 0",
+              fontSize: "15px",
+              color: "#68716a",
+            }}
+          >
+            Smart Farming • Better Future
+          </p>
+        </div>
+      </div>
+
+      {/* =========================
+          PAGE HEADER
+      ========================= */}
 
       <div
         style={{
@@ -169,12 +193,14 @@ function Dashboard() {
         }}
       >
         <PageHeader
-          title="🏡 Salome Young Farm Dashboard"
+          title="Farm Dashboard"
           subtitle="Farm Overview"
         />
       </div>
 
-      {/* STATISTICS */}
+      {/* =========================
+          STATISTICS
+      ========================= */}
 
       <div
         style={{
@@ -241,7 +267,9 @@ function Dashboard() {
         />
       </div>
 
-      {/* MAIN DASHBOARD */}
+      {/* =========================
+          MAIN DASHBOARD
+      ========================= */}
 
       <div
         style={{
@@ -255,7 +283,9 @@ function Dashboard() {
           boxSizing: "border-box",
         }}
       >
-        {/* RECENT GOATS */}
+        {/* =========================
+            RECENT GOATS
+        ========================= */}
 
         <div
           className="card"
@@ -277,11 +307,7 @@ function Dashboard() {
               flexWrap: "wrap",
             }}
           >
-            <h2
-              style={{
-                margin: 0,
-              }}
-            >
+            <h2 style={{ margin: 0 }}>
               Recent Goats
             </h2>
 
@@ -375,75 +401,69 @@ function Dashboard() {
                     </td>
                   </tr>
                 ) : (
-                  goats
-                    .slice(0, 5)
-                    .map((goat) => (
-                      <tr key={goat.id}>
-                        <td
-                          style={{
-                            fontSize: "12px",
-                            padding: "10px 5px",
-                            whiteSpace: "nowrap",
-                          }}
-                        >
-                          {goat.tag_number ||
-                            goat.tag ||
-                            "-"}
-                        </td>
+                  goats.slice(0, 5).map((goat) => (
+                    <tr key={goat.id}>
+                      <td
+                        style={{
+                          fontSize: "12px",
+                          padding: "10px 5px",
+                          whiteSpace: "nowrap",
+                        }}
+                      >
+                        {goat.tag_number ||
+                          goat.tag ||
+                          "-"}
+                      </td>
 
-                        <td
-                          style={{
-                            fontSize: "12px",
-                            padding: "10px 5px",
-                            overflow: "hidden",
-                            textOverflow:
-                              "ellipsis",
-                            whiteSpace:
-                              "nowrap",
-                          }}
-                          title={goat.name || ""}
-                        >
-                          {goat.name || "-"}
-                        </td>
+                      <td
+                        style={{
+                          fontSize: "12px",
+                          padding: "10px 5px",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          whiteSpace: "nowrap",
+                        }}
+                        title={goat.name || ""}
+                      >
+                        {goat.name || "-"}
+                      </td>
 
-                        <td
-                          style={{
-                            fontSize: "12px",
-                            padding: "10px 5px",
-                            overflow: "hidden",
-                            textOverflow:
-                              "ellipsis",
-                            whiteSpace:
-                              "nowrap",
-                          }}
-                          title={goat.breed || ""}
-                        >
-                          {goat.breed || "-"}
-                        </td>
+                      <td
+                        style={{
+                          fontSize: "12px",
+                          padding: "10px 5px",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          whiteSpace: "nowrap",
+                        }}
+                        title={goat.breed || ""}
+                      >
+                        {goat.breed || "-"}
+                      </td>
 
-                        <td
-                          style={{
-                            fontSize: "12px",
-                            padding: "10px 5px",
-                            overflow: "hidden",
-                            textOverflow:
-                              "ellipsis",
-                            whiteSpace:
-                              "nowrap",
-                          }}
-                          title={goat.status || ""}
-                        >
-                          {goat.status || "-"}
-                        </td>
-                      </tr>
-                    ))
+                      <td
+                        style={{
+                          fontSize: "12px",
+                          padding: "10px 5px",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          whiteSpace: "nowrap",
+                        }}
+                        title={goat.status || ""}
+                      >
+                        {goat.status || "-"}
+                      </td>
+                    </tr>
+                  ))
                 )}
               </tbody>
             </table>
           </div>
         </div>
 
-        {/* RIGHT COLUMN */}
+        {/* =========================
+            RIGHT COLUMN
+        ========================= */}
 
         <div
           style={{

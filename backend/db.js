@@ -3,17 +3,17 @@ const fs = require("fs");
 const path = require("path");
 
 const db = mysql.createConnection({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-  port: process.env.DB_PORT || 3306,
+  host: process.env.MYSQLHOST || process.env.DB_HOST,
+  user: process.env.MYSQLUSER || process.env.DB_USER,
+  password: process.env.MYSQLPASSWORD || process.env.DB_PASSWORD,
+  database: process.env.MYSQLDATABASE || process.env.DB_NAME,
+  port: process.env.MYSQLPORT || process.env.DB_PORT || 3306,
   multipleStatements: true,
 });
 
 db.connect((err) => {
   if (err) {
-    console.log("Database connection failed:", err);
+    console.error("❌ Database connection failed:", err);
     return;
   }
 
@@ -26,7 +26,7 @@ db.connect((err) => {
   );
 
   if (!fs.existsSync(schemaPath)) {
-    console.log("ℹ️ Database schema file not found.");
+    console.log("ℹ️ Database schema file not found:", schemaPath);
     return;
   }
 
@@ -34,16 +34,11 @@ db.connect((err) => {
 
   db.query(schema, (schemaErr) => {
     if (schemaErr) {
-      console.error(
-        "❌ Database table setup failed:",
-        schemaErr
-      );
+      console.error("❌ Database table setup failed:", schemaErr);
       return;
     }
 
-    console.log(
-      "✅ Database tables checked/created successfully"
-    );
+    console.log("✅ Database tables checked/created successfully");
   });
 });
 

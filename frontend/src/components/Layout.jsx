@@ -1,8 +1,9 @@
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import Sidebar from "./Sidebar";
 
 function Layout() {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const user = JSON.parse(localStorage.getItem("user"));
 
@@ -12,6 +13,109 @@ function Layout() {
 
     navigate("/login");
   }
+
+  // ============================
+  // Detect current module
+  // ============================
+
+  function getModule() {
+    const path = location.pathname;
+
+    if (
+      path.startsWith("/chickens") ||
+      path.startsWith("/chicken-mortality") ||
+      path.startsWith("/chicken-vaccinations") ||
+      path.startsWith("/egg-production") ||
+      path.startsWith("/egg-sales")
+    ) {
+      return {
+        name: "Chicken Management",
+        icon: "🐔",
+        logo: "/salome_young_farm_logo.png",
+      };
+    }
+
+    if (
+      path.startsWith("/goats") ||
+      path.startsWith("/breeding") ||
+      path.startsWith("/kidding")
+    ) {
+      return {
+        name: "Goat Management",
+        icon: "🐐",
+        logo: "/salome_young_farm_logo.png",
+      };
+    }
+
+    if (
+      path.startsWith("/rabbits") ||
+      path.startsWith("/rabbit-litters") ||
+      path.startsWith("/rabbit-mortality") ||
+      path.startsWith("/rabbit-vaccinations")
+    ) {
+      return {
+        name: "Rabbit Management",
+        icon: "🐇",
+        logo: "/salome_young_farm_logo.png",
+      };
+    }
+
+    if (path.startsWith("/feed")) {
+      return {
+        name: "Feed Management",
+        icon: "🌾",
+        logo: "/salome_young_farm_logo.png",
+      };
+    }
+
+    if (path.startsWith("/inventory")) {
+      return {
+        name: "Inventory Management",
+        icon: "📦",
+        logo: "/salome_young_farm_logo.png",
+      };
+    }
+
+    if (path.startsWith("/finance")) {
+      return {
+        name: "Finance Management",
+        icon: "💰",
+        logo: "/salome_young_farm_logo.png",
+      };
+    }
+
+    if (path.startsWith("/workers")) {
+      return {
+        name: "Worker Management",
+        icon: "👥",
+        logo: "/salome_young_farm_logo.png",
+      };
+    }
+
+    if (path.startsWith("/reports")) {
+      return {
+        name: "Farm Reports",
+        icon: "📊",
+        logo: "/salome_young_farm_logo.png",
+      };
+    }
+
+    if (path.startsWith("/settings")) {
+      return {
+        name: "Farm Settings",
+        icon: "⚙️",
+        logo: "/salome_young_farm_logo.png",
+      };
+    }
+
+    return {
+      name: "Salome Young Farm",
+      icon: "",
+      logo: "/salome_young_farm_logo.png",
+    };
+  }
+
+  const module = getModule();
 
   return (
     <div
@@ -79,27 +183,60 @@ function Layout() {
             overflow: "hidden",
           }}
         >
-          {/* Farm Name */}
+          {/* MODULE BRANDING */}
 
           <div
             style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "12px",
               minWidth: 0,
               overflow: "hidden",
             }}
           >
-            <h2
+            <img
+              src={module.logo}
+              alt="Salome Young Farm"
               style={{
-                margin: 0,
-                whiteSpace: "nowrap",
+                width: "48px",
+                height: "48px",
+                objectFit: "contain",
+                flexShrink: 0,
+              }}
+            />
+
+            <div
+              style={{
+                minWidth: 0,
                 overflow: "hidden",
-                textOverflow: "ellipsis",
               }}
             >
-              🐐 Salome Young Farm
-            </h2>
+              <h2
+                style={{
+                  margin: 0,
+                  fontSize: "20px",
+                  fontWeight: "700",
+                  color: "#17221a",
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                }}
+              >
+                {module.icon} {module.name}
+              </h2>
+
+              <small
+                style={{
+                  color: "#737873",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                Salome Young Farm
+              </small>
+            </div>
           </div>
 
-          {/* User */}
+          {/* USER */}
 
           <div
             style={{
