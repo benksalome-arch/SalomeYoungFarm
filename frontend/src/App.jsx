@@ -1,13 +1,25 @@
+cd /workspaces/SalomeYoungFarm
+cat > frontend/src/App.jsx <<'EOF'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 import Layout from "./components/Layout";
 
+// ======================
+// Authentication
+// ======================
+
 import Login from "./pages/Login";
+import Register from "./pages/Register";
+
+// ======================
+// Dashboard
+// ======================
+
 import Dashboard from "./pages/Dashboard";
 
 // ======================
-// Goat Module
+// Goats
 // ======================
 
 import Goats from "./pages/Goats";
@@ -70,30 +82,14 @@ import AddChicken from "./pages/AddChicken";
 import EditChicken from "./pages/EditChicken";
 import ChickenProfile from "./pages/ChickenProfile";
 
-// ======================
-// Chicken Mortality
-// ======================
-
 import ChickenMortality from "./pages/ChickenMortality";
 import AddChickenMortality from "./pages/AddChickenMortality";
-
-// ======================
-// Chicken Vaccinations
-// ======================
 
 import ChickenVaccinations from "./pages/ChickenVaccinations";
 import AddChickenVaccination from "./pages/AddChickenVaccination";
 
-// ======================
-// Egg Production
-// ======================
-
 import EggProduction from "./pages/EggProduction";
 import AddEggProduction from "./pages/AddEggProduction";
-
-// ======================
-// Egg Sales
-// ======================
 
 import EggSales from "./pages/EggSales";
 import AddEggSale from "./pages/AddEggSale";
@@ -137,7 +133,7 @@ function App() {
       <Routes>
 
         {/* ======================
-            Login
+            LOGIN
         ====================== */}
 
         <Route
@@ -146,7 +142,16 @@ function App() {
         />
 
         {/* ======================
-            Protected Application
+            REGISTER
+        ====================== */}
+
+        <Route
+          path="/register"
+          element={<Register />}
+        />
+
+        {/* ======================
+            PROTECTED APPLICATION
         ====================== */}
 
         <Route
@@ -167,7 +172,7 @@ function App() {
           />
 
           {/* ======================
-              Goat Module
+              GOAT MANAGEMENT
           ====================== */}
 
           <Route
@@ -226,8 +231,6 @@ function App() {
             element={<AddBreeding />}
           />
 
-          {/* Goat Kidding */}
-
           <Route
             path="/kidding"
             element={<Kidding />}
@@ -239,7 +242,7 @@ function App() {
           />
 
           {/* ======================
-              Workers
+              WORKERS
           ====================== */}
 
           <Route
@@ -258,7 +261,7 @@ function App() {
           />
 
           {/* ======================
-              Finance
+              FINANCE
           ====================== */}
 
           <Route
@@ -277,7 +280,7 @@ function App() {
           />
 
           {/* ======================
-              Inventory
+              INVENTORY
           ====================== */}
 
           <Route
@@ -296,7 +299,7 @@ function App() {
           />
 
           {/* ======================
-              Feed
+              FEED
           ====================== */}
 
           <Route
@@ -325,7 +328,7 @@ function App() {
           />
 
           {/* ======================
-              Chickens
+              CHICKENS
           ====================== */}
 
           <Route
@@ -372,9 +375,7 @@ function App() {
             element={<AddChickenVaccination />}
           />
 
-          {/* ======================
-              Egg Production
-          ====================== */}
+          {/* Egg Production */}
 
           <Route
             path="/egg-production"
@@ -386,9 +387,7 @@ function App() {
             element={<AddEggProduction />}
           />
 
-          {/* ======================
-              Egg Sales
-          ====================== */}
+          {/* Egg Sales */}
 
           <Route
             path="/egg-sales"
@@ -401,7 +400,7 @@ function App() {
           />
 
           {/* ======================
-              Rabbits
+              RABBITS
           ====================== */}
 
           <Route
@@ -413,8 +412,6 @@ function App() {
             path="/rabbits/add"
             element={<AddRabbit />}
           />
-
-          {/* Rabbit Profile */}
 
           <Route
             path="/rabbits/:id"
@@ -494,7 +491,7 @@ function App() {
           />
 
           {/* ======================
-              Reports
+              REPORTS
           ====================== */}
 
           <Route
@@ -503,7 +500,7 @@ function App() {
           />
 
           {/* ======================
-              Settings
+              SETTINGS
           ====================== */}
 
           <Route
@@ -519,3 +516,4 @@ function App() {
 }
 
 export default App;
+EOF
