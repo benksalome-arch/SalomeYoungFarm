@@ -1,8 +1,12 @@
+cd /workspaces/SalomeYoungFarm
+
+cat > backend/controllers/authController.js <<'EOF'
 const db = require("../db");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-const JWT_SECRET = "CHANGE_THIS_TO_A_LONG_RANDOM_SECRET";
+const JWT_SECRET =
+  process.env.JWT_SECRET || "salome-young-farm-change-this-secret";
 
 // =====================================
 // LOGIN
@@ -10,12 +14,18 @@ const JWT_SECRET = "CHANGE_THIS_TO_A_LONG_RANDOM_SECRET";
 exports.login = (req, res) => {
   const { email, password } = req.body;
 
+  if (!email || !password) {
+    return res.status(400).json({
+      message: "Email and password are required",
+    });
+  }
+
   db.query(
-    "SELECT * FROM users WHERE email = ? AND active = 1",
+    "SELECT * FROM users WHERE email = ?",
     [email],
     async (err, results) => {
       if (err) {
-        console.error(err);
+        console.error("Login database error:", err);
         return res.status(500).json({
           message: "Database error",
         });
@@ -40,6 +50,14 @@ exports.login = (req, res) => {
         });
       }
 
+      // Account exists but has not been approved
+      if (!user.active) {
+        return res.status(403).json({
+          message:
+            "Your account has been created but is waiting for administrator approval.",
+        });
+      }
+
       const token = jwt.sign(
         {
           id: user.id,
@@ -52,7 +70,7 @@ exports.login = (req, res) => {
         }
       );
 
-      res.json({
+      return res.json({
         token,
         user: {
           id: user.id,
@@ -68,12 +86,26 @@ exports.login = (req, res) => {
 // =====================================
 // REGISTER
 // =====================================
+// Public registration is allowed,
+// but EVERY new account is created as:
+// role = worker
+// active = 0
+//
+// The new user therefore CANNOT log in
+// until an administrator approves the account.
+// =====================================
 exports.register = (req, res) => {
-  const { full_name, email, password, role } = req.body;
+  const { full_name, email, password } = req.body;
 
   if (!full_name || !email || !password) {
     return res.status(400).json({
       message: "Full name, email and password are required",
+    });
+  }
+
+  if (password.length < 6) {
+    return res.status(400).json({
+      message: "Password must be at least 6 characters",
     });
   }
 
@@ -82,7 +114,7 @@ exports.register = (req, res) => {
     [email],
     (err, results) => {
       if (err) {
-        console.error(err);
+        console.error("Registration database error:", err);
         return res.status(500).json({
           message: "Database error",
         });
@@ -96,7 +128,7 @@ exports.register = (req, res) => {
 
       bcrypt.hash(password, 10, (err, hashedPassword) => {
         if (err) {
-          console.error(err);
+          console.error("Password encryption error:", err);
           return res.status(500).json({
             message: "Password encryption failed",
           });
@@ -105,23 +137,23 @@ exports.register = (req, res) => {
         db.query(
           `INSERT INTO users
           (full_name, email, password, role, active)
-          VALUES (?, ?, ?, ?, 1)`,
+          VALUES (?, ?, ?, 'worker', 0)`,
           [
             full_name,
             email,
             hashedPassword,
-            role || "admin",
           ],
           (err, result) => {
             if (err) {
-              console.error(err);
+              console.error("User creation error:", err);
               return res.status(500).json({
                 message: "Could not create user",
               });
             }
 
-            res.status(201).json({
-              message: "User created successfully",
+            return res.status(201).json({
+              message:
+                "Account created successfully. Your account is waiting for administrator approval.",
               userId: result.insertId,
             });
           }
@@ -130,3 +162,4 @@ exports.register = (req, res) => {
     }
   );
 };
+EOF
