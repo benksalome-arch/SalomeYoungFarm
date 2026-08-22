@@ -25,15 +25,15 @@ exports.login = (req, res) => {
         console.error("Login database error:", err);
 
         return res.status(500).json({
-          message: "Database error",
-          error: err.message,
-          code: err.code,
+          message: "Login failed. Please try again later.",
         });
       }
 
+      // Do not reveal whether the email exists.
       if (results.length === 0) {
         return res.status(401).json({
-          message: "Invalid email or password",
+          message:
+            "Invalid email or password. Please check your login details and try again.",
         });
       }
 
@@ -47,22 +47,23 @@ exports.login = (req, res) => {
 
         if (!passwordCorrect) {
           return res.status(401).json({
-            message: "Invalid email or password",
+            message:
+              "Invalid email or password. Please check your login details and try again.",
           });
         }
       } catch (error) {
         console.error("Password comparison error:", error);
 
         return res.status(500).json({
-          message: "Login failed",
-          error: error.message,
+          message: "Login failed. Please try again later.",
         });
       }
 
+      // Do not reveal that the account exists but is inactive.
       if (!user.active) {
-        return res.status(403).json({
+        return res.status(401).json({
           message:
-            "Your account has been created but is waiting for administrator approval.",
+            "Invalid email or password. Please check your login details and try again.",
         });
       }
 
@@ -117,9 +118,7 @@ exports.register = (req, res) => {
         console.error("Registration database error:", err);
 
         return res.status(500).json({
-          message: "Database error",
-          error: err.message,
-          code: err.code,
+          message: "Registration failed. Please try again later.",
         });
       }
 
@@ -134,8 +133,7 @@ exports.register = (req, res) => {
           console.error("Password encryption error:", err);
 
           return res.status(500).json({
-            message: "Password encryption failed",
-            error: err.message,
+            message: "Registration failed. Please try again later.",
           });
         }
 
@@ -149,9 +147,7 @@ exports.register = (req, res) => {
               console.error("User creation error:", err);
 
               return res.status(500).json({
-                message: "Could not create user",
-                error: err.message,
-                code: err.code,
+                message: "Registration failed. Please try again later.",
               });
             }
 
