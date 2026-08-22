@@ -49,15 +49,12 @@ function Workers() {
     }
 
     try {
-      const response = await fetch(
-        `${API_URL}/api/workers/${id}`,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await fetch(`${API_URL}/api/workers/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       const data = await response.json();
 
@@ -77,18 +74,17 @@ function Workers() {
 
   return (
     <div className="page">
-
       <div className="page-header">
         <h1>👥 Worker Management</h1>
         <p>Manage users who can access Salome Young Farm.</p>
       </div>
 
       <div className="card">
-
         <div
           style={{
             display: "flex",
             justifyContent: "space-between",
+            alignItems: "center",
             marginBottom: "20px",
           }}
         >
@@ -100,7 +96,6 @@ function Workers() {
         </div>
 
         <table className="table">
-
           <thead>
             <tr>
               <th>Name</th>
@@ -113,21 +108,15 @@ function Workers() {
           </thead>
 
           <tbody>
-
             {workers.length === 0 ? (
-
               <tr>
                 <td colSpan="6" style={{ textAlign: "center" }}>
                   No workers found.
                 </td>
               </tr>
-
             ) : (
-
               workers.map((worker) => (
-
                 <tr key={worker.id}>
-
                   <td>{worker.full_name}</td>
 
                   <td>{worker.email}</td>
@@ -135,58 +124,110 @@ function Workers() {
                   <td>{worker.role}</td>
 
                   <td>
-                    {worker.active
-                      ? "🟢 Active"
-                      : "🔴 Disabled"}
+                    {worker.active ? (
+                      <span
+                        style={{
+                          color: "#15803d",
+                          fontWeight: "600",
+                        }}
+                      >
+                        🟢 Active
+                      </span>
+                    ) : (
+                      <span
+                        style={{
+                          color: "#dc2626",
+                          fontWeight: "600",
+                        }}
+                      >
+                        🔴 Disabled
+                      </span>
+                    )}
                   </td>
 
                   <td>
-                    {new Date(
-                      worker.created_at
-                    ).toLocaleDateString()}
+                    {new Date(worker.created_at).toLocaleDateString()}
                   </td>
 
                   <td>
-
                     <div
                       style={{
                         display: "flex",
-                        gap: "10px",
+                        alignItems: "center",
+                        gap: "8px",
                       }}
                     >
-
+                      {/* EDIT */}
                       <Link
-                        className="button"
                         to={`/workers/edit/${worker.id}`}
+                        title="Edit worker"
+                        aria-label={`Edit ${worker.full_name}`}
+                        style={{
+                          width: "38px",
+                          height: "38px",
+                          display: "inline-flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          border: "1px solid #15803d",
+                          borderRadius: "8px",
+                          background: "#ffffff",
+                          color: "#15803d",
+                          textDecoration: "none",
+                          fontSize: "18px",
+                          cursor: "pointer",
+                          transition: "all 0.2s ease",
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.background = "#15803d";
+                          e.currentTarget.style.color = "#ffffff";
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.background = "#ffffff";
+                          e.currentTarget.style.color = "#15803d";
+                        }}
                       >
-                        ✏ Edit
+                        ✏️
                       </Link>
 
+                      {/* DELETE */}
                       <button
-                        className="button"
-                        onClick={() =>
-                          deleteWorker(worker.id)
-                        }
+                        type="button"
+                        title="Delete worker"
+                        aria-label={`Delete ${worker.full_name}`}
+                        onClick={() => deleteWorker(worker.id)}
+                        style={{
+                          width: "38px",
+                          height: "38px",
+                          display: "inline-flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          border: "1px solid #dc2626",
+                          borderRadius: "8px",
+                          background: "#ffffff",
+                          color: "#dc2626",
+                          fontSize: "18px",
+                          cursor: "pointer",
+                          transition: "all 0.2s ease",
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.background = "#dc2626";
+                          e.currentTarget.style.color = "#ffffff";
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.background = "#ffffff";
+                          e.currentTarget.style.color = "#dc2626";
+                        }}
                       >
-                        🗑 Delete
+                        🗑️
                       </button>
-
                     </div>
-
                   </td>
-
                 </tr>
-
               ))
-
             )}
-
           </tbody>
-
         </table>
-
       </div>
-
     </div>
   );
 }

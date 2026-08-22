@@ -2,8 +2,11 @@ const jwt = require("jsonwebtoken");
 
 const JWT_SECRET =
   process.env.JWT_SECRET ||
-  "CHANGE_THIS_TO_A_LONG_RANDOM_SECRET";
+  "salome-young-farm-change-this-secret";
 
+// =====================================
+// AUTHENTICATE TOKEN
+// =====================================
 function authenticateToken(req, res, next) {
   const authHeader = req.headers.authorization;
 
@@ -18,18 +21,31 @@ function authenticateToken(req, res, next) {
   try {
     const decoded = jwt.verify(token, JWT_SECRET);
 
+    if (decoded.role) {
+      decoded.role = String(decoded.role).toLowerCase();
+    }
+
     req.user = decoded;
 
     next();
   } catch (error) {
+    console.error("Token verification error:", error);
+
     return res.status(403).json({
       message: "Invalid or expired token",
     });
   }
 }
 
+// =====================================
+// REQUIRE ADMIN
+// =====================================
 function requireAdmin(req, res, next) {
-  if (!req.user || req.user.role !== "admin") {
+  const role = req.user?.role
+    ? String(req.user.role).toLowerCase()
+    : "";
+
+  if (role !== "admin") {
     return res.status(403).json({
       message: "Administrator access required",
     });

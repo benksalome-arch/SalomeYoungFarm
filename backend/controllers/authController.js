@@ -1,6 +1,3 @@
-cd /workspaces/SalomeYoungFarm
-
-cat > backend/controllers/authController.js <<'EOF'
 const db = require("../db");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -26,8 +23,11 @@ exports.login = (req, res) => {
     async (err, results) => {
       if (err) {
         console.error("Login database error:", err);
+
         return res.status(500).json({
           message: "Database error",
+          error: err.message,
+          code: err.code,
         });
       }
 
@@ -39,18 +39,26 @@ exports.login = (req, res) => {
 
       const user = results[0];
 
-      const passwordCorrect = await bcrypt.compare(
-        password,
-        user.password
-      );
+      try {
+        const passwordCorrect = await bcrypt.compare(
+          password,
+          user.password
+        );
 
-      if (!passwordCorrect) {
-        return res.status(401).json({
-          message: "Invalid email or password",
+        if (!passwordCorrect) {
+          return res.status(401).json({
+            message: "Invalid email or password",
+          });
+        }
+      } catch (error) {
+        console.error("Password comparison error:", error);
+
+        return res.status(500).json({
+          message: "Login failed",
+          error: error.message,
         });
       }
 
-      // Account exists but has not been approved
       if (!user.active) {
         return res.status(403).json({
           message:
@@ -86,14 +94,6 @@ exports.login = (req, res) => {
 // =====================================
 // REGISTER
 // =====================================
-// Public registration is allowed,
-// but EVERY new account is created as:
-// role = worker
-// active = 0
-//
-// The new user therefore CANNOT log in
-// until an administrator approves the account.
-// =====================================
 exports.register = (req, res) => {
   const { full_name, email, password } = req.body;
 
@@ -115,8 +115,11 @@ exports.register = (req, res) => {
     (err, results) => {
       if (err) {
         console.error("Registration database error:", err);
+
         return res.status(500).json({
           message: "Database error",
+          error: err.message,
+          code: err.code,
         });
       }
 
@@ -129,8 +132,10 @@ exports.register = (req, res) => {
       bcrypt.hash(password, 10, (err, hashedPassword) => {
         if (err) {
           console.error("Password encryption error:", err);
+
           return res.status(500).json({
             message: "Password encryption failed",
+            error: err.message,
           });
         }
 
@@ -138,16 +143,15 @@ exports.register = (req, res) => {
           `INSERT INTO users
           (full_name, email, password, role, active)
           VALUES (?, ?, ?, 'worker', 0)`,
-          [
-            full_name,
-            email,
-            hashedPassword,
-          ],
+          [full_name, email, hashedPassword],
           (err, result) => {
             if (err) {
               console.error("User creation error:", err);
+
               return res.status(500).json({
                 message: "Could not create user",
+                error: err.message,
+                code: err.code,
               });
             }
 
@@ -162,4 +166,3 @@ exports.register = (req, res) => {
     }
   );
 };
-EOF
