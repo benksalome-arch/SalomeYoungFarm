@@ -29,7 +29,6 @@ exports.login = (req, res) => {
         });
       }
 
-      // Do not reveal whether the email exists.
       if (results.length === 0) {
         return res.status(401).json({
           message:
@@ -59,7 +58,6 @@ exports.login = (req, res) => {
         });
       }
 
-      // Do not reveal that the account exists but is inactive.
       if (!user.active) {
         return res.status(401).json({
           message:
@@ -159,6 +157,107 @@ exports.register = (req, res) => {
           }
         );
       });
+    }
+  );
+};
+
+// =====================================
+// CHANGE PASSWORD
+// =====================================
+exports.changePassword = async (req, res) => {
+  const userId = req.user?.id;
+  const { currentPassword, newPassword, confirmPassword } = req.body;
+
+  if (!userId) {
+    return res.status(401).json({
+      message: "Authentication required",
+    });
+  }
+
+  if (!currentPassword || !newPassword || !confirmPassword) {
+    return res.status(400).json({
+      message: "All password fields are required",
+    });
+  }
+
+  if (newPassword.length < 6) {
+    return res.status(400).json({
+      message: "New password must be at least 6 characters",
+    });
+  }
+
+  if (newPassword !== confirmPassword) {
+    return res.status(400).json({
+      message: "New passwords do not match",
+    });
+  }
+
+  if (currentPassword === newPassword) {
+    return res.status(400).json({
+      message: "New password must be different from your current password",
+    });
+  }
+
+  db.query(
+    "SELECT password FROM users WHERE id = ?",
+    [userId],
+    async (err, results) => {
+      if (err) {
+        console.error("Change password database error:", err);
+
+        return res.status(500).json({
+          message: "Password change failed. Please try again later.",
+        });
+      }
+
+      if (results.length === 0) {
+        return res.status(404).json({
+          message: "User account not found",
+        });
+      }
+
+      try {
+        const passwordCorrect = await bcrypt.compare(
+          currentPassword,
+          results[0].password
+        );
+
+        if (!passwordCorrect) {
+          return res.status(401).json({
+            message: "Current password is incorrect",
+          });
+        }
+
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+        db.query(
+          "UPDATE users SET password = ? WHERE id = ?",
+          [hashedPassword, userId],
+          (updateErr) => {
+            if (updateErr) {
+              console.error(
+                "Password update database error:",
+                updateErr
+              );
+
+              return res.status(500).json({
+                message:
+                  "Password change failed. Please try again later.",
+              });
+            }
+
+            return res.json({
+              message: "Password changed successfully",
+            });
+          }
+        );
+      } catch (error) {
+        console.error("Change password error:", error);
+
+        return res.status(500).json({
+          message: "Password change failed. Please try again later.",
+        });
+      }
     }
   );
 };

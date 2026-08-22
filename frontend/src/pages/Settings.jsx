@@ -1,4 +1,5 @@
 import { useState } from "react";
+import API_URL from "../api";
 
 function Settings() {
   const [profile, setProfile] = useState({
@@ -13,6 +14,16 @@ function Settings() {
   });
 
   const [photoPreview, setPhotoPreview] = useState(null);
+
+  const [passwordForm, setPasswordForm] = useState({
+    currentPassword: "",
+    newPassword: "",
+    confirmPassword: "",
+  });
+
+  const [passwordMessage, setPasswordMessage] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [changingPassword, setChangingPassword] = useState(false);
 
   function handleProfileChange(e) {
     const { name, value } = e.target;
@@ -43,6 +54,18 @@ function Settings() {
     setPhotoPreview(imageUrl);
   }
 
+  function handlePasswordChange(e) {
+    const { name, value } = e.target;
+
+    setPasswordForm((previous) => ({
+      ...previous,
+      [name]: value,
+    }));
+
+    setPasswordMessage("");
+    setPasswordError("");
+  }
+
   function saveProfile(e) {
     e.preventDefault();
 
@@ -55,8 +78,84 @@ function Settings() {
     alert("Farm information saved.");
   }
 
-  function changePassword() {
-    alert("Password change will be connected to the user account system.");
+  async function changePassword(e) {
+    e.preventDefault();
+
+    setPasswordMessage("");
+    setPasswordError("");
+
+    const {
+      currentPassword,
+      newPassword,
+      confirmPassword,
+    } = passwordForm;
+
+    if (!currentPassword || !newPassword || !confirmPassword) {
+      setPasswordError("Please fill in all password fields.");
+      return;
+    }
+
+    if (newPassword.length < 6) {
+      setPasswordError(
+        "New password must be at least 6 characters."
+      );
+      return;
+    }
+
+    if (newPassword !== confirmPassword) {
+      setPasswordError("New passwords do not match.");
+      return;
+    }
+
+    setChangingPassword(true);
+
+    try {
+      const token = localStorage.getItem("token");
+
+      const response = await fetch(
+        `${API_URL}/api/auth/change-password`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            currentPassword,
+            newPassword,
+            confirmPassword,
+          }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setPasswordError(
+          data.message ||
+            "Password change failed. Please try again."
+        );
+        return;
+      }
+
+      setPasswordMessage(
+        "Password changed successfully."
+      );
+
+      setPasswordForm({
+        currentPassword: "",
+        newPassword: "",
+        confirmPassword: "",
+      });
+    } catch (error) {
+      console.error("Change password error:", error);
+
+      setPasswordError(
+        "Unable to connect to the server. Please try again."
+      );
+    } finally {
+      setChangingPassword(false);
+    }
   }
 
   function dataManagement() {
@@ -122,8 +221,6 @@ function Settings() {
               marginTop: "20px",
             }}
           >
-            {/* PROFILE PHOTO */}
-
             <div
               style={{
                 width: "150px",
@@ -181,8 +278,6 @@ function Settings() {
                 }}
               />
             </div>
-
-            {/* PROFILE DETAILS */}
 
             <div
               style={{
@@ -255,15 +350,146 @@ function Settings() {
             >
               💾 Save Profile
             </button>
-
-            <button
-              className="button"
-              type="button"
-              onClick={changePassword}
-            >
-              🔐 Change Password
-            </button>
           </div>
+        </form>
+      </div>
+
+      {/* CHANGE PASSWORD */}
+
+      <div
+        className="card"
+        style={{
+          width: "100%",
+          maxWidth: "850px",
+          boxSizing: "border-box",
+          marginBottom: "20px",
+        }}
+      >
+        <h2>🔐 Change Password</h2>
+
+        <p>
+          Change your account password securely.
+        </p>
+
+        <form
+          onSubmit={changePassword}
+          style={{
+            marginTop: "20px",
+            maxWidth: "600px",
+          }}
+        >
+          <label
+            htmlFor="currentPassword"
+            style={{
+              display: "block",
+              marginBottom: "6px",
+              fontWeight: "600",
+            }}
+          >
+            Current Password
+          </label>
+
+          <input
+            id="currentPassword"
+            type="password"
+            name="currentPassword"
+            value={passwordForm.currentPassword}
+            onChange={handlePasswordChange}
+            autoComplete="current-password"
+            style={{
+              width: "100%",
+              boxSizing: "border-box",
+              marginBottom: "18px",
+            }}
+          />
+
+          <label
+            htmlFor="newPassword"
+            style={{
+              display: "block",
+              marginBottom: "6px",
+              fontWeight: "600",
+            }}
+          >
+            New Password
+          </label>
+
+          <input
+            id="newPassword"
+            type="password"
+            name="newPassword"
+            value={passwordForm.newPassword}
+            onChange={handlePasswordChange}
+            autoComplete="new-password"
+            style={{
+              width: "100%",
+              boxSizing: "border-box",
+              marginBottom: "18px",
+            }}
+          />
+
+          <label
+            htmlFor="confirmPassword"
+            style={{
+              display: "block",
+              marginBottom: "6px",
+              fontWeight: "600",
+            }}
+          >
+            Confirm New Password
+          </label>
+
+          <input
+            id="confirmPassword"
+            type="password"
+            name="confirmPassword"
+            value={passwordForm.confirmPassword}
+            onChange={handlePasswordChange}
+            autoComplete="new-password"
+            style={{
+              width: "100%",
+              boxSizing: "border-box",
+              marginBottom: "20px",
+            }}
+          />
+
+          {passwordError && (
+            <div
+              style={{
+                marginBottom: "15px",
+                padding: "12px",
+                borderRadius: "6px",
+                background: "#ffebee",
+                color: "#c62828",
+              }}
+            >
+              {passwordError}
+            </div>
+          )}
+
+          {passwordMessage && (
+            <div
+              style={{
+                marginBottom: "15px",
+                padding: "12px",
+                borderRadius: "6px",
+                background: "#e8f5e9",
+                color: "#2e7d32",
+              }}
+            >
+              {passwordMessage}
+            </div>
+          )}
+
+          <button
+            className="button"
+            type="submit"
+            disabled={changingPassword}
+          >
+            {changingPassword
+              ? "Changing Password..."
+              : "🔐 Change Password"}
+          </button>
         </form>
       </div>
 
