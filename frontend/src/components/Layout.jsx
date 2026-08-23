@@ -1,11 +1,20 @@
-import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import {
+  Outlet,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import Sidebar from "./Sidebar";
 
 function Layout() {
-  const navigate = useNavigate();
   const location = useLocation();
+  const navigate = useNavigate();
+  const [mobileMenuOpen, setMobileMenuOpen] =
+    useState(false);
 
-  const user = JSON.parse(localStorage.getItem("user"));
+  const user = JSON.parse(
+    localStorage.getItem("user") || "null"
+  );
 
   function logout() {
     localStorage.removeItem("token");
@@ -16,8 +25,66 @@ function Layout() {
   function getModule() {
     const path = location.pathname;
 
+    if (path.startsWith("/goats")) {
+      return {
+        name: "Goat Management",
+        icon: "🐐",
+        logo: "/salome_young_farm_logo.png",
+      };
+    }
+
     if (
-      path.startsWith("/chickens") ||
+      path.startsWith("/breeding") ||
+      path.startsWith("/kidding")
+    ) {
+      return {
+        name: "Breeding Management",
+        icon: "❤️",
+        logo: "/salome_young_farm_logo.png",
+      };
+    }
+
+    if (path.startsWith("/workers")) {
+      return {
+        name: "Worker Management",
+        icon: "👷",
+        logo: "/salome_young_farm_logo.png",
+      };
+    }
+
+    if (path.startsWith("/finance")) {
+      return {
+        name: "Finance Management",
+        icon: "💰",
+        logo: "/salome_young_farm_logo.png",
+      };
+    }
+
+    if (path.startsWith("/inventory")) {
+      return {
+        name: "Inventory Management",
+        icon: "📦",
+        logo: "/salome_young_farm_logo.png",
+      };
+    }
+
+    if (path.startsWith("/feed")) {
+      return {
+        name: "Feed Management",
+        icon: "🌾",
+        logo: "/salome_young_farm_logo.png",
+      };
+    }
+
+    if (path.startsWith("/chickens")) {
+      return {
+        name: "Chicken Management",
+        icon: "🐔",
+        logo: "/salome_young_farm_logo.png",
+      };
+    }
+
+    if (
       path.startsWith("/chicken-mortality") ||
       path.startsWith("/chicken-vaccinations") ||
       path.startsWith("/egg-production") ||
@@ -31,18 +98,6 @@ function Layout() {
     }
 
     if (
-      path.startsWith("/goats") ||
-      path.startsWith("/breeding") ||
-      path.startsWith("/kidding")
-    ) {
-      return {
-        name: "Goat Management",
-        icon: "🐐",
-        logo: "/salome_young_farm_logo.png",
-      };
-    }
-
-    if (
       path.startsWith("/rabbits") ||
       path.startsWith("/rabbit-litters") ||
       path.startsWith("/rabbit-mortality") ||
@@ -51,38 +106,6 @@ function Layout() {
       return {
         name: "Rabbit Management",
         icon: "🐇",
-        logo: "/salome_young_farm_logo.png",
-      };
-    }
-
-    if (path.startsWith("/feed")) {
-      return {
-        name: "Feed Management",
-        icon: "🌾",
-        logo: "/salome_young_farm_logo.png",
-      };
-    }
-
-    if (path.startsWith("/inventory")) {
-      return {
-        name: "Inventory Management",
-        icon: "📦",
-        logo: "/salome_young_farm_logo.png",
-      };
-    }
-
-    if (path.startsWith("/finance")) {
-      return {
-        name: "Finance Management",
-        icon: "💰",
-        logo: "/salome_young_farm_logo.png",
-      };
-    }
-
-    if (path.startsWith("/workers")) {
-      return {
-        name: "Worker Management",
-        icon: "👷",
         logo: "/salome_young_farm_logo.png",
       };
     }
@@ -129,9 +152,35 @@ function Layout() {
             min-height: 100%;
           }
 
+          .syf-mobile-overlay {
+            display: none;
+          }
+
           @media (max-width: 768px) {
             .syf-sidebar {
-              display: none !important;
+              display: block !important;
+              position: fixed !important;
+              top: 0 !important;
+              left: 0 !important;
+              bottom: 0 !important;
+              width: 270px !important;
+              max-width: 85vw !important;
+              z-index: 2000 !important;
+              transform: translateX(-100%);
+              transition: transform 0.25s ease;
+              overflow-y: auto !important;
+            }
+
+            .syf-sidebar.mobile-open {
+              transform: translateX(0);
+            }
+
+            .syf-mobile-overlay {
+              display: block;
+              position: fixed;
+              inset: 0;
+              background: rgba(0, 0, 0, 0.45);
+              z-index: 1900;
             }
 
             .syf-main {
@@ -143,8 +192,12 @@ function Layout() {
             .syf-header {
               height: auto !important;
               min-height: 64px !important;
-              padding: 10px 12px !important;
+              padding: 8px 10px !important;
               gap: 8px !important;
+            }
+
+            .syf-menu-button {
+              display: flex !important;
             }
 
             .syf-brand-logo {
@@ -182,6 +235,12 @@ function Layout() {
             }
           }
 
+          @media (min-width: 769px) {
+            .syf-menu-button {
+              display: none !important;
+            }
+          }
+
           @media (max-width: 400px) {
             .syf-module-title {
               font-size: 13px !important;
@@ -193,11 +252,16 @@ function Layout() {
             }
 
             .syf-header {
-              padding: 8px 10px !important;
+              padding: 8px 8px !important;
             }
 
             .syf-content {
               padding: 8px !important;
+            }
+
+            .syf-logout {
+              padding: 6px 8px !important;
+              font-size: 11px !important;
             }
           }
         `}
@@ -212,10 +276,21 @@ function Layout() {
           background: "#F4F6F8",
         }}
       >
+        {/* MOBILE OVERLAY */}
+
+        {mobileMenuOpen && (
+          <div
+            className="syf-mobile-overlay"
+            onClick={() => setMobileMenuOpen(false)}
+          />
+        )}
+
         {/* SIDEBAR */}
 
         <div
-          className="syf-sidebar"
+          className={`syf-sidebar ${
+            mobileMenuOpen ? "mobile-open" : ""
+          }`}
           style={{
             position: "fixed",
             top: 0,
@@ -228,7 +303,15 @@ function Layout() {
             zIndex: 1000,
           }}
         >
-          <Sidebar />
+          <div
+            onClick={() => {
+              if (window.innerWidth <= 768) {
+                setMobileMenuOpen(false);
+              }
+            }}
+          >
+            <Sidebar />
+          </div>
         </div>
 
         {/* MAIN AREA */}
@@ -266,6 +349,32 @@ function Layout() {
               overflow: "hidden",
             }}
           >
+            {/* MOBILE MENU BUTTON */}
+
+            <button
+              className="syf-menu-button"
+              onClick={() =>
+                setMobileMenuOpen(!mobileMenuOpen)
+              }
+              aria-label="Open menu"
+              style={{
+                display: "none",
+                alignItems: "center",
+                justifyContent: "center",
+                width: "40px",
+                height: "40px",
+                border: "none",
+                borderRadius: "8px",
+                background: "#1B5E20",
+                color: "white",
+                fontSize: "22px",
+                cursor: "pointer",
+                flexShrink: 0,
+              }}
+            >
+              ☰
+            </button>
+
             {/* MODULE BRANDING */}
 
             <div
