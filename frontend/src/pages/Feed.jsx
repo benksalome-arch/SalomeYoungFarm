@@ -1,8 +1,10 @@
 import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useLanguage } from "../context/LanguageContext";
 
 function Feed() {
+  const { t } = useLanguage();
   const [feeds, setFeeds] = useState([]);
 
   useEffect(() => {
@@ -28,7 +30,7 @@ function Feed() {
   }
 
   async function deleteFeed(id) {
-    if (!window.confirm("Delete this feed?")) {
+    if (!window.confirm("delete this feed?")) {
       return;
     }
 
@@ -282,7 +284,7 @@ function Feed() {
           className="button feed-add-button"
           to="/feed/add"
         >
-          ➕ Add Feed
+          ➕ {t("addFeed")}
         </Link>
       </div>
 
@@ -296,7 +298,7 @@ function Feed() {
           <table className="feed-table">
             <thead>
               <tr>
-                <th>Feed</th>
+                <th>{t("feed")}</th>
                 <th>Category</th>
                 <th style={{ textAlign: "center" }}>
                   Quantity
@@ -327,7 +329,7 @@ function Feed() {
                       padding: "30px 10px",
                     }}
                   >
-                    No feed records found.
+                    {t("noFeedRecords")}
                   </td>
                 </tr>
               ) : (
@@ -398,7 +400,7 @@ function Feed() {
                               textDecoration: "none",
                             }}
                           >
-                            ✏ Edit
+                            ✏ {t("edit")}
                           </Link>
 
                           <button
@@ -416,7 +418,7 @@ function Feed() {
                               cursor: "pointer",
                             }}
                           >
-                            🗑 Delete
+                            🗑 {t("delete")}
                           </button>
                         </div>
                       </td>
@@ -440,7 +442,7 @@ function Feed() {
                 fontSize: "14px",
               }}
             >
-              No feed records found.
+              {t("noFeedRecords")}
             </div>
           ) : (
             feeds.map((feed) => {
@@ -525,7 +527,7 @@ function Feed() {
                         textDecoration: "none",
                       }}
                     >
-                      ✏ Edit
+                      ✏ {t("edit")}
                     </Link>
 
                     <button
@@ -541,7 +543,7 @@ function Feed() {
                         cursor: "pointer",
                       }}
                     >
-                      🗑 Delete
+                      🗑 {t("delete")}
                     </button>
                   </div>
                 </div>
