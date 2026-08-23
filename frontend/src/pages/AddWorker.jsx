@@ -2,8 +2,10 @@ import API_URL from "../api";
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { useLanguage } from "../context/LanguageContext";
 
 function AddWorker() {
+  const { t } = useLanguage();
   const navigate = useNavigate();
   const { user } = useAuth();
 
@@ -70,7 +72,7 @@ function AddWorker() {
     <div className="page">
 
       <div className="page-header">
-        <h1>➕ Add Worker</h1>
+        <h1>➕ {t("addWorker")}</h1>
         <p>Create a new user account.</p>
       </div>
 
@@ -138,11 +140,11 @@ function AddWorker() {
             }}
           >
             <button className="button" type="submit">
-              💾 Save Worker
+              💾 {t("saveWorker")}
             </button>
 
             <Link className="button" to="/workers">
-              Cancel
+              {t("cancel")}
             </Link>
           </div>
 
