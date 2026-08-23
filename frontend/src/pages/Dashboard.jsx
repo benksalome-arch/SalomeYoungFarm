@@ -1,641 +1,677 @@
 import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-
-import PageHeader from "../components/PageHeader";
-import StatCard from "../components/StatCard";
-import LoadingSpinner from "../components/LoadingSpinner";
+import { useLanguage } from "../context/LanguageContext";
 
 function Dashboard() {
-  const [loading, setLoading] = useState(true);
-
+  const { t } = useLanguage();
   const [goats, setGoats] = useState([]);
   const [chickens, setChickens] = useState([]);
   const [rabbits, setRabbits] = useState([]);
   const [feed, setFeed] = useState([]);
   const [inventory, setInventory] = useState([]);
+  const [workers, setWorkers] = useState([]);
   const [finance, setFinance] = useState([]);
 
   useEffect(() => {
-    loadDashboard();
+    loadDashboardData();
   }, []);
 
-  async function loadDashboard() {
+  async function loadData(endpoint, setter) {
     try {
-      setLoading(true);
+      const response = await fetch(`${API_URL}${endpoint}`);
 
-      const [
-        goatsRes,
-        chickensRes,
-        rabbitsRes,
-        feedRes,
-        inventoryRes,
-        financeRes,
-      ] = await Promise.all([
-        fetch(`${API_URL}/api/goats`),
-        fetch(`${API_URL}/api/chickens`),
-        fetch(`${API_URL}/api/rabbits`),
-        fetch(`${API_URL}/api/feed`),
-        fetch(`${API_URL}/api/inventory`),
-        fetch(`${API_URL}/api/finance`),
-      ]);
+      if (!response.ok) {
+        setter([]);
+        return;
+      }
 
-      const [
-        goatsData,
-        chickensData,
-        rabbitsData,
-        feedData,
-        inventoryData,
-        financeData,
-      ] = await Promise.all([
-        goatsRes.json(),
-        chickensRes.json(),
-        rabbitsRes.json(),
-        feedRes.json(),
-        inventoryRes.json(),
-        financeRes.json(),
-      ]);
+      const data = await response.json();
 
-      setGoats(Array.isArray(goatsData) ? goatsData : []);
-      setChickens(
-        Array.isArray(chickensData) ? chickensData : []
-      );
-      setRabbits(
-        Array.isArray(rabbitsData) ? rabbitsData : []
-      );
-      setFeed(Array.isArray(feedData) ? feedData : []);
-      setInventory(
-        Array.isArray(inventoryData) ? inventoryData : []
-      );
-      setFinance(
-        Array.isArray(financeData) ? financeData : []
-      );
+      if (Array.isArray(data)) {
+        setter(data);
+      } else {
+        setter([]);
+      }
     } catch (err) {
-      console.error("Failed to load dashboard:", err);
-
-      setGoats([]);
-      setChickens([]);
-      setRabbits([]);
-      setFeed([]);
-      setInventory([]);
-      setFinance([]);
-    } finally {
-      setLoading(false);
+      console.error(`Dashboard ${endpoint} error:`, err);
+      setter([]);
     }
   }
 
-  if (loading) {
-    return (
-      <div
-        style={{
-          width: "100%",
-          minHeight: "60vh",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          boxSizing: "border-box",
-        }}
-      >
-        <LoadingSpinner />
-      </div>
-    );
+  async function loadDashboardData() {
+    await Promise.all([
+      loadData("/api/goats", setGoats),
+      loadData("/api/chickens", setChickens),
+      loadData("/api/rabbits", setRabbits),
+      loadData("/api/feed", setFeed),
+      loadData("/api/inventory", setInventory),
+      loadData("/api/workers", setWorkers),
+      loadData("/api/finance", setFinance),
+    ]);
   }
 
-  const totalIncome = finance
-    .filter((item) => item.type === "Income")
-    .reduce(
-      (sum, item) => sum + Number(item.amount || 0),
-      0
-    );
+  const totalAnimals =
+    goats.length +
+    chickens.length +
+    rabbits.length;
 
-  const totalExpense = finance
-    .filter((item) => item.type === "Expense")
-    .reduce(
-      (sum, item) => sum + Number(item.amount || 0),
-      0
-    );
+  const statCards = [
+    {
+      title: t("goats"),
+      count: goats.length,
+      icon: "🐐",
+      path: "/goats",
+      color: "#E8F5E9",
+      textColor: "#1B5E20",
+    },
+    {
+      title: t("chickens"),
+      count: chickens.length,
+      icon: "🐔",
+      path: "/chickens",
+      color: "#FFF8E1",
+      textColor: "#E65100",
+    },
+    {
+      title: t("rabbits"),
+      count: rabbits.length,
+      icon: "🐇",
+      path: "/rabbits",
+      color: "#FCE4EC",
+      textColor: "#AD1457",
+    },
+    {
+      title: t("workers"),
+      count: workers.length,
+      icon: "👷",
+      path: "/workers",
+      color: "#ECEFF1",
+      textColor: "#455A64",
+    },
+  ];
 
-  const profit = totalIncome - totalExpense;
+  const operationCards = [
+    {
+      title: t("feed"),
+      description: "Manage feed stock and usage",
+      icon: "🌾",
+      path: "/feed",
+      color: "#F3E5F5",
+      textColor: "#6A1B9A",
+    },
+    {
+      title: t("inventory"),
+      description: "Track farm supplies",
+      icon: "📦",
+      path: "/inventory",
+      color: "#FFF3E0",
+      textColor: "#E65100",
+    },
+    {
+      title: t("eggProduction"),
+      description: "Record and monitor eggs",
+      icon: "🥚",
+      path: "/egg-production",
+      color: "#FFFDE7",
+      textColor: "#827717",
+    },
+    {
+      title: t("vaccinations"),
+      description: "Animal vaccination records",
+      icon: "💉",
+      path: "/chicken-vaccinations",
+      color: "#E0F7FA",
+      textColor: "#006064",
+    },
+  ];
+
+  const quickActions = [
+    {
+      label: t("addGoat"),
+      icon: "🐐",
+      path: "/goats/add",
+    },
+    {
+      label: t("addChicken"),
+      icon: "🐔",
+      path: "/chickens/add",
+    },
+    {
+      label: t("addRabbit"),
+      icon: "🐇",
+      path: "/rabbits/add",
+    },
+    {
+      label: t("addFeed"),
+      icon: "🌾",
+      path: "/feed/add",
+    },
+    {
+      label: t("addWorker"),
+      icon: "👷",
+      path: "/workers/add",
+    },
+    {
+      label: t("financeEntry"),
+      icon: "💰",
+      path: "/finance/add",
+    },
+  ];
 
   return (
     <div
       style={{
         width: "100%",
-        maxWidth: "100%",
+        maxWidth: "1200px",
+        margin: "0 auto",
         minWidth: 0,
         boxSizing: "border-box",
       }}
     >
-      {/* =========================
-          FARM HEADER
-      ========================= */}
+      {/* HEADER */}
 
       <div
         style={{
-          background: "#ffffff",
-          borderRadius: "14px",
-          padding: "18px 22px",
-          marginBottom: "25px",
-          boxShadow: "0 3px 14px rgba(0,0,0,0.06)",
-          display: "flex",
-          alignItems: "center",
-          gap: "18px",
-          boxSizing: "border-box",
+          marginBottom: "28px",
         }}
       >
-        <img
-          src="/salome_young_farm_logo.png"
-          alt="Salome Young Farm"
+        <h1
           style={{
-            width: "82px",
-            height: "82px",
-            objectFit: "contain",
-            flexShrink: 0,
-          }}
-        />
-
-        <div>
-          <h1
-            style={{
-              margin: 0,
-              fontSize: "28px",
-              fontWeight: "700",
-              color: "#17221a",
-              lineHeight: "1.2",
-            }}
-          >
-            Salome Young Farm
-          </h1>
-
-          <p
-            style={{
-              margin: "6px 0 0",
-              fontSize: "15px",
-              color: "#68716a",
-            }}
-          >
-            Smart Farming • Better Future
-          </p>
-        </div>
-      </div>
-
-      {/* =========================
-          PAGE HEADER
-      ========================= */}
-
-      <div
-        style={{
-          width: "100%",
-          maxWidth: "100%",
-          minWidth: 0,
-          marginBottom: "25px",
-          boxSizing: "border-box",
-        }}
-      >
-        <PageHeader
-          title="Farm Dashboard"
-          subtitle="Farm Overview"
-        />
-      </div>
-
-      {/* =========================
-          STATISTICS
-      ========================= */}
-
-      <div
-        style={{
-          width: "100%",
-          maxWidth: "100%",
-          minWidth: 0,
-          display: "grid",
-          gridTemplateColumns:
-            "repeat(auto-fit, minmax(170px, 1fr))",
-          gap: "14px",
-          marginBottom: "25px",
-          boxSizing: "border-box",
-        }}
-      >
-        <StatCard
-          icon="🐐"
-          title="Goats"
-          value={goats.length}
-          to="/goats"
-        />
-
-        <StatCard
-          icon="🐔"
-          title="Chickens"
-          value={chickens.length}
-          to="/chickens"
-        />
-
-        <StatCard
-          icon="🐇"
-          title="Rabbits"
-          value={rabbits.length}
-          to="/rabbits"
-        />
-
-        <StatCard
-          icon="🌾"
-          title="Feed Types"
-          value={feed.length}
-          to="/feed"
-        />
-
-        <StatCard
-          icon="📦"
-          title="Inventory Items"
-          value={inventory.length}
-          to="/inventory"
-        />
-
-        <StatCard
-          icon="💰"
-          title="Income"
-          value={`KES ${totalIncome.toLocaleString()}`}
-          color="#2e7d32"
-          to="/finance"
-        />
-
-        <StatCard
-          icon="💸"
-          title="Expenses"
-          value={`KES ${totalExpense.toLocaleString()}`}
-          color="#d32f2f"
-          to="/finance"
-        />
-
-        <StatCard
-          icon="📈"
-          title="Profit"
-          value={`KES ${profit.toLocaleString()}`}
-          color="#1565c0"
-          to="/finance"
-        />
-      </div>
-
-      {/* =========================
-          MAIN DASHBOARD
-      ========================= */}
-
-      <div
-        style={{
-          width: "100%",
-          maxWidth: "100%",
-          minWidth: 0,
-          display: "grid",
-          gridTemplateColumns:
-            "minmax(0, 2fr) minmax(220px, 1fr)",
-          gap: "20px",
-          boxSizing: "border-box",
-        }}
-      >
-        {/* =========================
-            RECENT GOATS
-        ========================= */}
-
-        <div
-          className="card"
-          style={{
-            width: "100%",
-            maxWidth: "100%",
-            minWidth: 0,
-            boxSizing: "border-box",
-            overflow: "hidden",
+            margin: 0,
+            fontSize: "34px",
+            lineHeight: 1.2,
           }}
         >
-          <div
+          🏡 {t("dashboard")}
+        </h1>
+
+        <p
+          style={{
+            marginTop: "8px",
+            marginBottom: 0,
+            color: "#666",
+          }}
+        >
+          {t("welcome")}
+        </p>
+      </div>
+
+      {/* FARM OVERVIEW */}
+
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns:
+            "repeat(auto-fit, minmax(190px, 1fr))",
+          gap: "16px",
+          marginBottom: "28px",
+        }}
+      >
+        {statCards.map((card) => (
+          <Link
+            key={card.path}
+            to={card.path}
             style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              gap: "15px",
-              marginBottom: "15px",
-              flexWrap: "wrap",
+              textDecoration: "none",
+              color: "inherit",
             }}
           >
-            <h2 style={{ margin: 0 }}>
-              Recent Goats
-            </h2>
-
-            <Link
-              className="button"
-              to="/goats"
+            <div
+              className="card"
               style={{
-                whiteSpace: "nowrap",
-              }}
-            >
-              View All
-            </Link>
-          </div>
-
-          <div
-            style={{
-              width: "100%",
-              minWidth: 0,
-              overflow: "hidden",
-            }}
-          >
-            <table
-              className="table"
-              style={{
-                width: "100%",
-                maxWidth: "100%",
-                minWidth: 0,
-                tableLayout: "fixed",
+                minHeight: "120px",
                 boxSizing: "border-box",
+                background: card.color,
+                border: "none",
+                transition: "transform 0.15s ease",
               }}
             >
-              <thead>
-                <tr>
-                  <th
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  gap: "10px",
+                }}
+              >
+                <div>
+                  <div
                     style={{
-                      width: "20%",
-                      fontSize: "12px",
-                      padding: "10px 5px",
-                      whiteSpace: "nowrap",
+                      fontSize: "13px",
+                      color: "#666",
+                      marginBottom: "8px",
                     }}
                   >
-                    Tag
-                  </th>
+                    {card.title}
+                  </div>
 
-                  <th
+                  <div
                     style={{
-                      width: "30%",
-                      fontSize: "12px",
-                      padding: "10px 5px",
-                      whiteSpace: "nowrap",
+                      fontSize: "32px",
+                      fontWeight: "800",
+                      color: card.textColor,
                     }}
                   >
-                    Name
-                  </th>
+                    {card.count}
+                  </div>
 
-                  <th
+                  <div
                     style={{
-                      width: "25%",
+                      marginTop: "5px",
                       fontSize: "12px",
-                      padding: "10px 5px",
-                      whiteSpace: "nowrap",
+                      color: "#777",
                     }}
                   >
-                    Breed
-                  </th>
+                    {t("viewRecords")} →
+                  </div>
+                </div>
 
-                  <th
-                    style={{
-                      width: "25%",
-                      fontSize: "12px",
-                      padding: "10px 5px",
-                      whiteSpace: "nowrap",
-                    }}
-                  >
-                    Status
-                  </th>
-                </tr>
-              </thead>
+                <div
+                  style={{
+                    fontSize: "42px",
+                  }}
+                >
+                  {card.icon}
+                </div>
+              </div>
+            </div>
+          </Link>
+        ))}
+      </div>
 
-              <tbody>
-                {goats.length === 0 ? (
-                  <tr>
-                    <td
-                      colSpan="4"
-                      style={{
-                        textAlign: "center",
-                        padding: "25px 10px",
-                      }}
-                    >
-                      No goats found.
-                    </td>
-                  </tr>
-                ) : (
-                  goats.slice(0, 5).map((goat) => (
-                    <tr key={goat.id}>
-                      <td
-                        style={{
-                          fontSize: "12px",
-                          padding: "10px 5px",
-                          whiteSpace: "nowrap",
-                        }}
-                      >
-                        {goat.tag_number ||
-                          goat.tag ||
-                          "-"}
-                      </td>
+      {/* FARM SUMMARY */}
 
-                      <td
-                        style={{
-                          fontSize: "12px",
-                          padding: "10px 5px",
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                          whiteSpace: "nowrap",
-                        }}
-                        title={goat.name || ""}
-                      >
-                        {goat.name || "-"}
-                      </td>
-
-                      <td
-                        style={{
-                          fontSize: "12px",
-                          padding: "10px 5px",
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                          whiteSpace: "nowrap",
-                        }}
-                        title={goat.breed || ""}
-                      >
-                        {goat.breed || "-"}
-                      </td>
-
-                      <td
-                        style={{
-                          fontSize: "12px",
-                          padding: "10px 5px",
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                          whiteSpace: "nowrap",
-                        }}
-                        title={goat.status || ""}
-                      >
-                        {goat.status || "-"}
-                      </td>
-                    </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        {/* =========================
-            RIGHT COLUMN
-        ========================= */}
+      <div
+        className="card"
+        style={{
+          marginBottom: "28px",
+        }}
+      >
+        <h2
+          style={{
+            marginTop: 0,
+            marginBottom: "20px",
+          }}
+        >
+          📊 {t("farmOverview")}
+        </h2>
 
         <div
           style={{
-            width: "100%",
-            minWidth: 0,
-            boxSizing: "border-box",
-            display: "flex",
-            flexDirection: "column",
-            gap: "20px",
+            display: "grid",
+            gridTemplateColumns:
+              "repeat(auto-fit, minmax(180px, 1fr))",
+            gap: "15px",
           }}
         >
-          {/* FARM SUMMARY */}
-
           <div
-            className="card"
             style={{
-              width: "100%",
-              maxWidth: "100%",
-              minWidth: 0,
-              boxSizing: "border-box",
-              overflow: "hidden",
+              padding: "16px",
+              background: "#f5f7f5",
+              borderRadius: "10px",
             }}
           >
-            <h2>Farm Summary</h2>
-
-            <p>
-              <strong>
-                Total Animal Records:
-              </strong>{" "}
-              {goats.length +
-                chickens.length +
-                rabbits.length}
-            </p>
-
-            <p>
-              <strong>Goats:</strong>{" "}
-              {goats.length}
-            </p>
-
-            <p>
-              <strong>Chickens:</strong>{" "}
-              {chickens.length}
-            </p>
-
-            <p>
-              <strong>Rabbits:</strong>{" "}
-              {rabbits.length}
-            </p>
-
-            <p>
-              <strong>Feed Types:</strong>{" "}
-              {feed.length}
-            </p>
-
-            <p>
-              <strong>
-                Inventory Items:
-              </strong>{" "}
-              {inventory.length}
-            </p>
-          </div>
-
-          {/* QUICK ACTIONS */}
-
-          <div
-            className="card"
-            style={{
-              width: "100%",
-              maxWidth: "100%",
-              minWidth: 0,
-              boxSizing: "border-box",
-              overflow: "hidden",
-            }}
-          >
-            <h2>Quick Actions</h2>
+            <small style={{ color: "#777" }}>
+              Total Animals
+            </small>
 
             <div
               style={{
-                display: "grid",
-                gap: "10px",
+                fontSize: "25px",
+                fontWeight: "700",
+                marginTop: "5px",
               }}
             >
-              <Link
-                className="button"
-                to="/goats/add"
-              >
-                🐐 Add Goat
-              </Link>
-
-              <Link
-                className="button"
-                to="/chickens/add"
-              >
-                🐔 Add Chicken
-              </Link>
-
-              <Link
-                className="button"
-                to="/rabbits/add"
-              >
-                🐇 Add Rabbit
-              </Link>
-
-              <Link
-                className="button"
-                to="/feed/add"
-              >
-                🌾 Add Feed
-              </Link>
-
-              <Link
-                className="button"
-                to="/finance/add"
-              >
-                💰 Finance Entry
-              </Link>
-
-              <Link
-                className="button"
-                to="/reports"
-              >
-                📊 Reports
-              </Link>
+              {totalAnimals}
             </div>
           </div>
 
-          {/* SYSTEM STATUS */}
-
           <div
-            className="card"
             style={{
-              width: "100%",
-              maxWidth: "100%",
-              minWidth: 0,
-              boxSizing: "border-box",
-              overflow: "hidden",
+              padding: "16px",
+              background: "#f5f7f5",
+              borderRadius: "10px",
             }}
           >
-            <h2>System Status</h2>
+            <small style={{ color: "#777" }}>
+              {t("feedTypes")}
+            </small>
 
-            <ul
+            <div
               style={{
-                paddingLeft: "20px",
-                lineHeight: "2",
-                marginBottom: 0,
+                fontSize: "25px",
+                fontWeight: "700",
+                marginTop: "5px",
               }}
             >
-              <li>
-                ✅ Dashboard connected
-              </li>
-              <li>
-                ✅ Finance connected
-              </li>
-              <li>
-                ✅ Feed connected
-              </li>
-              <li>
-                ✅ Chicken module active
-              </li>
-              <li>
-                ✅ Rabbit module active
-              </li>
-            </ul>
+              {feed.length}
+            </div>
           </div>
+
+          <div
+            style={{
+              padding: "16px",
+              background: "#f5f7f5",
+              borderRadius: "10px",
+            }}
+          >
+            <small style={{ color: "#777" }}>
+              {t("inventoryItems")}
+            </small>
+
+            <div
+              style={{
+                fontSize: "25px",
+                fontWeight: "700",
+                marginTop: "5px",
+              }}
+            >
+              {inventory.length}
+            </div>
+          </div>
+
+          <div
+            style={{
+              padding: "16px",
+              background: "#f5f7f5",
+              borderRadius: "10px",
+            }}
+          >
+            <small style={{ color: "#777" }}>
+              Finance Records
+            </small>
+
+            <div
+              style={{
+                fontSize: "25px",
+                fontWeight: "700",
+                marginTop: "5px",
+              }}
+            >
+              {finance.length}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* OPERATIONS */}
+
+      <div
+        style={{
+          marginBottom: "28px",
+        }}
+      >
+        <h2>⚙️ Farm Operations</h2>
+
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns:
+              "repeat(auto-fit, minmax(220px, 1fr))",
+            gap: "16px",
+          }}
+        >
+          {operationCards.map((card) => (
+            <Link
+              key={card.path}
+              to={card.path}
+              style={{
+                textDecoration: "none",
+                color: "inherit",
+              }}
+            >
+              <div
+                className="card"
+                style={{
+                  background: card.color,
+                  minHeight: "110px",
+                  boxSizing: "border-box",
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    gap: "14px",
+                    alignItems: "center",
+                  }}
+                >
+                  <div
+                    style={{
+                      fontSize: "34px",
+                    }}
+                  >
+                    {card.icon}
+                  </div>
+
+                  <div>
+                    <h3
+                      style={{
+                        margin: 0,
+                        color: card.textColor,
+                      }}
+                    >
+                      {card.title}
+                    </h3>
+
+                    <p
+                      style={{
+                        marginTop: "6px",
+                        marginBottom: 0,
+                        color: "#666",
+                        fontSize: "13px",
+                      }}
+                    >
+                      {card.description}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </div>
+
+      {/* QUICK ACTIONS */}
+
+      <div
+        className="card"
+        style={{
+          marginBottom: "28px",
+        }}
+      >
+        <h2
+          style={{
+            marginTop: 0,
+          }}
+        >
+          ⚡ Quick Actions
+        </h2>
+
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns:
+              "repeat(auto-fit, minmax(160px, 1fr))",
+            gap: "10px",
+          }}
+        >
+          {quickActions.map((action) => (
+            <Link
+              key={action.path}
+              className="button"
+              to={action.path}
+              style={{
+                textDecoration: "none",
+                textAlign: "center",
+                padding: "12px 8px",
+              }}
+            >
+              {action.icon} {action.label}
+            </Link>
+          ))}
+        </div>
+      </div>
+
+      {/* MANAGEMENT */}
+
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns:
+            "repeat(auto-fit, minmax(260px, 1fr))",
+          gap: "20px",
+          marginBottom: "28px",
+        }}
+      >
+        <div className="card">
+          <h2
+            style={{
+              marginTop: 0,
+            }}
+          >
+            💰 Finance
+          </h2>
+
+          <p
+            style={{
+              color: "#666",
+              lineHeight: 1.6,
+            }}
+          >
+            Manage farm income, expenses and financial records.
+          </p>
+
+          <Link
+            className="button"
+            to="/finance"
+            style={{
+              display: "inline-block",
+              textDecoration: "none",
+            }}
+          >
+            Open Finance →
+          </Link>
+        </div>
+
+        <div className="card">
+          <h2
+            style={{
+              marginTop: 0,
+            }}
+          >
+            👷 Workers
+          </h2>
+
+          <p
+            style={{
+              color: "#666",
+              lineHeight: 1.6,
+            }}
+          >
+            Manage farm workers and their records.
+          </p>
+
+          <Link
+            className="button"
+            to="/workers"
+            style={{
+              display: "inline-block",
+              textDecoration: "none",
+            }}
+          >
+            Open Workers →
+          </Link>
+        </div>
+
+        <div className="card">
+          <h2
+            style={{
+              marginTop: 0,
+            }}
+          >
+            📈 Reports
+          </h2>
+
+          <p
+            style={{
+              color: "#666",
+              lineHeight: 1.6,
+            }}
+          >
+            {t("reportsDescription")}
+          </p>
+
+          <Link
+            className="button"
+            to="/reports"
+            style={{
+              display: "inline-block",
+              textDecoration: "none",
+            }}
+          >
+            {t("openReports")} →
+          </Link>
+        </div>
+
+        <div className="card">
+          <h2
+            style={{
+              marginTop: 0,
+            }}
+          >
+            ⚙️ {t("settings")}
+          </h2>
+
+          <p
+            style={{
+              color: "#666",
+              lineHeight: 1.6,
+            }}
+          >
+            {t("settingsDescription")}
+          </p>
+
+          <Link
+            className="button"
+            to="/settings"
+            style={{
+              display: "inline-block",
+              textDecoration: "none",
+            }}
+          >
+            {t("openSettings")} →
+          </Link>
+        </div>
+      </div>
+
+      {/* SYSTEM STATUS */}
+
+      <div className="card">
+        <h2
+          style={{
+            marginTop: 0,
+          }}
+        >
+          ✅ {t("systemStatus")}
+        </h2>
+
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns:
+              "repeat(auto-fit, minmax(180px, 1fr))",
+            gap: "10px",
+          }}
+        >
+          <div>✅ Dashboard connected</div>
+          <div>✅ Goat module active</div>
+          <div>✅ Chicken module active</div>
+          <div>✅ Rabbit module active</div>
+          <div>✅ Feed connected</div>
+          <div>✅ Inventory connected</div>
+          <div>✅ Finance connected</div>
+          <div>✅ Worker module active</div>
         </div>
       </div>
     </div>

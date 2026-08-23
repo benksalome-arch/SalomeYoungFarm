@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 
-const LanguageContext = createContext();
+const LanguageContext = createContext(null);
 
 const translations = {
   en: {
@@ -16,23 +16,6 @@ const translations = {
     feed: "Feed",
     inventory: "Inventory",
     finance: "Finance",
-    financeManagement: "Finance Management",
-    financeDescription: "Income, expenses and farm profitability.",
-    addTransaction: "Add Transaction",
-    totalIncome: "Total Income",
-    totalExpenses: "Total Expenses",
-    profit: "Profit",
-    transactions: "Transactions",
-    recorded: "Recorded",
-    type: "Type",
-    category: "Category",
-    description: "Description",
-    amount: "Amount",
-    payment: "Payment",
-    actions: "Actions",
-    noTransactions: "No transactions found.",
-    editTransaction: "Edit",
-    deleteTransaction: "Delete",
     workers: "Workers",
     reports: "Reports",
     settings: "Settings",
@@ -41,7 +24,6 @@ const translations = {
     feedInventory: "Feed & Inventory",
     staff: "Staff",
     system: "System",
-
     breeding: "Breeding",
     kidding: "Kidding",
 
@@ -66,6 +48,7 @@ const translations = {
     close: "Close",
     search: "Search",
     actions: "Actions",
+
     name: "Name",
     date: "Date",
     status: "Status",
@@ -97,13 +80,24 @@ const translations = {
     systemStatus: "System Status",
 
     addGoat: "Add Goat",
+    noGoatsFound: "No goats found",
+    farmOverview: "Farm Overview",
+    feedTypes: "Feed Types",
+    inventoryItems: "Inventory Items",
+    recentGoats: "Recent Goats",
+    farmSummary: "Farm Summary",
+    viewAll: "View All",
+    tryAnotherSearch: "Try another search or add a new goat.",
+    tag: "Tag",
+    view: "View",
     addChicken: "Add Chicken",
     addRabbit: "Add Rabbit",
     addFeed: "Add Feed",
+    addWorker: "Add Worker",
     financeEntry: "Finance Entry",
 
     goatPhoto: "Goat Photo",
-    selectPhoto: "Select a photo",
+    selectPhoto: "Select Photo",
     changePhoto: "Change Photo",
 
     basicInformation: "Basic Information",
@@ -116,6 +110,32 @@ const translations = {
     noRecords: "No records found.",
     success: "Success",
     error: "Error",
+
+    welcome: "Welcome to Salome Young Farm Management System.",
+    viewRecords: "View records",
+    reportsDescription: "View farm reports and important information.",
+    openReports: "Open Reports",
+    settingsDescription: "Configure your farm management system.",
+    openSettings: "Open Settings",
+
+    financeManagement: "Finance Management",
+    financeDescription:
+      "Income, expenses and farm profitability.",
+    totalIncome: "Total Income",
+    totalExpenses: "Total Expenses",
+    profit: "Profit",
+    transactions: "Transactions",
+    addTransaction: "Add Transaction",
+    dateColumn: "Date",
+    recorded: "Recorded",
+    type: "Type",
+    category: "Category",
+    description: "Description",
+    amount: "Amount",
+    payment: "Payment",
+    noTransactions: "No transactions found.",
+    financeEdit: "Edit",
+    financeDelete: "Delete",
   },
 
   sw: {
@@ -131,23 +151,6 @@ const translations = {
     feed: "Chakula",
     inventory: "Hifadhi",
     finance: "Fedha",
-    financeManagement: "Usimamizi wa Fedha",
-    financeDescription: "Mapato, matumizi na faida ya shamba.",
-    addTransaction: "Ongeza Muamala",
-    totalIncome: "Jumla ya Mapato",
-    totalExpenses: "Jumla ya Matumizi",
-    profit: "Faida",
-    transactions: "Miamala",
-    recorded: "Imerekodiwa",
-    type: "Aina",
-    category: "Kategoria",
-    description: "Maelezo",
-    amount: "Kiasi",
-    payment: "Malipo",
-    actions: "Vitendo",
-    noTransactions: "Hakuna miamala iliyopatikana.",
-    editTransaction: "Hariri",
-    deleteTransaction: "Futa",
     workers: "Wafanyakazi",
     reports: "Ripoti",
     settings: "Mipangilio",
@@ -156,7 +159,6 @@ const translations = {
     feedInventory: "Chakula na Hifadhi",
     staff: "Wafanyakazi",
     system: "Mfumo",
-
     breeding: "Uzalishaji",
     kidding: "Kuzalisha",
 
@@ -181,6 +183,7 @@ const translations = {
     close: "Funga",
     search: "Tafuta",
     actions: "Vitendo",
+
     name: "Jina",
     date: "Tarehe",
     status: "Hali",
@@ -212,13 +215,18 @@ const translations = {
     systemStatus: "Hali ya Mfumo",
 
     addGoat: "Ongeza Mbuzi",
+    noGoatsFound: "Hakuna mbuzi waliopatikana",
+    tryAnotherSearch: "Jaribu kutafuta tena au ongeza mbuzi mpya.",
+    tag: "Namba ya Sikio",
+    view: "Tazama",
     addChicken: "Ongeza Kuku",
     addRabbit: "Ongeza Sungura",
     addFeed: "Ongeza Chakula",
+    addWorker: "Ongeza Mfanyakazi",
     financeEntry: "Ingizo la Fedha",
 
     goatPhoto: "Picha ya Mbuzi",
-    selectPhoto: "Chagua picha",
+    selectPhoto: "Chagua Picha",
     changePhoto: "Badilisha Picha",
 
     basicInformation: "Taarifa za Msingi",
@@ -231,6 +239,35 @@ const translations = {
     noRecords: "Hakuna rekodi zilizopatikana.",
     success: "Imefanikiwa",
     error: "Hitilafu",
+
+    welcome:
+      "Karibu kwenye Mfumo wa Usimamizi wa Salome Young Farm.",
+    viewRecords: "Tazama rekodi",
+    reportsDescription:
+      "Tazama ripoti za shamba na taarifa muhimu.",
+    openReports: "Fungua Ripoti",
+    settingsDescription:
+      "Sanidi mfumo wako wa usimamizi wa shamba.",
+    openSettings: "Fungua Mipangilio",
+
+    financeManagement: "Usimamizi wa Fedha",
+    financeDescription:
+      "Mapato, matumizi na faida ya shamba.",
+    totalIncome: "Jumla ya Mapato",
+    totalExpenses: "Jumla ya Matumizi",
+    profit: "Faida",
+    transactions: "Miamala",
+    addTransaction: "Ongeza Muamala",
+    dateColumn: "Tarehe",
+    recorded: "Imerekodiwa",
+    type: "Aina",
+    category: "Kategoria",
+    description: "Maelezo",
+    amount: "Kiasi",
+    payment: "Malipo",
+    noTransactions: "Hakuna miamala iliyopatikana.",
+    financeEdit: "Hariri",
+    financeDelete: "Futa",
   },
 
   nl: {
@@ -246,23 +283,6 @@ const translations = {
     feed: "Voer",
     inventory: "Voorraad",
     finance: "Financiën",
-    financeManagement: "Financieel Beheer",
-    financeDescription: "Inkomsten, uitgaven en winstgevendheid van de boerderij.",
-    addTransaction: "Transactie toevoegen",
-    totalIncome: "Totale inkomsten",
-    totalExpenses: "Totale uitgaven",
-    profit: "Winst",
-    transactions: "Transacties",
-    recorded: "Geregistreerd",
-    type: "Type",
-    category: "Categorie",
-    description: "Beschrijving",
-    amount: "Bedrag",
-    payment: "Betaling",
-    actions: "Acties",
-    noTransactions: "Geen transacties gevonden.",
-    editTransaction: "Bewerken",
-    deleteTransaction: "Verwijderen",
     workers: "Werknemers",
     reports: "Rapporten",
     settings: "Instellingen",
@@ -271,7 +291,6 @@ const translations = {
     feedInventory: "Voer & Voorraad",
     staff: "Personeel",
     system: "Systeem",
-
     breeding: "Fokkerij",
     kidding: "Geboorten",
 
@@ -296,6 +315,7 @@ const translations = {
     close: "Sluiten",
     search: "Zoeken",
     actions: "Acties",
+
     name: "Naam",
     date: "Datum",
     status: "Status",
@@ -327,9 +347,14 @@ const translations = {
     systemStatus: "Systeemstatus",
 
     addGoat: "Geit toevoegen",
+    noGoatsFound: "Geen geiten gevonden",
+    tryAnotherSearch: "Probeer een andere zoekopdracht of voeg een nieuwe geit toe.",
+    tag: "Oormerk",
+    view: "Bekijken",
     addChicken: "Kip toevoegen",
     addRabbit: "Konijn toevoegen",
     addFeed: "Voer toevoegen",
+    addWorker: "Werknemer toevoegen",
     financeEntry: "Financiële invoer",
 
     goatPhoto: "Geitenfoto",
@@ -346,6 +371,35 @@ const translations = {
     noRecords: "Geen gegevens gevonden.",
     success: "Gelukt",
     error: "Fout",
+
+    welcome:
+      "Welkom bij het Salome Young Farm Managementsysteem.",
+    viewRecords: "Records bekijken",
+    reportsDescription:
+      "Bekijk bedrijfsrapporten en belangrijke informatie.",
+    openReports: "Rapporten openen",
+    settingsDescription:
+      "Configureer uw bedrijfsbeheersysteem.",
+    openSettings: "Instellingen openen",
+
+    financeManagement: "Financieel Beheer",
+    financeDescription:
+      "Inkomsten, uitgaven en winstgevendheid van de boerderij.",
+    totalIncome: "Totale inkomsten",
+    totalExpenses: "Totale uitgaven",
+    profit: "Winst",
+    transactions: "Transacties",
+    addTransaction: "Transactie toevoegen",
+    dateColumn: "Datum",
+    recorded: "Geregistreerd",
+    type: "Type",
+    category: "Categorie",
+    description: "Beschrijving",
+    amount: "Bedrag",
+    payment: "Betaling",
+    noTransactions: "Geen transacties gevonden.",
+    financeEdit: "Bewerken",
+    financeDelete: "Verwijderen",
   },
 };
 
@@ -360,8 +414,8 @@ export function LanguageProvider({ children }) {
 
   function t(key) {
     return (
-      translations[language]?.[key] ||
-      translations.en[key] ||
+      translations[language]?.[key] ??
+      translations.en?.[key] ??
       key
     );
   }
