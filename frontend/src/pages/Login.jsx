@@ -1,13 +1,12 @@
 import { useState } from "react";
+import { useLanguage } from "../context/LanguageContext";
 import { useNavigate } from "react-router-dom";
 import API_URL from "../api";
 
 function Login() {
   const navigate = useNavigate();
 
-  const [language, setLanguage] = useState(
-    localStorage.getItem("language") || "en"
-  );
+  const { language, setLanguage } = useLanguage();
 
   const languages = [
     { code: "en", flag: "🇬🇧", name: "English" },
@@ -17,7 +16,7 @@ function Login() {
 
   function chooseLanguage(code) {
     setLanguage(code);
-    localStorage.setItem("language", code);
+    localStorage.setItem("syf_language", code);
   }
 
   const text = {
