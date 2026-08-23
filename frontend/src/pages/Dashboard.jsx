@@ -219,30 +219,35 @@ function Dashboard() {
           icon="🐐"
           title="Goats"
           value={goats.length}
+          to="/goats"
         />
 
         <StatCard
           icon="🐔"
           title="Chickens"
           value={chickens.length}
+          to="/chickens"
         />
 
         <StatCard
           icon="🐇"
           title="Rabbits"
           value={rabbits.length}
+          to="/rabbits"
         />
 
         <StatCard
           icon="🌾"
           title="Feed Types"
           value={feed.length}
+          to="/feed"
         />
 
         <StatCard
           icon="📦"
           title="Inventory Items"
           value={inventory.length}
+          to="/inventory"
         />
 
         <StatCard
@@ -250,6 +255,7 @@ function Dashboard() {
           title="Income"
           value={`KES ${totalIncome.toLocaleString()}`}
           color="#2e7d32"
+          to="/finance"
         />
 
         <StatCard
@@ -257,6 +263,7 @@ function Dashboard() {
           title="Expenses"
           value={`KES ${totalExpense.toLocaleString()}`}
           color="#d32f2f"
+          to="/finance"
         />
 
         <StatCard
@@ -264,6 +271,7 @@ function Dashboard() {
           title="Profit"
           value={`KES ${profit.toLocaleString()}`}
           color="#1565c0"
+          to="/finance"
         />
       </div>
 
