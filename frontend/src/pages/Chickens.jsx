@@ -1,8 +1,10 @@
 import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useLanguage } from "../context/LanguageContext";
 
 function Chickens() {
+  const { t } = useLanguage();
   const [chickens, setChickens] = useState([]);
 
   useEffect(() => {
@@ -121,7 +123,7 @@ function Chickens() {
               lineHeight: 1.2,
             }}
           >
-            🐔 Chickens
+            🐔 {t("chickens")}
           </h1>
 
           <p
@@ -141,7 +143,7 @@ function Chickens() {
             flexShrink: 0,
           }}
         >
-          ➕ Add Chicken
+          ➕ {t("addChicken")}
         </Link>
       </div>
 
@@ -182,7 +184,7 @@ function Chickens() {
             <tr>
               <th style={headerStyle}>Tag</th>
               <th style={headerStyle}>Name</th>
-              <th style={headerStyle}>Breed</th>
+              <th style={headerStyle}>{t("breed")}</th>
               <th style={headerStyle}>Type</th>
               <th style={headerStyle}>Quantity</th>
               <th style={headerStyle}>Status</th>
@@ -201,7 +203,7 @@ function Chickens() {
                     fontSize: "14px",
                   }}
                 >
-                  No chickens found.
+                  {t("noChickensFound")}
                 </td>
               </tr>
             ) : (
@@ -347,7 +349,7 @@ function Chickens() {
                           whiteSpace: "nowrap",
                         }}
                       >
-                        👁 View
+                        👁 {t("view")}
                       </Link>
 
                       <Link
@@ -359,7 +361,7 @@ function Chickens() {
                           whiteSpace: "nowrap",
                         }}
                       >
-                        ✏ Edit
+                        ✏ {t("edit")}
                       </Link>
 
                       <button
@@ -380,7 +382,7 @@ function Chickens() {
                           cursor: "pointer",
                         }}
                       >
-                        🗑 Delete
+                        🗑 {t("delete")}
                       </button>
                     </div>
                   </td>
