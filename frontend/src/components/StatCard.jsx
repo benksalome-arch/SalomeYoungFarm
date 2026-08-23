@@ -1,21 +1,41 @@
+import { useNavigate } from "react-router-dom";
+
 function StatCard({
   icon,
   title,
   value,
   color = "#2e7d32",
+  to,
 }) {
+  const navigate = useNavigate();
+
+  function handleClick() {
+    if (to) {
+      navigate(to);
+    }
+  }
+
   return (
     <div
       className="card"
+      onClick={handleClick}
+      role={to ? "button" : undefined}
+      tabIndex={to ? 0 : undefined}
+      onKeyDown={(e) => {
+        if (to && (e.key === "Enter" || e.key === " ")) {
+          navigate(to);
+        }
+      }}
       style={{
         minWidth: 0,
         borderLeft: `6px solid ${color}`,
         textAlign: "center",
         padding: "20px 15px",
         boxSizing: "border-box",
+        cursor: to ? "pointer" : "default",
+        transition: "transform 0.15s ease, box-shadow 0.15s ease",
       }}
     >
-      {/* Icon */}
       <div
         style={{
           fontSize: "32px",
@@ -26,7 +46,6 @@ function StatCard({
         {icon}
       </div>
 
-      {/* Title */}
       <h3
         style={{
           margin: "0 0 8px 0",
@@ -38,7 +57,6 @@ function StatCard({
         {title}
       </h3>
 
-      {/* Value */}
       <div
         style={{
           fontSize: "28px",
