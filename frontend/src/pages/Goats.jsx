@@ -4,8 +4,10 @@ import { Link } from "react-router-dom";
 import GoatTable from "../components/GoatTable";
 import SearchBar from "../components/SearchBar";
 import API_URL from "../api";
+import { useLanguage } from "../context/LanguageContext";
 
 function Goats() {
+  const { t } = useLanguage();
   const [goats, setGoats] = useState([]);
   const [search, setSearch] = useState("");
 
@@ -80,7 +82,7 @@ function Goats() {
             flexShrink: 0,
           }}
         >
-          + Add Goat
+          + {t("addGoat")}
         </Link>
       </div>
 
@@ -134,7 +136,7 @@ function Goats() {
             </div>
 
             <h3 style={{ margin: 0 }}>
-              No goats found
+              {t("noGoatsFound")}
             </h3>
 
             <p
@@ -143,7 +145,7 @@ function Goats() {
                 color: "#777",
               }}
             >
-              Try another search or add a new goat.
+              {t("tryAnotherSearch")}
             </p>
           </div>
         ) : (
@@ -222,7 +224,7 @@ function Goats() {
                           fontSize: "14px",
                         }}
                       >
-                        Tag: <strong>{tag}</strong>
+                        {t("tag")}: <strong>{tag}</strong>
                       </div>
                     </div>
                   </div>
@@ -234,7 +236,7 @@ function Goats() {
                       borderRadius: "20px",
                       padding: "7px 12px",
                       fontSize: "13px",
-                      fontWeight: "600",
+                      font{t("weight")}: "600",
                       flexShrink: 0,
                       maxWidth: "110px",
                       textAlign: "center",
@@ -264,12 +266,12 @@ function Goats() {
                     }}
                   >
                     <small style={{ color: "#777" }}>
-                      Breed
+                      {t("breed")}
                     </small>
 
                     <div
                       style={{
-                        fontWeight: "600",
+                        font{t("weight")}: "600",
                         marginTop: "3px",
                         overflowWrap: "anywhere",
                       }}
@@ -286,12 +288,12 @@ function Goats() {
                     }}
                   >
                     <small style={{ color: "#777" }}>
-                      Sex
+                      {t("sex")}
                     </small>
 
                     <div
                       style={{
-                        fontWeight: "600",
+                        font{t("weight")}: "600",
                         marginTop: "3px",
                       }}
                     >
@@ -307,12 +309,12 @@ function Goats() {
                     }}
                   >
                     <small style={{ color: "#777" }}>
-                      Birth Date
+                      {t("birthDate")}
                     </small>
 
                     <div
                       style={{
-                        fontWeight: "600",
+                        font{t("weight")}: "600",
                         marginTop: "3px",
                         overflowWrap: "anywhere",
                       }}
@@ -329,12 +331,12 @@ function Goats() {
                     }}
                   >
                     <small style={{ color: "#777" }}>
-                      Weight
+                      {t("weight")}
                     </small>
 
                     <div
                       style={{
-                        fontWeight: "600",
+                        font{t("weight")}: "600",
                         marginTop: "3px",
                       }}
                     >
@@ -362,7 +364,7 @@ function Goats() {
                       boxSizing: "border-box",
                     }}
                   >
-                    👁 View
+                    👁 {t("view")}
                   </Link>
 
                   <Link
@@ -374,7 +376,7 @@ function Goats() {
                       boxSizing: "border-box",
                     }}
                   >
-                    ✏️ Edit
+                    ✏️ {t("edit")}
                   </Link>
 
                   <button
@@ -428,7 +430,7 @@ function Goats() {
                       }
                     }}
                   >
-                    🗑 Delete
+                    🗑 {t("delete")}
                   </button>
                 </div>
               </div>
