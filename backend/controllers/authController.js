@@ -11,15 +11,31 @@ const JWT_SECRET =
 // EMAIL CONFIGURATION
 // =====================================
 
-const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST,
-  port: Number(process.env.SMTP_PORT || 587),
-  secure: Number(process.env.SMTP_PORT) === 465,
-  auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASS,
-  },
-});
+const RESEND_API_KEY = process.env.RESEND_API_KEY;
+
+async function sendResetEmail({ to, subject, text, html }) {
+  const response = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${RESEND_API_KEY}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      from: process.env.SMTP_FROM || "onboarding@resend.dev",
+      to,
+      subject,
+      text,
+      html,
+    }),
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(`Resend email error: ${response.status} ${errorText}`);
+  }
+
+  return response.json();
+}
 
 // =====================================
 // LOGIN
@@ -363,11 +379,7 @@ exports.forgotPassword = async (req, res) => {
         const resetLink =
           `${frontendUrl}/reset-password?token=${resetToken}`;
 
-        await transporter.sendMail({
-          from:
-            process.env.SMTP_FROM ||
-            process.env.SMTP_USER,
-
+        await sendResetEmail({
           to: user.email,
 
           subject: "Salome Young Farm - Password Reset",
