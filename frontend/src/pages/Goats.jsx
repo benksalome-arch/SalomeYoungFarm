@@ -366,7 +366,7 @@ function Goats() {
                   </Link>
 
                   <Link
-                    to={`/goats/${goat.id}/edit`}
+                    to={`/goats/edit/${goat.id}`}
                     className="button"
                     style={{
                       textAlign: "center",
