@@ -299,16 +299,16 @@ function Feed() {
             <thead>
               <tr>
                 <th>{t("feed")}</th>
-                <th>Category</th>
+                <th>{t("category")}</th>
                 <th style={{ textAlign: "center" }}>
-                  Quantity
+                  {t("quantity")}
                 </th>
                 <th style={{ textAlign: "center" }}>
-                  Unit
+                  {t("unit")}
                 </th>
-                <th>Supplier</th>
+                <th>{t("supplier")}</th>
                 <th style={{ textAlign: "center" }}>
-                  Cost/Unit
+                  Cost/{t("unit")}
                 </th>
                 <th style={{ textAlign: "center" }}>
                   Status
@@ -470,7 +470,7 @@ function Feed() {
 
                       <div className="feed-mobile-category">
                         {feed.category ||
-                          "No category"}
+                          t("noCategory")}
                       </div>
                     </div>
 
@@ -491,7 +491,7 @@ function Feed() {
                   <div className="feed-mobile-info">
                     <div className="feed-info-box">
                       <span className="feed-info-label">
-                        Quantity
+                        {t("quantity")}
                       </span>
 
                       <div className="feed-info-value">
@@ -502,7 +502,7 @@ function Feed() {
 
                     <div className="feed-info-box">
                       <span className="feed-info-label">
-                        Cost / Unit
+                        Cost / {t("unit")}
                       </span>
 
                       <div className="feed-info-value">
@@ -515,7 +515,7 @@ function Feed() {
                   </div>
 
                   <div className="feed-supplier">
-                    <strong>Supplier:</strong>{" "}
+                    <strong>{t("supplier")}:</strong>{" "}
                     {feed.supplier || "-"}
                   </div>
 
