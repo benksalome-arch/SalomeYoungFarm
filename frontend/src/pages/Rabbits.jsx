@@ -1,8 +1,10 @@
 import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useLanguage } from "../context/LanguageContext";
 
 function Rabbits() {
+  const { t } = useLanguage();
   const [rabbits, setRabbits] = useState([]);
 
   useEffect(() => {
@@ -98,7 +100,7 @@ function Rabbits() {
               lineHeight: 1.2,
             }}
           >
-            🐇 Rabbits
+            🐇 {t("rabbits")}
           </h1>
 
           <p
@@ -118,7 +120,7 @@ function Rabbits() {
             flexShrink: 0,
           }}
         >
-          ➕ Add Rabbit
+          ➕ {t("addRabbit")}
         </Link>
       </div>
 
@@ -176,7 +178,7 @@ function Rabbits() {
                   whiteSpace: "nowrap",
                 }}
               >
-                Breed
+                {t("breed")}
               </th>
 
               <th
@@ -187,7 +189,7 @@ function Rabbits() {
                   whiteSpace: "nowrap",
                 }}
               >
-                Sex
+                {t("sex")}
               </th>
 
               <th
@@ -235,7 +237,7 @@ function Rabbits() {
                     padding: "30px 10px",
                   }}
                 >
-                  No rabbits found.
+                  {t("noRabbitsFound")}
                 </td>
               </tr>
             ) : (
@@ -366,7 +368,7 @@ function Rabbits() {
                           whiteSpace: "nowrap",
                         }}
                       >
-                        👁 View
+                        👁 {t("view")}
                       </Link>
 
                       <Link
@@ -378,7 +380,7 @@ function Rabbits() {
                           whiteSpace: "nowrap",
                         }}
                       >
-                        ✏ Edit
+                        ✏ {t("edit")}
                       </Link>
 
                       <button
@@ -399,7 +401,7 @@ function Rabbits() {
                           cursor: "pointer",
                         }}
                       >
-                        🗑 Delete
+                        🗑 {t("delete")}
                       </button>
                     </div>
                   </td>

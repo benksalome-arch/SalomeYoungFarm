@@ -81,6 +81,8 @@ const translations = {
 
     addGoat: "Add Goat",
     noGoatsFound: "No goats found",
+    noRabbitsFound: "No rabbits found",
+    view: "View",
     farmOverview: "Farm Overview",
     feedTypes: "Feed Types",
     inventoryItems: "Inventory Items",
