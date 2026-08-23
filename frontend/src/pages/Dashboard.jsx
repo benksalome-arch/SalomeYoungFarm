@@ -94,7 +94,7 @@ function Dashboard() {
   const operationCards = [
     {
       title: t("feed"),
-      description: "Manage feed stock and usage",
+      description: t("manageFeedStock"),
       icon: "🌾",
       path: "/feed",
       color: "#F3E5F5",
@@ -102,7 +102,7 @@ function Dashboard() {
     },
     {
       title: t("inventory"),
-      description: "Track farm supplies",
+      description: t("trackFarmSupplies"),
       icon: "📦",
       path: "/inventory",
       color: "#FFF3E0",
@@ -110,7 +110,7 @@ function Dashboard() {
     },
     {
       title: t("eggProduction"),
-      description: "Record and monitor eggs",
+      description: t("recordEggs"),
       icon: "🥚",
       path: "/egg-production",
       color: "#FFFDE7",
@@ -118,7 +118,7 @@ function Dashboard() {
     },
     {
       title: t("vaccinations"),
-      description: "Animal vaccination records",
+      description: t("vaccinationRecords"),
       icon: "💉",
       path: "/chicken-vaccinations",
       color: "#E0F7FA",
@@ -313,7 +313,7 @@ function Dashboard() {
             }}
           >
             <small style={{ color: "#777" }}>
-              Total Animals
+              {t("totalAnimals")}
             </small>
 
             <div
@@ -379,7 +379,7 @@ function Dashboard() {
             }}
           >
             <small style={{ color: "#777" }}>
-              Finance Records
+              {t("financeRecords")}
             </small>
 
             <div
@@ -402,7 +402,7 @@ function Dashboard() {
           marginBottom: "28px",
         }}
       >
-        <h2>⚙️ Farm Operations</h2>
+        <h2>⚙️ {t("farmOperations")}</h2>
 
         <div
           style={{
@@ -485,7 +485,7 @@ function Dashboard() {
             marginTop: 0,
           }}
         >
-          ⚡ Quick Actions
+          ⚡ {t("quickActions")}
         </h2>
 
         <div
@@ -539,7 +539,7 @@ function Dashboard() {
               lineHeight: 1.6,
             }}
           >
-            Manage farm income, expenses and financial records.
+            {t("manageFinance")}
           </p>
 
           <Link
@@ -569,7 +569,7 @@ function Dashboard() {
               lineHeight: 1.6,
             }}
           >
-            Manage farm workers and their records.
+            {t("manageWorkers")}
           </p>
 
           <Link
