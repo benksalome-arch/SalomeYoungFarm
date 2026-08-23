@@ -1,7 +1,9 @@
 import { useState } from "react";
 import API_URL from "../api";
+import { useLanguage } from "../context/LanguageContext";
 
 function Settings() {
+  const { language, setLanguage } = useLanguage();
   const [profile, setProfile] = useState({
     name: "",
     email: "",
@@ -624,13 +626,41 @@ function Settings() {
 
           <p
             style={{
-              marginBottom: 0,
+              marginBottom: "15px",
               color: "#666",
             }}
           >
-            Additional display preferences can be added here
-            as the application develops.
+            Choose your preferred language for the application.
           </p>
+
+          <label
+            htmlFor="language"
+            style={{
+              display: "block",
+              marginBottom: "6px",
+              fontWeight: "600",
+            }}
+          >
+            🌐 Language
+          </label>
+
+          <select
+            id="language"
+            value={language}
+            onChange={(e) => setLanguage(e.target.value)}
+            style={{
+              width: "100%",
+              maxWidth: "350px",
+              padding: "10px",
+              borderRadius: "8px",
+              border: "1px solid #ccc",
+              background: "white",
+            }}
+          >
+            <option value="en">🇬🇧 English</option>
+            <option value="sw">🇰🇪 Kiswahili</option>
+            <option value="nl">🇳🇱 Nederlands</option>
+          </select>
         </div>
       </div>
 

@@ -1,16 +1,18 @@
 import { Link, useLocation } from "react-router-dom";
+import { useLanguage } from "../context/LanguageContext";
 
 function Sidebar() {
   const location = useLocation();
+  const { t } = useLanguage();
 
   const menuItems = [
     {
-      title: "Dashboard",
+      title: t("dashboard"),
       color: "#E8F5E9",
       textColor: "#1B5E20",
       items: [
         {
-          name: "Dashboard",
+          name: t("dashboard"),
           path: "/",
           icon: "🏠",
         },
@@ -18,30 +20,35 @@ function Sidebar() {
     },
 
     {
-      title: "Goat Management",
+      title: t("goats"),
       color: "#FFF3E0",
-      textColor: "#8D4E00",
+      textColor: "#E65100",
       items: [
         {
-          name: "Goats",
+          name: t("goats"),
           path: "/goats",
           icon: "🐐",
         },
         {
           name: "Breeding",
           path: "/breeding",
-          icon: "🧬",
+          icon: "❤️",
+        },
+        {
+          name: "Kidding",
+          path: "/kidding",
+          icon: "🐐",
         },
       ],
     },
 
     {
-      title: "Poultry",
+      title: t("chickens"),
       color: "#FFF8E1",
-      textColor: "#795548",
+      textColor: "#F57F17",
       items: [
         {
-          name: "Chickens",
+          name: t("chickens"),
           path: "/chickens",
           icon: "🐔",
         },
@@ -69,12 +76,12 @@ function Sidebar() {
     },
 
     {
-      title: "Feed & Inventory",
+      title: t("feedInventory"),
       color: "#F3E5F5",
       textColor: "#6A1B9A",
       items: [
         {
-          name: "Feed",
+          name: t("feed"),
           path: "/feed",
           icon: "🌾",
         },
@@ -84,7 +91,7 @@ function Sidebar() {
           icon: "🥣",
         },
         {
-          name: "Inventory",
+          name: t("inventory"),
           path: "/inventory",
           icon: "📦",
         },
@@ -92,12 +99,12 @@ function Sidebar() {
     },
 
     {
-      title: "Finance",
+      title: t("finance"),
       color: "#E3F2FD",
       textColor: "#1565C0",
       items: [
         {
-          name: "Finance",
+          name: t("finance"),
           path: "/finance",
           icon: "💵",
         },
@@ -105,12 +112,12 @@ function Sidebar() {
     },
 
     {
-      title: "Staff",
+      title: t("staff"),
       color: "#ECEFF1",
       textColor: "#455A64",
       items: [
         {
-          name: "Workers",
+          name: t("workers"),
           path: "/workers",
           icon: "👷",
         },
@@ -118,12 +125,12 @@ function Sidebar() {
     },
 
     {
-      title: "Rabbit Farm",
+      title: t("rabbitFarm"),
       color: "#FCE4EC",
       textColor: "#AD1457",
       items: [
         {
-          name: "Rabbits",
+          name: t("rabbits"),
           path: "/rabbits",
           icon: "🐇",
         },
@@ -146,17 +153,17 @@ function Sidebar() {
     },
 
     {
-      title: "System",
+      title: t("system"),
       color: "#E0F2F1",
       textColor: "#00695C",
       items: [
         {
-          name: "Reports",
+          name: t("reports"),
           path: "/reports",
           icon: "📊",
         },
         {
-          name: "Settings",
+          name: t("settings"),
           path: "/settings",
           icon: "⚙️",
         },
@@ -192,8 +199,6 @@ function Sidebar() {
             marginBottom: "20px",
           }}
         >
-          {/* SECTION TITLE */}
-
           <div
             style={{
               width: "100%",
@@ -205,7 +210,6 @@ function Sidebar() {
               fontSize: "12px",
               fontWeight: "700",
               textTransform: "uppercase",
-              letterSpacing: "0",
               whiteSpace: "nowrap",
               overflow: "hidden",
               textOverflow: "ellipsis",
@@ -214,8 +218,6 @@ function Sidebar() {
           >
             {section.title}
           </div>
-
-          {/* MENU ITEMS */}
 
           {section.items.map((item) => (
             <Link
