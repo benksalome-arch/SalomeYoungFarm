@@ -278,14 +278,6 @@ function Feed() {
       {/* PAGE HEADER */}
 
       <div className="feed-header">
-        <div style={{ minWidth: 0 }}>
-          <h1 className="feed-title">🌾 Feed Management</h1>
-
-          <p className="feed-subtitle">
-            Manage all animal feeds.
-          </p>
-        </div>
-
         <Link
           className="button feed-add-button"
           to="/feed/add"
