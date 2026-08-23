@@ -1,8 +1,10 @@
 import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useLanguage } from "../context/LanguageContext";
 
 function Workers() {
+  const { t } = useLanguage();
   const [workers, setWorkers] = useState([]);
 
   useEffect(() => {
@@ -75,7 +77,7 @@ function Workers() {
   return (
     <div className="page">
       <div className="page-header">
-        <h1>👥 Worker Management</h1>
+        <h1>👥 {t("workerManagement")}</h1>
         <p>Manage users who can access Salome Young Farm.</p>
       </div>
 
@@ -88,10 +90,10 @@ function Workers() {
             marginBottom: "20px",
           }}
         >
-          <h2>Workers</h2>
+          <h2>{t("workers")}</h2>
 
           <Link className="button" to="/workers/add">
-            ➕ Add Worker
+            ➕ {t("addWorker")}
           </Link>
         </div>
 
@@ -111,7 +113,7 @@ function Workers() {
             {workers.length === 0 ? (
               <tr>
                 <td colSpan="6" style={{ textAlign: "center" }}>
-                  No workers found.
+                  {t("noWorkersFound")}
                 </td>
               </tr>
             ) : (
