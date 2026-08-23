@@ -188,11 +188,11 @@ function Settings() {
             margin: 0,
           }}
         >
-          ⚙️ Settings
+          ⚙️ {t("settings")}
         </h1>
 
         <p>
-          Configure Livestock Pro and user preferences.
+          {t("settingsDescription")}
         </p>
       </div>
 
@@ -207,7 +207,7 @@ function Settings() {
           marginBottom: "20px",
         }}
       >
-        <h2>👤 Profile</h2>
+        <h2>👤 {t("profile")}</h2>
 
         <p>
           Manage your personal account information.
@@ -506,7 +506,7 @@ function Settings() {
           marginBottom: "20px",
         }}
       >
-        <h2>🏡 Farm Information</h2>
+        <h2>🏡 {t("farmInformation")}</h2>
 
         <p>
           Manage the basic information for your farm.
@@ -608,7 +608,7 @@ function Settings() {
           marginBottom: "20px",
         }}
       >
-        <h2>⚙️ Preferences</h2>
+        <h2>⚙️ {t("preferences")}</h2>
 
         <p>
           Manage your Livestock Pro preferences.
@@ -622,7 +622,7 @@ function Settings() {
             borderRadius: "8px",
           }}
         >
-          <strong>Display Preferences</strong>
+          <strong>{t("displayPreferences")}</strong>
 
           <p
             style={{
@@ -630,7 +630,7 @@ function Settings() {
               color: "#666",
             }}
           >
-            Choose your preferred language for the application.
+            {t("displayPreferencesDescription")}
           </p>
 
           <label
@@ -641,7 +641,7 @@ function Settings() {
               fontWeight: "600",
             }}
           >
-            🌐 Language
+            🌐 {t("language")}
           </label>
 
           <select
@@ -675,7 +675,7 @@ function Settings() {
           border: "1px solid #e0b4b4",
         }}
       >
-        <h2>🗄️ Data Management</h2>
+        <h2>🗄️ {t("dataManagement")}</h2>
 
         <p>
           Manage test and application data.
