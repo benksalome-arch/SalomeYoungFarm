@@ -157,210 +157,323 @@ function Feed() {
             overflow: "hidden",
           }}
         >
-          <table
-            className="table"
+          <style>{`
+            .feed-desktop-table {
+              display: block;
+            }
+
+            .feed-mobile-cards {
+              display: none;
+            }
+
+            @media (max-width: 700px) {
+              .feed-desktop-table {
+                display: none !important;
+              }
+
+              .feed-mobile-cards {
+                display: flex !important;
+                flex-direction: column;
+                gap: 14px;
+              }
+            }
+          `}</style>
+
+          <div className="feed-desktop-table">
+  <table
+    style={{
+      width: "100%",
+      borderCollapse: "collapse",
+      minWidth: "720px",
+    }}
+  >
+    <thead>
+      <tr>
+        <th>Feed</th>
+        <th>Category</th>
+        <th>Quantity</th>
+        <th>Unit</th>
+        <th>Supplier</th>
+        <th>Cost/Unit</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {feeds.length === 0 ? (
+        <tr>
+          <td
+            colSpan="8"
             style={{
-              width: "100%",
-              maxWidth: "100%",
-              minWidth: 0,
-              tableLayout: "fixed",
-              borderCollapse: "collapse",
+              textAlign: "center",
+              padding: "30px 10px",
             }}
           >
-            <colgroup>
-              <col style={{ width: "15%" }} />
-              <col style={{ width: "13%" }} />
-              <col style={{ width: "10%" }} />
-              <col style={{ width: "8%" }} />
-              <col style={{ width: "15%" }} />
-              <col style={{ width: "12%" }} />
-              <col style={{ width: "10%" }} />
-              <col style={{ width: "17%" }} />
-            </colgroup>
+            No feed records found.
+          </td>
+        </tr>
+      ) : (
+        feeds.map((feed) => {
+          const quantity = Number(feed.quantity || 0);
+          const minimumStock = Number(feed.minimum_stock || 0);
+          const isLow = quantity <= minimumStock;
 
-            <thead>
-              <tr>
-                <th style={headerStyle}>Feed</th>
-                <th style={headerStyle}>Category</th>
-                <th style={headerStyle}>Quantity</th>
-                <th style={headerStyle}>Unit</th>
-                <th style={headerStyle}>Supplier</th>
-                <th style={headerStyle}>Cost/Unit</th>
-                <th style={headerStyle}>Status</th>
-                <th style={headerStyle}>Actions</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              {feeds.length === 0 ? (
-                <tr>
-                  <td
-                    colSpan="8"
+          return (
+            <tr key={feed.id}>
+              <td>{feed.feed_name || "-"}</td>
+              <td>{feed.category || "-"}</td>
+              <td style={{ textAlign: "center" }}>
+                {feed.quantity ?? 0}
+              </td>
+              <td style={{ textAlign: "center" }}>
+                {feed.unit || "-"}
+              </td>
+              <td>{feed.supplier || "-"}</td>
+              <td style={{ textAlign: "center" }}>
+                KES {Number(feed.cost_per_unit || 0).toLocaleString()}
+              </td>
+              <td style={{ textAlign: "center" }}>
+                <span
+                  style={{
+                    display: "inline-block",
+                    background: isLow ? "#E53935" : "#4CAF50",
+                    color: "white",
+                    padding: "6px 9px",
+                    borderRadius: "20px",
+                    fontSize: "11px",
+                    fontWeight: "bold",
+                  }}
+                >
+                  {isLow ? "🔴 Low" : "🟢 OK"}
+                </span>
+              </td>
+              <td>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    gap: "5px",
+                    flexWrap: "wrap",
+                  }}
+                >
+                  <Link
+                    className="button"
+                    to={`/feed/edit/${feed.id}`}
                     style={{
-                      textAlign: "center",
-                      padding: "30px 10px",
-                      fontSize: "14px",
+                      padding: "6px 8px",
+                      fontSize: "11px",
                     }}
                   >
-                    No feed records found.
-                  </td>
-                </tr>
-              ) : (
-                feeds.map((feed) => {
-                  const quantity = Number(feed.quantity || 0);
+                    ✏ Edit
+                  </Link>
 
-                  const minimumStock = Number(
-                    feed.minimum_stock || 0
-                  );
+                  <button
+                    type="button"
+                    className="button"
+                    onClick={() => deleteFeed(feed.id)}
+                    style={{
+                      padding: "6px 8px",
+                      fontSize: "11px",
+                      background: "#D32F2F",
+                      color: "white",
+                      border: "none",
+                    }}
+                  >
+                    🗑 Delete
+                  </button>
+                </div>
+              </td>
+            </tr>
+          );
+        })
+      )}
+    </tbody>
+  </table>
+</div>
 
-                  const isLow = quantity <= minimumStock;
+<div className="feed-mobile-cards">
+  {feeds.length === 0 ? (
+    <div
+      style={{
+        textAlign: "center",
+        padding: "30px 15px",
+        color: "#777",
+      }}
+    >
+      No feed records found.
+    </div>
+  ) : (
+    feeds.map((feed) => {
+      const quantity = Number(feed.quantity || 0);
+      const minimumStock = Number(feed.minimum_stock || 0);
+      const isLow = quantity <= minimumStock;
 
-                  return (
-                    <tr key={feed.id}>
-                      {/* FEED */}
+      return (
+        <div
+          key={feed.id}
+          style={{
+            background: "#ffffff",
+            borderRadius: "14px",
+            padding: "17px",
+            boxShadow: "0 3px 12px rgba(0,0,0,0.08)",
+            borderLeft: `5px solid ${
+              isLow ? "#E53935" : "#4CAF50"
+            }`,
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "flex-start",
+              gap: "10px",
+              marginBottom: "14px",
+            }}
+          >
+            <div
+              style={{
+                minWidth: 0,
+                flex: 1,
+              }}
+            >
+              <div
+                style={{
+                  fontSize: "19px",
+                  fontWeight: "700",
+                  color: "#26332a",
+                  overflowWrap: "anywhere",
+                }}
+              >
+                🌾 {feed.feed_name || "-"}
+              </div>
 
-                      <td
-                        style={cellStyle}
-                        title={feed.feed_name || ""}
-                      >
-                        {feed.feed_name || "-"}
-                      </td>
+              <div
+                style={{
+                  marginTop: "4px",
+                  color: "#777",
+                  fontSize: "13px",
+                }}
+              >
+                {feed.category || "No category"}
+              </div>
+            </div>
 
-                      {/* CATEGORY */}
+            <span
+              style={{
+                flexShrink: 0,
+                background: isLow ? "#E53935" : "#4CAF50",
+                color: "white",
+                padding: "6px 9px",
+                borderRadius: "20px",
+                fontSize: "11px",
+                fontWeight: "700",
+              }}
+            >
+              {isLow ? "🔴 Low" : "🟢 OK"}
+            </span>
+          </div>
 
-                      <td
-                        style={cellStyle}
-                        title={feed.category || ""}
-                      >
-                        {feed.category || "-"}
-                      </td>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "1fr 1fr",
+              gap: "10px",
+              marginBottom: "14px",
+            }}
+          >
+            <div
+              style={{
+                background: "#f5f7f5",
+                padding: "10px",
+                borderRadius: "8px",
+              }}
+            >
+              <small style={{ color: "#777" }}>Quantity</small>
+              <div
+                style={{
+                  fontWeight: "700",
+                  fontSize: "16px",
+                  marginTop: "3px",
+                }}
+              >
+                {feed.quantity ?? 0} {feed.unit || ""}
+              </div>
+            </div>
 
-                      {/* QUANTITY */}
+            <div
+              style={{
+                background: "#f5f7f5",
+                padding: "10px",
+                borderRadius: "8px",
+              }}
+            >
+              <small style={{ color: "#777" }}>Cost / Unit</small>
+              <div
+                style={{
+                  fontWeight: "700",
+                  fontSize: "16px",
+                  marginTop: "3px",
+                }}
+              >
+                KES {Number(feed.cost_per_unit || 0).toLocaleString()}
+              </div>
+            </div>
+          </div>
 
-                      <td
-                        style={{
-                          ...cellStyle,
-                          textAlign: "center",
-                        }}
-                      >
-                        {feed.quantity ?? 0}
-                      </td>
+          <div
+            style={{
+              marginBottom: "14px",
+              fontSize: "14px",
+              color: "#555",
+            }}
+          >
+            <strong>Supplier:</strong>{" "}
+            {feed.supplier || "-"}
+          </div>
 
-                      {/* UNIT */}
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "1fr 1fr",
+              gap: "8px",
+            }}
+          >
+            <Link
+              className="button"
+              to={`/feed/edit/${feed.id}`}
+              style={{
+                textDecoration: "none",
+                textAlign: "center",
+                padding: "10px 6px",
+                fontSize: "13px",
+              }}
+            >
+              ✏ Edit
+            </Link>
 
-                      <td
-                        style={{
-                          ...cellStyle,
-                          textAlign: "center",
-                        }}
-                      >
-                        {feed.unit || "-"}
-                      </td>
+            <button
+              type="button"
+              className="button"
+              onClick={() => deleteFeed(feed.id)}
+              style={{
+                padding: "10px 6px",
+                fontSize: "13px",
+                background: "#D32F2F",
+                color: "white",
+                border: "none",
+                cursor: "pointer",
+              }}
+            >
+              🗑 Delete
+            </button>
+          </div>
+        </div>
+      );
+    })
+  )}
+</div>
 
-                      {/* SUPPLIER */}
-
-                      <td
-                        style={cellStyle}
-                        title={feed.supplier || ""}
-                      >
-                        {feed.supplier || "-"}
-                      </td>
-
-                      {/* COST */}
-
-                      <td
-                        style={{
-                          ...cellStyle,
-                          textAlign: "center",
-                        }}
-                      >
-                        KES{" "}
-                        {Number(
-                          feed.cost_per_unit || 0
-                        ).toLocaleString()}
-                      </td>
-
-                      {/* STATUS */}
-
-                      <td
-                        style={{
-                          ...cellStyle,
-                          textAlign: "center",
-                        }}
-                      >
-                        <span
-                          style={{
-                            display: "inline-block",
-                            background: isLow
-                              ? "#E53935"
-                              : "#4CAF50",
-                            color: "white",
-                            padding: "6px 9px",
-                            borderRadius: "20px",
-                            fontSize: "11px",
-                            fontWeight: "bold",
-                            whiteSpace: "nowrap",
-                          }}
-                        >
-                          {isLow ? "🔴 Low" : "🟢 OK"}
-                        </span>
-                      </td>
-
-                      {/* ACTIONS */}
-
-                      <td
-                        style={{
-                          padding: "8px",
-                          verticalAlign: "middle",
-                        }}
-                      >
-                        <div
-                          style={{
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            gap: "5px",
-                            flexWrap: "wrap",
-                          }}
-                        >
-                          <Link
-                            className="button"
-                            to={`/feed/edit/${feed.id}`}
-                            style={{
-                              padding: "6px 8px",
-                              fontSize: "11px",
-                              whiteSpace: "nowrap",
-                            }}
-                          >
-                            ✏ Edit
-                          </Link>
-
-                          <button
-                            type="button"
-                            className="button"
-                            onClick={() =>
-                              deleteFeed(feed.id)
-                            }
-                            style={{
-                              padding: "6px 8px",
-                              fontSize: "11px",
-                              background: "#D32F2F",
-                              color: "white",
-                              border: "none",
-                              whiteSpace: "nowrap",
-                              cursor: "pointer",
-                            }}
-                          >
-                            🗑 Delete
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })
-              )}
-            </tbody>
-          </table>
         </div>
       </div>
     </div>
