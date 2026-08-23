@@ -4,24 +4,22 @@ import API_URL from "../api";
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   async function handleLogin(e) {
     e.preventDefault();
 
     try {
-      const response = await fetch(
-        `${API_URL}/api/auth/login`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email,
-            password,
-          }),
-        }
-      );
+      const response = await fetch(`${API_URL}/api/auth/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      });
 
       const data = await response.json();
 
@@ -44,6 +42,10 @@ function Login() {
 
   function goToRegister() {
     window.location.href = "/register";
+  }
+
+  function goToForgotPassword() {
+    window.location.href = "/forgot-password";
   }
 
   return (
@@ -69,9 +71,6 @@ function Login() {
           boxShadow: "0 6px 24px rgba(0, 0, 0, 0.08)",
         }}
       >
-
-        {/* LOGO + HEADER */}
-
         <div
           style={{
             textAlign: "center",
@@ -114,12 +113,7 @@ function Login() {
           </p>
         </div>
 
-        {/* FORM */}
-
         <form onSubmit={handleLogin}>
-
-          {/* EMAIL */}
-
           <div
             style={{
               marginBottom: "20px",
@@ -159,8 +153,6 @@ function Login() {
             />
           </div>
 
-          {/* PASSWORD */}
-
           <div
             style={{
               marginBottom: "10px",
@@ -178,29 +170,55 @@ function Login() {
               Password
             </label>
 
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Enter your password"
-              autoComplete="current-password"
-              required
+            <div
               style={{
+                position: "relative",
                 width: "100%",
-                height: "46px",
-                padding: "0 13px",
-                boxSizing: "border-box",
-                border: "1px solid #d4d9d5",
-                borderRadius: "7px",
-                background: "#ffffff",
-                fontSize: "15px",
-                color: "#222",
-                outline: "none",
               }}
-            />
-          </div>
+            >
+              <input
+                type={showPassword ? "text" : "password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Enter your password"
+                autoComplete="current-password"
+                required
+                style={{
+                  width: "100%",
+                  height: "46px",
+                  padding: "0 48px 0 13px",
+                  boxSizing: "border-box",
+                  border: "1px solid #d4d9d5",
+                  borderRadius: "7px",
+                  background: "#ffffff",
+                  fontSize: "15px",
+                  color: "#222",
+                  outline: "none",
+                }}
+              />
 
-          {/* FORGOT PASSWORD */}
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                aria-label={showPassword ? "Hide password" : "Show password"}
+                title={showPassword ? "Hide password" : "Show password"}
+                style={{
+                  position: "absolute",
+                  right: "10px",
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  border: "none",
+                  background: "transparent",
+                  cursor: "pointer",
+                  fontSize: "20px",
+                  padding: "4px",
+                  color: "#555",
+                }}
+              >
+                {showPassword ? "🙈" : "👁️"}
+              </button>
+            </div>
+          </div>
 
           <div
             style={{
@@ -210,9 +228,7 @@ function Login() {
           >
             <button
               type="button"
-              onClick={() =>
-                alert("Password reset will be added next.")
-              }
+              onClick={goToForgotPassword}
               style={{
                 border: "none",
                 background: "none",
@@ -225,8 +241,6 @@ function Login() {
               Forgot password?
             </button>
           </div>
-
-          {/* LOGIN BUTTON */}
 
           <button
             type="submit"
@@ -245,8 +259,6 @@ function Login() {
             Login
           </button>
         </form>
-
-        {/* REGISTER */}
 
         <div
           style={{
@@ -284,7 +296,6 @@ function Login() {
             Create New Account
           </button>
         </div>
-
       </div>
     </div>
   );
