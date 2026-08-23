@@ -2,8 +2,10 @@ import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { useLanguage } from "../context/LanguageContext";
 
 function EditWorker() {
+  const { t } = useLanguage();
   const { id } = useParams();
   const navigate = useNavigate();
   const { user } = useAuth();
@@ -115,7 +117,7 @@ function EditWorker() {
     <div className="page">
 
       <div className="page-header">
-        <h1>✏ Edit Worker</h1>
+        <h1>✏ {t("editWorker")}</h1>
         <p>Update worker information.</p>
       </div>
 
@@ -156,7 +158,7 @@ function EditWorker() {
             value={formData.role}
             onChange={handleChange}
           >
-            <option value="worker">Worker</option>
+            <option value="worker">{t("worker")}</option>
             <option value="admin">Administrator</option>
           </select>
 
@@ -183,11 +185,11 @@ function EditWorker() {
             }}
           >
             <button className="button" type="submit">
-              💾 Save Changes
+              💾 {t("saveChanges")}
             </button>
 
             <Link className="button" to="/workers">
-              Cancel
+              {t("cancel")}
             </Link>
           </div>
 
