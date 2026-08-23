@@ -30,7 +30,7 @@ function Feed() {
   }
 
   async function deleteFeed(id) {
-    if (!window.confirm("delete this feed?")) {
+    if (!window.confirm(t("deleteFeedConfirm"))) {
       return;
     }
 
