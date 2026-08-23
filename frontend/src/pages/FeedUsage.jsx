@@ -1,8 +1,10 @@
 import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useLanguage } from "../context/LanguageContext";
 
 function FeedUsage() {
+  const { t } = useLanguage();
   const [usage, setUsage] = useState([]);
 
   useEffect(() => {
@@ -24,7 +26,7 @@ function FeedUsage() {
   }
 
   async function deleteUsage(id) {
-    if (!window.confirm("Delete this record?")) return;
+    if (!window.confirm(t("deleteRecordConfirm"))) return;
 
     try {
       await fetch(
@@ -54,15 +56,15 @@ function FeedUsage() {
       >
 
         <div>
-          <h1>🌾 Feed Usage</h1>
-          <p>Daily feed consumption records.</p>
+          <h1>🌾 {t("feedUsage")}</h1>
+          <p>{t("dailyFeedRecords")}</p>
         </div>
 
         <Link
           className="button"
           to="/feed/usage/add"
         >
-          ➕ Record Usage
+          ➕ {t("recordUsage")}
         </Link>
 
       </div>
@@ -93,7 +95,7 @@ function FeedUsage() {
                   colSpan="6"
                   style={{ textAlign: "center" }}
                 >
-                  No feed usage recorded.
+                  {t("noFeedUsage")}
                 </td>
               </tr>
 
@@ -123,7 +125,7 @@ function FeedUsage() {
                       className="button"
                       onClick={() => deleteUsage(item.id)}
                     >
-                      🗑 Delete
+                      🗑 {t("delete")}
                     </button>
 
                   </td>
