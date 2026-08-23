@@ -21,10 +21,12 @@ function Health() {
       </div>
 
       <div className="card">
+        {/* ACTIONS */}
         <div
           style={{
             display: "flex",
-            justifyContent: "space-between",
+            gap: "10px",
+            flexWrap: "wrap",
             marginBottom: "20px",
           }}
         >
@@ -37,39 +39,162 @@ function Health() {
           </Link>
         </div>
 
-        <table className="table">
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Type</th>
-              <th>Medicine</th>
-              <th>Dosage</th>
-              <th>Veterinarian</th>
-              <th>Notes</th>
-            </tr>
-          </thead>
+        {/* MOBILE-FRIENDLY RECORDS */}
+        {records.length === 0 ? (
+          <div
+            style={{
+              textAlign: "center",
+              padding: "30px 15px",
+              color: "#666",
+            }}
+          >
+            No health records found.
+          </div>
+        ) : (
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "14px",
+            }}
+          >
+            {records.map((record) => (
+              <div
+                key={record.id}
+                style={{
+                  border: "1px solid #ddd",
+                  borderRadius: "12px",
+                  padding: "16px",
+                  background: "#fff",
+                  boxSizing: "border-box",
+                  width: "100%",
+                }}
+              >
+                {/* DATE + TYPE */}
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "flex-start",
+                    gap: "10px",
+                    marginBottom: "14px",
+                    flexWrap: "wrap",
+                  }}
+                >
+                  <div>
+                    <div
+                      style={{
+                        fontSize: "13px",
+                        color: "#777",
+                        marginBottom: "4px",
+                      }}
+                    >
+                      DATE
+                    </div>
 
-          <tbody>
-            {records.length === 0 ? (
-              <tr>
-                <td colSpan="6" style={{ textAlign: "center" }}>
-                  No health records found.
-                </td>
-              </tr>
-            ) : (
-              records.map((record) => (
-                <tr key={record.id}>
-                  <td>{record.record_date}</td>
-                  <td>{record.record_type}</td>
-                  <td>{record.medicine}</td>
-                  <td>{record.dosage}</td>
-                  <td>{record.veterinarian}</td>
-                  <td>{record.notes}</td>
-                </tr>
-              ))
-            )}
-          </tbody>
-        </table>
+                    <strong style={{ fontSize: "16px" }}>
+                      {record.record_date || "-"}
+                    </strong>
+                  </div>
+
+                  <div
+                    style={{
+                      background: "#e8f5e9",
+                      color: "#2e7d32",
+                      padding: "6px 10px",
+                      borderRadius: "20px",
+                      fontSize: "13px",
+                      fontWeight: "600",
+                    }}
+                  >
+                    {record.record_type || "-"}
+                  </div>
+                </div>
+
+                {/* DETAILS */}
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns:
+                      "repeat(auto-fit, minmax(140px, 1fr))",
+                    gap: "12px",
+                  }}
+                >
+                  <div>
+                    <div
+                      style={{
+                        fontSize: "12px",
+                        color: "#777",
+                        marginBottom: "3px",
+                      }}
+                    >
+                      MEDICINE
+                    </div>
+                    <div>{record.medicine || "-"}</div>
+                  </div>
+
+                  <div>
+                    <div
+                      style={{
+                        fontSize: "12px",
+                        color: "#777",
+                        marginBottom: "3px",
+                      }}
+                    >
+                      DOSAGE
+                    </div>
+                    <div>{record.dosage || "-"}</div>
+                  </div>
+
+                  <div>
+                    <div
+                      style={{
+                        fontSize: "12px",
+                        color: "#777",
+                        marginBottom: "3px",
+                      }}
+                    >
+                      VETERINARIAN
+                    </div>
+                    <div>{record.veterinarian || "-"}</div>
+                  </div>
+                </div>
+
+                {/* NOTES */}
+                {record.notes && (
+                  <div
+                    style={{
+                      marginTop: "14px",
+                      paddingTop: "12px",
+                      borderTop: "1px solid #eee",
+                    }}
+                  >
+                    <div
+                      style={{
+                        fontSize: "12px",
+                        color: "#777",
+                        marginBottom: "4px",
+                      }}
+                    >
+                      NOTES
+                    </div>
+
+                    <div
+                      style={{
+                        lineHeight: "1.5",
+                        color: "#444",
+                        whiteSpace: "pre-wrap",
+                        overflowWrap: "anywhere",
+                      }}
+                    >
+                      {record.notes}
+                    </div>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
