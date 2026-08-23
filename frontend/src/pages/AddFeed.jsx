@@ -1,9 +1,11 @@
 import API_URL from "../api";
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { useLanguage } from "../context/LanguageContext";
 
 function AddFeed() {
   const navigate = useNavigate();
+  const { t } = useLanguage();
 
   const [formData, setFormData] = useState({
     feed_name: "",
@@ -51,8 +53,8 @@ function AddFeed() {
     <div className="page">
 
       <div className="page-header">
-        <h1>🌾 Add Feed</h1>
-        <p>Add feed to stock.</p>
+        <h1>🌾 {t("addFeed")}</h1>
+        <p>{t("addFeedDescription")}</p>
       </div>
 
       <div className="card">
@@ -164,11 +166,11 @@ function AddFeed() {
 
           <div style={{ display: "flex", gap: "10px" }}>
             <button className="button" type="submit">
-              💾 Save Feed
+              💾 {t("saveFeed")}
             </button>
 
             <Link className="button" to="/feed">
-              Cancel
+              {t("cancel")}
             </Link>
           </div>
 
