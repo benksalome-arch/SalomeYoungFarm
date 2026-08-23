@@ -1,8 +1,10 @@
 import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useLanguage } from "../context/LanguageContext";
 
 function Finance() {
+  const { t } = useLanguage();
   const [transactions, setTransactions] = useState([]);
 
   useEffect(() => {
