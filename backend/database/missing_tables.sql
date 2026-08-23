@@ -357,3 +357,19 @@ CREATE TABLE IF NOT EXISTS rabbit_weight (
   CONSTRAINT rabbit_weight_ibfk_1
     FOREIGN KEY (rabbit_id) REFERENCES rabbits(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS password_resets (
+  id INT NOT NULL AUTO_INCREMENT,
+  user_id INT NOT NULL,
+  token_hash VARCHAR(255) NOT NULL,
+  expires_at DATETIME NOT NULL,
+  used TINYINT(1) NOT NULL DEFAULT 0,
+  created_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  KEY user_id (user_id),
+  KEY token_hash (token_hash),
+  CONSTRAINT password_resets_user_fk
+    FOREIGN KEY (user_id) REFERENCES users(id)
+    ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
