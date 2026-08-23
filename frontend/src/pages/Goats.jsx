@@ -236,7 +236,7 @@ function Goats() {
                       borderRadius: "20px",
                       padding: "7px 12px",
                       fontSize: "13px",
-                      font{t("weight")}: "600",
+                      fontWeight: "600",
                       flexShrink: 0,
                       maxWidth: "110px",
                       textAlign: "center",
@@ -271,7 +271,7 @@ function Goats() {
 
                     <div
                       style={{
-                        font{t("weight")}: "600",
+                        fontWeight: "600",
                         marginTop: "3px",
                         overflowWrap: "anywhere",
                       }}
@@ -293,7 +293,7 @@ function Goats() {
 
                     <div
                       style={{
-                        font{t("weight")}: "600",
+                        fontWeight: "600",
                         marginTop: "3px",
                       }}
                     >
@@ -314,7 +314,7 @@ function Goats() {
 
                     <div
                       style={{
-                        font{t("weight")}: "600",
+                        fontWeight: "600",
                         marginTop: "3px",
                         overflowWrap: "anywhere",
                       }}
@@ -336,7 +336,7 @@ function Goats() {
 
                     <div
                       style={{
-                        font{t("weight")}: "600",
+                        fontWeight: "600",
                         marginTop: "3px",
                       }}
                     >
