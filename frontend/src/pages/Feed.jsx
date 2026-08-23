@@ -52,6 +52,34 @@ function Feed() {
     }
   }
 
+
+<style className="feed-page-mobile-fix">{`
+  @media (max-width: 700px) {
+    .feed-page-header {
+      display: block !important;
+      margin-bottom: 18px !important;
+    }
+
+    .feed-page-title {
+      font-size: 26px !important;
+      line-height: 1.2 !important;
+      margin: 0 !important;
+    }
+
+    .feed-page-subtitle {
+      font-size: 14px !important;
+      margin-top: 5px !important;
+    }
+
+    .feed-page-header > a {
+      display: inline-block !important;
+      margin-top: 12px !important;
+      padding: 10px 16px !important;
+      font-size: 14px !important;
+    }
+  }
+`}</style>
+
   return (
     <div
       style={{
