@@ -12,7 +12,19 @@ router.post("/login", authController.login);
 // Create new account
 router.post("/register", authController.register);
 
-// Change password
+// Forgot password
+router.post(
+  "/forgot-password",
+  authController.forgotPassword
+);
+
+// Reset password using email token
+router.post(
+  "/reset-password",
+  authController.resetPassword
+);
+
+// Change password while logged in
 router.post(
   "/change-password",
   authenticateToken,
