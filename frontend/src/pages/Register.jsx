@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import API_URL from "../api";
+import { useLanguage } from "../context/LanguageContext";
 
 function Register() {
   const navigate = useNavigate();
+  const { t } = useLanguage();
 
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
@@ -15,12 +17,12 @@ function Register() {
     e.preventDefault();
 
     if (password !== confirmPassword) {
-      alert("Passwords do not match.");
+      alert(t("passwordsDoNotMatch"));
       return;
     }
 
     if (password.length < 6) {
-      alert("Password must be at least 6 characters.");
+      alert(t("passwordTooShort"));
       return;
     }
 
@@ -53,7 +55,7 @@ function Register() {
       }
 
       alert(
-        "Account created successfully. You can now log in."
+        t("accountCreated")
       );
 
       navigate("/login");
@@ -150,7 +152,7 @@ function Register() {
               color: "#17221a",
             }}
           >
-            Create Account
+            {t("createAccount")}
           </h1>
 
           <p
@@ -161,7 +163,7 @@ function Register() {
               color: "#707770",
             }}
           >
-            Create your Salome Young Farm account
+            {t("createAccountDescription")}
           </p>
         </div>
 
@@ -194,7 +196,7 @@ function Register() {
 
           <div style={fieldStyle}>
             <label style={labelStyle}>
-              Email Address
+              {t("emailAddress")}
             </label>
 
             <input
@@ -203,7 +205,7 @@ function Register() {
               onChange={(e) =>
                 setEmail(e.target.value)
               }
-              placeholder="Enter your email address"
+              placeholder={t("emailPlaceholder")}
               required
               style={inputStyle}
             />
@@ -213,7 +215,7 @@ function Register() {
 
           <div style={fieldStyle}>
             <label style={labelStyle}>
-              Password
+              {t("password")}
             </label>
 
             <input
@@ -253,7 +255,7 @@ function Register() {
             />
           </div>
 
-          {/* Create Account Button */}
+          {/* {t("createAccount")} Button */}
 
           <button
             type="submit"
@@ -277,8 +279,8 @@ function Register() {
             }}
           >
             {loading
-              ? "Creating Account..."
-              : "Create Account"}
+              ? t("creatingAccount")
+              : t("createAccount")}
           </button>
         </form>
 
