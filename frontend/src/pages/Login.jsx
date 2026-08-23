@@ -1,13 +1,82 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import API_URL from "../api";
 
 function Login() {
+  const navigate = useNavigate();
+
+  const [language, setLanguage] = useState(
+    localStorage.getItem("language") || "en"
+  );
+
+  const languages = [
+    { code: "en", flag: "🇬🇧", name: "English" },
+    { code: "nl", flag: "🇳🇱", name: "Nederlands" },
+    { code: "sw", flag: "🇰🇪", name: "Swahili" },
+  ];
+
+  function chooseLanguage(code) {
+    setLanguage(code);
+    localStorage.setItem("language", code);
+  }
+
+  const text = {
+    en: {
+      title: "Login",
+      subtitle: "Sign in to Salome Young Farm",
+      language: "Choose your language",
+      email: "Email Address",
+      emailPlaceholder: "Enter your email address",
+      password: "Password",
+      passwordPlaceholder: "Enter your password",
+      forgot: "Forgot password?",
+      login: "Login",
+      noAccount: "Don't have an account?",
+      register: "Register",
+      error: "Invalid email or password.",
+    },
+    nl: {
+      title: "Inloggen",
+      subtitle: "Log in bij Salome Young Farm",
+      language: "Kies je taal",
+      email: "E-mailadres",
+      emailPlaceholder: "Voer je e-mailadres in",
+      password: "Wachtwoord",
+      passwordPlaceholder: "Voer je wachtwoord in",
+      forgot: "Wachtwoord vergeten?",
+      login: "Inloggen",
+      noAccount: "Heb je geen account?",
+      register: "Registreren",
+      error: "Ongeldig e-mailadres of wachtwoord.",
+    },
+    sw: {
+      title: "Ingia",
+      subtitle: "Ingia kwenye Salome Young Farm",
+      language: "Chagua lugha yako",
+      email: "Barua pepe",
+      emailPlaceholder: "Weka barua pepe yako",
+      password: "Nenosiri",
+      passwordPlaceholder: "Weka nenosiri lako",
+      forgot: "Umesahau nenosiri?",
+      login: "Ingia",
+      noAccount: "Huna akaunti?",
+      register: "Jisajili",
+      error: "Barua pepe au nenosiri si sahihi.",
+    },
+  };
+
+  const t = text[language];
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   async function handleLogin(e) {
     e.preventDefault();
+    setError("");
+    setLoading(true);
 
     try {
       const response = await fetch(`${API_URL}/api/auth/login`, {
@@ -24,57 +93,128 @@ function Login() {
       const data = await response.json();
 
       if (!response.ok) {
-        alert(data.message || "Login failed.");
+        setError(data.message || t.error);
+        setLoading(false);
         return;
       }
 
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
 
-      alert("Login successful!");
-
-      window.location.href = "/";
+      navigate("/");
     } catch (err) {
       console.error("Login error:", err);
-      alert("Unable to connect to server.");
+      setError(t.error);
+    } finally {
+      setLoading(false);
     }
   }
 
-  function goToRegister() {
-    window.location.href = "/register";
+  function goToForgotPassword() {
+    navigate("/forgot-password");
   }
 
-  function goToForgotPassword() {
-    window.location.href = "/forgot-password";
+  function goToRegister() {
+    navigate("/register");
   }
 
   return (
     <div
       style={{
         minHeight: "100vh",
+        width: "100%",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        background: "#f3f6f3",
-        padding: "30px 20px",
+        padding: "20px",
         boxSizing: "border-box",
+        background: "#f4f6f8",
       }}
     >
       <div
         style={{
-          width: "430px",
-          maxWidth: "100%",
+          width: "100%",
+          maxWidth: "440px",
           background: "#ffffff",
-          borderRadius: "12px",
-          padding: "34px 38px 28px",
+          borderRadius: "14px",
+          padding: "30px",
           boxSizing: "border-box",
-          boxShadow: "0 6px 24px rgba(0, 0, 0, 0.08)",
+          boxShadow: "0 5px 25px rgba(0,0,0,0.08)",
         }}
       >
+        {/* LANGUAGE */}
+
+        <div
+          style={{
+            marginBottom: "25px",
+          }}
+        >
+          <div
+            style={{
+              textAlign: "center",
+              marginBottom: "12px",
+              fontSize: "14px",
+              fontWeight: "600",
+              color: "#26332a",
+            }}
+          >
+            {t.language}
+          </div>
+
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(3, 1fr)",
+              gap: "8px",
+            }}
+          >
+            {languages.map((item) => {
+              const selected = language === item.code;
+
+              return (
+                <button
+                  key={item.code}
+                  type="button"
+                  onClick={() => chooseLanguage(item.code)}
+                  style={{
+                    minWidth: 0,
+                    padding: "10px 5px",
+                    borderRadius: "9px",
+                    border: selected
+                      ? "2px solid #087f23"
+                      : "1px solid #d8ddd9",
+                    background: selected
+                      ? "#eef8f0"
+                      : "#ffffff",
+                    cursor: "pointer",
+                    color: "#26332a",
+                    fontWeight: selected ? "700" : "500",
+                    fontSize: "13px",
+                  }}
+                >
+                  <div
+                    style={{
+                      fontSize: "25px",
+                      lineHeight: 1,
+                      marginBottom: "5px",
+                    }}
+                  >
+                    {item.flag}
+                  </div>
+
+                  {item.name}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* LOGO */}
+
         <div
           style={{
             textAlign: "center",
-            marginBottom: "30px",
+            marginBottom: "25px",
           }}
         >
           <img
@@ -98,7 +238,7 @@ function Login() {
               color: "#17221a",
             }}
           >
-            Login
+            {t.title}
           </h1>
 
           <p
@@ -109,7 +249,7 @@ function Login() {
               color: "#707770",
             }}
           >
-            Sign in to Salome Young Farm
+            {t.subtitle}
           </p>
         </div>
 
@@ -128,14 +268,14 @@ function Login() {
                 color: "#26332a",
               }}
             >
-              Email Address
+              {t.email}
             </label>
 
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="Enter your email address"
+              placeholder={t.emailPlaceholder}
               autoComplete="email"
               required
               style={{
@@ -167,7 +307,7 @@ function Login() {
                 color: "#26332a",
               }}
             >
-              Password
+              {t.password}
             </label>
 
             <div
@@ -180,7 +320,7 @@ function Login() {
                 type={showPassword ? "text" : "password"}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="Enter your password"
+                placeholder={t.passwordPlaceholder}
                 autoComplete="current-password"
                 required
                 style={{
@@ -200,8 +340,11 @@ function Login() {
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                aria-label={showPassword ? "Hide password" : "Show password"}
-                title={showPassword ? "Hide password" : "Show password"}
+                aria-label={
+                  showPassword
+                    ? "Hide password"
+                    : "Show password"
+                }
                 style={{
                   position: "absolute",
                   right: "10px",
@@ -219,6 +362,22 @@ function Login() {
               </button>
             </div>
           </div>
+
+          {error && (
+            <div
+              style={{
+                marginTop: "15px",
+                marginBottom: "15px",
+                padding: "10px",
+                borderRadius: "7px",
+                background: "#ffebee",
+                color: "#c62828",
+                fontSize: "14px",
+              }}
+            >
+              {error}
+            </div>
+          )}
 
           <div
             style={{
@@ -238,25 +397,26 @@ function Login() {
                 fontSize: "14px",
               }}
             >
-              Forgot password?
+              {t.forgot}
             </button>
           </div>
 
           <button
             type="submit"
+            disabled={loading}
             style={{
               width: "100%",
               height: "48px",
               border: "none",
               borderRadius: "7px",
-              background: "#087f23",
+              background: loading ? "#6aa875" : "#087f23",
               color: "#ffffff",
               fontSize: "15px",
               fontWeight: "600",
-              cursor: "pointer",
+              cursor: loading ? "wait" : "pointer",
             }}
           >
-            Login
+            {loading ? "..." : t.login}
           </button>
         </form>
 
@@ -275,7 +435,7 @@ function Login() {
               color: "#6b726c",
             }}
           >
-            Don't have an account?
+            {t.noAccount}
           </p>
 
           <button
@@ -283,17 +443,17 @@ function Login() {
             onClick={goToRegister}
             style={{
               width: "100%",
-              height: "46px",
+              height: "44px",
               border: "1px solid #087f23",
               borderRadius: "7px",
               background: "#ffffff",
               color: "#087f23",
-              fontSize: "15px",
+              fontSize: "14px",
               fontWeight: "600",
               cursor: "pointer",
             }}
           >
-            Create New Account
+            {t.register}
           </button>
         </div>
       </div>
