@@ -1,8 +1,10 @@
 import API_URL from "../api";
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { useLanguage } from "../context/LanguageContext";
 
 function AddRabbit() {
+  const { t } = useLanguage();
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -106,7 +108,7 @@ function AddRabbit() {
 
           <br /><br />
 
-          <label>Sex</label>
+          <label>{t("sex")}</label>
           <select
             name="sex"
             value={formData.sex}
@@ -118,7 +120,7 @@ function AddRabbit() {
 
           <br /><br />
 
-          <label>Birth Date</label>
+          <label>{t("birthDate")}</label>
           <input
             type="date"
             name="birth_date"
@@ -128,7 +130,7 @@ function AddRabbit() {
 
           <br /><br />
 
-          <label>Source</label>
+          <label>{t("source")}</label>
           <input
             type="text"
             name="source"
@@ -138,7 +140,7 @@ function AddRabbit() {
 
           <br /><br />
 
-          <label>Quantity</label>
+          <label>{t("quantity")}</label>
           <input
             type="number"
             min="1"
@@ -150,20 +152,20 @@ function AddRabbit() {
 
           <br /><br />
 
-          <label>Status</label>
+          <label>{t("status")}</label>
           <select
             name="status"
             value={formData.status}
             onChange={handleChange}
           >
-            <option value="Active">Active</option>
-            <option value="Sold">Sold</option>
-            <option value="Dead">Dead</option>
+            <option value="Active">{t("active")}</option>
+            <option value="Sold">{t("sold")}</option>
+            <option value="Dead">{t("dead")}</option>
           </select>
 
           <br /><br />
 
-          <label>Purchase Price</label>
+          <label>{t("purchasePrice")}</label>
           <input
             type="number"
             step="0.01"
@@ -176,7 +178,7 @@ function AddRabbit() {
 
           <br /><br />
 
-          <label>Notes</label>
+          <label>{t("notes")}</label>
           <textarea
             name="notes"
             rows="4"
@@ -188,7 +190,7 @@ function AddRabbit() {
 
           <div style={{ display: "flex", gap: "10px" }}>
             <button className="button" type="submit">
-              💾 Save
+              💾 {t("save")}
             </button>
 
             <Link className="button" to="/rabbits">
