@@ -35,7 +35,7 @@ function Chickens() {
   async function deleteChicken(id) {
     if (
       !window.confirm(
-        "Are you sure you want to delete this chicken?"
+        t("deleteChickenConfirm")
       )
     ) {
       return;
@@ -54,20 +54,20 @@ function Chickens() {
       if (!response.ok) {
         alert(
           data.message ||
-            "Failed to delete chicken."
+            t("failedDeleteChicken")
         );
         return;
       }
 
       alert(
         data.message ||
-          "Chicken deleted successfully."
+          t("chickenDeletedSuccessfully")
       );
 
       loadChickens();
     } catch (err) {
       console.error(err);
-      alert("Failed to delete chicken.");
+      alert(t("failedDeleteChicken"));
     }
   }
 
@@ -131,7 +131,7 @@ function Chickens() {
               margin: "8px 0 0",
             }}
           >
-            Manage your poultry flock.
+            {t("managePoultryFlock")}
           </p>
         </div>
 
@@ -182,13 +182,13 @@ function Chickens() {
 
           <thead>
             <tr>
-              <th style={headerStyle}>Tag</th>
-              <th style={headerStyle}>Name</th>
+              <th style={headerStyle}>{t("tag")}</th>
+              <th style={headerStyle}>{t("name")}</th>
               <th style={headerStyle}>{t("breed")}</th>
-              <th style={headerStyle}>Type</th>
-              <th style={headerStyle}>Quantity</th>
-              <th style={headerStyle}>Status</th>
-              <th style={headerStyle}>Actions</th>
+              <th style={headerStyle}>{t("type")}</th>
+              <th style={headerStyle}>{t("quantity")}</th>
+              <th style={headerStyle}>{t("status")}</th>
+              <th style={headerStyle}>{t("actions")}</th>
             </tr>
           </thead>
 
@@ -319,7 +319,7 @@ function Chickens() {
                       }}
                     >
                       {chicken.status ||
-                        "Unknown"}
+                        t("unknown")}
                     </span>
                   </td>
 
