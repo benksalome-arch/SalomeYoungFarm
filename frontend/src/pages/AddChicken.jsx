@@ -74,7 +74,7 @@ function AddChicken() {
 
         <form onSubmit={handleSubmit}>
 
-          <label>Tag Number</label>
+          <label>{t("tagNumber")}</label>
           <input
             type="text"
             name="tag_number"
@@ -86,7 +86,7 @@ function AddChicken() {
           <br />
           <br />
 
-          <label>Name</label>
+          <label>{t("name")}</label>
           <input
             type="text"
             name="name"
@@ -146,19 +146,19 @@ function AddChicken() {
           <br />
           <br />
 
-          <label>Source</label>
+          <label>{t("source")}</label>
           <input
             type="text"
             name="source"
             value={formData.source}
             onChange={handleChange}
-            placeholder="e.g. Kenchic, Farm hatchery"
+            placeholder={t("sourcePlaceholder")}
           />
 
           <br />
           <br />
 
-          <label>Quantity</label>
+          <label>{t("quantity")}</label>
           <input
             type="number"
             min="1"
@@ -171,21 +171,21 @@ function AddChicken() {
           <br />
           <br />
 
-          <label>Status</label>
+          <label>{t("status")}</label>
           <select
             name="status"
             value={formData.status}
             onChange={handleChange}
           >
-            <option value="Active">Active</option>
-            <option value="Sold">Sold</option>
-            <option value="Dead">Dead</option>
+            <option value="Active">{t("active")}</option>
+            <option value="Sold">{t("sold")}</option>
+            <option value="Dead">{t("dead")}</option>
           </select>
 
           <br />
           <br />
 
-          <label>Purchase Price</label>
+          <label>{t("purchasePrice")}</label>
           <input
             type="number"
             step="0.01"
