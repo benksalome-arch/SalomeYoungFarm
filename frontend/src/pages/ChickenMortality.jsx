@@ -1,8 +1,10 @@
 import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useLanguage } from "../context/LanguageContext";
 
 function ChickenMortality() {
+  const { t } = useLanguage();
   const [records, setRecords] = useState([]);
 
   useEffect(() => {
@@ -25,7 +27,7 @@ function ChickenMortality() {
 
   async function deleteRecord(id) {
 
-    if (!window.confirm("Delete this mortality record?")) {
+    if (!window.confirm(t("deleteMortalityConfirm"))) {
       return;
     }
 
@@ -48,7 +50,7 @@ function ChickenMortality() {
 
     } catch (err) {
       console.error(err);
-      alert("Failed to delete record.");
+      alert(t("failedDeleteRecord"));
     }
 
   }
@@ -70,7 +72,7 @@ function ChickenMortality() {
         }}
       >
         <div>
-          <h1>â˜ ï¸ Chicken Mortality</h1>
+          <h1>â˜ ï¸ {t("chickenMortality")}</h1>
           <p>Track chicken deaths and flock losses.</p>
         </div>
 
@@ -78,7 +80,7 @@ function ChickenMortality() {
           className="button"
           to="/chicken-mortality/add"
         >
-          ➕ Record Mortality
+          ➕ {t("recordMortality")}
         </Link>
 
       </div>
@@ -97,7 +99,7 @@ function ChickenMortality() {
 
           <thead>
             <tr>
-              <th>Date</th>
+              <th>{t("date")}</th>
               <th>Tag</th>
               <th>Name</th>
               <th>Quantity</th>
@@ -115,7 +117,7 @@ function ChickenMortality() {
                   colSpan="6"
                   style={{ textAlign: "center" }}
                 >
-                  No mortality records found.
+                  {t("noMortalityRecords")}
                 </td>
               </tr>
 
@@ -145,7 +147,7 @@ function ChickenMortality() {
                         deleteRecord(record.id)
                       }
                     >
-                      🗑 Delete
+                      🗑 {t("delete")}
                     </button>
 
                   </td>
