@@ -29,6 +29,9 @@ const translations = {
 
     chickenVaccinations: "Chicken Vaccinations",
     chickenMortality: "Chicken Mortality",
+    recordChickenMortality: "Record Chicken Mortality",
+    failedRecordMortality: "Failed to record mortality.",
+    mortalityCausePlaceholder: "Disease, Predator, Accident...",
     eggProduction: "Egg Production",
     eggSales: "Egg Sales",
 
@@ -168,6 +171,9 @@ const translations = {
 
     chickenVaccinations: "Chanjo za Kuku",
     chickenMortality: "Vifo vya Kuku",
+    recordChickenMortality: "Rekodi Vifo vya Kuku",
+    failedRecordMortality: "Imeshindikana kurekodi kifo.",
+    mortalityCausePlaceholder: "Ugonjwa, Mnyama, Ajali...",
     eggProduction: "Uzalishaji wa Mayai",
     eggSales: "Mauzo ya Mayai",
 
@@ -300,6 +306,9 @@ const translations = {
 
     chickenVaccinations: "Kippencaccinaties",
     chickenMortality: "Kippensterfte",
+    recordChickenMortality: "Kippensterfte Registreren",
+    failedRecordMortality: "Registreren van sterfte mislukt.",
+    mortalityCausePlaceholder: "Ziekte, Roofdier, Ongeval...",
     eggProduction: "Eierproductie",
     eggSales: "Eierverkoop",
 

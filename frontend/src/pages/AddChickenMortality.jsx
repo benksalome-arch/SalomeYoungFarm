@@ -1,8 +1,10 @@
 import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { useLanguage } from "../context/LanguageContext";
 
 function AddChickenMortality() {
+  const { t } = useLanguage();
   const navigate = useNavigate();
 
   const [chickens, setChickens] = useState([]);
@@ -73,7 +75,7 @@ function AddChickenMortality() {
 
     } catch (err) {
       console.error(err);
-      alert("Failed to record mortality.");
+      alert(t("failedRecordMortality"));
     }
   }
 
@@ -89,7 +91,7 @@ function AddChickenMortality() {
         }}
       >
         <div>
-          <h1>â˜ ï¸ Record Chicken Mortality</h1>
+          <h1>🐔 {t("recordChickenMortality")}</h1>
           <p>Record deaths and automatically update flock quantity.</p>
         </div>
 
@@ -105,7 +107,7 @@ function AddChickenMortality() {
 
         <form onSubmit={handleSubmit}>
 
-          <label>Chicken</label>
+          <label>{t("chicken")}</label>
 
           <select
             name="chicken_id"
@@ -114,7 +116,7 @@ function AddChickenMortality() {
             required
           >
             <option value="">
-              Select Chicken
+              {t("selectChicken")}
             </option>
 
             {chickens.map((chicken) => (
@@ -130,7 +132,7 @@ function AddChickenMortality() {
 
           <br /><br />
 
-          <label>Date</label>
+          <label>{t("date")}</label>
 
           <input
             type="date"
@@ -142,7 +144,7 @@ function AddChickenMortality() {
 
           <br /><br />
 
-          <label>Quantity</label>
+          <label>{t("quantity")}</label>
 
           <input
             type="number"
@@ -155,19 +157,19 @@ function AddChickenMortality() {
 
           <br /><br />
 
-          <label>Cause</label>
+          <label>{t("cause")}</label>
 
           <input
             type="text"
             name="cause"
             value={formData.cause}
             onChange={handleChange}
-            placeholder="Disease, Predator, Accident..."
+            placeholder={t("mortalityCausePlaceholder")}
           />
 
           <br /><br />
 
-          <label>Notes</label>
+          <label>{t("notes")}</label>
 
           <textarea
             rows="4"
@@ -188,14 +190,14 @@ function AddChickenMortality() {
               className="button"
               type="submit"
             >
-              💾 Save
+              💾 {t("save")}
             </button>
 
             <Link
               className="button"
               to="/chicken-mortality"
             >
-              Cancel
+              {t("cancel")}
             </Link>
           </div>
 
