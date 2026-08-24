@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
 function AddInventory() {
+  const { t } = useLanguage();
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -55,15 +56,15 @@ function AddInventory() {
     <div className="page">
 
       <div className="page-header">
-        <h1>📦 Add Inventory Item</h1>
-        <p>Add feed, medicine, equipment or supplies.</p>
+        <h1>📦 {t("addInventoryItem")}</h1>
+        <p>{t("addInventoryDescription")}</p>
       </div>
 
       <div className="card">
 
         <form onSubmit={handleSubmit}>
 
-          <label>Item Name</label>
+          <label>{t("itemName")}</label>
           <input
             type="text"
             name="item_name"
@@ -74,24 +75,24 @@ function AddInventory() {
 
           <br /><br />
 
-          <label>Category</label>
+          <label>{t("category")}</label>
           <select
             name="category"
             value={formData.category}
             onChange={handleChange}
           >
-            <option>Feed</option>
-            <option>Medicine</option>
-            <option>Vaccine</option>
-            <option>Equipment</option>
-            <option>Fuel</option>
-            <option>Building Material</option>
-            <option>Other</option>
+            <option>{t("feed")}</option>
+            <option>{t("medicine")}</option>
+            <option>{t("vaccine")}</option>
+            <option>{t("equipment")}</option>
+            <option>{t("fuel")}</option>
+            <option>{t("buildingMaterial")}</option>
+            <option>{t("other")}</option>
           </select>
 
           <br /><br />
 
-          <label>Quantity</label>
+          <label>{t("quantity")}</label>
           <input
             type="number"
             step="0.01"
@@ -103,23 +104,23 @@ function AddInventory() {
 
           <br /><br />
 
-          <label>Unit</label>
+          <label>{t("unit")}</label>
           <select
             name="unit"
             value={formData.unit}
             onChange={handleChange}
           >
-            <option>kg</option>
-            <option>bags</option>
-            <option>litres</option>
-            <option>pieces</option>
-            <option>bottles</option>
-            <option>packets</option>
+            <option>{t("kg")}</option>
+            <option>{t("bags")}</option>
+            <option>{t("litres")}</option>
+            <option>{t("pieces")}</option>
+            <option>{t("bottles")}</option>
+            <option>{t("packets")}</option>
           </select>
 
           <br /><br />
 
-          <label>Minimum Stock</label>
+          <label>{t("minimumStock")}</label>
           <input
             type="number"
             step="0.01"
@@ -130,7 +131,7 @@ function AddInventory() {
 
           <br /><br />
 
-          <label>Purchase Price (KES)</label>
+          <label>{t("purchasePriceKES")}</label>
           <input
             type="number"
             step="0.01"
@@ -141,7 +142,7 @@ function AddInventory() {
 
           <br /><br />
 
-          <label>Supplier</label>
+          <label>{t("supplier")}</label>
           <input
             type="text"
             name="supplier"
@@ -151,7 +152,7 @@ function AddInventory() {
 
           <br /><br />
 
-          <label>Purchase Date</label>
+          <label>{t("purchaseDate")}</label>
           <input
             type="date"
             name="purchase_date"
@@ -161,7 +162,7 @@ function AddInventory() {
 
           <br /><br />
 
-          <label>Notes</label>
+          <label>{t("notes")}</label>
           <textarea
             name="notes"
             rows="4"
@@ -173,7 +174,7 @@ function AddInventory() {
 
           <div style={{ display: "flex", gap: "10px" }}>
             <button className="button" type="submit">
-              💾 Save Item
+              💾 {t("save")} Item
             </button>
 
             <Link className="button" to="/inventory">
