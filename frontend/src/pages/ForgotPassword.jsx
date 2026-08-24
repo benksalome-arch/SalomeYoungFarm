@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import API_URL from "../api";
+import { useLanguage } from "../context/LanguageContext";
 
 function ForgotPassword() {
+  const { t } = useLanguage();
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
@@ -74,7 +76,7 @@ function ForgotPassword() {
             fontSize: "26px",
           }}
         >
-          Forgot Password?
+          {t("forgotPassword")}
         </h1>
 
         <p
@@ -86,7 +88,7 @@ function ForgotPassword() {
             lineHeight: "1.5",
           }}
         >
-          Enter your email address and we will send you a password reset link.
+          {t("forgotPasswordDescription")}
         </p>
 
         <form onSubmit={handleSubmit}>
@@ -99,7 +101,7 @@ function ForgotPassword() {
               fontWeight: "600",
             }}
           >
-            Email Address
+            {t("emailAddress")}
           </label>
 
           <input
@@ -171,7 +173,7 @@ function ForgotPassword() {
               cursor: loading ? "default" : "pointer",
             }}
           >
-            {loading ? "Sending..." : "Send Reset Link"}
+            {loading ? t("sending") : t("sendResetLink")}
           </button>
         </form>
 
@@ -190,7 +192,7 @@ function ForgotPassword() {
               fontWeight: "600",
             }}
           >
-            ← Back to Login
+            {t("backToLogin")}
           </Link>
         </div>
       </div>
