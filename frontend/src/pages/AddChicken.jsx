@@ -1,8 +1,10 @@
 import API_URL from "../api";
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { useLanguage } from "../context/LanguageContext";
 
 function AddChicken() {
+  const { t } = useLanguage();
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -56,7 +58,7 @@ function AddChicken() {
       }
     } catch (err) {
       console.error(err);
-      alert("Failed to save chicken.");
+      alert(t("failedSaveChicken"));
     }
   }
 
@@ -64,8 +66,8 @@ function AddChicken() {
     <div className="page">
 
       <div className="page-header">
-        <h1>🐔 Add Chicken</h1>
-        <p>Add a new chicken or group of chickens to the farm.</p>
+        <h1>🐔 {t("addChicken")}</h1>
+        <p>{t("addChickenDescription")}</p>
       </div>
 
       <div className="card">
@@ -95,7 +97,7 @@ function AddChicken() {
           <br />
           <br />
 
-          <label>Breed</label>
+          <label>{t("breed")}</label>
           <input
             type="text"
             name="breed"
@@ -133,7 +135,7 @@ function AddChicken() {
           <br />
           <br />
 
-          <label>Hatch Date</label>
+          <label>{t("hatchDate")}</label>
           <input
             type="date"
             name="hatch_date"
@@ -197,13 +199,13 @@ function AddChicken() {
           <br />
           <br />
 
-          <label>Notes</label>
+          <label>{t("notes")}</label>
           <textarea
             name="notes"
             rows="4"
             value={formData.notes}
             onChange={handleChange}
-            placeholder="Additional information..."
+            placeholder={t("additionalInformation")}
           />
 
           <br />
@@ -211,11 +213,11 @@ function AddChicken() {
 
           <div style={{ display: "flex", gap: "10px" }}>
             <button className="button" type="submit">
-              💾 Save
+              💾 {t("save")}
             </button>
 
             <Link className="button" to="/chickens">
-              Cancel
+              {t("cancel")}
             </Link>
           </div>
 
