@@ -1,8 +1,10 @@
 import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { useLanguage } from "../context/LanguageContext";
 
 function AddChickenVaccination() {
+  const { t } = useLanguage();
   const navigate = useNavigate();
 
   const [chickens, setChickens] = useState([]);
@@ -74,7 +76,7 @@ function AddChickenVaccination() {
 
     } catch (err) {
       console.error(err);
-      alert("Failed to save vaccination.");
+      alert(t("failedSaveVaccination"));
     }
   }
 
@@ -90,7 +92,7 @@ function AddChickenVaccination() {
         }}
       >
         <div>
-          <h1>💉 Record Chicken Vaccination</h1>
+          <h1>💉 {t("recordChickenVaccination")}</h1>
         </div>
 
         <Link
@@ -105,7 +107,7 @@ function AddChickenVaccination() {
 
         <form onSubmit={handleSubmit}>
 
-          <label>Chicken</label>
+          <label>{t("chicken")}</label>
 
           <select
             name="chicken_id"
@@ -113,7 +115,7 @@ function AddChickenVaccination() {
             onChange={handleChange}
             required
           >
-            <option value="">Select Chicken</option>
+            <option value="">{t("selectChicken")}</option>
 
             {chickens.map((chicken) => (
               <option
@@ -127,7 +129,7 @@ function AddChickenVaccination() {
 
           <br /><br />
 
-          <label>Vaccination Date</label>
+          <label>{t("vaccinationDate")}</label>
 
           <input
             type="date"
@@ -162,7 +164,7 @@ function AddChickenVaccination() {
 
           <br /><br />
 
-          <label>Next Due Date</label>
+          <label>{t("nextDueDate")}</label>
 
           <input
             type="date"
@@ -184,7 +186,7 @@ function AddChickenVaccination() {
 
           <br /><br />
 
-          <label>Notes</label>
+          <label>{t("notes")}</label>
 
           <textarea
             rows="4"
@@ -200,14 +202,14 @@ function AddChickenVaccination() {
               className="button"
               type="submit"
             >
-              💾 Save
+              💾 {t("save")}
             </button>
 
             <Link
               className="button"
               to="/chicken-vaccinations"
             >
-              Cancel
+              {t("cancel")}
             </Link>
           </div>
 
