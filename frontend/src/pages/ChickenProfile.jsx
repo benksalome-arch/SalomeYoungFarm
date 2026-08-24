@@ -28,7 +28,7 @@ function ChickenProfile() {
   }
 
   if (!chicken) {
-    return <p>Loading...</p>;
+    return <p>{t("loading")}</p>;
   }
 
   return (
@@ -47,7 +47,7 @@ function ChickenProfile() {
         </div>
 
         <Link className="button" to="/chickens">
-          ← Back
+          ← {t("back")}
         </Link>
       </div>
 
@@ -57,12 +57,12 @@ function ChickenProfile() {
           <tbody>
 
             <tr>
-              <th>Tag Number</th>
+              <th>{t("tagNumber")}</th>
               <td>{chicken.tag_number}</td>
             </tr>
 
             <tr>
-              <th>Name</th>
+              <th>{t("name")}</th>
               <td>{chicken.name}</td>
             </tr>
 
@@ -72,32 +72,32 @@ function ChickenProfile() {
             </tr>
 
             <tr>
-              <th>Type</th>
+              <th>{t("type")}</th>
               <td>{chicken.type}</td>
             </tr>
 
             <tr>
-              <th>Sex</th>
+              <th>{t("sex")}</th>
               <td>{chicken.sex}</td>
             </tr>
 
             <tr>
-              <th>Quantity</th>
+              <th>{t("quantity")}</th>
               <td>{chicken.quantity}</td>
             </tr>
 
             <tr>
-              <th>Status</th>
+              <th>{t("status")}</th>
               <td>{chicken.status}</td>
             </tr>
 
             <tr>
-              <th>Purchase Price</th>
+              <th>{t("purchasePrice")}</th>
               <td>{chicken.purchase_price}</td>
             </tr>
 
             <tr>
-              <th>Source</th>
+              <th>{t("source")}</th>
               <td>{chicken.source}</td>
             </tr>
 
