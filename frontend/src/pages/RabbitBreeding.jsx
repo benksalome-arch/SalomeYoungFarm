@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 
 function RabbitBreeding() {
+  const { t } = useLanguage();
   const { id } = useParams();
 
   const [records, setRecords] = useState([]);
@@ -54,10 +55,10 @@ function RabbitBreeding() {
         }}
       >
         <div>
-          <h1>❤️ Rabbit Breeding</h1>
+          <h1>❤️ {t("rabbitBreeding")}</h1>
 
           <p>
-            Breeding history for this female rabbit.
+            {t("breedingHistoryFemaleRabbit")}
           </p>
         </div>
 
@@ -72,14 +73,14 @@ function RabbitBreeding() {
             className="button"
             to={`/rabbits/${id}/breeding/add`}
           >
-            ➕ Add Breeding
+            ➕ {t("addBreeding")}
           </Link>
 
           <Link
             className="button"
             to={`/rabbits/${id}`}
           >
-            ← Back to Profile
+            ← {t("backToProfile")}
           </Link>
         </div>
       </div>
@@ -98,19 +99,19 @@ function RabbitBreeding() {
         >
           <thead>
             <tr>
-              <th>Date</th>
+              <th>{t("date")}</th>
 
-              <th>Female Rabbit</th>
+              <th>{t("femaleRabbit")}</th>
 
-              <th>Male Rabbit</th>
+              <th>{t("maleRabbit")}</th>
 
-              <th>Type</th>
+              <th>{t("type")}</th>
 
-              <th>Expected Birth</th>
+              <th>{t("expectedBirth")}</th>
 
-              <th>Status</th>
+              <th>{t("status")}</th>
 
-              <th>Notes</th>
+              <th>{t("notes")}</th>
             </tr>
           </thead>
 
@@ -124,7 +125,7 @@ function RabbitBreeding() {
                     padding: "20px",
                   }}
                 >
-                  Loading breeding records...
+                  {t("loadingBreedingRecords")}
                 </td>
               </tr>
             ) : records.length === 0 ? (
@@ -136,7 +137,7 @@ function RabbitBreeding() {
                     padding: "20px",
                   }}
                 >
-                  No breeding records found.
+                  {t("noBreedingRecordsFound")}
                 </td>
               </tr>
             ) : (
