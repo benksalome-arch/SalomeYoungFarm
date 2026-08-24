@@ -29,6 +29,10 @@ const translations = {
 
     chickenVaccinations: "Chicken Vaccinations",
     chickenMortality: "Chicken Mortality",
+    recordVaccination: "Record Vaccination",
+    deleteVaccinationConfirm: "Delete this vaccination record?",
+    failedDeleteVaccination: "Failed to delete vaccination.",
+    noVaccinationRecords: "No vaccination records found.",
     recordChickenMortality: "Record Chicken Mortality",
     failedRecordMortality: "Failed to record mortality.",
     mortalityCausePlaceholder: "Disease, Predator, Accident...",
@@ -171,6 +175,10 @@ const translations = {
 
     chickenVaccinations: "Chanjo za Kuku",
     chickenMortality: "Vifo vya Kuku",
+    recordVaccination: "Rekodi Chanjo",
+    deleteVaccinationConfirm: "Futa rekodi hii ya chanjo?",
+    failedDeleteVaccination: "Imeshindikana kufuta chanjo.",
+    noVaccinationRecords: "Hakuna rekodi za chanjo zilizopatikana.",
     recordChickenMortality: "Rekodi Vifo vya Kuku",
     failedRecordMortality: "Imeshindikana kurekodi kifo.",
     mortalityCausePlaceholder: "Ugonjwa, Mnyama, Ajali...",
@@ -306,6 +314,10 @@ const translations = {
 
     chickenVaccinations: "Kippencaccinaties",
     chickenMortality: "Kippensterfte",
+    recordVaccination: "Vaccinatie Registreren",
+    deleteVaccinationConfirm: "Deze vaccinatieregistratie verwijderen?",
+    failedDeleteVaccination: "Vaccinatie verwijderen mislukt.",
+    noVaccinationRecords: "Geen vaccinatieregistraties gevonden.",
     recordChickenMortality: "Kippensterfte Registreren",
     failedRecordMortality: "Registreren van sterfte mislukt.",
     mortalityCausePlaceholder: "Ziekte, Roofdier, Ongeval...",

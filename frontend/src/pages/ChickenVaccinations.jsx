@@ -1,8 +1,10 @@
 import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useLanguage } from "../context/LanguageContext";
 
 function ChickenVaccinations() {
+  const { t } = useLanguage();
   const [records, setRecords] = useState([]);
 
   useEffect(() => {
@@ -25,7 +27,7 @@ function ChickenVaccinations() {
 
   async function deleteRecord(id) {
 
-    if (!window.confirm("Delete this vaccination record?")) {
+    if (!window.confirm(t("deleteVaccinationConfirm"))) {
       return;
     }
 
@@ -48,7 +50,7 @@ function ChickenVaccinations() {
 
     } catch (err) {
       console.error(err);
-      alert("Failed to delete vaccination.");
+      alert(t("failedDeleteVaccination"))
     }
 
   }
@@ -65,7 +67,7 @@ function ChickenVaccinations() {
         }}
       >
         <div>
-          <h1>💉 Chicken Vaccinations</h1>
+          <h1>💉 {t("chickenVaccinations")}</h1>
           <p>Manage vaccination records.</p>
         </div>
 
@@ -73,7 +75,7 @@ function ChickenVaccinations() {
           className="button"
           to="/chicken-vaccinations/add"
         >
-          ➕ Record Vaccination
+          ➕ {t("recordVaccination")}
         </Link>
 
       </div>
@@ -84,7 +86,7 @@ function ChickenVaccinations() {
 
           <thead>
             <tr>
-              <th>Date</th>
+              <th>{t("date")}</th>
               <th>Tag</th>
               <th>Name</th>
               <th>Vaccine</th>
@@ -102,7 +104,7 @@ function ChickenVaccinations() {
                   colSpan="6"
                   style={{ textAlign: "center" }}
                 >
-                  No vaccination records found.
+                  {t("noVaccinationRecords")}
                 </td>
               </tr>
 
@@ -132,7 +134,7 @@ function ChickenVaccinations() {
                       className="button"
                       onClick={() => deleteRecord(record.id)}
                     >
-                      🗑 Delete
+                      🗑 {t("delete")}
                     </button>
 
                   </td>
