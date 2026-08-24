@@ -1,8 +1,10 @@
 import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useLanguage } from "../context/LanguageContext";
 
 function RabbitLitters() {
+  const { t } = useLanguage();
   const [litters, setLitters] = useState([]);
   const [loading, setLoading] = useState(true);
   const [deleting, setDeleting] = useState(null);
@@ -96,10 +98,10 @@ function RabbitLitters() {
         }}
       >
         <div>
-          <h1>🐇 Rabbit Litters</h1>
+          <h1>🐇 {t("rabbitLitters")}</h1>
 
           <p>
-            Record and track rabbit births and kits.
+            {t("rabbitLitterDescription")}
           </p>
         </div>
 
@@ -107,7 +109,7 @@ function RabbitLitters() {
           className="button"
           to="/rabbit-litters/add"
         >
-          ➕ Record Litter
+          ➕ {t("recordLitter")}
         </Link>
       </div>
 
@@ -117,14 +119,14 @@ function RabbitLitters() {
         <table className="table">
           <thead>
             <tr>
-              <th>Birth Date</th>
-              <th>Female</th>
-              <th>Male</th>
-              <th>Total Kits</th>
-              <th>Live Kits</th>
-              <th>Dead Kits</th>
-              <th>Notes</th>
-              <th>Action</th>
+              <th>{t("birthDate")}</th>
+              <th>{t("female")}</th>
+              <th>{t("male")}</th>
+              <th>{t("totalKits")}</th>
+              <th>{t("liveKits")}</th>
+              <th>{t("deadKits")}</th>
+              <th>{t("notes")}</th>
+              <th>{t("action")}</th>
             </tr>
           </thead>
 
@@ -137,7 +139,7 @@ function RabbitLitters() {
                     textAlign: "center",
                   }}
                 >
-                  Loading litter records...
+                  {t("loadingLitterRecords")}
                 </td>
               </tr>
             ) : litters.length === 0 ? (
@@ -148,7 +150,7 @@ function RabbitLitters() {
                     textAlign: "center",
                   }}
                 >
-                  No rabbit litter records found.
+                  {t("noRabbitLitterRecordsFound")}
                 </td>
               </tr>
             ) : (
@@ -163,13 +165,13 @@ function RabbitLitters() {
                   <td>
                     {litter.female_tag_number}
                     {" - "}
-                    {litter.female_name || "Rabbit"}
+                    {litter.female_name || t("rabbit")}
                   </td>
 
                   <td>
                     {litter.male_tag_number
                       ? `${litter.male_tag_number} - ${
-                          litter.male_name || "Rabbit"
+                          litter.male_name || t("rabbit")
                         }`
                       : "-"}
                   </td>
