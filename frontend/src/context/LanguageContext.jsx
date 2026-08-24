@@ -86,6 +86,9 @@ const translations = {
     feedUsage: "Feed Usage",
 
     rabbitLitters: "Rabbit Litters",
+    loadingMortalityRecords: "Loading mortality records...",
+    noRabbitMortalityRecordsFound: "No rabbit mortality records found.",
+
     rabbitLitterDescription: "Record and track rabbit births and kits.",
     recordLitter: "Record Litter",
     female: "Female",
