@@ -1,8 +1,10 @@
 import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
+import { useLanguage } from "../context/LanguageContext";
 
 function ChickenProfile() {
+  const { t } = useLanguage();
   const { id } = useParams();
 
   const [chicken, setChicken] = useState(null);
@@ -41,7 +43,7 @@ function ChickenProfile() {
       >
         <div>
           <h1>🐔 {chicken.name || chicken.tag_number}</h1>
-          <p>Chicken Profile</p>
+          <p>{t("chickenProfile")}</p>
         </div>
 
         <Link className="button" to="/chickens">
@@ -65,7 +67,7 @@ function ChickenProfile() {
             </tr>
 
             <tr>
-              <th>Breed</th>
+              <th>{t("breed")}</th>
               <td>{chicken.breed}</td>
             </tr>
 
@@ -100,12 +102,12 @@ function ChickenProfile() {
             </tr>
 
             <tr>
-              <th>Hatch Date</th>
+              <th>{t("hatchDate")}</th>
               <td>{chicken.hatch_date?.split("T")[0]}</td>
             </tr>
 
             <tr>
-              <th>Notes</th>
+              <th>{t("notes")}</th>
               <td>{chicken.notes}</td>
             </tr>
 
