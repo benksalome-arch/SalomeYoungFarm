@@ -88,7 +88,7 @@ function EditChicken() {
 
         <form onSubmit={handleSubmit}>
 
-          <label>Tag Number</label>
+          <label>{t("tagNumber")}</label>
           <input
             type="text"
             name="tag_number"
@@ -99,7 +99,7 @@ function EditChicken() {
 
           <br /><br />
 
-          <label>Name</label>
+          <label>{t("name")}</label>
           <input
             type="text"
             name="name"
@@ -158,7 +158,7 @@ function EditChicken() {
 
           <br /><br />
 
-          <label>Source</label>
+          <label>{t("source")}</label>
           <input
             type="text"
             name="source"
@@ -168,7 +168,7 @@ function EditChicken() {
 
           <br /><br />
 
-          <label>Quantity</label>
+          <label>{t("quantity")}</label>
           <input
             type="number"
             name="quantity"
@@ -178,20 +178,20 @@ function EditChicken() {
 
           <br /><br />
 
-          <label>Status</label>
+          <label>{t("status")}</label>
           <select
             name="status"
             value={formData.status || "Active"}
             onChange={handleChange}
           >
-            <option>Active</option>
-            <option>Sold</option>
-            <option>Dead</option>
+            <option>{t("active")}</option>
+            <option>{t("sold")}</option>
+            <option>{t("dead")}</option>
           </select>
 
           <br /><br />
 
-          <label>Purchase Price</label>
+          <label>{t("purchasePrice")}</label>
           <input
             type="number"
             step="0.01"
