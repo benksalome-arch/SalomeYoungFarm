@@ -1,8 +1,10 @@
 import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
+import { useLanguage } from "../context/LanguageContext";
 
 function EditChicken() {
+  const { t } = useLanguage();
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -71,7 +73,7 @@ function EditChicken() {
 
     } catch (err) {
       console.error(err);
-      alert("Failed to update chicken.");
+      alert(t("failedUpdateChicken"));
     }
   }
 
@@ -79,7 +81,7 @@ function EditChicken() {
     <div className="page">
 
       <div className="page-header">
-        <h1>🐔 Edit Chicken</h1>
+        <h1>🐔 {t("editChicken")}</h1>
       </div>
 
       <div className="card">
@@ -107,7 +109,7 @@ function EditChicken() {
 
           <br /><br />
 
-          <label>Breed</label>
+          <label>{t("breed")}</label>
           <input
             type="text"
             name="breed"
@@ -146,7 +148,7 @@ function EditChicken() {
 
           <br /><br />
 
-          <label>Hatch Date</label>
+          <label>{t("hatchDate")}</label>
           <input
             type="date"
             name="hatch_date"
@@ -200,7 +202,7 @@ function EditChicken() {
 
           <br /><br />
 
-          <label>Notes</label>
+          <label>{t("notes")}</label>
           <textarea
             rows="4"
             name="notes"
@@ -216,7 +218,7 @@ function EditChicken() {
             </button>
 
             <Link className="button" to="/chickens">
-              Cancel
+              {t("cancel")}
             </Link>
           </div>
 
