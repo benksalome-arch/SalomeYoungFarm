@@ -29,19 +29,19 @@ function Workers() {
       const data = await response.json();
 
       if (!response.ok) {
-        alert(data.message || "Failed to load workers.");
+        alert(data.message || t("failedLoadWorkers"));
         return;
       }
 
       setWorkers(data);
     } catch (error) {
       console.error(error);
-      alert("Failed to connect to the server.");
+      alert(t("serverConnectionFailed"));
     }
   }
 
   async function deleteWorker(id) {
-    if (!window.confirm("Delete this worker?")) return;
+    if (!window.confirm(t("deleteWorkerConfirm"))) return;
 
     const token = localStorage.getItem("token");
 
@@ -65,12 +65,12 @@ function Workers() {
         return;
       }
 
-      alert(data.message || "Worker deleted successfully!");
+      alert(data.message || t("workerDeleted"));
 
       loadWorkers();
     } catch (error) {
       console.error(error);
-      alert("Failed to connect to the server.");
+      alert(t("serverConnectionFailed"));
     }
   }
 
@@ -162,7 +162,7 @@ function Workers() {
                       {/* EDIT */}
                       <Link
                         to={`/workers/edit/${worker.id}`}
-                        title="Edit worker"
+                        title={t("editWorker")}
                         aria-label={`Edit ${worker.full_name}`}
                         style={{
                           width: "38px",
@@ -194,7 +194,7 @@ function Workers() {
                       {/* DELETE */}
                       <button
                         type="button"
-                        title="Delete worker"
+                        title={t("deleteWorker")}
                         aria-label={`Delete ${worker.full_name}`}
                         onClick={() => deleteWorker(worker.id)}
                         style={{
