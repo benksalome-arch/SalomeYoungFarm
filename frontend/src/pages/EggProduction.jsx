@@ -1,8 +1,10 @@
 import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useLanguage } from "../context/LanguageContext";
 
 function EggProduction() {
+  const { t } = useLanguage();
   const [records, setRecords] = useState([]);
 
   useEffect(() => {
@@ -23,7 +25,7 @@ function EggProduction() {
   }
 
   async function deleteRecord(id) {
-    if (!window.confirm("Delete this record?")) return;
+    if (!window.confirm(t("deleteRecordConfirm"))) return;
 
     try {
       const response = await fetch(
@@ -53,12 +55,12 @@ function EggProduction() {
         }}
       >
         <div>
-          <h1>🥚 Egg Production</h1>
-          <p>Daily egg collection records.</p>
+          <h1>🥚 {t("eggProduction")}</h1>
+          <p>{t("dailyEggCollection")}</p>
         </div>
 
         <Link className="button" to="/egg-production/add">
-          ➕ Record Production
+          ➕ {t("recordProduction")}
         </Link>
       </div>
 
@@ -66,11 +68,11 @@ function EggProduction() {
         <table className="table">
           <thead>
             <tr>
-              <th>Date</th>
-              <th>Chicken</th>
-              <th>Eggs</th>
-              <th>Broken</th>
-              <th>Actions</th>
+              <th>{t("date")}</th>
+              <th>{t("chicken")}</th>
+              <th>{t("eggs")}</th>
+              <th>{t("broken")}</th>
+              <th>{t("actions")}</th>
             </tr>
           </thead>
 
@@ -78,7 +80,7 @@ function EggProduction() {
             {records.length === 0 ? (
               <tr>
                 <td colSpan="5" style={{ textAlign: "center" }}>
-                  No egg production records found.
+                  {t("noEggProductionRecords")}
                 </td>
               </tr>
             ) : (
@@ -93,7 +95,7 @@ function EggProduction() {
                       className="button"
                       onClick={() => deleteRecord(record.id)}
                     >
-                      🗑 Delete
+                      🗑 {t("delete")}
                     </button>
                   </td>
                 </tr>
