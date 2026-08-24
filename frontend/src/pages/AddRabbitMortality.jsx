@@ -1,8 +1,10 @@
 import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { useLanguage } from "../context/LanguageContext";
 
 function AddRabbitMortality() {
+  const { t } = useLanguage();
   const navigate = useNavigate();
 
   const [rabbits, setRabbits] = useState([]);
@@ -173,7 +175,7 @@ function AddRabbitMortality() {
 
           {/* Rabbit */}
 
-          <label>Rabbit</label>
+          <label>{t("rabbit")}</label>
 
           <select
             name="rabbit_id"
@@ -230,7 +232,7 @@ function AddRabbitMortality() {
 
           {/* Date */}
 
-          <label>Mortality Date</label>
+          <label>{t("mortalityDate")}</label>
 
           <input
             type="date"
@@ -245,7 +247,7 @@ function AddRabbitMortality() {
 
           {/* Quantity */}
 
-          <label>Quantity</label>
+          <label>{t("quantity")}</label>
 
           <input
             type="number"
@@ -290,7 +292,7 @@ function AddRabbitMortality() {
 
           {/* Cause */}
 
-          <label>Cause</label>
+          <label>{t("cause")}</label>
 
           <input
             type="text"
@@ -305,7 +307,7 @@ function AddRabbitMortality() {
 
           {/* Notes */}
 
-          <label>Notes</label>
+          <label>{t("notes")}</label>
 
           <textarea
             rows="4"
@@ -331,7 +333,7 @@ function AddRabbitMortality() {
                 : "not-allowed",
             }}
           >
-            💾 Save Mortality Record
+            💾 {t("save")} Mortality Record
           </button>
 
         </form>

@@ -78,6 +78,10 @@ const translations = {
 
     rabbitLitters: "Rabbit Litters",
     rabbitMortality: "Rabbit Mortality",
+    rabbit: "Rabbit",
+    selectRabbit: "Select Rabbit",
+    mortalityDate: "Mortality Date",
+    cause: "Cause",
     rabbitVaccinations: "Rabbit Vaccinations",
 
     logout: "Logout",
@@ -259,6 +263,10 @@ const translations = {
 
     rabbitLitters: "Vizazi vya Sungura",
     rabbitMortality: "Vifo vya Sungura",
+    rabbit: "Sungura",
+    selectRabbit: "Chagua Sungura",
+    mortalityDate: "Tarehe ya Kifo",
+    cause: "Sababu",
     rabbitVaccinations: "Chanjo za Sungura",
 
     logout: "Toka",
@@ -433,6 +441,10 @@ const translations = {
 
     rabbitLitters: "Konijnenworpen",
     rabbitMortality: "Konijnensterfte",
+    rabbit: "Konijn",
+    selectRabbit: "Selecteer Konijn",
+    mortalityDate: "Sterftedatum",
+    cause: "Oorzaak",
     rabbitVaccinations: "Konijnenvaccinaties",
 
     logout: "Uitloggen",
