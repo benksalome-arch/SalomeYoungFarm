@@ -1,8 +1,10 @@
 import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useLanguage } from "../context/LanguageContext";
 
 function EggSales() {
+  const { t } = useLanguage();
   const [sales, setSales] = useState([]);
 
   useEffect(() => {
@@ -83,7 +85,7 @@ function EggSales() {
         </div>
 
         <Link className="button" to="/egg-sales/add">
-          ➕ Record Sale
+          ➕ {t("recordSale")}
         </Link>
       </div>
 
@@ -97,17 +99,17 @@ function EggSales() {
       >
 
         <div className="card">
-          <h3>Total Sales</h3>
+          <h3>{t("totalSales")}</h3>
           <h2>{sales.length}</h2>
         </div>
 
         <div className="card">
-          <h3>Eggs Sold</h3>
+          <h3>{t("eggsSold")}</h3>
           <h2>{totalEggs}</h2>
         </div>
 
         <div className="card">
-          <h3>Total Revenue</h3>
+          <h3>{t("totalRevenue")}</h3>
           <h2>
             KES {totalRevenue.toLocaleString()}
           </h2>
@@ -121,13 +123,13 @@ function EggSales() {
 
           <thead>
             <tr>
-              <th>Date</th>
-              <th>Customer</th>
-              <th>Quantity</th>
-              <th>Price/Egg</th>
-              <th>Total</th>
-              <th>Payment</th>
-              <th>Actions</th>
+              <th>{t("date")}</th>
+              <th>{t("customer")}</th>
+              <th>{t("quantity")}</th>
+              <th>{t("pricePerEgg")}</th>
+              <th>{t("total")}</th>
+              <th>{t("payment")}</th>
+              <th>{t("actions")}</th>
             </tr>
           </thead>
 
@@ -140,7 +142,7 @@ function EggSales() {
                   colSpan="7"
                   style={{ textAlign: "center" }}
                 >
-                  No egg sales found.
+                  {t("noEggSalesFound")}
                 </td>
               </tr>
 
@@ -155,7 +157,7 @@ function EggSales() {
                   </td>
 
                   <td>
-                    {sale.customer || "Walk-in Customer"}
+                    {sale.customer || t("walkInCustomer")}
                   </td>
 
                   <td>{sale.quantity}</td>
@@ -178,7 +180,7 @@ function EggSales() {
                         deleteSale(sale.id)
                       }
                     >
-                      🗑 Delete
+                      🗑 {t("delete")}
                     </button>
 
                   </td>
