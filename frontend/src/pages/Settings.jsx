@@ -3,6 +3,7 @@ import API_URL from "../api";
 import { useLanguage } from "../context/LanguageContext";
 
 function Settings() {
+  const { t } = useLanguage();
   const { language, setLanguage } = useLanguage();
   const [profile, setProfile] = useState({
     name: "",
@@ -71,13 +72,13 @@ function Settings() {
   function saveProfile(e) {
     e.preventDefault();
 
-    alert("Profile settings saved.");
+    alert(t("profileSettingsSaved"));
   }
 
   function saveFarm(e) {
     e.preventDefault();
 
-    alert("Farm information saved.");
+    alert(t("farmInformationSaved"));
   }
 
   async function changePassword(e) {
@@ -304,7 +305,7 @@ function Settings() {
                 name="name"
                 value={profile.name}
                 onChange={handleProfileChange}
-                placeholder="Enter your name"
+                placeholder={t("enterYourName")}
                 style={{
                   width: "100%",
                   boxSizing: "border-box",
@@ -329,7 +330,7 @@ function Settings() {
                 name="email"
                 value={profile.email}
                 onChange={handleProfileChange}
-                placeholder="Enter your email"
+                placeholder={t("enterYourEmail")}
                 style={{
                   width: "100%",
                   boxSizing: "border-box",
@@ -530,7 +531,7 @@ function Settings() {
             name="farmName"
             value={farm.farmName}
             onChange={handleFarmChange}
-            placeholder="Enter farm name"
+            placeholder={t("enterFarmName")}
             style={{
               width: "100%",
               boxSizing: "border-box",
@@ -555,7 +556,7 @@ function Settings() {
             name="location"
             value={farm.location}
             onChange={handleFarmChange}
-            placeholder="Enter farm location"
+            placeholder={t("enterFarmLocation")}
             style={{
               width: "100%",
               boxSizing: "border-box",
@@ -580,7 +581,7 @@ function Settings() {
             name="phone"
             value={farm.phone}
             onChange={handleFarmChange}
-            placeholder="Enter contact phone"
+            placeholder={t("enterContactPhone")}
             style={{
               width: "100%",
               boxSizing: "border-box",

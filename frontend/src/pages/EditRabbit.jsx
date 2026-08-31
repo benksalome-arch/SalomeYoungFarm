@@ -92,7 +92,7 @@ function EditRabbit() {
 
     } catch (err) {
       console.error(err);
-      alert("Failed to update rabbit.");
+      alert(t("failedToUpdateRabbit"));
     }
   }
 
@@ -100,14 +100,14 @@ function EditRabbit() {
     <div className="page">
 
       <div className="page-header">
-        <h1>🐇 Edit Rabbit</h1>
+        <h1>🐇 {t("editRabbit")}</h1>
       </div>
 
       <div className="card">
 
         <form onSubmit={handleSubmit}>
 
-          <label>Tag Number</label>
+          <label>{t("tagNumber")}</label>
           <input
             type="text"
             name="tag_number"
@@ -118,7 +118,7 @@ function EditRabbit() {
 
           <br /><br />
 
-          <label>Name</label>
+          <label>{t("name")}</label>
           <input
             type="text"
             name="name"
@@ -128,7 +128,7 @@ function EditRabbit() {
 
           <br /><br />
 
-          <label>Breed</label>
+          <label>{t("breed")}</label>
           <input
             type="text"
             name="breed"
@@ -139,19 +139,19 @@ function EditRabbit() {
 
           <br /><br />
 
-          <label>Sex</label>
+          <label>{t("sex")}</label>
           <select
             name="sex"
             value={formData.sex}
             onChange={handleChange}
           >
-            <option value="Female">Female</option>
-            <option value="Male">Male</option>
+            <option value="Female">{t("female")}</option>
+            <option value="Male">{t("male")}</option>
           </select>
 
           <br /><br />
 
-          <label>Birth Date</label>
+          <label>{t("birthDate")}</label>
           <input
             type="date"
             name="birth_date"
@@ -161,7 +161,7 @@ function EditRabbit() {
 
           <br /><br />
 
-          <label>Source</label>
+          <label>{t("source")}</label>
           <input
             type="text"
             name="source"
@@ -171,7 +171,7 @@ function EditRabbit() {
 
           <br /><br />
 
-          <label>Quantity</label>
+          <label>{t("quantity")}</label>
           <input
             type="number"
             min="1"
@@ -183,20 +183,20 @@ function EditRabbit() {
 
           <br /><br />
 
-          <label>Status</label>
+          <label>{t("status")}</label>
           <select
             name="status"
             value={formData.status}
             onChange={handleChange}
           >
-            <option value="Active">Active</option>
-            <option value="Sold">Sold</option>
-            <option value="Dead">Dead</option>
+            <option value="Active">{t("active")}</option>
+            <option value="Sold">{t("sold")}</option>
+            <option value="Dead">{t("dead")}</option>
           </select>
 
           <br /><br />
 
-          <label>Purchase Price</label>
+          <label>{t("purchasePriceKES")}</label>
           <input
             type="number"
             step="0.01"
@@ -208,7 +208,7 @@ function EditRabbit() {
 
           <br /><br />
 
-          <label>Notes</label>
+          <label>{t("notes")}</label>
           <textarea
             name="notes"
             rows="4"
@@ -220,11 +220,11 @@ function EditRabbit() {
 
           <div style={{ display: "flex", gap: "10px" }}>
             <button className="button" type="submit">
-              💾 Update
+              💾 {t("update")}
             </button>
 
             <Link className="button" to="/rabbits">
-              Cancel
+              {t("cancel")}
             </Link>
           </div>
 

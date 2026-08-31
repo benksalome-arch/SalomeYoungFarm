@@ -53,7 +53,7 @@ function EggSales() {
 
     } catch (err) {
       console.error(err);
-      alert("Failed to delete sale.");
+      alert(t("failedToDeleteSale"));
     }
 
   }

@@ -11,9 +11,9 @@ exports.getLitters = (req, res) => {
         rb.breeding_date,
         rb.rabbit_id,
         rb.male_rabbit_id,
-        female.tag_number AS female_tag_number,
+        female.tag AS female_tag_number,
         female.name AS female_name,
-        male.tag_number AS male_tag_number,
+        male.tag AS male_tag_number,
         male.name AS male_name
      FROM rabbit_litters rl
      JOIN rabbit_breeding rb
@@ -48,9 +48,9 @@ exports.getBreedingLitters = (req, res) => {
         rb.breeding_date,
         rb.rabbit_id,
         rb.male_rabbit_id,
-        female.tag_number AS female_tag_number,
+        female.tag AS female_tag_number,
         female.name AS female_name,
-        male.tag_number AS male_tag_number,
+        male.tag AS male_tag_number,
         male.name AS male_name
      FROM rabbit_litters rl
      JOIN rabbit_breeding rb

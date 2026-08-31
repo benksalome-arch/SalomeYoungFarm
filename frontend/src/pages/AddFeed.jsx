@@ -61,7 +61,7 @@ function AddFeed() {
 
         <form onSubmit={handleSubmit}>
 
-          <label>Feed Name</label>
+          <label>{t("feedName")}</label>
           <input
             type="text"
             name="feed_name"
@@ -72,21 +72,21 @@ function AddFeed() {
 
           <br /><br />
 
-          <label>Category</label>
+          <label>{t("category")}</label>
           <select
             name="category"
             value={formData.category}
             onChange={handleChange}
           >
-            <option>Goat</option>
-            <option>Chicken</option>
-            <option>Rabbit</option>
-            <option>General</option>
+            <option value="Goat">{t("goat")}</option>
+            <option value="Chicken">{t("chicken")}</option>
+            <option value="Rabbit">{t("rabbit")}</option>
+            <option value="General">{t("general")}</option>
           </select>
 
           <br /><br />
 
-          <label>Quantity</label>
+          <label>{t("quantity")}</label>
           <input
             type="number"
             step="0.01"
@@ -98,21 +98,21 @@ function AddFeed() {
 
           <br /><br />
 
-          <label>Unit</label>
+          <label>{t("unit")}</label>
           <select
             name="unit"
             value={formData.unit}
             onChange={handleChange}
           >
-            <option>kg</option>
-            <option>bags</option>
-            <option>litres</option>
-            <option>pieces</option>
+            <option value="kg">{t("kg")}</option>
+            <option value="bags">{t("bags")}</option>
+            <option value="litres">{t("litres")}</option>
+            <option value="pieces">{t("pieces")}</option>
           </select>
 
           <br /><br />
 
-          <label>Minimum Stock</label>
+          <label>{t("minimumStock")}</label>
           <input
             type="number"
             step="0.01"
@@ -123,7 +123,7 @@ function AddFeed() {
 
           <br /><br />
 
-          <label>Cost Per Unit (KES)</label>
+          <label>{t("costPerUnitKES")}</label>
           <input
             type="number"
             step="0.01"
@@ -134,7 +134,7 @@ function AddFeed() {
 
           <br /><br />
 
-          <label>Supplier</label>
+          <label>{t("supplier")}</label>
           <input
             type="text"
             name="supplier"
@@ -144,7 +144,7 @@ function AddFeed() {
 
           <br /><br />
 
-          <label>Purchase Date</label>
+          <label>{t("purchaseDate")}</label>
           <input
             type="date"
             name="purchase_date"
@@ -154,7 +154,7 @@ function AddFeed() {
 
           <br /><br />
 
-          <label>Notes</label>
+          <label>{t("notes")}</label>
           <textarea
             name="notes"
             rows="4"

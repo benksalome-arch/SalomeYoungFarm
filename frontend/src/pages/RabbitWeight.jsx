@@ -1,8 +1,10 @@
 import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
+import { useLanguage } from "../context/LanguageContext";
 
 function RabbitWeight() {
+  const { t } = useLanguage();
   const { id } = useParams();
 
   const [records, setRecords] = useState([]);
@@ -53,7 +55,7 @@ function RabbitWeight() {
         }}
       >
         <div>
-          <h1>⚖ Rabbit Weight History</h1>
+          <h1>⚖ {t("rabbitWeightHistory")}</h1>
 
           <p>
             Track weight changes for this rabbit.
@@ -78,7 +80,7 @@ function RabbitWeight() {
             className="button"
             to={`/rabbits/${id}`}
           >
-            ← Back to Profile
+            ← {t("back")} to Profile
           </Link>
         </div>
       </div>

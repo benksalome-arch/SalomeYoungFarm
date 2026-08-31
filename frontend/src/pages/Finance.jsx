@@ -215,7 +215,7 @@ function Finance() {
             overflow: "hidden",
           }}
         >
-          <h3>Total Income</h3>
+          <h3>{t("totalIncome")}</h3>
 
           <h2
             style={{
@@ -236,7 +236,7 @@ function Finance() {
             overflow: "hidden",
           }}
         >
-          <h3>Total Expenses</h3>
+          <h3>{t("totalExpenses")}</h3>
 
           <h2
             style={{
@@ -257,7 +257,7 @@ function Finance() {
             overflow: "hidden",
           }}
         >
-          <h3>Profit</h3>
+          <h3>{t("profit")}</h3>
 
           <h2
             style={{

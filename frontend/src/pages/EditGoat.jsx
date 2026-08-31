@@ -1,8 +1,10 @@
 import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
+import { useLanguage } from "../context/LanguageContext";
 
 function EditGoat() {
+  const { t } = useLanguage();
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -13,7 +15,7 @@ function EditGoat() {
     sex: "Female",
     date_of_birth: "",
     weight: "",
-    status: "Healthy",
+    status: t("healthy"),
     color: "",
     notes: "",
   });
@@ -35,7 +37,7 @@ function EditGoat() {
             ? String(data.date_of_birth).split("T")[0]
             : "",
           weight: data.weight ?? "",
-          status: data.status || "Healthy",
+          status: data.status || t("healthy"),
           color: data.color || "",
           notes: data.notes || "",
         });
@@ -102,7 +104,7 @@ function EditGoat() {
       );
     } catch (err) {
       console.error("Photo upload error:", err);
-      alert("Failed to upload photo.");
+      alert(t("failedToUploadPhoto"));
     }
   }
 
@@ -111,7 +113,7 @@ function EditGoat() {
       return;
     }
 
-    if (!window.confirm("Delete goat photo?")) {
+    if (!window.confirm(t("deleteGoatPhoto"))) {
       return;
     }
 
@@ -140,7 +142,7 @@ function EditGoat() {
       );
     } catch (err) {
       console.error("Photo delete error:", err);
-      alert("Failed to delete photo.");
+      alert(t("failedToDeletePhoto"));
     }
   }
 
@@ -185,7 +187,7 @@ function EditGoat() {
       navigate("/goats");
     } catch (err) {
       console.error("Update goat error:", err);
-      alert("Database error.");
+      alert(t("databaseError"));
     }
   }
 
@@ -335,38 +337,38 @@ function EditGoat() {
 
       <div className="card">
         <form onSubmit={handleSubmit}>
-          <p>Tag</p>
+          <p>{t("tag")}</p>
           <input
             name="tag"
             value={formData.tag}
             onChange={handleChange}
           />
 
-          <p>Name</p>
+          <p>{t("name")}</p>
           <input
             name="name"
             value={formData.name}
             onChange={handleChange}
           />
 
-          <p>Breed</p>
+          <p>{t("breed")}</p>
           <input
             name="breed"
             value={formData.breed}
             onChange={handleChange}
           />
 
-          <p>Sex</p>
+          <p>{t("sex")}</p>
           <select
             name="sex"
             value={formData.sex}
             onChange={handleChange}
           >
-            <option>Female</option>
-            <option>Male</option>
+            <option>{t("female")}</option>
+            <option>{t("male")}</option>
           </select>
 
-          <p>Date of Birth</p>
+          <p>{t("dateOfBirth")}</p>
           <input
             type="date"
             name="date_of_birth"
@@ -374,33 +376,33 @@ function EditGoat() {
             onChange={handleChange}
           />
 
-          <p>Weight</p>
+          <p>{t("weight")}</p>
           <input
             name="weight"
             value={formData.weight}
             onChange={handleChange}
           />
 
-          <p>Status</p>
+          <p>{t("status")}</p>
           <select
             name="status"
             value={formData.status}
             onChange={handleChange}
           >
-            <option>Healthy</option>
-            <option>Sick</option>
-            <option>Treated</option>
-            <option>Sold</option>
+            <option value="Healthy">{t("healthy")}</option>
+            <option value="Sick">{t("sick")}</option>
+            <option value="Treated">{t("treated")}</option>
+            <option value="Sold">{t("sold")}</option>
           </select>
 
-          <p>Color</p>
+          <p>{t("color")}</p>
           <input
             name="color"
             value={formData.color}
             onChange={handleChange}
           />
 
-          <p>Notes</p>
+          <p>{t("notes")}</p>
           <textarea
             name="notes"
             value={formData.notes}

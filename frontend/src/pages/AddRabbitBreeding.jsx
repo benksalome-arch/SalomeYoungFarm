@@ -1,8 +1,10 @@
 import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
+import { useLanguage } from "../context/LanguageContext";
 
 function AddRabbitBreeding() {
+  const { t } = useLanguage();
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -110,7 +112,7 @@ function AddRabbitBreeding() {
     e.preventDefault();
 
     if (!femaleRabbit) {
-      alert("Female rabbit could not be found.");
+      alert(t("femaleRabbitNotFound"));
       return;
     }
 
@@ -126,12 +128,12 @@ function AddRabbitBreeding() {
     }
 
     if (!formData.male_rabbit_id) {
-      alert("Please select a male rabbit.");
+      alert(t("pleaseSelectMaleRabbit"));
       return;
     }
 
     if (!formData.breeding_type) {
-      alert("Please select the breeding type.");
+      alert(t("pleaseSelectBreedingType"));
       return;
     }
 
@@ -192,7 +194,7 @@ function AddRabbitBreeding() {
         }}
       >
         <div>
-          <h1>❤️ Add Rabbit Breeding Record</h1>
+          <h1>❤️ {t("addRabbitBreedingRecord")}</h1>
 
           <p>
             Record a breeding event for this female rabbit.
@@ -203,7 +205,7 @@ function AddRabbitBreeding() {
           className="button"
           to={`/rabbits/${id}/breeding`}
         >
-          ← Back to Breeding
+          ← {t("back")} to Breeding
         </Link>
       </div>
 
@@ -217,11 +219,11 @@ function AddRabbitBreeding() {
           {/* Female Rabbit */}
 
           <label>
-            <strong>Female Rabbit</strong>
+            <strong>{t("femaleRabbit")}</strong>
           </label>
 
           {loadingRabbits ? (
-            <p>Loading rabbit...</p>
+            <p>{t("loadingRabbit")}...</p>
           ) : femaleRabbit ? (
             <div
               style={{
@@ -278,11 +280,11 @@ function AddRabbitBreeding() {
           {/* Male Rabbit */}
 
           <label>
-            <strong>Male Rabbit</strong>
+            <strong>{t("maleRabbit")}</strong>
           </label>
 
           {loadingRabbits ? (
-            <p>Loading male rabbits...</p>
+            <p>{t("loadingMaleRabbits")}...</p>
           ) : (
             <>
               <select
@@ -292,7 +294,7 @@ function AddRabbitBreeding() {
                 required
               >
                 <option value="">
-                  Select male rabbit
+                  {t("selectMaleRabbit")}
                 </option>
 
                 {maleRabbits.map((rabbit) => (
@@ -306,7 +308,7 @@ function AddRabbitBreeding() {
                       ? ` - ${rabbit.name}`
                       : ""}
 
-                    {" (Male)"}
+                    {` (${t("male")})`}
                   </option>
                 ))}
               </select>
@@ -318,7 +320,7 @@ function AddRabbitBreeding() {
                     marginTop: "8px",
                   }}
                 >
-                  No available male rabbits found.
+                  {t("noAvailableMaleRabbits")}
                 </p>
               )}
 
@@ -329,11 +331,11 @@ function AddRabbitBreeding() {
                     marginTop: "8px",
                   }}
                 >
-                  {maleRabbits.length} male rabbit
+                  {maleRabbits.length} {t("maleRabbit")}
                   {maleRabbits.length !== 1
-                    ? "s"
+                    ? t("pluralS")
                     : ""}{" "}
-                  available.
+                  {t("available")}.
                 </p>
               )}
             </>
@@ -342,10 +344,10 @@ function AddRabbitBreeding() {
           <br />
           <br />
 
-          {/* Breeding Type */}
+          {/* {t("breedingType")} */}
 
           <label>
-            Breeding Type
+            {t("breedingType")}
           </label>
 
           <select
@@ -355,29 +357,29 @@ function AddRabbitBreeding() {
             required
           >
             <option value="">
-              Select breeding type
+              {t("selectBreedingType")}
             </option>
 
             <option value="Natural">
-              Natural
+              {t("natural")}
             </option>
 
             <option value="Assisted">
-              Assisted
+              {t("assisted")}
             </option>
 
             <option value="Planned">
-              Planned
+              {t("planned")}
             </option>
           </select>
 
           <br />
           <br />
 
-          {/* Expected Birth Date */}
+          {/* {t("expectedBirthDate")} */}
 
           <label>
-            Expected Birth Date
+            {t("expectedBirthDate")}
           </label>
 
           <input
@@ -390,10 +392,10 @@ function AddRabbitBreeding() {
           <br />
           <br />
 
-          {/* Status */}
+          {/* {t("status")} */}
 
           <label>
-            Status
+            {t("status")}
           </label>
 
           <select
@@ -402,23 +404,23 @@ function AddRabbitBreeding() {
             onChange={handleChange}
           >
             <option value="Planned">
-              Planned
+              {t("planned")}
             </option>
 
             <option value="Confirmed">
-              Confirmed
+              {t("confirmed")}
             </option>
 
             <option value="Pregnant">
-              Pregnant
+              {t("pregnant")}
             </option>
 
             <option value="Completed">
-              Completed
+              {t("completed")}
             </option>
 
             <option value="Failed">
-              Failed
+              {t("failed")}
             </option>
           </select>
 
@@ -428,7 +430,7 @@ function AddRabbitBreeding() {
           {/* Notes */}
 
           <label>
-            Notes
+            {t("notes")}
           </label>
 
           <textarea
@@ -436,7 +438,7 @@ function AddRabbitBreeding() {
             rows="4"
             value={formData.notes}
             onChange={handleChange}
-            placeholder="Additional breeding notes"
+            placeholder={t("additionalBreedingNotes")}
           />
 
           <br />

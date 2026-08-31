@@ -1,8 +1,10 @@
 import API_URL from "../api";
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { useLanguage } from "../context/LanguageContext";
 
 function AddFinance() {
+  const { t } = useLanguage();
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -47,7 +49,7 @@ function AddFinance() {
       navigate("/finance");
     } catch (error) {
       console.error(error);
-      alert("Failed to save transaction.");
+      alert(t("failedToSaveTransaction"));
     }
   }
 
@@ -142,8 +144,8 @@ function AddFinance() {
               onChange={handleChange}
               style={inputStyle}
             >
-              <option value="Income">Income</option>
-              <option value="Expense">Expense</option>
+              <option value="Income">{t("income")}</option>
+              <option value="Expense">{t("expense")}</option>
             </select>
           </div>
 
@@ -160,7 +162,7 @@ function AddFinance() {
               value={formData.category}
               onChange={handleChange}
               required
-              placeholder="Example: Goat Sale"
+              placeholder={t("exampleGoatSale")}
               style={inputStyle}
             />
           </div>
@@ -198,9 +200,9 @@ function AddFinance() {
               onChange={handleChange}
               style={inputStyle}
             >
-              <option value="Cash">Cash</option>
-              <option value="M-PESA">M-PESA</option>
-              <option value="Bank">Bank</option>
+              <option value="Cash">{t("cash")}</option>
+              <option value="M-PESA">{t("mpesa")}</option>
+              <option value="Bank">{t("bank")}</option>
             </select>
           </div>
 
@@ -216,7 +218,7 @@ function AddFinance() {
               value={formData.description}
               onChange={handleChange}
               rows="4"
-              placeholder="Example: Sold one Boer buck to John"
+              placeholder={t("exampleGoatSaleNote")}
               style={{
                 ...inputStyle,
                 minHeight: "100px",

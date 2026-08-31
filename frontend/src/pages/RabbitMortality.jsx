@@ -1,8 +1,10 @@
 import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useLanguage } from "../context/LanguageContext";
 
 function RabbitMortality() {
+  const { t } = useLanguage();
   const [records, setRecords] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -36,7 +38,7 @@ function RabbitMortality() {
   }
 
   async function deleteRecord(id) {
-    if (!window.confirm("Delete this rabbit mortality record?")) {
+    if (!window.confirm(t("deleteRabbitMortalityRecord"))) {
       return;
     }
 
@@ -57,7 +59,7 @@ function RabbitMortality() {
       }
     } catch (err) {
       console.error(err);
-      alert("Failed to delete mortality record.");
+      alert(t("failedToDeleteMortality"));
     }
   }
 
@@ -79,15 +81,15 @@ function RabbitMortality() {
         }}
       >
         <div>
-          <h1>â˜ ï¸ Rabbit Mortality</h1>
-          <p>Track rabbit deaths and flock losses.</p>
+          <h1>☠️ {t("rabbitMortality")}</h1>
+          <p>{t("rabbitMortalityDescription")}</p>
         </div>
 
         <Link
           className="button"
           to="/rabbit-mortality/add"
         >
-          ➕ Record Mortality
+          ➕ {t("recordMortality")}
         </Link>
       </div>
 
@@ -96,7 +98,7 @@ function RabbitMortality() {
         className="card"
         style={{ marginBottom: "20px" }}
       >
-        <h3>Total Rabbit Deaths</h3>
+        <h3>{t("totalRabbitDeaths")}</h3>
 
         <h2>{totalDeaths}</h2>
       </div>
@@ -107,13 +109,13 @@ function RabbitMortality() {
 
           <thead>
             <tr>
-              <th>Date</th>
-              <th>Tag</th>
-              <th>Name</th>
-              <th>Quantity</th>
-              <th>Cause</th>
-              <th>Notes</th>
-              <th>Actions</th>
+              <th>{t("date")}</th>
+              <th>{t("tag")}</th>
+              <th>{t("name")}</th>
+              <th>{t("quantity")}</th>
+              <th>{t("cause")}</th>
+              <th>{t("notes")}</th>
+              <th>{t("actions")}</th>
             </tr>
           </thead>
 
@@ -125,7 +127,7 @@ function RabbitMortality() {
                   colSpan="7"
                   style={{ textAlign: "center" }}
                 >
-                  Loading mortality records...
+                  {t("loadingMortalityRecords")}
                 </td>
               </tr>
             ) : records.length === 0 ? (
@@ -134,7 +136,7 @@ function RabbitMortality() {
                   colSpan="7"
                   style={{ textAlign: "center" }}
                 >
-                  No rabbit mortality records found.
+                  {t("noRabbitMortalityRecordsFound")}
                 </td>
               </tr>
             ) : (
@@ -175,7 +177,7 @@ function RabbitMortality() {
                         deleteRecord(record.id)
                       }
                     >
-                      🗑 Delete
+                      🗑 {t("delete")}
                     </button>
                   </td>
 

@@ -1,8 +1,10 @@
 import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
+import { useLanguage } from "../context/LanguageContext";
 
 function EditFinance() {
+  const { t } = useLanguage();
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -39,7 +41,7 @@ function EditFinance() {
       });
     } catch (error) {
       console.error(error);
-      alert("Failed to load transaction.");
+      alert(t("failedToLoadTransaction"));
     }
   }
 
@@ -78,7 +80,7 @@ function EditFinance() {
       navigate("/finance");
     } catch (error) {
       console.error(error);
-      alert("Failed to update transaction.");
+      alert(t("failedToUpdateTransaction"));
     }
   }
 
@@ -177,8 +179,8 @@ function EditFinance() {
               onChange={handleChange}
               style={inputStyle}
             >
-              <option value="Income">Income</option>
-              <option value="Expense">Expense</option>
+              <option value="Income">{t("income")}</option>
+              <option value="Expense">{t("expense")}</option>
             </select>
           </div>
 
@@ -234,9 +236,9 @@ function EditFinance() {
               onChange={handleChange}
               style={inputStyle}
             >
-              <option value="Cash">Cash</option>
-              <option value="M-PESA">M-PESA</option>
-              <option value="Bank">Bank</option>
+              <option value="Cash">{t("cash")}</option>
+              <option value="M-PESA">{t("mpesa")}</option>
+              <option value="Bank">{t("bank")}</option>
             </select>
           </div>
 
@@ -255,7 +257,7 @@ function EditFinance() {
               value={formData.description}
               onChange={handleChange}
               rows="4"
-              placeholder="Example: Sold one Boer buck to John"
+              placeholder={t("exampleGoatSaleNote")}
               style={{
                 ...inputStyle,
                 minHeight: "100px",

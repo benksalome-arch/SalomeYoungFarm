@@ -1,8 +1,10 @@
 import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
+import { useLanguage } from "../context/LanguageContext";
 
 function RabbitHealth() {
+  const { t } = useLanguage();
   const { id } = useParams();
 
   const [records, setRecords] = useState([]);
@@ -117,7 +119,7 @@ function RabbitHealth() {
         }}
       >
         <div>
-          <h1>🏥 Rabbit Health Records</h1>
+          <h1>🏥 {t("rabbitHealthRecords")}</h1>
 
           <p>
             Medical history for this rabbit.
@@ -142,7 +144,7 @@ function RabbitHealth() {
             className="button"
             to={`/rabbits/${id}`}
           >
-            ← Back to Profile
+            ← {t("back")} to Profile
           </Link>
         </div>
       </div>

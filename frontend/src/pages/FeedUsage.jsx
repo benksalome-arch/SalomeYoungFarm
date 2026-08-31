@@ -13,12 +13,8 @@ function FeedUsage() {
 
   async function loadUsage() {
     try {
-      const response = await fetch(
-        `${API_URL}/api/feed-usage`
-      );
-
+      const response = await fetch(`${API_URL}/api/feed-usage`);
       const data = await response.json();
-
       setUsage(data);
     } catch (err) {
       console.error(err);
@@ -29,15 +25,11 @@ function FeedUsage() {
     if (!window.confirm(t("deleteRecordConfirm"))) return;
 
     try {
-      await fetch(
-        `${API_URL}/api/feed-usage/${id}`,
-        {
-          method: "DELETE",
-        }
-      );
+      await fetch(`${API_URL}/api/feed-usage/${id}`, {
+        method: "DELETE",
+      });
 
       loadUsage();
-
     } catch (err) {
       console.error(err);
     }
@@ -54,42 +46,32 @@ function FeedUsage() {
           marginBottom: "20px",
         }}
       >
-
         <div>
           <h1>🌾 {t("feedUsage")}</h1>
           <p>{t("dailyFeedRecords")}</p>
         </div>
 
-        <Link
-          className="button"
-          to="/feed/usage/add"
-        >
+        <Link className="button" to="/feed/usage/add">
           ➕ {t("recordUsage")}
         </Link>
-
       </div>
 
       <div className="card">
-
         <table className="table">
 
           <thead>
-
             <tr>
-              <th>Date</th>
-              <th>Feed</th>
-              <th>Animal</th>
-              <th>Quantity</th>
-              <th>Notes</th>
-              <th>Actions</th>
+              <th>{t("date")}</th>
+              <th>{t("feed")}</th>
+              <th>{t("animal")}</th>
+              <th>{t("quantity")}</th>
+              <th>{t("notes")}</th>
+              <th>{t("actions")}</th>
             </tr>
-
           </thead>
 
           <tbody>
-
             {usage.length === 0 ? (
-
               <tr>
                 <td
                   colSpan="6"
@@ -98,11 +80,8 @@ function FeedUsage() {
                   {t("noFeedUsage")}
                 </td>
               </tr>
-
             ) : (
-
               usage.map((item) => (
-
                 <tr key={item.id}>
 
                   <td>
@@ -120,26 +99,20 @@ function FeedUsage() {
                   <td>{item.notes}</td>
 
                   <td>
-
                     <button
                       className="button"
                       onClick={() => deleteUsage(item.id)}
                     >
                       🗑 {t("delete")}
                     </button>
-
                   </td>
 
                 </tr>
-
               ))
-
             )}
-
           </tbody>
 
         </table>
-
       </div>
 
     </div>

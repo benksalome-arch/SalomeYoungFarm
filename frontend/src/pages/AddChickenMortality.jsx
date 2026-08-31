@@ -99,7 +99,7 @@ function AddChickenMortality() {
           className="button"
           to="/chicken-mortality"
         >
-          ← Back
+          ← {t("back")}
         </Link>
       </div>
 

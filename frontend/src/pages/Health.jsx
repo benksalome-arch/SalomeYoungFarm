@@ -1,8 +1,10 @@
 import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
+import { useLanguage } from "../context/LanguageContext";
 
 function Health() {
+  const { t } = useLanguage();
   const { id } = useParams();
   const [records, setRecords] = useState([]);
 
@@ -16,8 +18,8 @@ function Health() {
   return (
     <div className="page">
       <div className="page-header">
-        <h1>💉 Health Records</h1>
-        <p>Vaccinations, deworming and treatment history.</p>
+        <h1>💉 {t("healthRecords")}</h1>
+        <p>{t("vaccinationsDewormingTreatmentHistory")}</p>
       </div>
 
       <div className="card">
@@ -31,7 +33,7 @@ function Health() {
           }}
         >
           <Link className="button" to={`/goats/${id}`}>
-            ← Back to Goat
+            ← {t("back")} to Goat
           </Link>
 
           <Link className="button" to={`/goats/${id}/health/add`}>

@@ -1,10 +1,12 @@
 import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
+import { useLanguage } from "../context/LanguageContext";
 
 const API = `${API_URL}`;
 
 function GoatProfile() {
+  const { t } = useLanguage();
   const { id } = useParams();
 
   const [goat, setGoat] = useState(null);
@@ -23,7 +25,7 @@ function GoatProfile() {
 
   const uploadPhoto = async () => {
     if (!selectedFile) {
-      alert("Please choose a photo.");
+      alert(t("pleaseChoosePhoto"));
       return;
     }
 
@@ -48,7 +50,7 @@ function GoatProfile() {
   };
 
   const deletePhoto = async () => {
-    if (!window.confirm("Delete goat photo?")) return;
+    if (!window.confirm(t("deleteGoatPhoto"))) return;
 
     const response = await fetch(
       `${API}/api/photos/${id}`,
@@ -67,7 +69,7 @@ function GoatProfile() {
   if (!goat) {
     return (
       <div className="page">
-        <h2>Loading...</h2>
+        <h2>{t("loading")}</h2>
       </div>
     );
   }
@@ -99,7 +101,7 @@ function GoatProfile() {
           to="/goats"
           className="button"
         >
-          ← Back
+          ← {t("back")}
         </Link>
       </div>
 
@@ -186,7 +188,7 @@ function GoatProfile() {
             }}
           />
 
-          <h3>Quick Statistics</h3>
+          <h3>{t("quickStatistics")}</h3>
 
           <table
             className="table"
@@ -196,22 +198,22 @@ function GoatProfile() {
           >
             <tbody>
               <tr>
-                <td>Weight</td>
+                <td>{t("weight")}</td>
                 <td>{goat.weight} kg</td>
               </tr>
 
               <tr>
-                <td>Status</td>
+                <td>{t("status")}</td>
                 <td>{goat.status}</td>
               </tr>
 
               <tr>
-                <td>Breed</td>
+                <td>{t("breed")}</td>
                 <td>{goat.breed}</td>
               </tr>
 
               <tr>
-                <td>Sex</td>
+                <td>{t("sex")}</td>
                 <td>{goat.sex}</td>
               </tr>
             </tbody>
@@ -223,58 +225,58 @@ function GoatProfile() {
         <div
           className="card"
         >
-          <h2>General Information</h2>
+          <h2>{t("generalInformation")}</h2>
 
           <table className="table">
             <tbody>
 
               <tr>
-                <td><strong>Tag</strong></td>
+                <td><strong>{t("tag")}</strong></td>
                 <td>{goat.tag}</td>
               </tr>
 
               <tr>
-                <td><strong>Name</strong></td>
+                <td><strong>{t("name")}</strong></td>
                 <td>{goat.name}</td>
               </tr>
 
               <tr>
-                <td><strong>Breed</strong></td>
+                <td><strong>{t("breed")}</strong></td>
                 <td>{goat.breed}</td>
               </tr>
 
               <tr>
-                <td><strong>Sex</strong></td>
+                <td><strong>{t("sex")}</strong></td>
                 <td>{goat.sex}</td>
               </tr>
 
               <tr>
-                <td><strong>Date of Birth</strong></td>
+                <td><strong>{t("dateOfBirth")}</strong></td>
                 <td>{goat.date_of_birth || "-"}</td>
               </tr>
 
               <tr>
-                <td><strong>Colour</strong></td>
+                <td><strong>{t("colour")}</strong></td>
                 <td>{goat.colour || "-"}</td>
               </tr>
 
               <tr>
-                <td><strong>Father</strong></td>
+                <td><strong>{t("father")}</strong></td>
                 <td>{goat.father_tag || "-"}</td>
               </tr>
 
               <tr>
-                <td><strong>Mother</strong></td>
+                <td><strong>{t("mother")}</strong></td>
                 <td>{goat.mother_tag || "-"}</td>
               </tr>
 
               <tr>
-                <td><strong>Purchase Price</strong></td>
+                <td><strong>{t("purchasePriceKES")}</strong></td>
                 <td>{goat.purchase_price || "-"}</td>
               </tr>
 
               <tr>
-                <td><strong>Notes</strong></td>
+                <td><strong>{t("notes")}</strong></td>
                 <td>{goat.notes || "-"}</td>
               </tr>
 

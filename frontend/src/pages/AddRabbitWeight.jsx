@@ -1,8 +1,10 @@
 import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
+import { useLanguage } from "../context/LanguageContext";
 
 function AddRabbitWeight() {
+  const { t } = useLanguage();
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -136,7 +138,7 @@ function AddRabbitWeight() {
   if (loading) {
     return (
       <div className="card">
-        <h2>Loading rabbit...</h2>
+        <h2>{t("loadingRabbit")}</h2>
       </div>
     );
   }
@@ -148,7 +150,7 @@ function AddRabbitWeight() {
   if (!rabbit) {
     return (
       <div className="card">
-        <h2>Rabbit not found</h2>
+        <h2>{t("rabbitNotFound")}</h2>
 
         {error && (
           <p style={{ color: "red" }}>
@@ -160,7 +162,7 @@ function AddRabbitWeight() {
           className="button"
           to="/rabbits"
         >
-          ← Back to Rabbits
+          ← {t("back")} to Rabbits
         </Link>
       </div>
     );
@@ -184,7 +186,7 @@ function AddRabbitWeight() {
         }}
       >
         <div>
-          <h1>⚖ Add Rabbit Weight</h1>
+          <h1>⚖ {t("addRabbitWeight")}</h1>
 
           <p>
             Record a new weight for{" "}
@@ -199,7 +201,7 @@ function AddRabbitWeight() {
           className="button"
           to={`/rabbits/${id}/weight`}
         >
-          ← Back to Weight History
+          ← {t("back")} to Weight History
         </Link>
       </div>
 
@@ -216,7 +218,7 @@ function AddRabbitWeight() {
             }}
           >
             <label>
-              <strong>Rabbit</strong>
+              <strong>{t("rabbit")}</strong>
             </label>
 
             <input
@@ -243,7 +245,7 @@ function AddRabbitWeight() {
             }}
           >
             <label>
-              <strong>Weight Date</strong>
+              <strong>{t("weightDate")}</strong>
             </label>
 
             <input
@@ -269,7 +271,7 @@ function AddRabbitWeight() {
             }}
           >
             <label>
-              <strong>Weight</strong>
+              <strong>{t("weight")}</strong>
             </label>
 
             <input
@@ -279,7 +281,7 @@ function AddRabbitWeight() {
               onChange={handleChange}
               min="0.01"
               step="0.01"
-              placeholder="Enter weight"
+              placeholder={t("enterWeight")}
               required
               style={{
                 width: "100%",
@@ -298,7 +300,7 @@ function AddRabbitWeight() {
             }}
           >
             <label>
-              <strong>Unit</strong>
+              <strong>{t("unit")}</strong>
             </label>
 
             <select
@@ -330,7 +332,7 @@ function AddRabbitWeight() {
             }}
           >
             <label>
-              <strong>Notes</strong>
+              <strong>{t("notes")}</strong>
             </label>
 
             <textarea
@@ -338,7 +340,7 @@ function AddRabbitWeight() {
               value={formData.notes}
               onChange={handleChange}
               rows="4"
-              placeholder="Optional notes"
+              placeholder={t("optionalNotes")}
               style={{
                 width: "100%",
                 padding: "10px",
@@ -384,8 +386,8 @@ function AddRabbitWeight() {
               }}
             >
               {saving
-                ? "Saving..."
-                : "💾 Save Weight Record"}
+                ? t("saving")
+                : `💾 ${t("saveWeightRecord")}`}
             </button>
 
             <Link

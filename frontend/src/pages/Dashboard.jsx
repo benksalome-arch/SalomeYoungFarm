@@ -580,7 +580,7 @@ function Dashboard() {
               textDecoration: "none",
             }}
           >
-            Open Workers →
+            {t("openWorkers")} →
           </Link>
         </div>
 
@@ -590,7 +590,7 @@ function Dashboard() {
               marginTop: 0,
             }}
           >
-            📈 Reports
+            📈 {t("reports")}
           </h2>
 
           <p
@@ -664,14 +664,14 @@ function Dashboard() {
             gap: "10px",
           }}
         >
-          <div>✅ Dashboard connected</div>
-          <div>✅ Goat module active</div>
-          <div>✅ Chicken module active</div>
-          <div>✅ Rabbit module active</div>
-          <div>✅ Feed connected</div>
-          <div>✅ Inventory connected</div>
-          <div>✅ Finance connected</div>
-          <div>✅ Worker module active</div>
+          <div>✅ {t("dashboardConnected")}</div>
+          <div>✅ {t("goatModuleActive")}</div>
+          <div>✅ {t("chickenModuleActive")}</div>
+          <div>✅ {t("rabbitModuleActive")}</div>
+          <div>✅ {t("feedConnected")}</div>
+          <div>✅ {t("inventoryConnected")}</div>
+          <div>✅ {t("financeConnected")}</div>
+          <div>✅ {t("workerModuleActive")}</div>
         </div>
       </div>
     </div>

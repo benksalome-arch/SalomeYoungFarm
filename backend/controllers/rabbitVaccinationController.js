@@ -9,7 +9,7 @@ exports.getVaccinations = (req, res) => {
   db.query(
     `SELECT
         rv.*,
-        r.tag_number,
+        r.tag,
         r.name,
         r.breed
      FROM rabbit_vaccinations rv

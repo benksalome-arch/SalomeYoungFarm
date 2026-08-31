@@ -8,9 +8,9 @@ exports.getBreedingRecords = (req, res) => {
   db.query(
     `SELECT
         rb.*,
-        female.tag_number AS female_tag_number,
+        female.tag AS female_tag_number,
         female.name AS female_name,
-        male.tag_number AS male_tag_number,
+        male.tag AS male_tag_number,
         male.name AS male_name
      FROM rabbit_breeding rb
      JOIN rabbits female
@@ -40,9 +40,9 @@ exports.getRabbitBreeding = (req, res) => {
   db.query(
     `SELECT
         rb.*,
-        female.tag_number AS female_tag_number,
+        female.tag AS female_tag_number,
         female.name AS female_name,
-        male.tag_number AS male_tag_number,
+        male.tag AS male_tag_number,
         male.name AS male_name
      FROM rabbit_breeding rb
      JOIN rabbits female

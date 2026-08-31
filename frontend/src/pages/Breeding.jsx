@@ -1,8 +1,10 @@
 import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useLanguage } from "../context/LanguageContext";
 
 function Breeding() {
+  const { t } = useLanguage();
   const [records, setRecords] = useState([]);
   const navigate = useNavigate();
 
@@ -23,7 +25,7 @@ function Breeding() {
   }
 
   async function deleteRecord(id) {
-    if (!window.confirm("Delete this breeding record?")) {
+    if (!window.confirm(t("deleteBreedingRecord"))) {
       return;
     }
 
@@ -44,7 +46,7 @@ function Breeding() {
       }
     } catch (error) {
       console.error("Error deleting breeding record:", error);
-      alert("Could not delete breeding record.");
+      alert(t("failedToDeleteBreeding"));
     }
   }
 
@@ -98,10 +100,10 @@ function Breeding() {
 
       {/* PAGE HEADER */}
       <div className="page-header">
-        <h1>🧬 Breeding Management</h1>
+        <h1>🧬 {t("breedingManagement")}</h1>
 
         <p>
-          Manage goat breeding records and expected kidding dates.
+          {t("breedingManagementDescription")}
         </p>
       </div>
 
@@ -112,7 +114,7 @@ function Breeding() {
         <div className="breeding-header">
 
           <div>
-            <h2>Breeding Records</h2>
+            <h2>{t("breedingRecords")}</h2>
 
             <p className="breeding-count">
               {records.length}{" "}
@@ -128,14 +130,14 @@ function Breeding() {
               className="button"
               to="/kidding"
             >
-              🍼 Kidding Records
+              🍼 {t("kiddingRecords")}
             </Link>
 
             <Link
               className="button"
               to="/breeding/add"
             >
-              ➕ New Breeding
+              ➕ {t("newBreeding")}
             </Link>
 
           </div>
@@ -149,17 +151,17 @@ function Breeding() {
               🧬
             </div>
 
-            <h3>No breeding records found.</h3>
+            <h3>{t("noBreedingRecordsFound")}</h3>
 
             <p>
-              Add your first goat breeding record.
+              {t("addFirstBreedingRecord")}
             </p>
 
             <Link
               className="button"
               to="/breeding/add"
             >
-              ➕ New Breeding
+              ➕ {t("newBreeding")}
             </Link>
           </div>
 
@@ -176,6 +178,15 @@ function Breeding() {
               const statusStyle =
                 getStatusStyle(status);
 
+              const translatedStatus =
+                status === "Pregnant"
+                  ? t("pregnant")
+                  : status === "Kidded"
+                  ? t("kidded")
+                  : status === "Aborted"
+                  ? t("aborted")
+                  : status;
+
               return (
                 <div
                   className="breeding-record"
@@ -186,28 +197,28 @@ function Breeding() {
                   <div className="breeding-information">
 
                     <div className="breeding-item">
-                      <span>Doe</span>
+                      <span>{t("doe")}</span>
                       <strong>
                         {record.doe_name || "-"}
                       </strong>
                     </div>
 
                     <div className="breeding-item">
-                      <span>Buck</span>
+                      <span>{t("buck")}</span>
                       <strong>
                         {record.buck_name || "-"}
                       </strong>
                     </div>
 
                     <div className="breeding-item">
-                      <span>Mating Date</span>
+                      <span>{t("matingDate")}</span>
                       <strong>
                         {formatDate(record.mating_date)}
                       </strong>
                     </div>
 
                     <div className="breeding-item">
-                      <span>Expected Kidding</span>
+                      <span>{t("expectedKidding")}</span>
                       <strong>
                         {formatDate(
                           record.expected_kidding
@@ -216,14 +227,14 @@ function Breeding() {
                     </div>
 
                     <div className="breeding-item days">
-                      <span>Days</span>
+                      <span>{t("days")}</span>
                       <strong>
                         {record.pregnancy_days ?? 0}
                       </strong>
                     </div>
 
                     <div className="breeding-item">
-                      <span>Status</span>
+                      <span>{t("status")}</span>
 
                       <strong>
                         <span
@@ -235,7 +246,7 @@ function Breeding() {
                               statusStyle.color,
                           }}
                         >
-                          {status}
+                          {translatedStatus}
                         </span>
                       </strong>
                     </div>
@@ -254,7 +265,7 @@ function Breeding() {
                         )
                       }
                     >
-                      🍼 Register Birth
+                      🍼 {t("registerKidding")}
                     </button>
 
                     <button
@@ -264,7 +275,7 @@ function Breeding() {
                         deleteRecord(record.id)
                       }
                     >
-                      🗑 Delete
+                      🗑 {t("delete")}
                     </button>
 
                   </div>

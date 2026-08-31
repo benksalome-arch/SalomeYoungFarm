@@ -15,7 +15,7 @@ function Workers() {
     const token = localStorage.getItem("token");
 
     if (!token) {
-      alert("Your session has expired. Please log in again.");
+      alert(t("sessionExpired"));
       return;
     }
 
@@ -46,7 +46,7 @@ function Workers() {
     const token = localStorage.getItem("token");
 
     if (!token) {
-      alert("Your session has expired. Please log in again.");
+      alert(t("sessionExpired"));
       return;
     }
 
@@ -78,7 +78,7 @@ function Workers() {
     <div className="page">
       <div className="page-header">
         <h1>👥 {t("workerManagement")}</h1>
-        <p>Manage users who can access Salome Young Farm.</p>
+        <p>{t("manageUsersDescription")}</p>
       </div>
 
       <div className="card">
@@ -100,12 +100,12 @@ function Workers() {
         <table className="table">
           <thead>
             <tr>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Role</th>
-              <th>Status</th>
-              <th>Created</th>
-              <th>Actions</th>
+              <th>{t("name")}</th>
+              <th>{t("email")}</th>
+              <th>{t("role")}</th>
+              <th>{t("status")}</th>
+              <th>{t("created")}</th>
+              <th>{t("actions")}</th>
             </tr>
           </thead>
 

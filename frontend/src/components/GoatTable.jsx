@@ -1,9 +1,11 @@
 import { Link } from "react-router-dom";
+import { useLanguage } from "../context/LanguageContext";
 import API_URL from "../api";
 
 function GoatTable({ goats }) {
+  const { t } = useLanguage();
   async function deleteGoat(id) {
-    if (!window.confirm("Delete this goat?")) {
+    if (!window.confirm(`${t("delete")} ${t("goat")}?`)) {
       return;
     }
 
@@ -19,7 +21,7 @@ function GoatTable({ goats }) {
 
       if (!response.ok) {
         alert(
-          data.message || "Failed to delete goat."
+          data.message || `${t("failedToDelete")} ${t("goat")}.`
         );
         return;
       }
@@ -142,7 +144,7 @@ function GoatTable({ goats }) {
                   padding: "11px 5px",
                 }}
               >
-                Tag
+                {t("tag")}
               </th>
 
               <th
@@ -151,7 +153,7 @@ function GoatTable({ goats }) {
                   padding: "11px 5px",
                 }}
               >
-                Name
+                {t("name")}
               </th>
 
               <th
@@ -160,7 +162,7 @@ function GoatTable({ goats }) {
                   padding: "11px 5px",
                 }}
               >
-                Breed
+                {t("breed")}
               </th>
 
               <th
@@ -169,7 +171,7 @@ function GoatTable({ goats }) {
                   padding: "11px 5px",
                 }}
               >
-                Sex
+                {t("sex")}
               </th>
 
               <th
@@ -178,7 +180,7 @@ function GoatTable({ goats }) {
                   padding: "11px 5px",
                 }}
               >
-                Birth Date
+                {t("birthDate")}
               </th>
 
               <th
@@ -187,7 +189,7 @@ function GoatTable({ goats }) {
                   padding: "11px 5px",
                 }}
               >
-                Weight
+                {t("weight")}
               </th>
 
               <th
@@ -196,7 +198,7 @@ function GoatTable({ goats }) {
                   padding: "11px 5px",
                 }}
               >
-                Status
+                {t("status")}
               </th>
 
               <th
@@ -205,7 +207,7 @@ function GoatTable({ goats }) {
                   padding: "11px 5px",
                 }}
               >
-                Actions
+                {t("actions")}
               </th>
             </tr>
           </thead>
@@ -221,7 +223,7 @@ function GoatTable({ goats }) {
                     fontSize: "14px",
                   }}
                 >
-                  No goats found.
+                  {t("noGoatsFound")}
                 </td>
               </tr>
             ) : (
@@ -270,7 +272,11 @@ function GoatTable({ goats }) {
                       overflowWrap: "anywhere",
                     }}
                   >
-                    {goat.sex || "-"}
+                    {goat.sex === "Female"
+  ? t("female")
+  : goat.sex === "Male"
+  ? t("male")
+  : goat.sex || "-"}
                   </td>
 
                   <td
@@ -318,7 +324,7 @@ function GoatTable({ goats }) {
                             : goat.status === "Sick"
                             ? "#E53935"
                             : goat.status ===
-                              "Sold"
+                              t("sold")
                             ? "#1565C0"
                             : "#FB8C00",
                         color: "white",
@@ -329,8 +335,13 @@ function GoatTable({ goats }) {
                         overflowWrap: "anywhere",
                       }}
                     >
-                      {goat.status ||
-                        "Unknown"}
+                      {goat.status === "Healthy"
+                        ? t("healthy")
+                        : goat.status === "Sick"
+                        ? t("sick")
+                        : goat.status === "Sold"
+                        ? t("sold")
+                        : goat.status || t("unknown")}
                     </span>
                   </td>
 
@@ -346,14 +357,14 @@ function GoatTable({ goats }) {
                         className="button goat-action-button"
                         to={`/goats/${goat.id}`}
                       >
-                        👁 View
+                        👁 {t("view")}
                       </Link>
 
                       <Link
                         className="button goat-action-button"
                         to={`/goats/edit/${goat.id}`}
                       >
-                        ✏ Edit
+                        ✏ {t("edit")}
                       </Link>
 
                       <button
@@ -369,7 +380,7 @@ function GoatTable({ goats }) {
                           cursor: "pointer",
                         }}
                       >
-                        🗑 Delete
+                        🗑 {t("delete")}
                       </button>
                     </div>
                   </td>

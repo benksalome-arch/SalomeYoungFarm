@@ -5,10 +5,12 @@ import {
   useNavigate,
 } from "react-router-dom";
 import Sidebar from "./Sidebar";
+import { useLanguage } from "../context/LanguageContext";
 
 function Layout() {
   const location = useLocation();
   const navigate = useNavigate();
+  const { t } = useLanguage();
   const [mobileMenuOpen, setMobileMenuOpen] =
     useState(false);
 
@@ -27,7 +29,7 @@ function Layout() {
 
     if (path.startsWith("/goats")) {
       return {
-        name: "Goat Management",
+        name: t("goatManagement"),
         icon: "🐐",
         logo: "/salome_young_farm_logo.png",
       };
@@ -38,7 +40,7 @@ function Layout() {
       path.startsWith("/kidding")
     ) {
       return {
-        name: "Breeding Management",
+        name: t("breedingManagement"),
         icon: "❤️",
         logo: "/salome_young_farm_logo.png",
       };
@@ -46,7 +48,7 @@ function Layout() {
 
     if (path.startsWith("/workers")) {
       return {
-        name: "Worker Management",
+        name: t("workerManagement"),
         icon: "👷",
         logo: "/salome_young_farm_logo.png",
       };
@@ -54,7 +56,7 @@ function Layout() {
 
     if (path.startsWith("/finance")) {
       return {
-        name: "Finance Management",
+        name: t("financeManagement"),
         icon: "💰",
         logo: "/salome_young_farm_logo.png",
       };
@@ -62,7 +64,7 @@ function Layout() {
 
     if (path.startsWith("/inventory")) {
       return {
-        name: "Inventory Management",
+        name: t("inventoryManagement"),
         icon: "📦",
         logo: "/salome_young_farm_logo.png",
       };
@@ -70,7 +72,7 @@ function Layout() {
 
     if (path.startsWith("/feed")) {
       return {
-        name: "Feed Management",
+        name: t("feedManagement"),
         icon: "🌾",
         logo: "/salome_young_farm_logo.png",
       };
@@ -78,7 +80,7 @@ function Layout() {
 
     if (path.startsWith("/chickens")) {
       return {
-        name: "Chicken Management",
+        name: t("chickenManagement"),
         icon: "🐔",
         logo: "/salome_young_farm_logo.png",
       };
@@ -91,7 +93,7 @@ function Layout() {
       path.startsWith("/egg-sales")
     ) {
       return {
-        name: "Chicken Management",
+        name: t("chickenManagement"),
         icon: "🐔",
         logo: "/salome_young_farm_logo.png",
       };
@@ -104,7 +106,7 @@ function Layout() {
       path.startsWith("/rabbit-vaccinations")
     ) {
       return {
-        name: "Rabbit Management",
+        name: t("rabbitManagement"),
         icon: "🐇",
         logo: "/salome_young_farm_logo.png",
       };
@@ -112,7 +114,7 @@ function Layout() {
 
     if (path.startsWith("/reports")) {
       return {
-        name: "Reports",
+        name: t("reports"),
         icon: "📊",
         logo: "/salome_young_farm_logo.png",
       };
@@ -120,14 +122,14 @@ function Layout() {
 
     if (path.startsWith("/settings")) {
       return {
-        name: "Settings",
+        name: t("settings"),
         icon: "⚙️",
         logo: "/salome_young_farm_logo.png",
       };
     }
 
     return {
-      name: "Salome Young Farm",
+      name: t("salomeYoungFarm"),
       icon: "",
       logo: "/salome_young_farm_logo.png",
     };
@@ -464,7 +466,7 @@ function Layout() {
                   color: "white",
                 }}
               >
-                Logout
+                {t("logout")}
               </button>
             </div>
           </div>

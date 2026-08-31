@@ -1,8 +1,10 @@
 import API_URL from "../api";
 import { useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
+import { useLanguage } from "../context/LanguageContext";
 
 function AddKidding() {
+  const { t } = useLanguage();
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -50,11 +52,11 @@ function AddKidding() {
     <div className="page">
       <div className="card">
 
-        <h1>🍼 Register Kidding</h1>
+        <h1>🍼 {t("newKidding")}</h1>
 
         <form onSubmit={handleSubmit}>
 
-          <p>Kidding Date</p>
+          <p>{t("kiddingDate")}</p>
 
           <input
             type="date"
@@ -64,7 +66,7 @@ function AddKidding() {
             required
           />
 
-          <p>Male Kids</p>
+          <p>{t("maleKids")}</p>
 
           <input
             type="number"
@@ -74,7 +76,7 @@ function AddKidding() {
             onChange={handleChange}
           />
 
-          <p>Female Kids</p>
+          <p>{t("femaleKids")}</p>
 
           <input
             type="number"
@@ -84,7 +86,7 @@ function AddKidding() {
             onChange={handleChange}
           />
 
-          <p>Stillborn</p>
+          <p>{t("stillborn")}</p>
 
           <input
             type="number"
@@ -94,7 +96,7 @@ function AddKidding() {
             onChange={handleChange}
           />
 
-          <p>Notes</p>
+          <p>{t("notes")}</p>
 
           <textarea
             name="notes"
@@ -107,13 +109,13 @@ function AddKidding() {
           <br />
 
           <button className="button" type="submit">
-            💾 Save
+            💾 {t("save")}
           </button>
 
           {" "}
 
           <Link className="button" to="/kidding">
-            Cancel
+            {t("cancel")}
           </Link>
 
         </form>

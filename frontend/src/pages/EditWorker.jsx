@@ -125,7 +125,7 @@ function EditWorker() {
 
         <form onSubmit={handleSubmit}>
 
-          <label>Full Name</label>
+          <label>{t("fullName")}</label>
 
           <input
             type="text"
@@ -138,7 +138,7 @@ function EditWorker() {
           <br />
           <br />
 
-          <label>Email</label>
+          <label>{t("email")}</label>
 
           <input
             type="email"
@@ -151,7 +151,7 @@ function EditWorker() {
           <br />
           <br />
 
-          <label>Role</label>
+          <label>{t("role")}</label>
 
           <select
             name="role"

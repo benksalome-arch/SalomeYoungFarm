@@ -80,7 +80,7 @@ function AddWorker() {
 
         <form onSubmit={handleSubmit}>
 
-          <label>Full Name</label>
+          <label>{t("fullName")}</label>
 
           <input
             type="text"
@@ -93,7 +93,7 @@ function AddWorker() {
           <br />
           <br />
 
-          <label>Email</label>
+          <label>{t("email")}</label>
 
           <input
             type="email"
@@ -106,7 +106,7 @@ function AddWorker() {
           <br />
           <br />
 
-          <label>Password</label>
+          <label>{t("password")}</label>
 
           <input
             type="password"
@@ -119,7 +119,7 @@ function AddWorker() {
           <br />
           <br />
 
-          <label>Role</label>
+          <label>{t("role")}</label>
 
           <select
             name="role"

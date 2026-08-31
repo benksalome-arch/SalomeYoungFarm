@@ -72,14 +72,18 @@ function Chickens() {
   }
 
   const headerStyle = {
+    boxSizing: "border-box",
+    minWidth: 0,
     padding: "12px 7px",
     fontSize: "12px",
     fontWeight: "bold",
     whiteSpace: "nowrap",
-    textAlign: "left",
+    textAlign: "center",
   };
 
   const cellStyle = {
+    boxSizing: "border-box",
+    minWidth: 0,
     padding: "12px 7px",
     fontSize: "12px",
     verticalAlign: "middle",
@@ -172,12 +176,12 @@ function Chickens() {
         >
           <colgroup>
             <col style={{ width: "10%" }} />
-            <col style={{ width: "16%" }} />
-            <col style={{ width: "15%" }} />
-            <col style={{ width: "11%" }} />
-            <col style={{ width: "11%" }} />
+            <col style={{ width: "17%" }} />
+            <col style={{ width: "17%" }} />
             <col style={{ width: "12%" }} />
-            <col style={{ width: "25%" }} />
+            <col style={{ width: "10%" }} />
+            <col style={{ width: "12%" }} />
+            <col style={{ width: "22%" }} />
           </colgroup>
 
           <thead>
@@ -226,6 +230,7 @@ function Chickens() {
                   <td
                     style={{
                       ...cellStyle,
+                      textAlign: "center",
                       overflow: "hidden",
                       textOverflow: "ellipsis",
                       whiteSpace: "nowrap",
@@ -252,6 +257,7 @@ function Chickens() {
                   <td
                     style={{
                       ...cellStyle,
+                      textAlign: "center",
                       overflow: "hidden",
                       textOverflow: "ellipsis",
                       whiteSpace: "nowrap",
@@ -300,14 +306,11 @@ function Chickens() {
                       style={{
                         display: "inline-block",
                         background:
-                          chicken.status ===
-                          "Healthy"
+                          String(chicken.status || "").toLowerCase() === "healthy"
                             ? "#4CAF50"
-                            : chicken.status ===
-                              "Sick"
+                            : String(chicken.status || "").toLowerCase() === "sick"
                             ? "#E53935"
-                            : chicken.status ===
-                              "Sold"
+                            : String(chicken.status || "").toLowerCase() === "sold"
                             ? "#1565C0"
                             : "#FB8C00",
                         color: "white",
@@ -318,8 +321,15 @@ function Chickens() {
                         whiteSpace: "nowrap",
                       }}
                     >
-                      {chicken.status ||
-                        t("unknown")}
+                      {String(chicken.status || "").toLowerCase() === "healthy"
+                        ? t("healthy")
+                        : String(chicken.status || "").toLowerCase() === "sick"
+                        ? t("sick")
+                        : String(chicken.status || "").toLowerCase() === "sold"
+                        ? t("sold")
+                        : String(chicken.status || "").toLowerCase() === "active"
+                        ? t("active")
+                        : chicken.status || t("unknown")}
                     </span>
                   </td>
 

@@ -30,12 +30,12 @@ function Sidebar() {
           icon: "🐐",
         },
         {
-          name: "Breeding",
+          name: t("breeding"),
           path: "/breeding",
           icon: "❤️",
         },
         {
-          name: "Kidding",
+          name: t("kidding"),
           path: "/kidding",
           icon: "🐐",
         },
@@ -53,22 +53,22 @@ function Sidebar() {
           icon: "🐔",
         },
         {
-          name: "Chicken Vaccinations",
+          name: t("chickenVaccinations"),
           path: "/chicken-vaccinations",
           icon: "💉",
         },
         {
-          name: "Chicken Mortality",
+          name: t("chickenMortality"),
           path: "/chicken-mortality",
           icon: "☠️",
         },
         {
-          name: "Egg Production",
+          name: t("eggProduction"),
           path: "/egg-production",
           icon: "🥚",
         },
         {
-          name: "Egg Sales",
+          name: t("eggSales"),
           path: "/egg-sales",
           icon: "💰",
         },
@@ -86,7 +86,7 @@ function Sidebar() {
           icon: "🌾",
         },
         {
-          name: "Feed Usage",
+          name: t("feedUsage"),
           path: "/feed/usage",
           icon: "🥣",
         },

@@ -70,7 +70,7 @@ function Goats() {
             lineHeight: 1.2,
           }}
         >
-          🐐 Goat Management
+          🐐 {t("goatManagement")}
         </h1>
 
         <Link
@@ -164,7 +164,7 @@ function Goats() {
               goat.weight !== ""
                 ? goat.weight
                 : "-";
-            const status = goat.status || "Healthy";
+            const status = goat.status || t("healthy");
 
             return (
               <div

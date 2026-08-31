@@ -1,8 +1,10 @@
+import { useLanguage } from "../context/LanguageContext";
 import API_URL from "../api";
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
 function AddBreeding() {
+  const { t } = useLanguage();
   const navigate = useNavigate();
 
   const [goats, setGoats] = useState([]);
@@ -61,21 +63,21 @@ function AddBreeding() {
   return (
     <div className="page">
       <div className="card">
-        <h1>🧬 New Breeding Record</h1>
+        <h1>🧬 {t("newBreedingRecord")}</h1>
 
         <form onSubmit={handleSubmit}>
 
-          <p>Doe</p>
+          <p>{t("doe")}</p>
           <select
             name="doe_id"
             value={formData.doe_id}
             onChange={handleChange}
             required
           >
-            <option value="">Select Doe</option>
+            <option value="">{t("selectDoe")}</option>
 
             {goats
-              .filter((g) => g.sex === "Female")
+              .filter((g) => String(g.sex || "").trim().toLowerCase() === "female")
               .map((g) => (
                 <option key={g.id} value={g.id}>
                   {g.tag} - {g.name}
@@ -83,17 +85,17 @@ function AddBreeding() {
               ))}
           </select>
 
-          <p>Buck</p>
+          <p>{t("buck")}</p>
           <select
             name="buck_id"
             value={formData.buck_id}
             onChange={handleChange}
             required
           >
-            <option value="">Select Buck</option>
+            <option value="">{t("selectBuck")}</option>
 
             {goats
-              .filter((g) => g.sex === "Male")
+              .filter((g) => String(g.sex || "").trim().toLowerCase() === "male")
               .map((g) => (
                 <option key={g.id} value={g.id}>
                   {g.tag} - {g.name}
@@ -101,7 +103,7 @@ function AddBreeding() {
               ))}
           </select>
 
-          <p>Mating Date</p>
+          <p>{t("matingDate")}</p>
           <input
             type="date"
             name="mating_date"
@@ -110,14 +112,14 @@ function AddBreeding() {
             required
           />
 
-          <p>Expected Kidding</p>
+          <p>{t("expectedKidding")}</p>
           <input
             type="date"
             value={formData.expected_kidding}
             readOnly
           />
 
-          <p>Veterinarian</p>
+          <p>{t("veterinarian")}</p>
           <input
             type="text"
             name="veterinarian"
@@ -125,7 +127,7 @@ function AddBreeding() {
             onChange={handleChange}
           />
 
-          <p>Notes</p>
+          <p>{t("notes")}</p>
           <textarea
             name="notes"
             rows="4"
@@ -137,13 +139,13 @@ function AddBreeding() {
           <br />
 
           <button className="button" type="submit">
-            💾 Save
+            💾 {t("save")}
           </button>
 
           {" "}
 
           <Link className="button" to="/breeding">
-            Cancel
+            {t("cancel")}
           </Link>
 
         </form>

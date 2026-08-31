@@ -1,8 +1,10 @@
 import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useLanguage } from "../context/LanguageContext";
 
 function AddRabbitLitter() {
+  const { t } = useLanguage();
   const navigate = useNavigate();
 
   const [breedings, setBreedings] = useState([]);
@@ -147,7 +149,7 @@ function AddRabbitLitter() {
         }}
       >
         <div>
-          <h1>🐇 Record Rabbit Litter</h1>
+          <h1>🐇 {t("recordRabbitLitter")}</h1>
 
           <p>
             Record the kits produced from a rabbit breeding.
@@ -158,7 +160,7 @@ function AddRabbitLitter() {
           className="button"
           to="/rabbit-litters"
         >
-          ← Back to Litters
+          ← {t("back")} to Litters
         </Link>
       </div>
 
@@ -187,7 +189,7 @@ function AddRabbitLitter() {
 
           <div style={{ marginBottom: "15px" }}>
             <label>
-              <strong>Breeding Record</strong>
+              <strong>{t("breedingRecord")}</strong>
             </label>
 
             <select
@@ -230,7 +232,7 @@ function AddRabbitLitter() {
 
           <div style={{ marginBottom: "15px" }}>
             <label>
-              <strong>Birth Date</strong>
+              <strong>{t("birthDate")}</strong>
             </label>
 
             <input
@@ -251,7 +253,7 @@ function AddRabbitLitter() {
 
           <div style={{ marginBottom: "15px" }}>
             <label>
-              <strong>Total Kits</strong>
+              <strong>{t("totalKits")}</strong>
             </label>
 
             <input
@@ -261,7 +263,7 @@ function AddRabbitLitter() {
               value={form.total_kits}
               onChange={handleChange}
               disabled={saving}
-              placeholder="Example: 6"
+              placeholder={t("example6")}
               style={{
                 width: "100%",
                 padding: "10px",
@@ -274,7 +276,7 @@ function AddRabbitLitter() {
 
           <div style={{ marginBottom: "15px" }}>
             <label>
-              <strong>Live Kits</strong>
+              <strong>{t("liveKits")}</strong>
             </label>
 
             <input
@@ -284,7 +286,7 @@ function AddRabbitLitter() {
               value={form.live_kits}
               onChange={handleChange}
               disabled={saving}
-              placeholder="Example: 5"
+              placeholder={t("example5")}
               style={{
                 width: "100%",
                 padding: "10px",
@@ -297,7 +299,7 @@ function AddRabbitLitter() {
 
           <div style={{ marginBottom: "15px" }}>
             <label>
-              <strong>Dead Kits</strong>
+              <strong>{t("deadKits")}</strong>
             </label>
 
             <input
@@ -307,7 +309,7 @@ function AddRabbitLitter() {
               value={form.dead_kits}
               onChange={handleChange}
               disabled={saving}
-              placeholder="Example: 1"
+              placeholder={t("example1")}
               style={{
                 width: "100%",
                 padding: "10px",
@@ -320,7 +322,7 @@ function AddRabbitLitter() {
 
           <div style={{ marginBottom: "20px" }}>
             <label>
-              <strong>Notes</strong>
+              <strong>{t("notes")}</strong>
             </label>
 
             <textarea
@@ -329,7 +331,7 @@ function AddRabbitLitter() {
               onChange={handleChange}
               disabled={saving}
               rows="4"
-              placeholder="Enter any notes about the litter..."
+              placeholder={t("litterNotesExample")}
               style={{
                 width: "100%",
                 padding: "10px",

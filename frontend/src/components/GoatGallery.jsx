@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
+import { useLanguage } from "../context/LanguageContext";
 
 const API = import.meta.env.VITE_API_URL;
 
 function GoatGallery({ goatId }) {
+  const { t } = useLanguage();
+  const { t } = useLanguage();
   const [photos, setPhotos] = useState([]);
   const [selectedFile, setSelectedFile] = useState(null);
 
@@ -47,7 +50,7 @@ function GoatGallery({ goatId }) {
       loadPhotos();
     } catch (error) {
       console.error(error);
-      alert("Failed to upload photo.");
+      alert(t("failedToUploadPhoto"));
     }
   }
 
@@ -69,13 +72,13 @@ function GoatGallery({ goatId }) {
       loadPhotos();
     } catch (error) {
       console.error(error);
-      alert("Failed to delete photo.");
+      alert(t("failedToDeletePhoto"));
     }
   }
 
   return (
     <div>
-      <h2>📷 Photo Gallery</h2>
+      <h2>📷 {t("photoGallery")}</h2>
 
       <div
         style={{
@@ -96,7 +99,7 @@ function GoatGallery({ goatId }) {
           className="button"
           onClick={uploadPhoto}
         >
-          Upload
+          {t("upload")}
         </button>
       </div>
 
@@ -109,7 +112,7 @@ function GoatGallery({ goatId }) {
         }}
       >
         {photos.length === 0 ? (
-          <p>No gallery photos yet.</p>
+          <p>{t("noGalleryPhotos")}</p>
         ) : (
           photos.map((photo) => (
             <div

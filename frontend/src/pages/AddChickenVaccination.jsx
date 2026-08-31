@@ -99,7 +99,7 @@ function AddChickenVaccination() {
           className="button"
           to="/chicken-vaccinations"
         >
-          ← Back
+          ← {t("back")}
         </Link>
       </div>
 
@@ -141,7 +141,7 @@ function AddChickenVaccination() {
 
           <br /><br />
 
-          <label>Vaccine Name</label>
+          <label>{t("vaccineName")}</label>
 
           <input
             type="text"
@@ -153,7 +153,7 @@ function AddChickenVaccination() {
 
           <br /><br />
 
-          <label>Dosage</label>
+          <label>{t("dosage")}</label>
 
           <input
             type="text"
@@ -175,7 +175,7 @@ function AddChickenVaccination() {
 
           <br /><br />
 
-          <label>Administered By</label>
+          <label>{t("administeredBy")}</label>
 
           <input
             type="text"

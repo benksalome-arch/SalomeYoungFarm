@@ -8,7 +8,7 @@ exports.getHealthRecords = (req, res) => {
   db.query(
     `SELECT
         rh.*,
-        r.tag_number,
+        r.tag,
         r.name
      FROM rabbit_health rh
      JOIN rabbits r

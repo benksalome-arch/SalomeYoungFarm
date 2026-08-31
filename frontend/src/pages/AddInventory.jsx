@@ -48,7 +48,7 @@ function AddInventory() {
 
     } catch (error) {
       console.error(error);
-      alert("Failed to save inventory item.");
+      alert(t("failedToSaveInventory"));
     }
   }
 

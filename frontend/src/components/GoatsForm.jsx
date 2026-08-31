@@ -15,7 +15,7 @@ function GoatForm() {
         <input type="text" placeholder="e.g. Bella" />
       </p>
 
-      <button>Save Goat</button>
+      <button>{t("saveGoat")}</button>
     </div>
   );
 }

@@ -84,13 +84,13 @@ function EditInventory() {
   return (
     <div className="page">
       <div className="page-header">
-        <h1>✏ Edit Inventory Item</h1>
+        <h1>✏ {t("editInventoryItem")}</h1>
       </div>
 
       <div className="card">
         <form onSubmit={handleSubmit}>
 
-          <label>Item Name</label>
+          <label>{t("itemName")}</label>
           <input
             type="text"
             name="item_name"
@@ -101,24 +101,24 @@ function EditInventory() {
 
           <br /><br />
 
-          <label>Category</label>
+          <label>{t("category")}</label>
           <select
             name="category"
             value={formData.category}
             onChange={handleChange}
           >
-            <option>Feed</option>
-            <option>Medicine</option>
-            <option>Vaccine</option>
-            <option>Equipment</option>
-            <option>Fuel</option>
-            <option>Building Material</option>
-            <option>Other</option>
+            <option value="Feed">{t("feed")}</option>
+            <option value="Medicine">{t("medicine")}</option>
+            <option value="Vaccine">{t("vaccine")}</option>
+            <option value="Equipment">{t("equipment")}</option>
+            <option value="Fuel">{t("fuel")}</option>
+            <option value="Building Material">{t("buildingMaterial")}</option>
+            <option value="Other">{t("other")}</option>
           </select>
 
           <br /><br />
 
-          <label>Quantity</label>
+          <label>{t("quantity")}</label>
           <input
             type="number"
             step="0.01"
@@ -130,23 +130,23 @@ function EditInventory() {
 
           <br /><br />
 
-          <label>Unit</label>
+          <label>{t("unit")}</label>
           <select
             name="unit"
             value={formData.unit}
             onChange={handleChange}
           >
-            <option>kg</option>
-            <option>bags</option>
-            <option>litres</option>
-            <option>pieces</option>
-            <option>bottles</option>
-            <option>packets</option>
+            <option value="kg">{t("kg")}</option>
+            <option value="bags">{t("bags")}</option>
+            <option value="litres">{t("litres")}</option>
+            <option value="pieces">{t("pieces")}</option>
+            <option value="bottles">{t("bottles")}</option>
+            <option value="packets">{t("packets")}</option>
           </select>
 
           <br /><br />
 
-          <label>Minimum Stock</label>
+          <label>{t("minimumStock")}</label>
           <input
             type="number"
             step="0.01"
@@ -157,7 +157,7 @@ function EditInventory() {
 
           <br /><br />
 
-          <label>Purchase Price (KES)</label>
+          <label>{t("purchasePriceKES")}</label>
           <input
             type="number"
             step="0.01"
@@ -168,7 +168,7 @@ function EditInventory() {
 
           <br /><br />
 
-          <label>Supplier</label>
+          <label>{t("supplier")}</label>
           <input
             type="text"
             name="supplier"
@@ -178,7 +178,7 @@ function EditInventory() {
 
           <br /><br />
 
-          <label>Purchase Date</label>
+          <label>{t("purchaseDate")}</label>
           <input
             type="date"
             name="purchase_date"
@@ -188,7 +188,7 @@ function EditInventory() {
 
           <br /><br />
 
-          <label>Notes</label>
+          <label>{t("notes")}</label>
           <textarea
             name="notes"
             rows="4"

@@ -68,7 +68,7 @@ function ChickenVaccinations() {
       >
         <div>
           <h1>💉 {t("chickenVaccinations")}</h1>
-          <p>Manage vaccination records.</p>
+          <p>{t("manageVaccinationRecords")}</p>
         </div>
 
         <Link
@@ -82,71 +82,181 @@ function ChickenVaccinations() {
 
       <div className="card">
 
-        <table className="table">
+        <table
+          className="table"
+          style={{
+            width: "100%",
+            tableLayout: "fixed",
+            borderCollapse: "collapse",
+          }}
+        >
+          <colgroup>
+            <col style={{ width: "16%" }} />
+            <col style={{ width: "10%" }} />
+            <col style={{ width: "17%" }} />
+            <col style={{ width: "17%" }} />
+            <col style={{ width: "22%" }} />
+            <col style={{ width: "18%" }} />
+          </colgroup>
 
           <thead>
             <tr>
-              <th>{t("date")}</th>
-              <th>Tag</th>
-              <th>Name</th>
-              <th>Vaccine</th>
-              <th>Next Due</th>
-              <th>Actions</th>
+              <th
+                style={{
+                  padding: "12px 8px",
+                  textAlign: "left",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {t("date")}
+              </th>
+
+              <th
+                style={{
+                  padding: "12px 8px",
+                  textAlign: "center",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {t("tag")}
+              </th>
+
+              <th
+                style={{
+                  padding: "12px 8px",
+                  textAlign: "left",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {t("name")}
+              </th>
+
+              <th
+                style={{
+                  padding: "12px 8px",
+                  textAlign: "left",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {t("vaccine")}
+              </th>
+
+              <th
+                style={{
+                  padding: "12px 8px",
+                  textAlign: "center",
+                  lineHeight: "1.2",
+                }}
+              >
+                {t("nextDueDate")}
+              </th>
+
+              <th
+                style={{
+                  padding: "12px 8px",
+                  textAlign: "center",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {t("actions")}
+              </th>
             </tr>
           </thead>
 
           <tbody>
-
             {records.length === 0 ? (
-
               <tr>
                 <td
                   colSpan="6"
-                  style={{ textAlign: "center" }}
+                  style={{
+                    textAlign: "center",
+                    padding: "30px 10px",
+                  }}
                 >
                   {t("noVaccinationRecords")}
                 </td>
               </tr>
-
             ) : (
-
               records.map((record) => (
-
                 <tr key={record.id}>
 
-                  <td>{record.vaccination_date?.split("T")[0]}</td>
+                  <td
+                    style={{
+                      padding: "12px 8px",
+                      textAlign: "left",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {record.vaccination_date?.split("T")[0]}
+                  </td>
 
-                  <td>{record.tag_number}</td>
+                  <td
+                    style={{
+                      padding: "12px 8px",
+                      textAlign: "center",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {record.tag_number || "-"}
+                  </td>
 
-                  <td>{record.name}</td>
+                  <td
+                    style={{
+                      padding: "12px 8px",
+                      textAlign: "left",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
+                    }}
+                    title={record.name || ""}
+                  >
+                    {record.name || "-"}
+                  </td>
 
-                  <td>{record.vaccine_name}</td>
+                  <td
+                    style={{
+                      padding: "12px 8px",
+                      textAlign: "left",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
+                    }}
+                    title={record.vaccine_name || ""}
+                  >
+                    {record.vaccine_name || "-"}
+                  </td>
 
-                  <td>
+                  <td
+                    style={{
+                      padding: "12px 8px",
+                      textAlign: "center",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
                     {record.next_due_date
                       ? record.next_due_date.split("T")[0]
                       : "-"}
                   </td>
 
-                  <td>
-
+                  <td
+                    style={{
+                      padding: "8px 8px",
+                      textAlign: "center",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
                     <button
                       className="button"
                       onClick={() => deleteRecord(record.id)}
                     >
                       🗑 {t("delete")}
                     </button>
-
                   </td>
 
                 </tr>
-
               ))
-
             )}
-
           </tbody>
-
         </table>
 
       </div>

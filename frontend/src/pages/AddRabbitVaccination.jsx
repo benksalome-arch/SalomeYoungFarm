@@ -1,8 +1,10 @@
 import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { useLanguage } from "../context/LanguageContext";
 
 function AddRabbitVaccination() {
+  const { t } = useLanguage();
   const navigate = useNavigate();
 
   const [rabbits, setRabbits] = useState([]);
@@ -74,7 +76,7 @@ function AddRabbitVaccination() {
 
     } catch (err) {
       console.error(err);
-      alert("Failed to save vaccination.");
+      alert(t("failedToSaveVaccination"));
     }
   }
 
@@ -90,14 +92,14 @@ function AddRabbitVaccination() {
         }}
       >
         <div>
-          <h1>💉 Record Rabbit Vaccination</h1>
+          <h1>💉 {t("recordRabbitVaccination")}</h1>
         </div>
 
         <Link
           className="button"
           to="/rabbit-vaccinations"
         >
-          ← Back
+          ← {t("back")}
         </Link>
       </div>
 
@@ -105,7 +107,7 @@ function AddRabbitVaccination() {
 
         <form onSubmit={handleSubmit}>
 
-          <label>Rabbit</label>
+          <label>{t("rabbit")}</label>
 
           <select
             name="rabbit_id"
@@ -113,7 +115,7 @@ function AddRabbitVaccination() {
             onChange={handleChange}
             required
           >
-            <option value="">Select Rabbit</option>
+            <option value="">{t("selectRabbit")}</option>
 
             {rabbits.map((rabbit) => (
               <option
@@ -127,7 +129,7 @@ function AddRabbitVaccination() {
 
           <br /><br />
 
-          <label>Vaccination Date</label>
+          <label>{t("vaccinationDate")}</label>
 
           <input
             type="date"
@@ -139,7 +141,7 @@ function AddRabbitVaccination() {
 
           <br /><br />
 
-          <label>Vaccine Name</label>
+          <label>{t("vaccineName")}</label>
 
           <input
             type="text"
@@ -151,7 +153,7 @@ function AddRabbitVaccination() {
 
           <br /><br />
 
-          <label>Dosage</label>
+          <label>{t("dosage")}</label>
 
           <input
             type="text"
@@ -162,7 +164,7 @@ function AddRabbitVaccination() {
 
           <br /><br />
 
-          <label>Next Due Date</label>
+          <label>{t("nextDueDate")}</label>
 
           <input
             type="date"
@@ -173,7 +175,7 @@ function AddRabbitVaccination() {
 
           <br /><br />
 
-          <label>Administered By</label>
+          <label>{t("administeredBy")}</label>
 
           <input
             type="text"
@@ -184,7 +186,7 @@ function AddRabbitVaccination() {
 
           <br /><br />
 
-          <label>Notes</label>
+          <label>{t("notes")}</label>
 
           <textarea
             rows="4"

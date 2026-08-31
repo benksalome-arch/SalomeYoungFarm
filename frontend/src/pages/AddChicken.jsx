@@ -104,32 +104,32 @@ function AddChicken() {
             value={formData.breed}
             onChange={handleChange}
             required
-            placeholder="e.g. Kenbro, Kienyeji, Sasso"
+            placeholder={t("chickenBreedExample")}
           />
 
           <br />
           <br />
 
-          <label>Type</label>
+          <label>{t("type")}</label>
           <input
             type="text"
             name="type"
             value={formData.type}
             onChange={handleChange}
-            placeholder="e.g. Layer, Broiler, Hen, Cockerel"
+            placeholder={t("chickenTypeExample")}
           />
 
           <br />
           <br />
 
-          <label>Sex</label>
+          <label>{t("sex")}</label>
           <select
             name="sex"
             value={formData.sex}
             onChange={handleChange}
           >
-            <option value="Female">Female</option>
-            <option value="Male">Male</option>
+            <option value="Female">{t("female")}</option>
+            <option value="Male">{t("male")}</option>
           </select>
 
           <br />

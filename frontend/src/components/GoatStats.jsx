@@ -1,40 +1,32 @@
+import React from "react";
+import { useLanguage } from "../context/LanguageContext";
+
 function GoatStats({ goat }) {
+  const { t } = useLanguage();
+
   return (
-    <div className="card">
+    <div>
+      <h2>📊 {t("goatStatistics")}</h2>
 
-      <h2>📊 Goat Statistics</h2>
-
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(2,1fr)",
-          gap: "20px",
-          marginTop: "20px",
-        }}
-      >
-
-        <div className="card">
-          <h3>⚖ Current Weight</h3>
-          <h1>{goat.weight || 0} kg</h1>
-        </div>
-
-        <div className="card">
-          <h3>❤️ Status</h3>
-          <h1>{goat.status}</h1>
-        </div>
-
-        <div className="card">
-          <h3>🧬 Breed</h3>
-          <h2>{goat.breed}</h2>
-        </div>
-
-        <div className="card">
-          <h3>🚻 Sex</h3>
-          <h2>{goat.sex}</h2>
-        </div>
-
+      <div>
+        <h3>⚖ {t("currentWeight")}</h3>
+        <h1>{goat.weight || 0} kg</h1>
       </div>
 
+      <div>
+        <h3>❤️ {t("status")}</h3>
+        <h1>{goat.status}</h1>
+      </div>
+
+      <div>
+        <h3>🧬 {t("breed")}</h3>
+        <h2>{goat.breed}</h2>
+      </div>
+
+      <div>
+        <h3>🚻 {t("sex")}</h3>
+        <h2>{goat.sex}</h2>
+      </div>
     </div>
   );
 }

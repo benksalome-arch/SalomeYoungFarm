@@ -1,9 +1,11 @@
 import API_URL from "../api";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useLanguage } from "../context/LanguageContext";
 
 function AddGoat() {
   const navigate = useNavigate();
+  const { t } = useLanguage();
 
   const [formData, setFormData] = useState({
     tag: "",
@@ -187,7 +189,7 @@ function AddGoat() {
               margin: 0,
             }}
           >
-            🐐 Add Goat
+            🐐 {t("addGoat")}
           </h1>
 
           <p
@@ -197,7 +199,7 @@ function AddGoat() {
               color: "#666",
             }}
           >
-            Register a new goat in the farm.
+            {t("registerNewGoat")}
           </p>
         </div>
 
@@ -205,7 +207,7 @@ function AddGoat() {
           to="/goats"
           className="button"
         >
-          ← Back
+          ← {t("back")}
         </Link>
       </div>
 
@@ -234,7 +236,7 @@ function AddGoat() {
                 marginBottom: "15px",
               }}
             >
-              📷 Goat Photo
+              📷 {t("goatPhoto")}
             </h2>
 
             <div
@@ -282,7 +284,7 @@ function AddGoat() {
                     marginBottom: "8px",
                   }}
                 >
-                  Select a photo
+                  {t("selectPhoto")}
                 </label>
 
                 <input
@@ -300,7 +302,7 @@ function AddGoat() {
                     fontSize: "13px",
                   }}
                 >
-                  JPG, PNG or another image format.
+                  {t("imageFormats")}
                 </p>
               </div>
             </div>
@@ -309,7 +311,7 @@ function AddGoat() {
           {/* BASIC INFORMATION */}
 
           <h2>
-            Basic Information
+            {t("basicInformation")}
           </h2>
 
           <div
@@ -323,7 +325,7 @@ function AddGoat() {
             }}
           >
             <div>
-              <label>Ear Tag</label>
+              <label>{t("tag")}</label>
 
               <input
                 type="text"
@@ -335,7 +337,7 @@ function AddGoat() {
             </div>
 
             <div>
-              <label>Name</label>
+              <label>{t("name")}</label>
 
               <input
                 type="text"
@@ -347,7 +349,7 @@ function AddGoat() {
             </div>
 
             <div>
-              <label>Breed</label>
+              <label>{t("breed")}</label>
 
               <input
                 type="text"
@@ -358,25 +360,21 @@ function AddGoat() {
             </div>
 
             <div>
-              <label>Sex</label>
+              <label>{t("sex")}</label>
 
               <select
                 name="sex"
                 value={formData.sex}
                 onChange={handleChange}
               >
-                <option value="Female">
-                  Female
-                </option>
+                <option value="Female">{t("female")}</option>
 
-                <option value="Male">
-                  Male
-                </option>
+                <option value="Male">{t("male")}</option>
               </select>
             </div>
 
             <div>
-              <label>Date of Birth</label>
+              <label>{t("birthDate")}</label>
 
               <input
                 type="date"
@@ -389,7 +387,7 @@ function AddGoat() {
             </div>
 
             <div>
-              <label>Weight (kg)</label>
+              <label>{t("weight")}</label>
 
               <input
                 type="number"
@@ -402,7 +400,7 @@ function AddGoat() {
             </div>
 
             <div>
-              <label>Color</label>
+              <label>{t("color")}</label>
 
               <input
                 type="text"
@@ -413,32 +411,22 @@ function AddGoat() {
             </div>
 
             <div>
-              <label>Status</label>
+              <label>{t("status")}</label>
 
               <select
                 name="status"
                 value={formData.status}
                 onChange={handleChange}
               >
-                <option value="Healthy">
-                  Healthy
-                </option>
+                <option value="Healthy">{t("healthy")}</option>
 
-                <option value="Sick">
-                  Sick
-                </option>
+                <option value="Sick">{t("sick")}</option>
 
-                <option value="Treated">
-                  Treated
-                </option>
+                <option value="Treated">{t("treated")}</option>
 
-                <option value="Sold">
-                  Sold
-                </option>
+                <option value="Sold">{t("sold")}</option>
 
-                <option value="Dead">
-                  Dead
-                </option>
+                <option value="Dead">{t("dead")}</option>
               </select>
             </div>
           </div>
@@ -450,7 +438,7 @@ function AddGoat() {
               marginTop: "20px",
             }}
           >
-            <label>Notes</label>
+            <label>{t("notes")}</label>
 
             <textarea
               name="notes"
@@ -487,15 +475,15 @@ function AddGoat() {
               }}
             >
               {saving
-                ? "Saving..."
-                : "💾 Save Goat"}
+                ? t("saving")
+                : `💾 ${t("saveGoat")}`}
             </button>
 
             <Link
               className="button"
               to="/goats"
             >
-              Cancel
+              {t("cancel")}
             </Link>
           </div>
         </form>

@@ -8,7 +8,7 @@ exports.getMortality = (req, res) => {
   db.query(
     `SELECT
         rm.*,
-        r.tag_number,
+        r.tag,
         r.name
      FROM rabbit_mortality rm
      JOIN rabbits r

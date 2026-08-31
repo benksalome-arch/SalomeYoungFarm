@@ -1,8 +1,10 @@
 import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useLanguage } from "../context/LanguageContext";
 
 function Inventory() {
+  const { t } = useLanguage();
   const [items, setItems] = useState([]);
 
   useEffect(() => {
@@ -31,7 +33,7 @@ function Inventory() {
   }
 
   async function deleteItem(id) {
-    if (!window.confirm("Delete this inventory item?")) {
+    if (!window.confirm(t("deleteInventoryItem"))) {
       return;
     }
 
@@ -61,7 +63,7 @@ function Inventory() {
       loadItems();
     } catch (err) {
       console.error(err);
-      alert("Failed to delete inventory item.");
+      alert(t("failedToDeleteInventory"));
     }
   }
 
@@ -178,14 +180,14 @@ function Inventory() {
 
           <thead>
             <tr>
-              <th style={headerStyle}>Item</th>
-              <th style={headerStyle}>Category</th>
-              <th style={headerStyle}>Quantity</th>
-              <th style={headerStyle}>Unit</th>
-              <th style={headerStyle}>Status</th>
-              <th style={headerStyle}>Supplier</th>
-              <th style={headerStyle}>Price</th>
-              <th style={headerStyle}>Actions</th>
+              <th style={headerStyle}>{t("itemName")}</th>
+              <th style={headerStyle}>{t("category")}</th>
+              <th style={headerStyle}>{t("quantity")}</th>
+              <th style={headerStyle}>{t("unit")}</th>
+              <th style={headerStyle}>{t("status")}</th>
+              <th style={headerStyle}>{t("supplier")}</th>
+              <th style={headerStyle}>{t("purchasePriceKES")}</th>
+              <th style={headerStyle}>{t("actions")}</th>
             </tr>
           </thead>
 
@@ -200,7 +202,7 @@ function Inventory() {
                     fontSize: "14px",
                   }}
                 >
-                  No inventory items found.
+                  {t("noInventoryItemsFound")}
                 </td>
               </tr>
             ) : (
@@ -293,8 +295,8 @@ function Inventory() {
                         }}
                       >
                         {isLow
-                          ? "🔴 Low"
-                          : "🟢 OK"}
+                          ? `🔴 ${t("low")}`
+                          : `🟢 ${t("ok")}`}
                       </span>
                     </td>
 
@@ -354,7 +356,7 @@ function Inventory() {
                             whiteSpace: "nowrap",
                           }}
                         >
-                          ✏ Edit
+                          ✏ {t("edit")}
                         </Link>
 
                         <button
@@ -373,7 +375,7 @@ function Inventory() {
                             cursor: "pointer",
                           }}
                         >
-                          🗑 Delete
+                          🗑 {t("delete")}
                         </button>
                       </div>
                     </td>

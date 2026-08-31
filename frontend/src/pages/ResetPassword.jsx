@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
+import { useLanguage } from "../context/LanguageContext";
 
 const API_URL =
   import.meta.env.VITE_API_URL ||
@@ -8,6 +9,7 @@ const API_URL =
 function ResetPassword() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const { t } = useLanguage();
 
   const token = searchParams.get("token");
 
@@ -50,7 +52,8 @@ function ResetPassword() {
           },
           body: JSON.stringify({
             token,
-            password,
+            newPassword: password,
+            confirmPassword,
           }),
         }
       );
@@ -85,6 +88,8 @@ function ResetPassword() {
         alignItems: "center",
         justifyContent: "center",
         background: "#f5f7f4",
+        padding: "20px",
+        boxSizing: "border-box",
       }}
     >
       <div
@@ -95,6 +100,7 @@ function ResetPassword() {
           background: "white",
           borderRadius: "12px",
           boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
+          boxSizing: "border-box",
         }}
       >
         <h2 style={{ textAlign: "center" }}>
@@ -134,7 +140,7 @@ function ResetPassword() {
         )}
 
         <form onSubmit={handleSubmit}>
-          <label>New Password</label>
+          <label>{t("newPassword")}</label>
 
           <input
             type="password"
@@ -150,7 +156,7 @@ function ResetPassword() {
             }}
           />
 
-          <label>Confirm Password</label>
+          <label>{t("confirmPassword")}</label>
 
           <input
             type="password"
@@ -178,7 +184,7 @@ function ResetPassword() {
               color: "white",
               border: "none",
               borderRadius: "6px",
-              cursor: "pointer",
+              cursor: loading ? "not-allowed" : "pointer",
             }}
           >
             {loading ? "Resetting..." : "Reset Password"}

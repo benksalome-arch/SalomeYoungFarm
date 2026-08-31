@@ -63,7 +63,7 @@ function Rabbits() {
       loadRabbits();
     } catch (err) {
       console.error(err);
-      alert("Failed to delete rabbit.");
+      alert(t("failedToDeleteRabbit"));
     }
   }
 
@@ -323,13 +323,13 @@ function Rabbits() {
                         display: "inline-block",
                         background:
                           rabbit.status ===
-                          "Healthy"
+                          t("healthy")
                             ? "#4CAF50"
                             : rabbit.status ===
-                              "Sick"
+                              t("sick")
                             ? "#E53935"
                             : rabbit.status ===
-                              "Sold"
+                              t("sold")
                             ? "#1565C0"
                             : "#FB8C00",
                         color: "white",
@@ -340,8 +340,7 @@ function Rabbits() {
                         whiteSpace: "nowrap",
                       }}
                     >
-                      {rabbit.status ||
-                        "Unknown"}
+                      {rabbit.status || t("unknown")}
                     </span>
                   </td>
 

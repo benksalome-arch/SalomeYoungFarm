@@ -61,7 +61,7 @@ function AddRabbit() {
 
     } catch (err) {
       console.error(err);
-      alert("Failed to save rabbit.");
+      alert(t("failedToSaveRabbit"));
     }
   }
 
@@ -69,14 +69,14 @@ function AddRabbit() {
     <div className="page">
 
       <div className="page-header">
-        <h1>🐇 Add Rabbit</h1>
+        <h1>🐇 {t("addRabbit")}</h1>
       </div>
 
       <div className="card">
 
         <form onSubmit={handleSubmit}>
 
-          <label>Tag Number</label>
+          <label>{t("tagNumber")}</label>
           <input
             type="text"
             name="tag_number"
@@ -87,7 +87,7 @@ function AddRabbit() {
 
           <br /><br />
 
-          <label>Name</label>
+          <label>{t("name")}</label>
           <input
             type="text"
             name="name"
@@ -97,7 +97,7 @@ function AddRabbit() {
 
           <br /><br />
 
-          <label>Breed</label>
+          <label>{t("breed")}</label>
           <input
             type="text"
             name="breed"
@@ -114,8 +114,8 @@ function AddRabbit() {
             value={formData.sex}
             onChange={handleChange}
           >
-            <option value="Female">Female</option>
-            <option value="Male">Male</option>
+            <option value="Female">{t("female")}</option>
+            <option value="Male">{t("male")}</option>
           </select>
 
           <br /><br />

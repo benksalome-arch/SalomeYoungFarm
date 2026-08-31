@@ -120,30 +120,30 @@ function EditChicken() {
 
           <br /><br />
 
-          <label>Type</label>
+          <label>{t("type")}</label>
           <select
             name="type"
             value={formData.type || "Layer"}
             onChange={handleChange}
           >
-            <option>Layer</option>
-            <option>Broiler</option>
-            <option>Cockerel</option>
-            <option>Cock</option>
-            <option>Hen</option>
-            <option>Chick</option>
+            <option value="Layer">{t("layer")}</option>
+            <option value="Broiler">{t("broiler")}</option>
+            <option value="Cockerel">{t("cockerel")}</option>
+            <option value="Cock">{t("cock")}</option>
+            <option value="Hen">{t("hen")}</option>
+            <option value="Chick">{t("chick")}</option>
           </select>
 
           <br /><br />
 
-          <label>Sex</label>
+          <label>{t("sex")}</label>
           <select
             name="sex"
             value={formData.sex || "Female"}
             onChange={handleChange}
           >
-            <option>Female</option>
-            <option>Male</option>
+            <option>{t("female")}</option>
+            <option>{t("male")}</option>
           </select>
 
           <br /><br />

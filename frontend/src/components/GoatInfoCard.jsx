@@ -9,7 +9,7 @@ function GoatInfoCard({ goat }) {
         <tbody>
 
           <tr>
-            <td><strong>Tag</strong></td>
+            <td><strong>{t("tag")}</strong></td>
             <td>{goat.tag}</td>
           </tr>
 
@@ -19,27 +19,27 @@ function GoatInfoCard({ goat }) {
           </tr>
 
           <tr>
-            <td><strong>Breed</strong></td>
+            <td><strong>{t("breed")}</strong></td>
             <td>{goat.breed}</td>
           </tr>
 
           <tr>
-            <td><strong>Sex</strong></td>
+            <td><strong>{t("sex")}</strong></td>
             <td>{goat.sex}</td>
           </tr>
 
           <tr>
-            <td><strong>Date of Birth</strong></td>
+            <td><strong>{t("dateOfBirth")}</strong></td>
             <td>{goat.date_of_birth || "-"}</td>
           </tr>
 
           <tr>
-            <td><strong>Colour</strong></td>
+            <td><strong>{t("colour")}</strong></td>
             <td>{goat.color || "-"}</td>
           </tr>
 
           <tr>
-            <td><strong>Current Weight</strong></td>
+            <td><strong>{t("currentWeight")}</strong></td>
             <td>{goat.weight} kg</td>
           </tr>
 
@@ -49,7 +49,7 @@ function GoatInfoCard({ goat }) {
           </tr>
 
           <tr>
-            <td><strong>Father Tag</strong></td>
+            <td><strong>{t("fatherTag")}</strong></td>
             <td>{goat.father_tag || "-"}</td>
           </tr>
 
@@ -68,7 +68,7 @@ function GoatInfoCard({ goat }) {
           </tr>
 
           <tr>
-            <td><strong>Notes</strong></td>
+            <td><strong>{t("notes")}</strong></td>
             <td>{goat.notes || "-"}</td>
           </tr>
 

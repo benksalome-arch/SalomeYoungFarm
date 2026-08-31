@@ -1,8 +1,10 @@
 import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { useLanguage } from "../context/LanguageContext";
 
 function AddFeedUsage() {
+  const { t } = useLanguage();
   const navigate = useNavigate();
 
   const [feeds, setFeeds] = useState([]);
@@ -82,26 +84,26 @@ function AddFeedUsage() {
         }}
       >
         <div>
-          <h1>🌾 Record Feed Usage</h1>
-          <p>Record daily feed consumption.</p>
+          <h1>🌾 {t("recordFeedUsage")}</h1>
+          <p>{t("recordDailyFeedConsumption")}</p>
         </div>
 
         <Link className="button" to="/feed/usage">
-          ← Back
+          ← {t("back")}
         </Link>
       </div>
 
       <div className="card">
         <form onSubmit={handleSubmit}>
 
-          <label>Feed</label>
+          <label>{t("feed")}</label>
           <select
             name="feed_id"
             value={formData.feed_id}
             onChange={handleChange}
             required
           >
-            <option value="">Select Feed</option>
+            <option value="">{t("selectFeed")}</option>
 
             {feeds.map((feed) => (
               <option key={feed.id} value={feed.id}>
@@ -112,20 +114,20 @@ function AddFeedUsage() {
 
           <br /><br />
 
-          <label>Animal Type</label>
+          <label>{t("animalType")}</label>
           <select
             name="animal_type"
             value={formData.animal_type}
             onChange={handleChange}
           >
-            <option value="Goat">Goat</option>
-            <option value="Chicken">Chicken</option>
-            <option value="Rabbit">Rabbit</option>
+            <option value="Goat">{t("goat")}</option>
+            <option value="Chicken">{t("chicken")}</option>
+            <option value="Rabbit">{t("rabbit")}</option>
           </select>
 
           <br /><br />
 
-          <label>Animal ID (optional)</label>
+          <label>{t("animalIdOptional")}</label>
           <input
             type="number"
             name="animal_id"
@@ -135,7 +137,7 @@ function AddFeedUsage() {
 
           <br /><br />
 
-          <label>Quantity Used (kg)</label>
+          <label>{t("quantityUsedKg")}</label>
           <input
             type="number"
             step="0.01"
@@ -147,7 +149,7 @@ function AddFeedUsage() {
 
           <br /><br />
 
-          <label>Usage Date</label>
+          <label>{t("usageDate")}</label>
           <input
             type="date"
             name="usage_date"
@@ -158,7 +160,7 @@ function AddFeedUsage() {
 
           <br /><br />
 
-          <label>Notes</label>
+          <label>{t("notes")}</label>
           <textarea
             name="notes"
             value={formData.notes}
@@ -169,7 +171,7 @@ function AddFeedUsage() {
           <br /><br />
 
           <button className="button" type="submit">
-            💾 Save
+            💾 {t("save")}
           </button>
 
         </form>

@@ -1,8 +1,10 @@
 import API_URL from "../api";
 import { useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
+import { useLanguage } from "../context/LanguageContext";
 
 function AddRabbitHealth() {
+  const { t } = useLanguage();
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -127,7 +129,7 @@ function AddRabbitHealth() {
         }}
       >
         <div>
-          <h1>🏥 Add Rabbit Health Record</h1>
+          <h1>🏥 {t("addRabbitHealthRecord")}</h1>
 
           <p>
             Record a medical treatment or health event.
@@ -138,7 +140,7 @@ function AddRabbitHealth() {
           className="button"
           to={`/rabbits/${id}/health`}
         >
-          ← Back to Health
+          ← {t("back")} to Health
         </Link>
       </div>
 
@@ -167,7 +169,7 @@ function AddRabbitHealth() {
           {/* Treatment Date */}
 
           <label>
-            <strong>Treatment Date</strong>
+            <strong>{t("treatmentDate")}</strong>
           </label>
 
           <input
@@ -190,7 +192,7 @@ function AddRabbitHealth() {
           {/* Treatment Type */}
 
           <label>
-            <strong>Treatment Type</strong>
+            <strong>{t("treatmentType")}</strong>
           </label>
 
           <input
@@ -214,7 +216,7 @@ function AddRabbitHealth() {
           {/* Diagnosis */}
 
           <label>
-            <strong>Diagnosis</strong>
+            <strong>{t("diagnosis")}</strong>
           </label>
 
           <input
@@ -237,7 +239,7 @@ function AddRabbitHealth() {
           {/* Medication */}
 
           <label>
-            <strong>Medication</strong>
+            <strong>{t("medication")}</strong>
           </label>
 
           <input
@@ -260,7 +262,7 @@ function AddRabbitHealth() {
           {/* Veterinarian */}
 
           <label>
-            <strong>Veterinarian</strong>
+            <strong>{t("veterinarian")}</strong>
           </label>
 
           <input
@@ -283,7 +285,7 @@ function AddRabbitHealth() {
           {/* Cost */}
 
           <label>
-            <strong>Cost</strong>
+            <strong>{t("cost")}</strong>
           </label>
 
           <input
@@ -332,7 +334,7 @@ function AddRabbitHealth() {
           {/* Notes */}
 
           <label>
-            <strong>Notes</strong>
+            <strong>{t("notes")}</strong>
           </label>
 
           <textarea

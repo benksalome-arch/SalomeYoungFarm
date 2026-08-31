@@ -68,104 +68,273 @@ function ChickenMortality() {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
+          gap: "20px",
           marginBottom: "20px",
+          flexWrap: "wrap",
         }}
       >
-        <div>
-          <h1>â˜ ï¸ {t("chickenMortality")}</h1>
-          <p>Track chicken deaths and flock losses.</p>
+        <div style={{ minWidth: 0 }}>
+          <h1
+            style={{
+              margin: 0,
+              fontSize: "42px",
+              lineHeight: "1.2",
+              display: "block",
+            }}
+          >
+            🐔 {t("chickenMortality")}
+          </h1>
+
+          <p
+            style={{
+              margin: "10px 0 0",
+              fontSize: "16px",
+              lineHeight: "1.5",
+              display: "block",
+            }}
+          >
+            {t("chickenMortalityDescription")}
+          </p>
         </div>
 
         <Link
           className="button"
           to="/chicken-mortality/add"
+          style={{
+            whiteSpace: "nowrap",
+            flexShrink: 0,
+          }}
         >
           ➕ {t("recordMortality")}
         </Link>
-
       </div>
 
       <div
         className="card"
-        style={{ marginBottom: "20px" }}
+        style={{
+          marginBottom: "20px",
+          textAlign: "center",
+        }}
       >
-        <h3>Total Deaths</h3>
-        <h2>{totalDeaths}</h2>
+        <h3 style={{ margin: 0 }}>
+          {t("totalDeaths")}
+        </h3>
+
+        <h2 style={{ margin: "8px 0 0" }}>
+          {totalDeaths}
+        </h2>
       </div>
 
-      <div className="card">
-
-        <table className="table">
+      <div
+        className="card"
+        style={{
+          width: "100%",
+          maxWidth: "100%",
+          minWidth: 0,
+          overflow: "hidden",
+          boxSizing: "border-box",
+        }}
+      >
+        <table
+          className="table"
+          style={{
+            width: "100%",
+            maxWidth: "100%",
+            minWidth: 0,
+            tableLayout: "fixed",
+            borderCollapse: "collapse",
+            boxSizing: "border-box",
+          }}
+        >
+          <colgroup>
+            <col style={{ width: "17%" }} />
+            <col style={{ width: "13%" }} />
+            <col style={{ width: "17%" }} />
+            <col style={{ width: "12%" }} />
+            <col style={{ width: "21%" }} />
+            <col style={{ width: "20%" }} />
+          </colgroup>
 
           <thead>
             <tr>
-              <th>{t("date")}</th>
-              <th>Tag</th>
-              <th>Name</th>
-              <th>Quantity</th>
-              <th>Cause</th>
-              <th>Actions</th>
+              <th
+                style={{
+                  padding: "12px 10px",
+                  textAlign: "left",
+                  boxSizing: "border-box",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {t("date")}
+              </th>
+
+              <th
+                style={{
+                  padding: "12px 10px",
+                  textAlign: "center",
+                  boxSizing: "border-box",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {t("tag")}
+              </th>
+
+              <th
+                style={{
+                  padding: "12px 10px",
+                  textAlign: "left",
+                  boxSizing: "border-box",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {t("name")}
+              </th>
+
+              <th
+                style={{
+                  padding: "12px 10px",
+                  textAlign: "center",
+                  boxSizing: "border-box",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {t("quantity")}
+              </th>
+
+              <th
+                style={{
+                  padding: "12px 10px",
+                  textAlign: "left",
+                  boxSizing: "border-box",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {t("cause")}
+              </th>
+
+              <th
+                style={{
+                  padding: "12px 10px",
+                  textAlign: "center",
+                  boxSizing: "border-box",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {t("actions")}
+              </th>
             </tr>
           </thead>
 
           <tbody>
-
             {records.length === 0 ? (
-
               <tr>
                 <td
                   colSpan="6"
-                  style={{ textAlign: "center" }}
+                  style={{
+                    padding: "30px 10px",
+                    textAlign: "center",
+                    boxSizing: "border-box",
+                  }}
                 >
                   {t("noMortalityRecords")}
                 </td>
               </tr>
-
             ) : (
-
               records.map((record) => (
-
                 <tr key={record.id}>
 
-                  <td>
-                    {record.mortality_date?.split("T")[0]}
+                  <td
+                    style={{
+                      padding: "12px 10px",
+                      textAlign: "left",
+                      verticalAlign: "middle",
+                      boxSizing: "border-box",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {record.mortality_date?.split("T")[0] || "-"}
                   </td>
 
-                  <td>{record.tag_number}</td>
+                  <td
+                    style={{
+                      padding: "12px 10px",
+                      textAlign: "center",
+                      verticalAlign: "middle",
+                      boxSizing: "border-box",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {record.tag_number || "-"}
+                  </td>
 
-                  <td>{record.name}</td>
+                  <td
+                    style={{
+                      padding: "12px 10px",
+                      textAlign: "left",
+                      verticalAlign: "middle",
+                      boxSizing: "border-box",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {record.name || "-"}
+                  </td>
 
-                  <td>{record.quantity}</td>
+                  <td
+                    style={{
+                      padding: "12px 10px",
+                      textAlign: "center",
+                      verticalAlign: "middle",
+                      boxSizing: "border-box",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {record.quantity ?? 0}
+                  </td>
 
-                  <td>{record.cause}</td>
+                  <td
+                    style={{
+                      padding: "12px 10px",
+                      textAlign: "left",
+                      verticalAlign: "middle",
+                      boxSizing: "border-box",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {record.cause || "-"}
+                  </td>
 
-                  <td>
-
+                  <td
+                    style={{
+                      padding: "8px 10px",
+                      textAlign: "center",
+                      verticalAlign: "middle",
+                      boxSizing: "border-box",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
                     <button
                       className="button"
-                      onClick={() =>
-                        deleteRecord(record.id)
-                      }
+                      onClick={() => deleteRecord(record.id)}
+                      style={{
+                        whiteSpace: "nowrap",
+                      }}
                     >
                       🗑 {t("delete")}
                     </button>
-
                   </td>
 
                 </tr>
-
               ))
-
             )}
-
           </tbody>
-
         </table>
-
       </div>
 
     </div>
   );
 }
-
 export default ChickenMortality;

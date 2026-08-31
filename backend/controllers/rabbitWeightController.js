@@ -8,7 +8,7 @@ exports.getWeightRecords = (req, res) => {
   db.query(
     `SELECT
         rw.*,
-        r.tag_number,
+        r.tag,
         r.name
      FROM rabbit_weight rw
      JOIN rabbits r

@@ -240,7 +240,7 @@ function Reports() {
             overflow: "hidden",
           }}
         >
-          <h3>🐐 Goats</h3>
+          <h3>🐐 {t("goats")}</h3>
           <h2>{goats.length}</h2>
         </div>
 
@@ -252,7 +252,7 @@ function Reports() {
             overflow: "hidden",
           }}
         >
-          <h3>🐔 Chickens</h3>
+          <h3>🐔 {t("chickens")}</h3>
           <h2>{chickens.length}</h2>
         </div>
 
@@ -264,7 +264,7 @@ function Reports() {
             overflow: "hidden",
           }}
         >
-          <h3>🐇 Rabbits</h3>
+          <h3>🐇 {t("rabbits")}</h3>
           <h2>{rabbits.length}</h2>
         </div>
 
@@ -329,7 +329,7 @@ function Reports() {
           }}
         >
           <div style={{ minWidth: 0 }}>
-            <h3>Total Income</h3>
+            <h3>{t("totalIncome")}</h3>
 
             <h2
               style={{
@@ -343,7 +343,7 @@ function Reports() {
           </div>
 
           <div style={{ minWidth: 0 }}>
-            <h3>Total Expenses</h3>
+            <h3>{t("totalExpenses")}</h3>
 
             <h2
               style={{
@@ -357,7 +357,7 @@ function Reports() {
           </div>
 
           <div style={{ minWidth: 0 }}>
-            <h3>Profit</h3>
+            <h3>{t("profit")}</h3>
 
             <h2
               style={{
@@ -653,17 +653,17 @@ function Reports() {
 
           <tbody>
             <tr>
-              <td>🐐 Goats</td>
+              <td>🐐 {t("goats")}</td>
               <td>{goats.length}</td>
             </tr>
 
             <tr>
-              <td>🐔 Chickens</td>
+              <td>🐔 {t("chickens")}</td>
               <td>{chickens.length}</td>
             </tr>
 
             <tr>
-              <td>🐇 Rabbits</td>
+              <td>🐇 {t("rabbits")}</td>
               <td>{rabbits.length}</td>
             </tr>
 

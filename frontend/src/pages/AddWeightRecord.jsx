@@ -1,8 +1,10 @@
 import API_URL from "../api";
 import { useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
+import { useLanguage } from "../context/LanguageContext";
 
 function AddWeightRecord() {
+  const { t } = useLanguage();
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -38,17 +40,17 @@ function AddWeightRecord() {
       navigate(`/goats/${id}/weight`);
     } catch (error) {
       console.error(error);
-      alert("Failed to save weight record.");
+      alert(t("failedToSaveWeightRecord"));
     }
   }
 
   return (
     <div className="page">
       <div className="card">
-        <h1>⚖ Add Weight Record</h1>
+        <h1>⚖ {t("addWeightRecord")}</h1>
 
         <form onSubmit={handleSubmit}>
-          <p>Date</p>
+          <p>{t("date")}</p>
           <input
             type="date"
             name="record_date"
@@ -57,7 +59,7 @@ function AddWeightRecord() {
             required
           />
 
-          <p>Weight (kg)</p>
+          <p>{t("weightKg")}</p>
           <input
             type="number"
             step="0.01"
@@ -67,7 +69,7 @@ function AddWeightRecord() {
             required
           />
 
-          <p>Notes</p>
+          <p>{t("notes")}</p>
           <textarea
             name="notes"
             rows="4"

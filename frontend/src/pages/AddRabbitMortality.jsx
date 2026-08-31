@@ -84,19 +84,19 @@ function AddRabbitMortality() {
     e.preventDefault();
 
     if (!formData.rabbit_id) {
-      alert("Please select a rabbit.");
+      alert(t("pleaseSelectRabbit"));
       return;
     }
 
     if (availableQuantity <= 0) {
       alert(
-        `${selectedRabbit.name || "This rabbit"} has 0 available. Mortality cannot be recorded.`
+        `${selectedRabbit.name || t("thisRabbit")} ${t("mortalityUnavailable")}`
       );
       return;
     }
 
     if (mortalityQuantity <= 0) {
-      alert("Mortality quantity must be greater than zero.");
+      alert(t("mortalityQuantityPositive"));
       return;
     }
 
@@ -134,7 +134,7 @@ function AddRabbitMortality() {
       navigate("/rabbit-mortality");
     } catch (err) {
       console.error(err);
-      alert("Failed to record rabbit mortality.");
+      alert(t("failedToRecordRabbitMortality"));
     }
   }
 
@@ -152,7 +152,7 @@ function AddRabbitMortality() {
         }}
       >
         <div>
-          <h1>â˜ ï¸ Record Rabbit Mortality</h1>
+          <h1>☠️ {t("recordRabbitMortality")}</h1>
 
           <p>
             Record a rabbit death and automatically
@@ -164,7 +164,7 @@ function AddRabbitMortality() {
           className="button"
           to="/rabbit-mortality"
         >
-          ← Back
+          ← {t("back")}
         </Link>
       </div>
 
@@ -193,8 +193,8 @@ function AddRabbitMortality() {
                 value={rabbit.id}
               >
                 {rabbit.tag_number} -{" "}
-                {rabbit.name || "Rabbit"}{" "}
-                ({Number(rabbit.quantity || 0)} available)
+                {rabbit.name || t("rabbit")}{" "}
+                ({Number(rabbit.quantity || 0)} {t("available")})
               </option>
             ))}
           </select>
@@ -209,8 +209,8 @@ function AddRabbitMortality() {
                 marginTop: "8px",
               }}
             >
-              âš ï¸ {selectedRabbit.name || "This rabbit"} has
-              0 available. Mortality cannot be recorded.
+              ⚠️ {selectedRabbit.name || t("thisRabbit")} has
+              {t("mortalityUnavailable")}
             </p>
           )}
 
@@ -223,7 +223,7 @@ function AddRabbitMortality() {
                   marginTop: "8px",
                 }}
               >
-                ✅ {availableQuantity} rabbit(s) available
+                ✅ {availableQuantity} {t("rabbit")} {t("available")}
                 for mortality recording.
               </p>
             )}
@@ -271,8 +271,8 @@ function AddRabbitMortality() {
                 marginTop: "8px",
               }}
             >
-              âš ï¸ Quantity cannot exceed{" "}
-              {availableQuantity} available.
+              ⚠️ {t("quantityCannotExceed")}{" "}
+              {availableQuantity} {t("available")}.
             </p>
           )}
 
@@ -284,7 +284,7 @@ function AddRabbitMortality() {
                 marginTop: "8px",
               }}
             >
-              âš ï¸ Quantity must be greater than zero.
+              ⚠️ {t("quantityMustBeGreaterThanZero")}
             </p>
           )}
 
@@ -299,7 +299,7 @@ function AddRabbitMortality() {
             name="cause"
             value={formData.cause}
             onChange={handleChange}
-            placeholder="e.g. Disease, injury, unknown"
+            placeholder={t("mortalityReasonExample")}
           />
 
           <br />
@@ -314,7 +314,7 @@ function AddRabbitMortality() {
             name="notes"
             value={formData.notes}
             onChange={handleChange}
-            placeholder="Additional notes"
+            placeholder={t("additionalNotes")}
           />
 
           <br />

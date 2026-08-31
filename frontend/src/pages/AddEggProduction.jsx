@@ -1,9 +1,11 @@
 import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { useLanguage } from "../context/LanguageContext";
 
 function AddEggProduction() {
   const navigate = useNavigate();
+  const { t } = useLanguage();
 
   const [chickens, setChickens] = useState([]);
 
@@ -68,10 +70,9 @@ function AddEggProduction() {
       if (response.ok) {
         navigate("/egg-production");
       }
-
     } catch (err) {
       console.error(err);
-      alert("Failed to save egg production.");
+      alert(t("failedToSaveEggProduction"));
     }
   }
 
@@ -79,14 +80,14 @@ function AddEggProduction() {
     <div className="page">
 
       <div className="page-header">
-        <h1>🥚 Record Egg Production</h1>
+        <h1>🥚 {t("recordEggProduction")}</h1>
       </div>
 
       <div className="card">
 
         <form onSubmit={handleSubmit}>
 
-          <label>Chicken</label>
+          <label>{t("chicken")}</label>
 
           <select
             name="chicken_id"
@@ -94,7 +95,9 @@ function AddEggProduction() {
             onChange={handleChange}
             required
           >
-            <option value="">Select Chicken</option>
+            <option value="">
+              {t("selectChicken")}
+            </option>
 
             {chickens.map((chicken) => (
               <option
@@ -108,7 +111,7 @@ function AddEggProduction() {
 
           <br /><br />
 
-          <label>Production Date</label>
+          <label>{t("productionDate")}</label>
 
           <input
             type="date"
@@ -120,7 +123,7 @@ function AddEggProduction() {
 
           <br /><br />
 
-          <label>Eggs Collected</label>
+          <label>{t("eggsCollected")}</label>
 
           <input
             type="number"
@@ -133,7 +136,7 @@ function AddEggProduction() {
 
           <br /><br />
 
-          <label>Broken Eggs</label>
+          <label>{t("brokenEggs")}</label>
 
           <input
             type="number"
@@ -145,7 +148,7 @@ function AddEggProduction() {
 
           <br /><br />
 
-          <label>Notes</label>
+          <label>{t("notes")}</label>
 
           <textarea
             name="notes"
@@ -162,14 +165,14 @@ function AddEggProduction() {
               className="button"
               type="submit"
             >
-              💾 Save
+              💾 {t("save")}
             </button>
 
             <Link
               className="button"
               to="/egg-production"
             >
-              Cancel
+              {t("cancel")}
             </Link>
 
           </div>

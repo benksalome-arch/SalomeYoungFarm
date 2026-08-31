@@ -1,8 +1,10 @@
 import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useLanguage } from "../context/LanguageContext";
 
 function RabbitVaccinations() {
+  const { t } = useLanguage();
   const [records, setRecords] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -117,7 +119,7 @@ function RabbitVaccinations() {
         }}
       >
         <div>
-          <h1>💉 Rabbit Vaccinations</h1>
+          <h1>💉 {t("rabbitVaccinations")}</h1>
 
           <p>
             Manage rabbit vaccination records.
@@ -142,7 +144,7 @@ function RabbitVaccinations() {
             className="button"
             to="/rabbits"
           >
-            ← Back to Rabbits
+            ← {t("back")} to Rabbits
           </Link>
         </div>
       </div>

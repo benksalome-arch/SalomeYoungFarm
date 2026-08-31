@@ -1,8 +1,10 @@
 import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
+import { useLanguage } from "../context/LanguageContext";
 
 function RabbitProfile() {
+  const { t } = useLanguage();
   const { id } = useParams();
 
   const [rabbit, setRabbit] = useState(null);
@@ -73,13 +75,13 @@ function RabbitProfile() {
           padding: "30px",
         }}
       >
-        <p>Rabbit not found.</p>
+        <p>{t("rabbitNotFound")}</p>
 
         <Link
           className="button"
           to="/rabbits"
         >
-          ← Back to Rabbits
+          ← {t("back")} to Rabbits
         </Link>
       </div>
     );
@@ -153,35 +155,35 @@ function RabbitProfile() {
 
           <tbody>
             <tr>
-              <th>Tag Number</th>
+              <th>{t("tagNumber")}</th>
               <td>
                 {rabbit.tag_number || "-"}
               </td>
             </tr>
 
             <tr>
-              <th>Name</th>
+              <th>{t("name")}</th>
               <td>
                 {rabbit.name || "-"}
               </td>
             </tr>
 
             <tr>
-              <th>Breed</th>
+              <th>{t("breed")}</th>
               <td>
                 {rabbit.breed || "-"}
               </td>
             </tr>
 
             <tr>
-              <th>Sex</th>
+              <th>{t("sex")}</th>
               <td>
                 {rabbit.sex || "-"}
               </td>
             </tr>
 
             <tr>
-              <th>Birth Date</th>
+              <th>{t("birthDate")}</th>
               <td>
                 {formatDate(
                   rabbit.birth_date
@@ -190,28 +192,28 @@ function RabbitProfile() {
             </tr>
 
             <tr>
-              <th>Source</th>
+              <th>{t("source")}</th>
               <td>
                 {rabbit.source || "-"}
               </td>
             </tr>
 
             <tr>
-              <th>Quantity</th>
+              <th>{t("quantity")}</th>
               <td>
                 {rabbit.quantity ?? 0}
               </td>
             </tr>
 
             <tr>
-              <th>Status</th>
+              <th>{t("status")}</th>
               <td>
                 {rabbit.status || "-"}
               </td>
             </tr>
 
             <tr>
-              <th>Purchase Price</th>
+              <th>{t("purchasePriceKES")}</th>
               <td>
                 KES{" "}
                 {Number(
@@ -221,7 +223,7 @@ function RabbitProfile() {
             </tr>
 
             <tr>
-              <th>Notes</th>
+              <th>{t("notes")}</th>
               <td>
                 {rabbit.notes || "-"}
               </td>
@@ -306,7 +308,7 @@ function RabbitProfile() {
           className="button"
           to="/rabbits"
         >
-          ← Back to Rabbits
+          ← {t("back")} to Rabbits
         </Link>
       </div>
     </div>

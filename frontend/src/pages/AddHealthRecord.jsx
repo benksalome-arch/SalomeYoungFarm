@@ -1,8 +1,10 @@
 import API_URL from "../api";
 import { useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
+import { useLanguage } from "../context/LanguageContext";
 
 function AddHealthRecord() {
+  const { t } = useLanguage();
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -42,18 +44,18 @@ function AddHealthRecord() {
       navigate(`/goats/${id}/health`);
     } catch (error) {
       console.error(error);
-      alert("Failed to save health record.");
+      alert(t("failedToSaveHealthRecord"));
     }
   }
 
   return (
     <div className="page">
       <div className="card">
-        <h1>💉 Add Health Record</h1>
+        <h1>💉 {t("addHealthRecord")}</h1>
 
         <form onSubmit={handleSubmit}>
 
-          <p>Date</p>
+          <p>{t("date")}</p>
           <input
             type="date"
             name="record_date"
@@ -62,19 +64,19 @@ function AddHealthRecord() {
             required
           />
 
-          <p>Record Type</p>
+          <p>{t("recordType")}</p>
           <select
             name="record_type"
             value={formData.record_type}
             onChange={handleChange}
           >
-            <option>Vaccination</option>
-            <option>Deworming</option>
-            <option>Treatment</option>
-            <option>Check-up</option>
+            <option>{t("vaccination")}</option>
+            <option value="Deworming">{t("deworming")}</option>
+            <option value="Treatment">{t("treatment")}</option>
+            <option value="Check-up">{t("checkup")}</option>
           </select>
 
-          <p>Medicine</p>
+          <p>{t("medicine")}</p>
           <input
             type="text"
             name="medicine"
@@ -82,7 +84,7 @@ function AddHealthRecord() {
             onChange={handleChange}
           />
 
-          <p>Dosage</p>
+          <p>{t("dosage")}</p>
           <input
             type="text"
             name="dosage"
@@ -90,7 +92,7 @@ function AddHealthRecord() {
             onChange={handleChange}
           />
 
-          <p>Veterinarian</p>
+          <p>{t("veterinarian")}</p>
           <input
             type="text"
             name="veterinarian"
@@ -98,7 +100,7 @@ function AddHealthRecord() {
             onChange={handleChange}
           />
 
-          <p>Notes</p>
+          <p>{t("notes")}</p>
           <textarea
             name="notes"
             value={formData.notes}

@@ -1,8 +1,12 @@
+import { useLanguage } from "../context/LanguageContext";
+
 function SearchBar({ value, onChange }) {
+  const { t } = useLanguage();
+
   return (
     <input
       type="text"
-      placeholder="🔍 Search by tag, name or breed..."
+      placeholder={`🔍 ${t("searchByTagNameBreed")}`}
       value={value}
       onChange={onChange}
       style={{

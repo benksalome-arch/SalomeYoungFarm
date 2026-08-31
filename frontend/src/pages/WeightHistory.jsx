@@ -2,8 +2,10 @@ import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import WeightChart from "../components/WeightChart";
+import { useLanguage } from "../context/LanguageContext";
 
 function WeightHistory() {
+  const { t } = useLanguage();
   const { id } = useParams();
   const [records, setRecords] = useState([]);
 
@@ -19,8 +21,8 @@ function WeightHistory() {
   return (
     <div className="page">
       <div className="page-header">
-        <h1>⚖ Weight History</h1>
-        <p>Track the goat's weight over time.</p>
+        <h1>⚖ {t("weightHistory")}</h1>
+        <p>{t("trackWeightOverTime")}</p>
       </div>
 
       <div className="card">
@@ -37,7 +39,7 @@ function WeightHistory() {
           }}
         >
           <Link className="button" to={`/goats/${id}`}>
-            ← Back to Goat
+            ← {t("back")} to Goat
           </Link>
 
           <Link className="button" to={`/goats/${id}/weight/add`}>
@@ -48,10 +50,10 @@ function WeightHistory() {
         <table className="table">
           <thead>
             <tr>
-              <th>Date</th>
-              <th>Weight (kg)</th>
-              <th>Gain/Loss</th>
-              <th>Notes</th>
+              <th>{t("date")}</th>
+              <th>{t("weightKg")}</th>
+              <th>{t("gainLoss")}</th>
+              <th>{t("notes")}</th>
             </tr>
           </thead>
 
@@ -79,7 +81,7 @@ function WeightHistory() {
                     gainLoss = `${difference.toFixed(2)} kg`;
                     color = "red";
                   } else {
-                    gainLoss = "No change";
+                    gainLoss = t("noChange");
                     color = "#666";
                   }
                 }
