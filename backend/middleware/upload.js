@@ -1,9 +1,15 @@
 const multer = require("multer");
 const path = require("path");
+const fs = require("fs");
+
+const uploadDir = path.join(__dirname, "..", "uploads", "goats");
+
+// Make sure the directory exists on Railway/Codespace
+fs.mkdirSync(uploadDir, { recursive: true });
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "uploads/goats");
+    cb(null, uploadDir);
   },
 
   filename: (req, file, cb) => {
