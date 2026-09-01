@@ -252,7 +252,15 @@ function GoatProfile() {
 
               <tr>
                 <td><strong>{t("dateOfBirth")}</strong></td>
-                <td>{goat.date_of_birth || "-"}</td>
+                <td>
+                  {goat.date_of_birth
+                    ? new Date(goat.date_of_birth).toLocaleDateString("en-GB", {
+                        day: "2-digit",
+                        month: "long",
+                        year: "numeric",
+                      })
+                    : "-"}
+                </td>
               </tr>
 
               <tr>
