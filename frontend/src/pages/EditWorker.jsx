@@ -118,7 +118,7 @@ function EditWorker() {
 
       <div className="page-header">
         <h1>✏ {t("editWorker")}</h1>
-        <p>Update worker information.</p>
+        <p>{t("updateWorkerInformation")}</p>
       </div>
 
       <div className="card">
@@ -159,7 +159,8 @@ function EditWorker() {
             onChange={handleChange}
           >
             <option value="worker">{t("worker")}</option>
-            <option value="admin">Administrator</option>
+            <option value="manager">{t("manager")}</option>
+            <option value="admin">{t("administrator")}</option>
           </select>
 
           <br />

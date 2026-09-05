@@ -144,7 +144,7 @@ function RabbitHealth() {
             className="button"
             to={`/rabbits/${id}`}
           >
-            ← {t("back")} to Profile
+            ← {t("back")}
           </Link>
         </div>
       </div>

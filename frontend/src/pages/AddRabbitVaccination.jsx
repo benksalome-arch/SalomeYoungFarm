@@ -11,7 +11,7 @@ function AddRabbitVaccination() {
 
   const [formData, setFormData] = useState({
     rabbit_id: "",
-    vaccination_date: new Date().toISOString().split("T")[0],
+    vaccination_date: "",
     vaccine_name: "",
     dosage: "",
     next_due_date: "",
@@ -105,117 +105,128 @@ function AddRabbitVaccination() {
 
       <div className="card">
 
-        <form onSubmit={handleSubmit}>
+        <form
+          onSubmit={handleSubmit}
+          style={{
+            maxWidth: "820px",
+            margin: "0 auto",
+            background: "#ffffff",
+            padding: "30px",
+            borderRadius: "14px",
+            boxShadow: "0 3px 14px rgba(0,0,0,0.08)",
+          }}
+        >
+          <div className="vaccination-form-grid">
 
-          <label>{t("rabbit")}</label>
-
-          <select
-            name="rabbit_id"
-            value={formData.rabbit_id}
-            onChange={handleChange}
-            required
-          >
-            <option value="">{t("selectRabbit")}</option>
-
-            {rabbits.map((rabbit) => (
-              <option
-                key={rabbit.id}
-                value={rabbit.id}
+            <div className="vaccination-field">
+              <label>{t("rabbit")}</label>
+              <select
+                name="rabbit_id"
+                value={formData.rabbit_id}
+                onChange={handleChange}
+                required
               >
-                {rabbit.tag_number} - {rabbit.name}
-              </option>
-            ))}
-          </select>
+                <option value="">{t("selectRabbit")}</option>
 
-          <br /><br />
+                {rabbits.map((rabbit) => (
+                  <option
+                    key={rabbit.id}
+                    value={rabbit.id}
+                  >
+                    {rabbit.tag_number} - {rabbit.name}
+                  </option>
+                ))}
+              </select>
+            </div>
 
-          <label>{t("vaccinationDate")}</label>
+            <div className="vaccination-field">
+              <label>{t("vaccinationDate")}</label>
+              <input
+                type="date"
+                name="vaccination_date"
+                value={formData.vaccination_date}
+                onChange={handleChange}
+                required
+              />
+            </div>
 
-          <input
-            type="date"
-            name="vaccination_date"
-            value={formData.vaccination_date}
-            onChange={handleChange}
-            required
-          />
+            <div className="vaccination-field">
+              <label>{t("vaccineName")}</label>
+              <input
+                type="text"
+                name="vaccine_name"
+                value={formData.vaccine_name}
+                onChange={handleChange}
+                required
+              />
+            </div>
 
-          <br /><br />
+            <div className="vaccination-field">
+              <label>{t("dosage")}</label>
+              <input
+                type="text"
+                name="dosage"
+                value={formData.dosage}
+                onChange={handleChange}
+              />
+            </div>
 
-          <label>{t("vaccineName")}</label>
+            <div className="vaccination-field">
+              <label>{t("nextDueDate")}</label>
+              <input
+                type="date"
+                name="next_due_date"
+                value={formData.next_due_date}
+                onChange={handleChange}
+              />
+            </div>
 
-          <input
-            type="text"
-            name="vaccine_name"
-            value={formData.vaccine_name}
-            onChange={handleChange}
-            required
-          />
+            <div className="vaccination-field">
+              <label>{t("administeredBy")}</label>
+              <input
+                type="text"
+                name="administered_by"
+                value={formData.administered_by}
+                onChange={handleChange}
+              />
+            </div>
 
-          <br /><br />
+            <div
+              className="vaccination-field"
+              style={{ gridColumn: "1 / -1" }}
+            >
+              <label>{t("notes")}</label>
+              <textarea
+                rows="4"
+                name="notes"
+                value={formData.notes}
+                onChange={handleChange}
+              />
+            </div>
 
-          <label>{t("dosage")}</label>
-
-          <input
-            type="text"
-            name="dosage"
-            value={formData.dosage}
-            onChange={handleChange}
-          />
-
-          <br /><br />
-
-          <label>{t("nextDueDate")}</label>
-
-          <input
-            type="date"
-            name="next_due_date"
-            value={formData.next_due_date}
-            onChange={handleChange}
-          />
-
-          <br /><br />
-
-          <label>{t("administeredBy")}</label>
-
-          <input
-            type="text"
-            name="administered_by"
-            value={formData.administered_by}
-            onChange={handleChange}
-          />
-
-          <br /><br />
-
-          <label>{t("notes")}</label>
-
-          <textarea
-            rows="4"
-            name="notes"
-            value={formData.notes}
-            onChange={handleChange}
-          />
-
-          <br /><br />
+          </div>
 
           <div
             style={{
               display: "flex",
-              gap: "10px",
+              justifyContent: "flex-end",
+              gap: "12px",
+              marginTop: "28px",
             }}
           >
-            <button
-              className="button"
-              type="submit"
-            >
-              💾 Save
-            </button>
-
             <Link
               className="button"
               to="/rabbit-vaccinations"
             >
-              Cancel
+              {t("cancel")}
             </Link>
+
+            <button
+              className="button"
+              type="submit"
+            >
+              💾 {t("save")}
+            </button>
           </div>
 
         </form>

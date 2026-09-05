@@ -152,7 +152,7 @@ function AddRabbitLitter() {
           <h1>🐇 {t("recordRabbitLitter")}</h1>
 
           <p>
-            Record the kits produced from a rabbit breeding.
+            {t("litterDescription")}
           </p>
         </div>
 
@@ -160,7 +160,7 @@ function AddRabbitLitter() {
           className="button"
           to="/rabbit-litters"
         >
-          ← {t("back")} to Litters
+          ← {t("back")}
         </Link>
       </div>
 
@@ -206,7 +206,7 @@ function AddRabbitLitter() {
               <option value="">
                 {loading
                   ? "Loading breeding records..."
-                  : "Select breeding record"}
+                  : t("selectBreedingRecord")}
               </option>
 
               {breedings.map((breeding) => (
@@ -215,10 +215,10 @@ function AddRabbitLitter() {
                   value={breeding.id}
                 >
                   {breeding.female_tag_number} -{" "}
-                  {breeding.female_name || "Female"}{" "}
+                  {breeding.female_name || t("female")}{" "}
                   ×{" "}
                   {breeding.male_tag_number || "Unknown"} -{" "}
-                  {breeding.male_name || "Male"}{" "}
+                  {breeding.male_name || t("male")}{" "}
                   —{" "}
                   {breeding.breeding_date
                     ? breeding.breeding_date.split("T")[0]
@@ -263,7 +263,7 @@ function AddRabbitLitter() {
               value={form.total_kits}
               onChange={handleChange}
               disabled={saving}
-              placeholder={t("example6")}
+              placeholder={t("totalKitsExample")}
               style={{
                 width: "100%",
                 padding: "10px",
@@ -286,7 +286,7 @@ function AddRabbitLitter() {
               value={form.live_kits}
               onChange={handleChange}
               disabled={saving}
-              placeholder={t("example5")}
+              placeholder={t("livingKitsExample")}
               style={{
                 width: "100%",
                 padding: "10px",
@@ -309,7 +309,7 @@ function AddRabbitLitter() {
               value={form.dead_kits}
               onChange={handleChange}
               disabled={saving}
-              placeholder={t("example1")}
+              placeholder={t("deadKitsExample")}
               style={{
                 width: "100%",
                 padding: "10px",
@@ -357,14 +357,14 @@ function AddRabbitLitter() {
             >
               {saving
                 ? "Saving..."
-                : "💾 Save Litter Record"}
+                : `💾 ${t("saveLitterRecord")}`}
             </button>
 
             <Link
               className="button"
               to="/rabbit-litters"
             >
-              Cancel
+              {t("cancel")}
             </Link>
           </div>
 

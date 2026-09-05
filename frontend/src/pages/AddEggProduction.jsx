@@ -11,7 +11,7 @@ function AddEggProduction() {
 
   const [formData, setFormData] = useState({
     chicken_id: "",
-    production_date: new Date().toISOString().split("T")[0],
+    production_date: "",
     eggs_collected: "",
     broken_eggs: 0,
     notes: "",
@@ -28,9 +28,18 @@ function AddEggProduction() {
       );
 
       const data = await response.json();
-      setChickens(data);
+
+      setChickens(
+        Array.isArray(data)
+          ? data.filter(
+              (chicken) =>
+                chicken.status === "Active" &&
+                Number(chicken.quantity) > 0
+            )
+          : []
+      );
     } catch (err) {
-      console.error(err);
+      console.error("Failed to load chickens:", err);
     }
   }
 
@@ -65,102 +74,272 @@ function AddEggProduction() {
 
       const data = await response.json();
 
+      if (!response.ok) {
+        alert(
+          data.message ||
+            "Failed to save egg production."
+        );
+        return;
+      }
+
       alert(data.message);
 
-      if (response.ok) {
-        navigate("/egg-production");
-      }
+      navigate("/egg-production");
     } catch (err) {
-      console.error(err);
-      alert(t("failedToSaveEggProduction"));
+      console.error("Save egg production error:", err);
+
+      alert(
+        "Failed to save egg production."
+      );
     }
   }
 
-  return (
-    <div className="page">
+  const fieldStyle = {
+    display: "flex",
+    flexDirection: "column",
+    gap: "8px",
+    minWidth: 0,
+  };
 
-      <div className="page-header">
-        <h1>🥚 {t("recordEggProduction")}</h1>
+  const labelStyle = {
+    fontWeight: 600,
+    fontSize: "15px",
+    lineHeight: 1.3,
+    margin: 0,
+  };
+
+  const inputStyle = {
+    width: "100%",
+    minWidth: 0,
+    height: "46px",
+    padding: "10px 12px",
+    boxSizing: "border-box",
+    border: "1px solid #cfd6cf",
+    borderRadius: "7px",
+    background: "#fff",
+    fontSize: "15px",
+  };
+
+  const textareaStyle = {
+    width: "100%",
+    minWidth: 0,
+    minHeight: "120px",
+    padding: "10px 12px",
+    boxSizing: "border-box",
+    border: "1px solid #cfd6cf",
+    borderRadius: "7px",
+    background: "#fff",
+    fontSize: "15px",
+    resize: "vertical",
+    fontFamily: "inherit",
+  };
+
+  return (
+    <div
+      className="page"
+      style={{
+        width: "100%",
+        maxWidth: "1200px",
+        margin: "0 auto",
+        padding: "20px",
+        boxSizing: "border-box",
+      }}
+    >
+      {/* PAGE HEADER */}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          gap: "20px",
+          flexWrap: "wrap",
+          marginBottom: "25px",
+        }}
+      >
+        <div>
+          <h1
+            style={{
+              margin: 0,
+              fontSize: "clamp(30px, 4vw, 44px)",
+              lineHeight: 1.15,
+            }}
+          >
+            🥚 {t("recordProduction")}
+          </h1>
+
+          <p
+            style={{
+              margin: "8px 0 0",
+              fontSize: "16px",
+              opacity: 0.75,
+            }}
+          >
+            {t("dailyEggCollection")}
+          </p>
+        </div>
+
+        <Link
+          className="button"
+          to="/egg-production"
+          style={{
+            whiteSpace: "nowrap",
+          }}
+        >
+          ← {t("back")}
+        </Link>
       </div>
 
-      <div className="card">
-
+      {/* FORM CARD */}
+      <div
+        className="card"
+        style={{
+          width: "100%",
+          maxWidth: "900px",
+          margin: "0 auto",
+          padding: "clamp(20px, 4vw, 35px)",
+          boxSizing: "border-box",
+        }}
+      >
         <form onSubmit={handleSubmit}>
 
-          <label>{t("chicken")}</label>
-
-          <select
-            name="chicken_id"
-            value={formData.chicken_id}
-            onChange={handleChange}
-            required
+          {/* PRODUCTION DETAILS */}
+          <h2
+            style={{
+              margin: "0 0 25px",
+              fontSize: "22px",
+              lineHeight: 1.3,
+            }}
           >
-            <option value="">
-              {t("selectChicken")}
-            </option>
+            🥚 {t("recordProduction")}
+          </h2>
 
-            {chickens.map((chicken) => (
-              <option
-                key={chicken.id}
-                value={chicken.id}
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns:
+                "repeat(auto-fit, minmax(min(100%, 260px), 1fr))",
+              gap: "22px",
+              width: "100%",
+            }}
+          >
+            {/* CHICKEN */}
+            <div style={fieldStyle}>
+              <label style={labelStyle}>
+                {t("chicken")}
+              </label>
+
+              <select
+                name="chicken_id"
+                value={formData.chicken_id}
+                onChange={handleChange}
+                required
+                style={inputStyle}
               >
-                {chicken.name || chicken.tag_number}
-              </option>
-            ))}
-          </select>
+                <option value="">
+                  {t("selectChicken")}
+                </option>
 
-          <br /><br />
+                {chickens.map((chicken) => (
+                  <option
+                    key={chicken.id}
+                    value={chicken.id}
+                  >
+                    {chicken.tag_number
+                      ? `${chicken.tag_number}${
+                          chicken.name
+                            ? ` - ${chicken.name}`
+                            : ""
+                        }`
+                      : chicken.name ||
+                        `Chicken ${chicken.id}`}
+                  </option>
+                ))}
+              </select>
+            </div>
 
-          <label>{t("productionDate")}</label>
+            {/* DATE */}
+            <div style={fieldStyle}>
+              <label style={labelStyle}>
+                {t("date")}
+              </label>
 
-          <input
-            type="date"
-            name="production_date"
-            value={formData.production_date}
-            onChange={handleChange}
-            required
-          />
+              <input
+                type="date"
+                name="production_date"
+                value={formData.production_date}
+                onChange={handleChange}
+                required
+                style={inputStyle}
+              />
+            </div>
 
-          <br /><br />
+            {/* EGGS COLLECTED */}
+            <div style={fieldStyle}>
+              <label style={labelStyle}>
+                {t("eggs")}
+              </label>
 
-          <label>{t("eggsCollected")}</label>
+              <input
+                type="number"
+                min="0"
+                step="1"
+                name="eggs_collected"
+                value={formData.eggs_collected}
+                onChange={handleChange}
+                required
+                style={inputStyle}
+              />
+            </div>
 
-          <input
-            type="number"
-            min="0"
-            name="eggs_collected"
-            value={formData.eggs_collected}
-            onChange={handleChange}
-            required
-          />
+            {/* BROKEN EGGS */}
+            <div style={fieldStyle}>
+              <label style={labelStyle}>
+                {t("broken")}
+              </label>
 
-          <br /><br />
+              <input
+                type="number"
+                min="0"
+                step="1"
+                name="broken_eggs"
+                value={formData.broken_eggs}
+                onChange={handleChange}
+                style={inputStyle}
+              />
+            </div>
+          </div>
 
-          <label>{t("brokenEggs")}</label>
+          {/* NOTES */}
+          <div
+            style={{
+              marginTop: "24px",
+            }}
+          >
+            <label style={labelStyle}>
+              {t("notes")}
+            </label>
 
-          <input
-            type="number"
-            min="0"
-            name="broken_eggs"
-            value={formData.broken_eggs}
-            onChange={handleChange}
-          />
+            <textarea
+              name="notes"
+              rows="5"
+              value={formData.notes}
+              onChange={handleChange}
+              style={{
+                ...textareaStyle,
+                marginTop: "8px",
+              }}
+            />
+          </div>
 
-          <br /><br />
-
-          <label>{t("notes")}</label>
-
-          <textarea
-            name="notes"
-            rows="4"
-            value={formData.notes}
-            onChange={handleChange}
-          />
-
-          <br /><br />
-
-          <div style={{ display: "flex", gap: "10px" }}>
-
+          {/* BUTTONS */}
+          <div
+            style={{
+              display: "flex",
+              gap: "12px",
+              flexWrap: "wrap",
+              marginTop: "28px",
+            }}
+          >
             <button
               className="button"
               type="submit"
@@ -174,13 +353,9 @@ function AddEggProduction() {
             >
               {t("cancel")}
             </Link>
-
           </div>
-
         </form>
-
       </div>
-
     </div>
   );
 }

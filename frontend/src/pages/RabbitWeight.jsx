@@ -80,7 +80,7 @@ function RabbitWeight() {
             className="button"
             to={`/rabbits/${id}`}
           >
-            ← {t("back")} to Profile
+            ← {t("back")}
           </Link>
         </div>
       </div>

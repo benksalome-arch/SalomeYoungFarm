@@ -8,7 +8,7 @@ function AddFinance() {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    transaction_date: "",
+    transaction_date: new Date().toISOString().split("T")[0],
     type: "Expense",
     category: "",
     description: "",
@@ -41,11 +41,11 @@ function AddFinance() {
       const data = await response.json();
 
       if (!response.ok) {
-        alert(data.message || t("failedToSaveTransaction"));
+        alert(data.message || "Failed to save transaction.");
         return;
       }
 
-      alert(data.message || t("saveTransaction"));
+      alert(data.message || "Transaction saved successfully.");
       navigate("/finance");
     } catch (error) {
       console.error(error);
@@ -89,7 +89,7 @@ function AddFinance() {
             color: "#111",
           }}
         >
-          💰 {t("addTransaction")}
+          💰 Add Transaction
         </h1>
 
         <p
@@ -98,7 +98,7 @@ function AddFinance() {
             fontSize: "18px",
           }}
         >
-          {t("createFinancialRecord")}
+          Create a new financial record.
         </p>
       </div>
 
@@ -117,7 +117,7 @@ function AddFinance() {
           {/* 1. TRANSACTION DATE */}
           <div style={{ marginBottom: "22px" }}>
             <label htmlFor="transaction_date" style={labelStyle}>
-              {t("date")}
+              Transaction Date
             </label>
 
             <input
@@ -134,7 +134,7 @@ function AddFinance() {
           {/* 2. TYPE */}
           <div style={{ marginBottom: "22px" }}>
             <label htmlFor="type" style={labelStyle}>
-              {t("type")}
+              Type
             </label>
 
             <select
@@ -152,7 +152,7 @@ function AddFinance() {
           {/* 3. CATEGORY */}
           <div style={{ marginBottom: "22px" }}>
             <label htmlFor="category" style={labelStyle}>
-              {t("category")}
+              Category
             </label>
 
             <input
@@ -162,7 +162,7 @@ function AddFinance() {
               value={formData.category}
               onChange={handleChange}
               required
-              placeholder={t("exampleGoatSaleNote")}
+              placeholder={t("exampleGoatSale")}
               style={inputStyle}
             />
           </div>
@@ -170,7 +170,7 @@ function AddFinance() {
           {/* 4. AMOUNT */}
           <div style={{ marginBottom: "22px" }}>
             <label htmlFor="amount" style={labelStyle}>
-              {t("amount")} (KES)
+              Amount (KES)
             </label>
 
             <input
@@ -190,7 +190,7 @@ function AddFinance() {
           {/* 5. PAYMENT METHOD */}
           <div style={{ marginBottom: "22px" }}>
             <label htmlFor="payment_method" style={labelStyle}>
-              {t("paymentMethod")}
+              Payment Method
             </label>
 
             <select
@@ -206,10 +206,10 @@ function AddFinance() {
             </select>
           </div>
 
-          {/* 6. DESCRIPTION */}
+          {/* 6. DESCRIPTION - LAST */}
           <div style={{ marginBottom: "25px" }}>
             <label htmlFor="description" style={labelStyle}>
-              {t("description")}
+              Description
             </label>
 
             <textarea
@@ -234,7 +234,7 @@ function AddFinance() {
                 textAlign: "center",
               }}
             >
-              {t("transactionDetailsHelp")}
+              Add useful details about this transaction.
             </small>
           </div>
 
@@ -248,11 +248,11 @@ function AddFinance() {
             }}
           >
             <button className="button" type="submit">
-              💾 {t("saveTransaction")}
+              💾 Save Transaction
             </button>
 
             <Link className="button" to="/finance">
-              {t("cancel")}
+              Cancel
             </Link>
           </div>
         </form>

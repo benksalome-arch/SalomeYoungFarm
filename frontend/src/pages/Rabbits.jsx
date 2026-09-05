@@ -33,7 +33,7 @@ function Rabbits() {
   }
 
   async function deleteRabbit(id) {
-    if (!window.confirm("Delete this rabbit?")) {
+    if (!window.confirm(t("deleteRabbitConfirm"))) {
       return;
     }
 
@@ -50,14 +50,14 @@ function Rabbits() {
       if (!response.ok) {
         alert(
           data.message ||
-            "Failed to delete rabbit."
+            t("failedToDeleteRabbit")
         );
         return;
       }
 
       alert(
         data.message ||
-          "Rabbit deleted successfully!"
+          t("rabbitDeletedSuccessfully")
       );
 
       loadRabbits();
@@ -108,7 +108,7 @@ function Rabbits() {
               margin: "8px 0 0",
             }}
           >
-            Manage your rabbit farm.
+            {t("rabbitManagementDescription")}
           </p>
         </div>
 
@@ -156,7 +156,7 @@ function Rabbits() {
                   whiteSpace: "nowrap",
                 }}
               >
-                Tag
+                {t("tag")}
               </th>
 
               <th
@@ -167,7 +167,7 @@ function Rabbits() {
                   whiteSpace: "nowrap",
                 }}
               >
-                Name
+                {t("name")}
               </th>
 
               <th
@@ -200,7 +200,7 @@ function Rabbits() {
                   whiteSpace: "nowrap",
                 }}
               >
-                Quantity
+                {t("quantity")}
               </th>
 
               <th
@@ -211,7 +211,7 @@ function Rabbits() {
                   whiteSpace: "nowrap",
                 }}
               >
-                Status
+                {t("status")}
               </th>
 
               <th
@@ -222,7 +222,7 @@ function Rabbits() {
                   whiteSpace: "nowrap",
                 }}
               >
-                Actions
+                {t("actions")}
               </th>
             </tr>
           </thead>
@@ -322,16 +322,13 @@ function Rabbits() {
                       style={{
                         display: "inline-block",
                         background:
-                          rabbit.status ===
-                          t("healthy")
+                          rabbit.status === "Healthy"
                             ? "#4CAF50"
-                            : rabbit.status ===
-                              t("sick")
-                            ? "#E53935"
-                            : rabbit.status ===
-                              t("sold")
-                            ? "#1565C0"
-                            : "#FB8C00",
+                            : rabbit.status === "Sick"
+                              ? "#E53935"
+                              : rabbit.status === "Sold"
+                                ? "#1565C0"
+                                : "#FB8C00",
                         color: "white",
                         padding: "5px 7px",
                         borderRadius: "20px",
@@ -340,7 +337,13 @@ function Rabbits() {
                         whiteSpace: "nowrap",
                       }}
                     >
-                      {rabbit.status || t("unknown")}
+                      {rabbit.status === "Healthy"
+                        ? t("healthy")
+                        : rabbit.status === "Sick"
+                          ? t("sick")
+                          : rabbit.status === "Sold"
+                            ? t("sold")
+                            : rabbit.status || t("unknown")}
                     </span>
                   </td>
 
@@ -355,7 +358,8 @@ function Rabbits() {
                         justifyContent: "center",
                         alignItems: "center",
                         gap: "4px",
-                        flexWrap: "wrap",
+                        flexWrap: "nowrap",
+                        minWidth: "185px",
                       }}
                     >
                       <Link

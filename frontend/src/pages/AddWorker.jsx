@@ -12,6 +12,7 @@ function AddWorker() {
   const [formData, setFormData] = useState({
     full_name: "",
     email: "",
+    phone: "",
     password: "",
     role: "worker",
   });
@@ -73,70 +74,141 @@ function AddWorker() {
 
       <div className="page-header">
         <h1>➕ {t("addWorker")}</h1>
-        <p>Create a new user account.</p>
+        <p>{t("createAccountDescription")}</p>
       </div>
 
       <div className="card">
 
-        <form onSubmit={handleSubmit}>
-
-          <label>{t("fullName")}</label>
-
-          <input
-            type="text"
-            name="full_name"
-            value={formData.full_name}
-            onChange={handleChange}
-            required
-          />
-
-          <br />
-          <br />
-
-          <label>{t("email")}</label>
-
-          <input
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-          />
-
-          <br />
-          <br />
-
-          <label>{t("password")}</label>
-
-          <input
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            required
-          />
-
-          <br />
-          <br />
-
-          <label>{t("role")}</label>
-
-          <select
-            name="role"
-            value={formData.role}
-            onChange={handleChange}
+        <form onSubmit={handleSubmit} autoComplete="off">
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
+              gap: "20px 30px",
+              maxWidth: "800px",
+              margin: "0 auto",
+            }}
           >
-            <option value="worker">Worker</option>
-            <option value="admin">Administrator</option>
-          </select>
+            <div>
+              <label
+                style={{
+                  display: "block",
+                  marginBottom: "8px",
+                  fontWeight: "600",
+                }}
+              >
+                {t("fullName")}
+              </label>
 
-          <br />
-          <br />
+              <input
+                type="text"
+                name="full_name"
+                autoComplete="off"
+                value={formData.full_name}
+                onChange={handleChange}
+                placeholder={t("fullName")}
+                required
+                style={{ width: "100%", boxSizing: "border-box" }}
+              />
+            </div>
+
+            <div>
+              <label
+                style={{
+                  display: "block",
+                  marginBottom: "8px",
+                  fontWeight: "600",
+                }}
+              >
+                {t("email")}
+              </label>
+
+              <input
+                type="email"
+                name="email"
+                autoComplete="off"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder={t("email")}
+                style={{ width: "100%", boxSizing: "border-box" }}
+              />
+            </div>
+
+            <div>
+              <label
+                style={{
+                  display: "block",
+                  marginBottom: "8px",
+                  fontWeight: "600",
+                }}
+              >
+                {t("phone")}
+              </label>
+
+              <input
+                type="tel"
+                name="phone"
+                autoComplete="off"
+                value={formData.phone || ""}
+                onChange={handleChange}
+                placeholder={t("phoneNumber")}
+                style={{ width: "100%", boxSizing: "border-box" }}
+              />
+            </div>
+
+            <div>
+              <label
+                style={{
+                  display: "block",
+                  marginBottom: "8px",
+                  fontWeight: "600",
+                }}
+              >
+                {t("password")}
+              </label>
+
+              <input
+                type="password"
+                name="password"
+                autoComplete="new-password"
+                value={formData.password}
+                onChange={handleChange}
+                placeholder={t("password")}
+                required
+                style={{ width: "100%", boxSizing: "border-box" }}
+              />
+            </div>
+
+            <div>
+              <label
+                style={{
+                  display: "block",
+                  marginBottom: "8px",
+                  fontWeight: "600",
+                }}
+              >
+                {t("role")}
+              </label>
+
+              <select
+                name="role"
+                value={formData.role}
+                onChange={handleChange}
+                style={{ width: "100%", boxSizing: "border-box" }}
+              >
+                <option value="worker">{t("worker")}</option>
+                <option value="manager">{t("manager")}</option>
+                <option value="admin">{t("administrator")}</option>
+              </select>
+            </div>
+          </div>
 
           <div
             style={{
               display: "flex",
-              gap: "10px",
+              justifyContent: "center",
+              gap: "12px",
+              marginTop: "30px",
             }}
           >
             <button className="button" type="submit">
@@ -147,7 +219,6 @@ function AddWorker() {
               {t("cancel")}
             </Link>
           </div>
-
         </form>
 
       </div>

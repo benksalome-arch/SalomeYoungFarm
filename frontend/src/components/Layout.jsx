@@ -159,6 +159,17 @@ function Layout() {
           }
 
           @media (max-width: 768px) {
+            html,
+            body,
+            #root {
+              width: 100%;
+              max-width: 100%;
+              min-width: 0;
+              margin: 0;
+              padding: 0;
+              overflow-x: hidden !important;
+            }
+
             .syf-sidebar {
               display: block !important;
               position: fixed !important;
@@ -171,6 +182,7 @@ function Layout() {
               transform: translateX(-100%);
               transition: transform 0.25s ease;
               overflow-y: auto !important;
+              overflow-x: hidden !important;
             }
 
             .syf-sidebar.mobile-open {
@@ -189,13 +201,19 @@ function Layout() {
               margin-left: 0 !important;
               width: 100% !important;
               max-width: 100% !important;
+              min-width: 0 !important;
+              overflow-x: hidden !important;
             }
 
             .syf-header {
+              width: 100% !important;
+              max-width: 100% !important;
+              min-width: 0 !important;
               height: auto !important;
               min-height: 64px !important;
               padding: 8px 10px !important;
               gap: 8px !important;
+              overflow: hidden !important;
             }
 
             .syf-menu-button {
@@ -217,6 +235,7 @@ function Layout() {
 
             .syf-user {
               gap: 6px !important;
+              flex-shrink: 0 !important;
             }
 
             .syf-user-info {
@@ -229,7 +248,23 @@ function Layout() {
             }
 
             .syf-content {
+              width: 100% !important;
+              max-width: 100% !important;
+              min-width: 0 !important;
               padding: 12px !important;
+              overflow-x: hidden !important;
+            }
+
+            .syf-content > * {
+              max-width: 100% !important;
+              min-width: 0 !important;
+            }
+
+            img,
+            svg,
+            video,
+            canvas {
+              max-width: 100%;
             }
 
             table {

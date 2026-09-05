@@ -1,0 +1,180 @@
+/* =========================================================
+   SALOME YOUNG FARM - MOBILE RESPONSIVE
+   ========================================================= */
+
+html,
+body,
+#root {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden !important;
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+img,
+svg,
+video,
+canvas {
+  max-width: 100%;
+}
+
+@media (max-width: 768px) {
+
+  html,
+  body {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    overflow-x: hidden !important;
+  }
+
+  #root {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow-x: hidden !important;
+  }
+
+  .syf-main {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    margin-left: 0 !important;
+    overflow-x: hidden !important;
+  }
+
+  .syf-content {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    overflow-x: hidden !important;
+  }
+
+  main,
+  section,
+  article,
+  .page,
+  .card,
+  form {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  /* Prevent fixed-width tables from pushing the phone sideways */
+  table,
+  .table {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .table-container,
+  .table-wrapper,
+  .data-table-container {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    overflow-x: auto !important;
+    overflow-y: hidden;
+  }
+
+  /* Forms */
+  input,
+  select,
+  textarea,
+  button {
+    max-width: 100%;
+  }
+
+  input,
+  select,
+  textarea {
+    width: 100%;
+    min-width: 0;
+  }
+
+  /* Any large fixed inline widths */
+  [style*="min-width"],
+  [style*="minWidth"],
+  [style*="width: 1126px"],
+  [style*="width: 850px"],
+  [style*="width: 800px"],
+  [style*="width: 760px"],
+  [style*="width: 720px"],
+  [style*="width: 700px"],
+  [style*="width: 680px"],
+  [style*="min-width: 850px"],
+  [style*="min-width: 800px"],
+  [style*="min-width: 760px"],
+  [style*="min-width: 720px"],
+  [style*="min-width: 700px"],
+  [style*="min-width: 680px"] {
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .mobile-stack {
+    flex-direction: column !important;
+  }
+
+  .card {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    overflow-x: hidden !important;
+  }
+
+  .recharts-responsive-container {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+  }
+}
+
+@media (max-width: 480px) {
+
+  body {
+    font-size: 14px;
+  }
+
+  .card {
+    padding: 12px !important;
+  }
+
+  h1 {
+    font-size: 24px;
+  }
+
+  h2 {
+    font-size: 20px;
+  }
+
+  h3 {
+    font-size: 18px;
+  }
+
+  button {
+    min-height: 44px;
+  }
+}

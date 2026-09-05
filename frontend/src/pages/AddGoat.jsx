@@ -1,6 +1,6 @@
 import API_URL from "../api";
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useLanguage } from "../context/LanguageContext";
 
 function AddGoat() {
@@ -57,39 +57,27 @@ function AddGoat() {
     setSaving(true);
 
     try {
-      // -----------------------------------
-      // 1. CREATE GOAT
-      // -----------------------------------
-
-      const response = await fetch(
-        `${API_URL}/api/goats`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            ...formData,
-            date_of_birth: formData.date_of_birth
-              ? String(formData.date_of_birth).split("T")[0]
-              : null,
-          }),
-        }
-      );
+      const response = await fetch(`${API_URL}/api/goats`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...formData,
+          date_of_birth: formData.date_of_birth
+            ? String(formData.date_of_birth).split("T")[0]
+            : null,
+        }),
+      });
 
       const data = await response.json();
 
       if (!response.ok) {
-        alert(
-          data.message ||
-            "Failed to save goat."
-        );
+        alert(data.message || "Failed to save goat.");
         setSaving(false);
         return;
       }
 
-      // The create-goat controller should return the
-      // newly created goat ID.
       const goatId =
         data.id ||
         data.goatId ||
@@ -97,30 +85,15 @@ function AddGoat() {
         data.goat?.id;
 
       if (!goatId) {
-        console.error(
-          "Create goat response:",
-          data
-        );
-
-        alert(
-          "Goat was saved, but the new goat ID was not returned. The photo cannot be uploaded yet."
-        );
-
+        console.error("Create goat response:", data);
+        alert("Goat was saved, but the new goat ID was not returned.");
         navigate("/goats");
         return;
       }
 
-      // -----------------------------------
-      // 2. UPLOAD PHOTO IF SELECTED
-      // -----------------------------------
-
       if (selectedFile) {
         const photoData = new FormData();
-
-        photoData.append(
-          "photo",
-          selectedFile
-        );
+        photoData.append("photo", selectedFile);
 
         const photoResponse = await fetch(
           `${API_URL}/api/photos/${goatId}`,
@@ -130,63 +103,90 @@ function AddGoat() {
           }
         );
 
-        const photoResult =
-          await photoResponse.json();
+        const photoResult = await photoResponse.json();
 
         if (!photoResponse.ok) {
-          console.error(
-            "Photo upload error:",
-            photoResult
-          );
-
-          alert(
-            "Goat was saved, but the photo could not be uploaded."
-          );
+          console.error("Photo upload error:", photoResult);
+          alert("Goat was saved, but the photo could not be uploaded.");
         }
       }
 
       alert("Goat added successfully!");
-
       navigate(`/goats/${goatId}`);
     } catch (err) {
-      console.error(
-        "Add goat error:",
-        err
-      );
-
-      alert(
-        "Database or network error."
-      );
-
+      console.error("Add goat error:", err);
+      alert("Database or network error.");
       setSaving(false);
     }
   }
 
+  const fieldStyle = {
+    display: "flex",
+    flexDirection: "column",
+    gap: "7px",
+    minWidth: 0,
+  };
+
+  const labelStyle = {
+    display: "block",
+    fontWeight: 600,
+    fontSize: "15px",
+    lineHeight: 1.3,
+    margin: 0,
+  };
+
+  const inputStyle = {
+    width: "100%",
+    minWidth: 0,
+    height: "44px",
+    padding: "9px 12px",
+    border: "1px solid #cfd6cf",
+    borderRadius: "7px",
+    background: "#fff",
+    boxSizing: "border-box",
+    fontSize: "15px",
+  };
+
+  const textareaStyle = {
+    width: "100%",
+    minWidth: 0,
+    padding: "10px 12px",
+    border: "1px solid #cfd6cf",
+    borderRadius: "7px",
+    background: "#fff",
+    boxSizing: "border-box",
+    fontSize: "15px",
+    resize: "vertical",
+    minHeight: "120px",
+  };
+
   return (
     <div
+      className="page"
       style={{
         width: "100%",
-        maxWidth: "100%",
+        maxWidth: "1200px",
+        margin: "0 auto",
+        padding: "20px",
         boxSizing: "border-box",
       }}
     >
-      {/* HEADER */}
-
       <div
         style={{
           display: "flex",
-          justifyContent:
-            "space-between",
+          justifyContent: "space-between",
           alignItems: "center",
-          gap: "15px",
-          flexWrap: "wrap",
+          gap: "20px",
           marginBottom: "25px",
+          flexWrap: "wrap",
         }}
       >
-        <div>
+        <div style={{ minWidth: 0 }}>
           <h1
             style={{
               margin: 0,
+              fontSize: "clamp(30px, 4vw, 44px)",
+              lineHeight: 1.15,
             }}
           >
             🐐 {t("addGoat")}
@@ -194,9 +194,10 @@ function AddGoat() {
 
           <p
             style={{
-              marginTop: "8px",
-              marginBottom: 0,
+              margin: "8px 0 0",
               color: "#666",
+              fontSize: "16px",
+              lineHeight: 1.5,
             }}
           >
             {t("registerNewGoat")}
@@ -206,6 +207,7 @@ function AddGoat() {
         <Link
           to="/goats"
           className="button"
+          style={{ whiteSpace: "nowrap" }}
         >
           ← {t("back")}
         </Link>
@@ -215,25 +217,28 @@ function AddGoat() {
         className="card"
         style={{
           width: "100%",
+          maxWidth: "1100px",
+          margin: "0 auto",
+          padding: "clamp(18px, 3vw, 32px)",
           boxSizing: "border-box",
         }}
       >
         <form onSubmit={handleSubmit}>
-          {/* PHOTO */}
-
-          <div
+          <section
             style={{
-              marginBottom: "30px",
+              marginBottom: "32px",
               padding: "20px",
               background: "#f7f9f7",
-              borderRadius: "12px",
               border: "1px solid #e0e5e0",
+              borderRadius: "12px",
+              boxSizing: "border-box",
             }}
           >
             <h2
               style={{
-                marginTop: 0,
-                marginBottom: "15px",
+                margin: "0 0 18px",
+                fontSize: "22px",
+                lineHeight: 1.3,
               }}
             >
               📷 {t("goatPhoto")}
@@ -241,204 +246,211 @@ function AddGoat() {
 
             <div
               style={{
-                display: "flex",
-                gap: "20px",
+                display: "grid",
+                gridTemplateColumns:
+                  "minmax(150px, 200px) minmax(0, 1fr)",
+                gap: "24px",
                 alignItems: "center",
-                flexWrap: "wrap",
               }}
             >
-              {photoPreview ? (
-                <img
-                  src={photoPreview}
-                  alt="Goat preview"
-                  style={{
-                    width: "180px",
-                    height: "180px",
-                    objectFit: "cover",
-                    borderRadius: "12px",
-                    border: "1px solid #ccc",
-                  }}
-                />
-              ) : (
-                <div
-                  style={{
-                    width: "180px",
-                    height: "180px",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    background: "#e9ece9",
-                    borderRadius: "12px",
-                    fontSize: "75px",
-                  }}
-                >
-                  🐐
-                </div>
-              )}
+              <div
+                style={{
+                  width: "100%",
+                  aspectRatio: "1 / 1",
+                  maxWidth: "200px",
+                  margin: "0 auto",
+                }}
+              >
+                {photoPreview ? (
+                  <img
+                    src={photoPreview}
+                    alt="Goat preview"
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                      borderRadius: "12px",
+                      border: "1px solid #ccc",
+                      display: "block",
+                    }}
+                  />
+                ) : (
+                  <div
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      background: "#e9ece9",
+                      borderRadius: "12px",
+                      fontSize: "70px",
+                      border: "1px solid #ddd",
+                      boxSizing: "border-box",
+                    }}
+                  >
+                    🐐
+                  </div>
+                )}
+              </div>
 
-              <div>
-                <label
-                  style={{
-                    display: "block",
-                    fontWeight: "600",
-                    marginBottom: "8px",
-                  }}
-                >
+              <div style={{ minWidth: 0 }}>
+                <label style={labelStyle}>
                   {t("selectPhoto")}
                 </label>
 
                 <input
                   type="file"
                   accept="image/*"
-                  onChange={
-                    handlePhotoChange
-                  }
-                />
-
-                <p
+                  onChange={handlePhotoChange}
                   style={{
-                    marginTop: "8px",
-                    color: "#777",
-                    fontSize: "13px",
+                    display: "block",
+                    width: "100%",
+                    maxWidth: "100%",
+                    marginTop: "10px",
+                    boxSizing: "border-box",
                   }}
-                >
-                  {t("imageFormats")}
-                </p>
+                />
               </div>
             </div>
-          </div>
+          </section>
 
-          {/* BASIC INFORMATION */}
+          <section>
+            <h2
+              style={{
+                margin: "0 0 20px",
+                fontSize: "22px",
+                lineHeight: 1.3,
+              }}
+            >
+              {t("basicInformation")}
+            </h2>
 
-          <h2>
-            {t("basicInformation")}
-          </h2>
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns:
+                  "repeat(auto-fit, minmax(min(100%, 240px), 1fr))",
+                gap: "20px",
+                width: "100%",
+              }}
+            >
+              <div style={fieldStyle}>
+                <label style={labelStyle}>{t("tag")}</label>
 
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns:
-                "repeat(auto-fit, minmax(220px, 1fr))",
-              gap: "20px",
-              width: "100%",
-              boxSizing: "border-box",
-            }}
-          >
-            <div>
-              <label>{t("tag")}</label>
+                <input
+                  type="text"
+                  name="tag"
+                  value={formData.tag}
+                  onChange={handleChange}
+                  required
+                  style={inputStyle}
+                />
+              </div>
 
-              <input
-                type="text"
-                name="tag"
-                value={formData.tag}
-                onChange={handleChange}
-                required
-              />
+              <div style={fieldStyle}>
+                <label style={labelStyle}>{t("name")}</label>
+
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
+                  style={inputStyle}
+                />
+              </div>
+
+              <div style={fieldStyle}>
+                <label style={labelStyle}>{t("breed")}</label>
+
+                <input
+                  type="text"
+                  name="breed"
+                  value={formData.breed}
+                  onChange={handleChange}
+                  style={inputStyle}
+                />
+              </div>
+
+              <div style={fieldStyle}>
+                <label style={labelStyle}>{t("sex")}</label>
+
+                <select
+                  name="sex"
+                  value={formData.sex}
+                  onChange={handleChange}
+                  style={inputStyle}
+                >
+                  <option value="Female">{t("female")}</option>
+                  <option value="Male">{t("male")}</option>
+                </select>
+              </div>
+
+              <div style={fieldStyle}>
+                <label style={labelStyle}>
+                  {t("birthDate")}
+                </label>
+
+                <input
+                  type="date"
+                  name="date_of_birth"
+                  value={formData.date_of_birth}
+                  onChange={handleChange}
+                  style={inputStyle}
+                />
+              </div>
+
+              <div style={fieldStyle}>
+                <label style={labelStyle}>
+                  {t("weight")} (kg)
+                </label>
+
+                <input
+                  type="number"
+                  name="weight"
+                  value={formData.weight}
+                  onChange={handleChange}
+                  min="0"
+                  step="0.01"
+                  placeholder="Bijv. 25"
+                  style={inputStyle}
+                />
+              </div>
+
+              <div style={fieldStyle}>
+                <label style={labelStyle}>{t("color")}</label>
+
+                <input
+                  type="text"
+                  name="color"
+                  value={formData.color}
+                  onChange={handleChange}
+                  style={inputStyle}
+                />
+              </div>
+
+              <div style={fieldStyle}>
+                <label style={labelStyle}>{t("status")}</label>
+
+                <select
+                  name="status"
+                  value={formData.status}
+                  onChange={handleChange}
+                  style={inputStyle}
+                >
+                  <option value="Healthy">{t("healthy")}</option>
+                  <option value="Sick">{t("sick")}</option>
+                  <option value="Treated">{t("treated")}</option>
+                  <option value="Sold">{t("sold")}</option>
+                  <option value="Dead">{t("dead")}</option>
+                </select>
+              </div>
             </div>
+          </section>
 
-            <div>
-              <label>{t("name")}</label>
-
-              <input
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                required
-              />
-            </div>
-
-            <div>
-              <label>{t("breed")}</label>
-
-              <input
-                type="text"
-                name="breed"
-                value={formData.breed}
-                onChange={handleChange}
-              />
-            </div>
-
-            <div>
-              <label>{t("sex")}</label>
-
-              <select
-                name="sex"
-                value={formData.sex}
-                onChange={handleChange}
-              >
-                <option value="Female">{t("female")}</option>
-
-                <option value="Male">{t("male")}</option>
-              </select>
-            </div>
-
-            <div>
-              <label>{t("birthDate")}</label>
-
-              <input
-                type="date"
-                name="date_of_birth"
-                value={
-                  formData.date_of_birth
-                }
-                onChange={handleChange}
-              />
-            </div>
-
-            <div>
-              <label>{t("weight")}</label>
-
-              <input
-                type="number"
-                name="weight"
-                value={formData.weight}
-                onChange={handleChange}
-                min="0"
-                step="0.01"
-              />
-            </div>
-
-            <div>
-              <label>{t("color")}</label>
-
-              <input
-                type="text"
-                name="color"
-                value={formData.color}
-                onChange={handleChange}
-              />
-            </div>
-
-            <div>
-              <label>{t("status")}</label>
-
-              <select
-                name="status"
-                value={formData.status}
-                onChange={handleChange}
-              >
-                <option value="Healthy">{t("healthy")}</option>
-
-                <option value="Sick">{t("sick")}</option>
-
-                <option value="Treated">{t("treated")}</option>
-
-                <option value="Sold">{t("sold")}</option>
-
-                <option value="Dead">{t("dead")}</option>
-              </select>
-            </div>
-          </div>
-
-          {/* NOTES */}
-
-          <div
-            style={{
-              marginTop: "20px",
-            }}
-          >
-            <label>{t("notes")}</label>
+          <div style={{ marginTop: "24px" }}>
+            <label style={labelStyle}>{t("notes")}</label>
 
             <textarea
               name="notes"
@@ -446,19 +458,16 @@ function AddGoat() {
               value={formData.notes}
               onChange={handleChange}
               style={{
-                width: "100%",
-                boxSizing: "border-box",
-                resize: "vertical",
+                ...textareaStyle,
+                marginTop: "7px",
               }}
             />
           </div>
 
-          {/* BUTTONS */}
-
           <div
             style={{
               display: "flex",
-              gap: "10px",
+              gap: "12px",
               flexWrap: "wrap",
               marginTop: "25px",
             }}
@@ -467,22 +476,11 @@ function AddGoat() {
               className="button"
               type="submit"
               disabled={saving}
-              style={{
-                opacity: saving ? 0.6 : 1,
-                cursor: saving
-                  ? "not-allowed"
-                  : "pointer",
-              }}
             >
-              {saving
-                ? t("saving")
-                : `💾 ${t("saveGoat")}`}
+              {saving ? t("saving") : `💾 ${t("saveGoat")}`}
             </button>
 
-            <Link
-              className="button"
-              to="/goats"
-            >
+            <Link className="button" to="/goats">
               {t("cancel")}
             </Link>
           </div>

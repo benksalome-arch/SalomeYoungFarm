@@ -135,17 +135,17 @@ function Sidebar() {
           icon: "🐇",
         },
         {
-          name: "Rabbit Litters",
+          name: t("rabbitLitters"),
           path: "/rabbit-litters",
           icon: "🐰",
         },
         {
-          name: "Rabbit Mortality",
+          name: t("rabbitMortality"),
           path: "/rabbit-mortality",
           icon: "☠️",
         },
         {
-          name: "Rabbit Vaccinations",
+          name: t("rabbitVaccinations"),
           path: "/rabbit-vaccinations",
           icon: "💉",
         },

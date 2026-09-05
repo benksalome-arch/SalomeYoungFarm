@@ -81,7 +81,7 @@ function RabbitProfile() {
           className="button"
           to="/rabbits"
         >
-          ← {t("back")} to Rabbits
+          ← {t("back")}
         </Link>
       </div>
     );
@@ -111,7 +111,7 @@ function RabbitProfile() {
       >
         <div>
           <h1>
-            🐇 {rabbit.name || "Rabbit"}
+            🐇 {rabbit.name || t("rabbit")}
           </h1>
 
           <p>
@@ -308,7 +308,7 @@ function RabbitProfile() {
           className="button"
           to="/rabbits"
         >
-          ← {t("back")} to Rabbits
+          ← {t("back")}
         </Link>
       </div>
     </div>

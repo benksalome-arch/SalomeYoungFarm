@@ -55,8 +55,8 @@ body {
 }
 
 #root {
-  width: 1126px;
-  max-width: 100%;
+  width: 100%;
+  max-width: 1126px;
   margin: 0 auto;
   text-align: center;
   border-inline: 1px solid var(--border);
@@ -108,4 +108,59 @@ code {
   line-height: 135%;
   padding: 4px 8px;
   background: var(--code-bg);
+}
+
+.vaccination-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px 28px;
+}
+
+.vaccination-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.vaccination-field label {
+  margin-bottom: 7px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+}
+
+.vaccination-field input,
+.vaccination-field select,
+.vaccination-field textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 11px 12px;
+  border: 1px solid #d4d4d4;
+  border-radius: 7px;
+  background: #fff;
+  color: #222;
+  font-size: 14px;
+  font-family: inherit;
+  outline: none;
+}
+
+.vaccination-field input:focus,
+.vaccination-field select:focus,
+.vaccination-field textarea:focus {
+  border-color: #168a35;
+  box-shadow: 0 0 0 3px rgba(22, 138, 53, 0.12);
+}
+
+.vaccination-field textarea {
+  min-height: 105px;
+  resize: vertical;
+}
+
+@media (max-width: 700px) {
+  .vaccination-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .vaccination-field[style] {
+    grid-column: auto !important;
+  }
 }

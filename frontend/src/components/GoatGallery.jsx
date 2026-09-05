@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useLanguage } from "../context/LanguageContext";
+import API_URL from "../api";
 
-const API = import.meta.env.VITE_API_URL;
+const API = API_URL;
 
 function GoatGallery({ goatId }) {
-  const { t } = useLanguage();
   const { t } = useLanguage();
   const [photos, setPhotos] = useState([]);
   const [selectedFile, setSelectedFile] = useState(null);

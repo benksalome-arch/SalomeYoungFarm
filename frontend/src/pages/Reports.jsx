@@ -1,7 +1,9 @@
 import API_URL from "../api";
 import { useEffect, useState } from "react";
+import { useLanguage } from "../context/LanguageContext";
 
 function Reports() {
+  const { t } = useLanguage();
   const [loading, setLoading] = useState(true);
 
   const [goats, setGoats] = useState([]);
@@ -276,7 +278,7 @@ function Reports() {
             overflow: "hidden",
           }}
         >
-          <h3>🐾 Total Animals</h3>
+          <h3>🐾 {t("totalAnimals")}</h3>
           <h2>{totalAnimals}</h2>
         </div>
 
@@ -288,7 +290,7 @@ function Reports() {
             overflow: "hidden",
           }}
         >
-          <h3>🌾 Feed Types</h3>
+          <h3>🌾 {t("feedTypes")}</h3>
           <h2>{feed.length}</h2>
         </div>
 
@@ -374,6 +376,272 @@ function Reports() {
         </div>
       </div>
 
+
+      {/* BUSINESS PERFORMANCE */}
+
+      <div
+        className="card"
+        style={{
+          width: "100%",
+          maxWidth: "100%",
+          boxSizing: "border-box",
+          marginBottom: "25px",
+        }}
+      >
+        <h2>📈 {t("businessPerformance")}</h2>
+
+        <p>{t("businessPerformanceDescription")}</p>
+
+        {(() => {
+          const income = totalIncome;
+          const expenses = totalExpense;
+          const result = profit;
+
+          const maxValue = Math.max(
+            income,
+            expenses,
+            Math.abs(result),
+            1
+          );
+
+          const scale = (value) =>
+            Math.max((Math.abs(value) / maxValue) * 150, value === 0 ? 0 : 8);
+
+          return (
+            <div
+              style={{
+                width: "100%",
+                height: "390px",
+                marginTop: "25px",
+                position: "relative",
+                boxSizing: "border-box",
+                padding: "0 30px",
+              }}
+            >
+              {/* ZERO LINE */}
+              <div
+                style={{
+                  position: "absolute",
+                  left: "30px",
+                  right: "30px",
+                  top: "190px",
+                  borderTop: "2px solid #444",
+                  zIndex: 1,
+                }}
+              />
+
+              {/* ZERO LABEL */}
+              <div
+                style={{
+                  position: "absolute",
+                  left: "0",
+                  top: "180px",
+                  fontSize: "13px",
+                  fontWeight: "bold",
+                  color: "#555",
+                }}
+              >
+                KES 0
+              </div>
+
+              <div
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  display: "grid",
+                  gridTemplateColumns: "repeat(3, 1fr)",
+                  columnGap: "35px",
+                }}
+              >
+
+                {/* INCOME */}
+                <div
+                  style={{
+                    position: "relative",
+                    height: "100%",
+                  }}
+                >
+                  <div
+                    style={{
+                      position: "absolute",
+                      bottom: "200px",
+                      left: "50%",
+                      transform: "translateX(-50%)",
+                      width: "70%",
+                      maxWidth: "180px",
+                      height: `${scale(income)}px`,
+                      background: "#1565c0",
+                      borderRadius: "8px 8px 0 0",
+                    }}
+                  />
+
+                  <div
+                    style={{
+                      position: "absolute",
+                      bottom: `${205 + scale(income)}px`,
+                      width: "100%",
+                      textAlign: "center",
+                      fontWeight: "bold",
+                      color: "#1565c0",
+                    }}
+                  >
+                    KES {income.toLocaleString()}
+                  </div>
+
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: "202px",
+                      width: "100%",
+                      textAlign: "center",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    {t("totalIncome")}
+                  </div>
+                </div>
+
+                {/* EXPENSES */}
+                <div
+                  style={{
+                    position: "relative",
+                    height: "100%",
+                  }}
+                >
+                  <div
+                    style={{
+                      position: "absolute",
+                      bottom: "200px",
+                      left: "50%",
+                      transform: "translateX(-50%)",
+                      width: "70%",
+                      maxWidth: "180px",
+                      height: `${scale(expenses)}px`,
+                      background: "#d32f2f",
+                      borderRadius: "8px 8px 0 0",
+                    }}
+                  />
+
+                  <div
+                    style={{
+                      position: "absolute",
+                      bottom: `${205 + scale(expenses)}px`,
+                      width: "100%",
+                      textAlign: "center",
+                      fontWeight: "bold",
+                      color: "#d32f2f",
+                    }}
+                  >
+                    KES {expenses.toLocaleString()}
+                  </div>
+
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: "202px",
+                      width: "100%",
+                      textAlign: "center",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    {t("totalExpenses")}
+                  </div>
+                </div>
+
+                {/* PROFIT / LOSS */}
+                <div
+                  style={{
+                    position: "relative",
+                    height: "100%",
+                  }}
+                >
+
+                  {result >= 0 ? (
+                    <>
+                      {/* PROFIT BAR UPWARD */}
+                      <div
+                        style={{
+                          position: "absolute",
+                          bottom: "200px",
+                          left: "50%",
+                          transform: "translateX(-50%)",
+                          width: "70%",
+                          maxWidth: "180px",
+                          height: `${scale(result)}px`,
+                          background: "#2e7d32",
+                          borderRadius: "8px 8px 0 0",
+                        }}
+                      />
+
+                      <div
+                        style={{
+                          position: "absolute",
+                          bottom: `${205 + scale(result)}px`,
+                          width: "100%",
+                          textAlign: "center",
+                          fontWeight: "bold",
+                          color: "#2e7d32",
+                        }}
+                      >
+                        {t("profit")}: KES {result.toLocaleString()}
+                      </div>
+
+                      <div
+                        style={{
+                          position: "absolute",
+                          top: "202px",
+                          width: "100%",
+                          textAlign: "center",
+                          fontWeight: "bold",
+                          color: "#2e7d32",
+                        }}
+                      >
+                        {t("profit")}
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      {/* LOSS BAR DOWNWARD */}
+                      <div
+                        style={{
+                          position: "absolute",
+                          top: "200px",
+                          left: "50%",
+                          transform: "translateX(-50%)",
+                          width: "70%",
+                          maxWidth: "180px",
+                          height: `${scale(result)}px`,
+                          background: "#d32f2f",
+                          borderRadius: "0 0 8px 8px",
+                        }}
+                      />
+
+                      <div
+                        style={{
+                          position: "absolute",
+                          top: `${205 + scale(result)}px`,
+                          left: "50%",
+                          transform: "translateX(-50%)",
+                          width: "100%",
+                          textAlign: "center",
+                          fontWeight: "bold",
+                          color: "#d32f2f",
+                        }}
+                      >
+                        {t("loss")}: KES {Math.abs(result).toLocaleString()}
+                      </div>
+                    </>
+                  )}
+
+                </div>
+
+              </div>
+            </div>
+          );
+        })()}
+      </div>
+
+
       {/* FINANCIAL TRANSACTIONS */}
 
       <div
@@ -387,7 +655,7 @@ function Reports() {
           marginBottom: "25px",
         }}
       >
-        <h2>💵 Financial Transactions</h2>
+        <h2>💵 {t("financialTransactions")}</h2>
 
         <div
           style={{
@@ -416,7 +684,7 @@ function Reports() {
                     whiteSpace: "nowrap",
                   }}
                 >
-                  Date
+                  {t("date")}
                 </th>
 
                 <th
@@ -427,7 +695,7 @@ function Reports() {
                     whiteSpace: "nowrap",
                   }}
                 >
-                  Type
+                  {t("type")}
                 </th>
 
                 <th
@@ -438,7 +706,7 @@ function Reports() {
                     whiteSpace: "nowrap",
                   }}
                 >
-                  Category
+                  {t("category")}
                 </th>
 
                 <th
@@ -449,7 +717,7 @@ function Reports() {
                     whiteSpace: "nowrap",
                   }}
                 >
-                  Description
+                  {t("description")}
                 </th>
 
                 <th
@@ -460,7 +728,7 @@ function Reports() {
                     whiteSpace: "nowrap",
                   }}
                 >
-                  Amount
+                  {t("amount")}
                 </th>
 
                 <th
@@ -471,7 +739,7 @@ function Reports() {
                     whiteSpace: "nowrap",
                   }}
                 >
-                  Payment
+                  {t("paymentMethod")}
                 </th>
               </tr>
             </thead>
@@ -486,8 +754,7 @@ function Reports() {
                       padding: "30px 10px",
                     }}
                   >
-                    No financial transactions
-                    found.
+                    {t("noFinancialTransactions")}
                   </td>
                 </tr>
               ) : (
@@ -521,8 +788,11 @@ function Reports() {
                           "nowrap",
                       }}
                     >
-                      {transaction.type ||
-                        "-"}
+                      {transaction.type === "Income"
+                        ? t("income")
+                        : transaction.type === "Expense"
+                        ? t("expense")
+                        : transaction.type || "-"}
                     </td>
 
                     <td
@@ -590,8 +860,9 @@ function Reports() {
                         ""
                       }
                     >
-                      {transaction.payment_method ||
-                        "-"}
+                      {transaction.payment_method === "Cash"
+                        ? t("cash")
+                        : transaction.payment_method || "-"}
                     </td>
                   </tr>
                 ))
@@ -613,7 +884,7 @@ function Reports() {
           overflow: "hidden",
         }}
       >
-        <h2>🐾 Animal Summary</h2>
+        <h2>🐾 {t("animalSummary")}</h2>
 
         <table
           className="table"
@@ -635,7 +906,7 @@ function Reports() {
                   whiteSpace: "nowrap",
                 }}
               >
-                Animal
+                {t("animal")}
               </th>
 
               <th
@@ -646,7 +917,7 @@ function Reports() {
                   whiteSpace: "nowrap",
                 }}
               >
-                Total Records
+                {t("totalRecords")}
               </th>
             </tr>
           </thead>
@@ -670,7 +941,7 @@ function Reports() {
             <tr>
               <td>
                 <strong>
-                  Total Animals
+                  {t("totalAnimals")}
                 </strong>
               </td>
 

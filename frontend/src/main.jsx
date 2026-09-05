@@ -7,6 +7,7 @@ import { AuthProvider } from "./context/AuthContext";
 import { LanguageProvider } from "./context/LanguageContext";
 
 import "./index.css";
+import "./mobile.css";
 import "./styles/layout.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(

@@ -7,13 +7,6 @@ function Workers() {
   const { t } = useLanguage();
   const [workers, setWorkers] = useState([]);
 
-  const user = JSON.parse(
-    localStorage.getItem("user") || "null"
-  );
-
-  const isAdmin =
-    String(user?.role || "").toLowerCase() === "admin";
-
   useEffect(() => {
     loadWorkers();
   }, []);
@@ -99,11 +92,9 @@ function Workers() {
         >
           <h2>{t("workers")}</h2>
 
-          {isAdmin && (
-            <Link className="button" to="/workers/add">
-              ➕ {t("addWorker")}
-            </Link>
-          )}
+          <Link className="button" to="/workers/add">
+            ➕ {t("addWorker")}
+          </Link>
         </div>
 
         <table
@@ -191,8 +182,6 @@ function Workers() {
                         width: "100%",
                       }}
                     >
-                      {isAdmin && (
-                        <>
                       {/* EDIT */}
                       <Link
                         to={`/workers/edit/${worker.id}`}
@@ -256,8 +245,6 @@ function Workers() {
                       >
                         🗑️
                       </button>
-                        </>
-                      )}
                     </div>
                   </td>
                 </tr>

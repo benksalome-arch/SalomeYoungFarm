@@ -67,141 +67,139 @@ function AddRabbit() {
 
   return (
     <div className="page">
-
       <div className="page-header">
         <h1>🐇 {t("addRabbit")}</h1>
       </div>
 
       <div className="card">
-
         <form onSubmit={handleSubmit}>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px" }}>
 
-          <label>{t("tagNumber")}</label>
-          <input
-            type="text"
-            name="tag_number"
-            value={formData.tag_number}
-            onChange={handleChange}
-            required
-          />
+            <div>
+              <label>{t("tagNumber")}</label>
+              <input
+                type="text"
+                name="tag_number"
+                value={formData.tag_number}
+                onChange={handleChange}
+                required
+              />
+            </div>
 
-          <br /><br />
+            <div>
+              <label>{t("name")}</label>
+              <input
+                type="text"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+              />
+            </div>
 
-          <label>{t("name")}</label>
-          <input
-            type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-          />
+            <div>
+              <label>{t("breed")}</label>
+              <input
+                type="text"
+                name="breed"
+                value={formData.breed}
+                onChange={handleChange}
+                required
+              />
+            </div>
 
-          <br /><br />
+            <div>
+              <label>{t("sex")}</label>
+              <select
+                name="sex"
+                value={formData.sex}
+                onChange={handleChange}
+              >
+                <option value="Female">{t("female")}</option>
+                <option value="Male">{t("male")}</option>
+              </select>
+            </div>
 
-          <label>{t("breed")}</label>
-          <input
-            type="text"
-            name="breed"
-            value={formData.breed}
-            onChange={handleChange}
-            required
-          />
+            <div>
+              <label>{t("birthDate")}</label>
+              <input
+                type="date"
+                name="birth_date"
+                value={formData.birth_date}
+                onChange={handleChange}
+              />
+            </div>
 
-          <br /><br />
+            <div>
+              <label>{t("source")}</label>
+              <input
+                type="text"
+                name="source"
+                value={formData.source}
+                onChange={handleChange}
+              />
+            </div>
 
-          <label>{t("sex")}</label>
-          <select
-            name="sex"
-            value={formData.sex}
-            onChange={handleChange}
-          >
-            <option value="Female">{t("female")}</option>
-            <option value="Male">{t("male")}</option>
-          </select>
+            <div>
+              <label>{t("quantity")}</label>
+              <input
+                type="number"
+                min="1"
+                name="quantity"
+                value={formData.quantity}
+                onChange={handleChange}
+                required
+              />
+            </div>
 
-          <br /><br />
+            <div>
+              <label>{t("status")}</label>
+              <select
+                name="status"
+                value={formData.status}
+                onChange={handleChange}
+              >
+                <option value="Active">{t("active")}</option>
+                <option value="Sold">{t("sold")}</option>
+                <option value="Dead">{t("dead")}</option>
+              </select>
+            </div>
 
-          <label>{t("birthDate")}</label>
-          <input
-            type="date"
-            name="birth_date"
-            value={formData.birth_date}
-            onChange={handleChange}
-          />
+            <div>
+              <label>{t("purchasePrice")}</label>
+              <input
+                type="number"
+                step="0.01"
+                min="0"
+                name="purchase_price"
+                value={formData.purchase_price}
+                onChange={handleChange}
+                placeholder="0.00"
+              />
+            </div>
 
-          <br /><br />
+            <div style={{ gridColumn: "1 / -1" }}>
+              <label>{t("notes")}</label>
+              <textarea
+                name="notes"
+                rows="4"
+                value={formData.notes}
+                onChange={handleChange}
+              />
+            </div>
 
-          <label>{t("source")}</label>
-          <input
-            type="text"
-            name="source"
-            value={formData.source}
-            onChange={handleChange}
-          />
+          </div>
 
-          <br /><br />
-
-          <label>{t("quantity")}</label>
-          <input
-            type="number"
-            min="1"
-            name="quantity"
-            value={formData.quantity}
-            onChange={handleChange}
-            required
-          />
-
-          <br /><br />
-
-          <label>{t("status")}</label>
-          <select
-            name="status"
-            value={formData.status}
-            onChange={handleChange}
-          >
-            <option value="Active">{t("active")}</option>
-            <option value="Sold">{t("sold")}</option>
-            <option value="Dead">{t("dead")}</option>
-          </select>
-
-          <br /><br />
-
-          <label>{t("purchasePrice")}</label>
-          <input
-            type="number"
-            step="0.01"
-            min="0"
-            name="purchase_price"
-            value={formData.purchase_price}
-            onChange={handleChange}
-            placeholder="0.00"
-          />
-
-          <br /><br />
-
-          <label>{t("notes")}</label>
-          <textarea
-            name="notes"
-            rows="4"
-            value={formData.notes}
-            onChange={handleChange}
-          />
-
-          <br /><br />
-
-          <div style={{ display: "flex", gap: "10px" }}>
+          <div style={{ display: "flex", gap: "10px", marginTop: "20px" }}>
             <button className="button" type="submit">
               💾 {t("save")}
             </button>
 
             <Link className="button" to="/rabbits">
-              Cancel
+              {t("cancel")}
             </Link>
           </div>
-
         </form>
-
       </div>
-
     </div>
   );
 }

@@ -1,0 +1,215 @@
+/* =========================================================
+  SALOME YOUNG FARM - MOBILE RESPONSIVE LAYOUT
+   ========================================================= */
+
+html,
+body,
+#root {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Prevent large content from forcing the page wider */
+img,
+svg,
+video,
+canvas {
+  max-width: 100%;
+}
+
+/* Tables remain usable on small screens */
+table {
+  max-width: 100%;
+}
+
+@media (max-width: 768px) {
+
+  body {
+    width: 100%;
+    overflow-x: hidden;
+  }
+
+  #root {
+    width: 100%;
+    min-width: 0;
+    overflow-x: hidden;
+  }
+
+  /* Main page containers */
+  main,
+  section,
+  article,
+  .card {
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  /* Forms */
+  form {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  input,
+  select,
+  textarea,
+  button {
+    max-width: 100%;
+    font-size: 16px;
+  }
+
+  input,
+  select,
+  textarea {
+    width: 100%;
+  }
+
+  /* Prevent fixed-width elements from breaking the phone layout */
+  [style*="minWidth: 620px"],
+  [style*="min-width: 620px"],
+  [style*="width: 620px"] {
+    min-width: 0 !important;
+    width: 100% !important;
+  }
+
+  /* Tables can scroll inside their own area */
+  .table-container,
+  .table-wrapper,
+  .data-table-container {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  table {
+    width: 100%;
+  }
+
+  /* Stack common horizontal layouts */
+  .mobile-stack {
+    flex-direction: column !important;
+  }
+
+  /* Keep cards inside the screen */
+  .card {
+    width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    overflow-x: hidden;
+  }
+
+  /* Reports/charts */
+  .recharts-responsive-container {
+    max-width: 100%;
+  }
+
+  /* Make headings fit */
+  h1,
+  h2,
+  h3 {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+  }
+}
+
+/* Very small phones */
+@media (max-width: 480px) {
+
+  body {
+    font-size: 14px;
+  }
+
+  .card {
+    padding: 12px !important;
+  }
+
+  h1 {
+    font-size: 24px;
+  }
+
+  h2 {
+    font-size: 20px;
+  }
+
+  h3 {
+    font-size: 18px;
+  }
+
+  button {
+    min-height: 44px;
+  }
+}
+
+/* =========================================================
+   FINAL MOBILE WIDTH PROTECTION
+   Prevent fixed-width page elements from creating
+   horizontal scrolling on phones.
+   ========================================================= */
+
+@media (max-width: 768px) {
+  [style*="minWidth"],
+  [style*="min-width"] {
+    min-width: 0 !important;
+  }
+
+  [style*="width: 680px"],
+  [style*="width: 700px"],
+  [style*="width: 720px"],
+  [style*="width: 760px"],
+  [style*="width: 800px"],
+  [style*="width: 820px"],
+  [style*="width: 850px"],
+  [style*="width: 900px"],
+  [style*="width: 1100px"],
+  [style*="width: 1200px"] {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  [style*="minWidth: 680px"],
+  [style*="minWidth: 700px"],
+  [style*="minWidth: 720px"],
+  [style*="minWidth: 760px"],
+  [style*="minWidth: 800px"],
+  [style*="minWidth: 820px"],
+  [style*="minWidth: 850px"],
+  [style*="minWidth: 900px"] {
+    min-width: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  body,
+  #root,
+  #root > div,
+  main {
+    max-width: 100vw !important;
+    overflow-x: hidden !important;
+  }
+}
+
+/* MOBILE OVERFLOW DIAGNOSTIC */
+@media (max-width: 768px) {
+  * {
+    max-width: 100% !important;
+  }
+
+  html,
+  body,
+  #root {
+    width: 100% !important;
+    max-width: 100vw !important;
+    overflow-x: hidden !important;
+  }
+}

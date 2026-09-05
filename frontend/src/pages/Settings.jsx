@@ -1,10 +1,9 @@
 import { useState } from "react";
-import API_URL from "../api";
 import { useLanguage } from "../context/LanguageContext";
+import API_URL from "../api";
 
 function Settings() {
-  const { t } = useLanguage();
-  const { language, setLanguage } = useLanguage();
+  const { t, language, setLanguage } = useLanguage();
   const [profile, setProfile] = useState({
     name: "",
     email: "",
@@ -162,9 +161,7 @@ function Settings() {
   }
 
   function dataManagement() {
-    alert(
-      "Data management will be connected after the system's final data structure is complete."
-    );
+    alert(t("dataManagementPending"));
   }
 
   return (
@@ -181,18 +178,30 @@ function Settings() {
 
       <div
         style={{
+          width: "100%",
+          maxWidth: "850px",
           marginBottom: "25px",
+          boxSizing: "border-box",
         }}
       >
         <h1
           style={{
-            margin: 0,
+            margin: "0 0 8px 0",
+            fontSize: "32px",
+            lineHeight: "1.2",
+            fontWeight: "700",
           }}
         >
           ⚙️ {t("settings")}
         </h1>
 
-        <p>
+        <p
+          style={{
+            margin: 0,
+            fontSize: "16px",
+            lineHeight: "1.5",
+          }}
+        >
           {t("settingsDescription")}
         </p>
       </div>
@@ -211,7 +220,7 @@ function Settings() {
         <h2>👤 {t("profile")}</h2>
 
         <p>
-          Manage your personal account information.
+          {t("profileDescription")}
         </p>
 
         <form onSubmit={saveProfile}>
@@ -268,7 +277,7 @@ function Settings() {
                   fontSize: "13px",
                 }}
               >
-                📷 Change Photo
+                📷 {t("changePhoto")}
               </label>
 
               <input
@@ -296,7 +305,7 @@ function Settings() {
                   fontWeight: "600",
                 }}
               >
-                Full Name
+                {t("fullName")}
               </label>
 
               <input
@@ -321,7 +330,7 @@ function Settings() {
                   fontWeight: "600",
                 }}
               >
-                Email / Username
+                {t("emailUsername")}
               </label>
 
               <input
@@ -351,7 +360,7 @@ function Settings() {
               className="button"
               type="submit"
             >
-              💾 Save Profile
+              💾 {t("saveProfile")}
             </button>
           </div>
         </form>
@@ -368,10 +377,10 @@ function Settings() {
           marginBottom: "20px",
         }}
       >
-        <h2>🔐 Change Password</h2>
+        <h2>🔐 {t("changePassword")}</h2>
 
         <p>
-          Change your account password securely.
+          {t("changePasswordDescription")}
         </p>
 
         <form
@@ -389,7 +398,7 @@ function Settings() {
               fontWeight: "600",
             }}
           >
-            Current Password
+            {t("currentPassword")}
           </label>
 
           <input
@@ -414,7 +423,7 @@ function Settings() {
               fontWeight: "600",
             }}
           >
-            New Password
+            {t("newPassword")}
           </label>
 
           <input
@@ -439,7 +448,7 @@ function Settings() {
               fontWeight: "600",
             }}
           >
-            Confirm New Password
+            {t("confirmNewPassword")}
           </label>
 
           <input
@@ -490,8 +499,8 @@ function Settings() {
             disabled={changingPassword}
           >
             {changingPassword
-              ? "Changing Password..."
-              : "🔐 Change Password"}
+              ? t("changingPassword")
+              : <>🔐 {t("changePassword")}</>}
           </button>
         </form>
       </div>
@@ -510,7 +519,7 @@ function Settings() {
         <h2>🏡 {t("farmInformation")}</h2>
 
         <p>
-          Manage the basic information for your farm.
+          {t("farmInformationDescription")}
         </p>
 
         <form onSubmit={saveFarm}>
@@ -522,7 +531,7 @@ function Settings() {
               fontWeight: "600",
             }}
           >
-            Farm Name
+            {t("farmName")}
           </label>
 
           <input
@@ -547,7 +556,7 @@ function Settings() {
               fontWeight: "600",
             }}
           >
-            Location
+            {t("location")}
           </label>
 
           <input
@@ -572,7 +581,7 @@ function Settings() {
               fontWeight: "600",
             }}
           >
-            Contact Phone
+            {t("contactPhone")}
           </label>
 
           <input
@@ -593,7 +602,7 @@ function Settings() {
             className="button"
             type="submit"
           >
-            💾 Save Farm Information
+            💾 {t("saveFarmInformation")}
           </button>
         </form>
       </div>
@@ -612,7 +621,7 @@ function Settings() {
         <h2>⚙️ {t("preferences")}</h2>
 
         <p>
-          Manage your Livestock Pro preferences.
+          {t("preferencesDescription")}
         </p>
 
         <div
@@ -679,7 +688,7 @@ function Settings() {
         <h2>🗄️ {t("dataManagement")}</h2>
 
         <p>
-          Manage test and application data.
+          {t("dataManagementDescription")}
         </p>
 
         <div
@@ -690,16 +699,14 @@ function Settings() {
             borderRadius: "8px",
           }}
         >
-          <strong>⚠️ Test Data</strong>
+          <strong>⚠️ {t("testData")}</strong>
 
           <p
             style={{
               margin: "8px 0 15px",
             }}
           >
-            Data cleanup and reset tools will be available
-            here. These options should only be used when you
-            intentionally want to remove test data.
+            {t("testDataDescription")}
           </p>
 
           <button
@@ -711,7 +718,7 @@ function Settings() {
               color: "white",
             }}
           >
-            🗑️ Data Management
+            🗑️ {t("dataManagement")}
           </button>
         </div>
       </div>

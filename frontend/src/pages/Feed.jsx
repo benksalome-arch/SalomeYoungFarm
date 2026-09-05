@@ -42,15 +42,15 @@ function Feed() {
       const data = await response.json();
 
       if (!response.ok) {
-        alert(data.message || "Failed to delete feed.");
+        alert(data.message || t("failedDeleteFeed"));
         return;
       }
 
-      alert(data.message || "Feed deleted successfully.");
+      alert(data.message || t("feedDeleted"));
       loadFeeds();
     } catch (err) {
       console.error(err);
-      alert("Failed to delete feed.");
+      alert(t("failedDeleteFeed"));
     }
   }
 
@@ -308,13 +308,13 @@ function Feed() {
                 </th>
                 <th>{t("supplier")}</th>
                 <th style={{ textAlign: "center" }}>
-                  Cost/{t("unit")}
+                  {t("costPerUnit")} / {t("unit")}
                 </th>
                 <th style={{ textAlign: "center" }}>
                   Status
                 </th>
                 <th style={{ textAlign: "center" }}>
-                  Actions
+                  {t("actions")}
                 </th>
               </tr>
             </thead>
@@ -378,8 +378,8 @@ function Feed() {
                           }}
                         >
                           {isLow
-                            ? "🔴 Low"
-                            : "🟢 OK"}
+                            ? `🔴 ${t("lowStock")}`
+                            : `🟢 ${t("stockOk")}`}
                         </span>
                       </td>
 
@@ -502,7 +502,7 @@ function Feed() {
 
                     <div className="feed-info-box">
                       <span className="feed-info-label">
-                        Cost / {t("unit")}
+                        {t("costPerUnit")} / {t("unit")}
                       </span>
 
                       <div className="feed-info-value">

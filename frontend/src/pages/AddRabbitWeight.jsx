@@ -162,7 +162,7 @@ function AddRabbitWeight() {
           className="button"
           to="/rabbits"
         >
-          ← {t("back")} to Rabbits
+          ← {t("back")}
         </Link>
       </div>
     );
@@ -191,7 +191,7 @@ function AddRabbitWeight() {
           <p>
             Record a new weight for{" "}
             <strong>
-              {rabbit.name || "Rabbit"}
+              {rabbit.name || t("rabbit")}
             </strong>{" "}
             ({rabbit.tag_number})
           </p>
@@ -201,7 +201,7 @@ function AddRabbitWeight() {
           className="button"
           to={`/rabbits/${id}/weight`}
         >
-          ← {t("back")} to Weight History
+          ← {t("back")}
         </Link>
       </div>
 
@@ -224,7 +224,7 @@ function AddRabbitWeight() {
             <input
               type="text"
               value={`${rabbit.tag_number} - ${
-                rabbit.name || "Rabbit"
+                rabbit.name || t("rabbit")
               }`}
               disabled
               style={{

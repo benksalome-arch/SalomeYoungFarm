@@ -122,7 +122,7 @@ function RabbitVaccinations() {
           <h1>💉 {t("rabbitVaccinations")}</h1>
 
           <p>
-            Manage rabbit vaccination records.
+            {t("rabbitVaccinationDescription")}
           </p>
         </div>
 
@@ -137,14 +137,14 @@ function RabbitVaccinations() {
             className="button"
             to="/rabbit-vaccinations/add"
           >
-            ➕ Record Vaccination
+            ➕ {t("recordVaccination")}
           </Link>
 
           <Link
             className="button"
             to="/rabbits"
           >
-            ← {t("back")} to Rabbits
+            ← {t("back")}
           </Link>
         </div>
       </div>
@@ -186,7 +186,7 @@ function RabbitVaccinations() {
                   fontSize: "13px",
                 }}
               >
-                Date
+                {t("date")}
               </th>
 
               <th
@@ -195,7 +195,7 @@ function RabbitVaccinations() {
                   fontSize: "13px",
                 }}
               >
-                Tag
+                {t("tag")}
               </th>
 
               <th
@@ -204,7 +204,7 @@ function RabbitVaccinations() {
                   fontSize: "13px",
                 }}
               >
-                Name
+                {t("name")}
               </th>
 
               <th
@@ -213,7 +213,7 @@ function RabbitVaccinations() {
                   fontSize: "13px",
                 }}
               >
-                Vaccine
+                {t("vaccine")}
               </th>
 
               <th
@@ -222,7 +222,7 @@ function RabbitVaccinations() {
                   fontSize: "13px",
                 }}
               >
-                Next Due
+                {t("nextDueDate")}
               </th>
 
               <th
@@ -232,7 +232,7 @@ function RabbitVaccinations() {
                   textAlign: "center",
                 }}
               >
-                Actions
+                {t("actions")}
               </th>
             </tr>
           </thead>
@@ -247,7 +247,7 @@ function RabbitVaccinations() {
                     padding: "30px",
                   }}
                 >
-                  Loading vaccination records...
+                  {t("loadingVaccinationRecords")}
                 </td>
               </tr>
             ) : records.length === 0 ? (
@@ -259,7 +259,7 @@ function RabbitVaccinations() {
                     padding: "30px",
                   }}
                 >
-                  No vaccination records found.
+                  {t("noVaccinationRecords")}
                 </td>
               </tr>
             ) : (
@@ -342,7 +342,7 @@ function RabbitVaccinations() {
                         fontSize: "12px",
                       }}
                     >
-                      🗑 Delete
+                      🗑 {t("delete")}
                     </button>
                   </td>
                 </tr>

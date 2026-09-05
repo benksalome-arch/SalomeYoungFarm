@@ -93,7 +93,7 @@ function GoatProfile() {
         <div>
           <h1>🐐 {goat.name}</h1>
           <p style={{ color: "#666" }}>
-            {t("goatProfile")}
+            Goat Profile
           </p>
         </div>
 
@@ -168,7 +168,7 @@ function GoatProfile() {
               className="button"
               onClick={uploadPhoto}
             >
-              {t("upload")}
+              Upload
             </button>
 
             <button
@@ -178,7 +178,7 @@ function GoatProfile() {
               }}
               onClick={deletePhoto}
             >
-              {t("delete")}
+              Delete
             </button>
           </div>
 
@@ -204,7 +204,7 @@ function GoatProfile() {
 
               <tr>
                 <td>{t("status")}</td>
-                <td>{goat.status === "Healthy" ? t("healthy") : goat.status}</td>
+                <td>{goat.status}</td>
               </tr>
 
               <tr>
@@ -214,7 +214,7 @@ function GoatProfile() {
 
               <tr>
                 <td>{t("sex")}</td>
-                <td>{goat.sex === "Female" ? t("female") : goat.sex === "Male" ? t("male") : goat.sex}</td>
+                <td>{goat.sex}</td>
               </tr>
             </tbody>
           </table>
@@ -247,7 +247,7 @@ function GoatProfile() {
 
               <tr>
                 <td><strong>{t("sex")}</strong></td>
-                <td>{goat.sex === "Female" ? t("female") : goat.sex === "Male" ? t("male") : goat.sex}</td>
+                <td>{goat.sex}</td>
               </tr>
 
               <tr>
@@ -303,33 +303,33 @@ function GoatProfile() {
               className="button"
               to={`/goats/edit/${goat.id}`}
             >
-              ✏ {t("editGoat")}
+              ✏ Edit Goat
             </Link>
 
             <Link
               className="button"
               to={`/goats/${goat.id}/health`}
             >
-              💉 {t("health")}
+              💉 Health
             </Link>
 
             <Link
               className="button"
               to={`/goats/${goat.id}/weight`}
             >
-              ⚖ {t("weight")}
+              ⚖ Weight
             </Link>
 
             <button className="button">
-              🧬 {t("breeding")}
+              🧬 Breeding
             </button>
 
             <button className="button">
-              🐐 {t("kids")}
+              🐐 Kids
             </button>
 
             <button className="button">
-              🖨 {t("print")}
+              🖨 Print
             </button>
           </div>
         </div>

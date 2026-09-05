@@ -66,7 +66,7 @@ function Login() {
 
   const t = text[language];
 
-  const [email, setEmail] = useState("");
+  const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
@@ -84,7 +84,7 @@ function Login() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          email,
+          identifier,
           password,
         }),
       });
@@ -267,14 +267,16 @@ function Login() {
                 color: "#26332a",
               }}
             >
-              {t.email}
+              Email / Phone Number
             </label>
 
             <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder={t.emailPlaceholder}
+              type="text"
+              value={identifier}
+              onChange={(e) => setIdentifier(e.target.value)}
+              placeholder="Enter email or phone number"
+              inputMode="text"
+              autoComplete="username"
               autoComplete="email"
               required
               style={{

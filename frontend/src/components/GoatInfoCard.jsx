@@ -1,8 +1,10 @@
+import { useLanguage } from "../context/LanguageContext";
 function GoatInfoCard({ goat }) {
+  const { t } = useLanguage();
   return (
     <div className="card">
 
-      <h2>🐐 Goat Information</h2>
+      <h2>🐐 {t("goatInformation")}</h2>
 
       <table className="table">
 
@@ -14,7 +16,7 @@ function GoatInfoCard({ goat }) {
           </tr>
 
           <tr>
-            <td><strong>Name</strong></td>
+            <td><strong>{t("name")}</strong></td>
             <td>{goat.name}</td>
           </tr>
 
@@ -44,7 +46,7 @@ function GoatInfoCard({ goat }) {
           </tr>
 
           <tr>
-            <td><strong>Status</strong></td>
+            <td><strong>{t("status")}</strong></td>
             <td>{goat.status}</td>
           </tr>
 
@@ -54,12 +56,12 @@ function GoatInfoCard({ goat }) {
           </tr>
 
           <tr>
-            <td><strong>Mother Tag</strong></td>
+            <td><strong>{t("motherTag")}</strong></td>
             <td>{goat.mother_tag || "-"}</td>
           </tr>
 
           <tr>
-            <td><strong>Purchase Price</strong></td>
+            <td><strong>{t("purchasePrice")}</strong></td>
             <td>
               {goat.purchase_price
                 ? `KES ${Number(goat.purchase_price).toLocaleString()}`

@@ -205,7 +205,7 @@ function AddRabbitBreeding() {
           className="button"
           to={`/rabbits/${id}/breeding`}
         >
-          ← {t("back")} to Breeding
+          ← {t("back")}
         </Link>
       </div>
 

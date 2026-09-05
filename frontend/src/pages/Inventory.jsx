@@ -128,7 +128,7 @@ function Inventory() {
               marginBottom: 0,
             }}
           >
-            Manage all farm inventory.
+            {t("manageAllFarmInventory")}
           </p>
         </div>
 
@@ -140,7 +140,7 @@ function Inventory() {
             flexShrink: 0,
           }}
         >
-          ➕ Add Item
+          ➕ {t("addItem")}
         </Link>
       </div>
 

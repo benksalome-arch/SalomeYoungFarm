@@ -11,7 +11,7 @@ function AddRabbitMortality() {
 
   const [formData, setFormData] = useState({
     rabbit_id: "",
-    mortality_date: new Date().toISOString().split("T")[0],
+    mortality_date: "",
     quantity: 1,
     cause: "",
     notes: "",
@@ -155,8 +155,7 @@ function AddRabbitMortality() {
           <h1>☠️ {t("recordRabbitMortality")}</h1>
 
           <p>
-            Record a rabbit death and automatically
-            update the rabbit quantity.
+            {t("rabbitMortalityDescription")}
           </p>
         </div>
 
@@ -172,170 +171,169 @@ function AddRabbitMortality() {
 
       <div className="card">
         <form onSubmit={handleSubmit}>
-
-          {/* Rabbit */}
-
-          <label>{t("rabbit")}</label>
-
-          <select
-            name="rabbit_id"
-            value={formData.rabbit_id}
-            onChange={handleChange}
-            required
-          >
-            <option value="">
-              Select Rabbit
-            </option>
-
-            {rabbits.map((rabbit) => (
-              <option
-                key={rabbit.id}
-                value={rabbit.id}
-              >
-                {rabbit.tag_number} -{" "}
-                {rabbit.name || t("rabbit")}{" "}
-                ({Number(rabbit.quantity || 0)} {t("available")})
-              </option>
-            ))}
-          </select>
-
-          {/* Availability warning */}
-
-          {rabbitUnavailable && (
-            <p
-              style={{
-                color: "#b71c1c",
-                fontWeight: "bold",
-                marginTop: "8px",
-              }}
-            >
-              ⚠️ {selectedRabbit.name || t("thisRabbit")} has
-              {t("mortalityUnavailable")}
-            </p>
-          )}
-
-          {selectedRabbit &&
-            availableQuantity > 0 && (
-              <p
-                style={{
-                  color: "#2E7D32",
-                  fontWeight: "bold",
-                  marginTop: "8px",
-                }}
-              >
-                ✅ {availableQuantity} {t("rabbit")} {t("available")}
-                for mortality recording.
-              </p>
-            )}
-
-          <br />
-
-          {/* Date */}
-
-          <label>{t("mortalityDate")}</label>
-
-          <input
-            type="date"
-            name="mortality_date"
-            value={formData.mortality_date}
-            onChange={handleChange}
-            required
-          />
-
-          <br />
-          <br />
-
-          {/* Quantity */}
-
-          <label>{t("quantity")}</label>
-
-          <input
-            type="number"
-            min="1"
-            max={
-              availableQuantity > 0
-                ? availableQuantity
-                : undefined
-            }
-            name="quantity"
-            value={formData.quantity}
-            onChange={handleChange}
-            required
-          />
-
-          {quantityTooHigh && (
-            <p
-              style={{
-                color: "#b71c1c",
-                fontWeight: "bold",
-                marginTop: "8px",
-              }}
-            >
-              ⚠️ {t("quantityCannotExceed")}{" "}
-              {availableQuantity} {t("available")}.
-            </p>
-          )}
-
-          {invalidQuantity && (
-            <p
-              style={{
-                color: "#b71c1c",
-                fontWeight: "bold",
-                marginTop: "8px",
-              }}
-            >
-              ⚠️ {t("quantityMustBeGreaterThanZero")}
-            </p>
-          )}
-
-          <br />
-
-          {/* Cause */}
-
-          <label>{t("cause")}</label>
-
-          <input
-            type="text"
-            name="cause"
-            value={formData.cause}
-            onChange={handleChange}
-            placeholder={t("mortalityReasonExample")}
-          />
-
-          <br />
-          <br />
-
-          {/* Notes */}
-
-          <label>{t("notes")}</label>
-
-          <textarea
-            rows="4"
-            name="notes"
-            value={formData.notes}
-            onChange={handleChange}
-            placeholder={t("additionalNotes")}
-          />
-
-          <br />
-          <br />
-
-          {/* Submit */}
-
-          <button
-            className="button"
-            type="submit"
-            disabled={!canSave}
+          <div
             style={{
-              opacity: canSave ? 1 : 0.5,
-              cursor: canSave
-                ? "pointer"
-                : "not-allowed",
+              display: "grid",
+              gridTemplateColumns: "180px minmax(0, 1fr)",
+              gap: "16px 20px",
+              alignItems: "center",
+              maxWidth: "850px",
             }}
           >
-            💾 {t("save")} Mortality Record
-          </button>
+            {/* Rabbit */}
+            <label>{t("rabbit")}</label>
 
+            <div>
+              <select
+                name="rabbit_id"
+                value={formData.rabbit_id}
+                onChange={handleChange}
+                required
+                style={{ width: "100%" }}
+              >
+                <option value="">
+                  {t("selectRabbit")}
+                </option>
+
+                {rabbits.map((rabbit) => (
+                  <option key={rabbit.id} value={rabbit.id}>
+                    {rabbit.tag_number} - {rabbit.name || t("rabbit")} (
+                    {Number(rabbit.quantity || 0)} {t("available")})
+                  </option>
+                ))}
+              </select>
+
+              {rabbitUnavailable && (
+                <p
+                  style={{
+                    color: "#b71c1c",
+                    fontWeight: "bold",
+                    margin: "8px 0 0",
+                  }}
+                >
+                  ⚠️ {selectedRabbit.name || t("thisRabbit")}{" "}
+                  {t("mortalityUnavailable")}
+                </p>
+              )}
+
+              {selectedRabbit && availableQuantity > 0 && (
+                <p
+                  style={{
+                    color: "#2E7D32",
+                    fontWeight: "bold",
+                    margin: "8px 0 0",
+                  }}
+                >
+                  ✅ {availableQuantity} {t("rabbit")} {t("available")}{" "}
+                  {t("forMortalityRecording")}.
+                </p>
+              )}
+            </div>
+
+            {/* Date */}
+            <label>{t("mortalityDate")}</label>
+
+            <input
+              type="date"
+              name="mortality_date"
+              value={formData.mortality_date}
+              onChange={handleChange}
+              required
+              style={{ width: "100%" }}
+            />
+
+            {/* Quantity */}
+            <label>{t("quantity")}</label>
+
+            <div>
+              <input
+                type="number"
+                min="1"
+                max={availableQuantity > 0 ? availableQuantity : undefined}
+                name="quantity"
+                value={formData.quantity}
+                onChange={handleChange}
+                required
+                style={{ width: "100%" }}
+              />
+
+              {quantityTooHigh && (
+                <p
+                  style={{
+                    color: "#b71c1c",
+                    fontWeight: "bold",
+                    margin: "8px 0 0",
+                  }}
+                >
+                  ⚠️ {t("quantityCannotExceed")} {availableQuantity}{" "}
+                  {t("available")}.
+                </p>
+              )}
+
+              {invalidQuantity && (
+                <p
+                  style={{
+                    color: "#b71c1c",
+                    fontWeight: "bold",
+                    margin: "8px 0 0",
+                  }}
+                >
+                  ⚠️ {t("quantityMustBeGreaterThanZero")}
+                </p>
+              )}
+            </div>
+
+            {/* Cause */}
+            <label>{t("cause")}</label>
+
+            <input
+              type="text"
+              name="cause"
+              value={formData.cause}
+              onChange={handleChange}
+              placeholder={t("mortalityReasonExample")}
+              style={{ width: "100%" }}
+            />
+
+            {/* Notes */}
+            <label style={{ alignSelf: "start" }}>{t("notes")}</label>
+
+            <textarea
+              rows="4"
+              name="notes"
+              value={formData.notes}
+              onChange={handleChange}
+              placeholder={t("additionalNotes")}
+              style={{ width: "100%", boxSizing: "border-box" }}
+            />
+
+            {/* Submit */}
+            <div></div>
+
+            <div
+              style={{
+                display: "flex",
+                gap: "12px",
+                flexWrap: "wrap",
+              }}
+            >
+              <button
+                className="button"
+                type="submit"
+                disabled={!canSave}
+                style={{
+                  opacity: canSave ? 1 : 0.5,
+                  cursor: canSave ? "pointer" : "not-allowed",
+                }}
+              >
+                💾 {t("save")}
+              </button>
+
+              <Link className="button" to="/rabbit-mortality">
+                {t("cancel")}
+              </Link>
+            </div>
+          </div>
         </form>
       </div>
     </div>
