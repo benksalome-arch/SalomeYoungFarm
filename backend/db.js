@@ -49,6 +49,39 @@ db.getConnection((err, connection) => {
     }
 
     console.log("✅ Database tables checked/created successfully");
+
+    // Safely add users.phone if an older database does not have it.
+    db.query(
+      `SELECT COUNT(*) AS count
+       FROM INFORMATION_SCHEMA.COLUMNS
+       WHERE TABLE_SCHEMA = DATABASE()
+       AND TABLE_NAME = 'users'
+       AND COLUMN_NAME = 'phone'`,
+      (columnErr, rows) => {
+        if (columnErr) {
+          console.error("❌ Could not check users.phone:", columnErr);
+          return;
+        }
+
+        if (rows[0].count === 0) {
+          db.query(
+            `ALTER TABLE users ADD COLUMN phone VARCHAR(30) DEFAULT NULL`,
+            (alterErr) => {
+              if (alterErr) {
+                console.error("❌ Could not add users.phone:", alterErr);
+                return;
+              }
+
+              console.log("✅ Added missing users.phone column");
+            }
+          );
+        } else {
+          console.log("✅ users.phone column already exists");
+        }
+      }
+    );
+
+
   });
 });
 
