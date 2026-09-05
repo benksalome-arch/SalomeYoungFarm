@@ -4,12 +4,19 @@ const router = express.Router();
 const eggSalesController = require("../controllers/eggSalesController");
 
 // Get all egg sales
+const {
+  authenticateToken,
+  requireAdmin,
+} = require("../middleware/authMiddleware");
+
 router.get("/", eggSalesController.getSales);
 
 // Create egg sale
 router.post("/", eggSalesController.createSale);
 
 // Delete egg sale
-router.delete("/:id", eggSalesController.deleteSale);
+router.delete("/:id",
+  authenticateToken,
+  requireAdmin, eggSalesController.deleteSale);
 
 module.exports = router;

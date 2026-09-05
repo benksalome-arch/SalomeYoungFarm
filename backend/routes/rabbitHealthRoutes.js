@@ -9,6 +9,11 @@ const rabbitHealthController = require("../controllers/rabbitHealthController");
 // ======================================
 
 // Get all health records
+const {
+  authenticateToken,
+  requireAdmin,
+} = require("../middleware/authMiddleware");
+
 router.get(
   "/",
   rabbitHealthController.getHealthRecords
@@ -29,6 +34,8 @@ router.post(
 // Delete health record
 router.delete(
   "/:id",
+  authenticateToken,
+  requireAdmin,
   rabbitHealthController.deleteHealthRecord
 );
 

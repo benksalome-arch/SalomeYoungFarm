@@ -4,6 +4,11 @@ const router = express.Router();
 const chickensController = require("../controllers/chickensController");
 
 // Get all chickens
+const {
+  authenticateToken,
+  requireAdmin,
+} = require("../middleware/authMiddleware");
+
 router.get("/", chickensController.getChickens);
 
 // Get one chicken
@@ -13,9 +18,13 @@ router.get("/:id", chickensController.getChicken);
 router.post("/", chickensController.createChicken);
 
 // Update chicken
-router.put("/:id", chickensController.updateChicken);
+router.put("/:id",
+  authenticateToken,
+  requireAdmin, chickensController.updateChicken);
 
 // Delete chicken
-router.delete("/:id", chickensController.deleteChicken);
+router.delete("/:id",
+  authenticateToken,
+  requireAdmin, chickensController.deleteChicken);
 
 module.exports = router;

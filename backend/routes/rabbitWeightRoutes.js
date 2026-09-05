@@ -8,6 +8,11 @@ const rabbitWeightController = require("../controllers/rabbitWeightController");
 // ======================================
 
 // Get all rabbit weight records
+const {
+  authenticateToken,
+  requireAdmin,
+} = require("../middleware/authMiddleware");
+
 router.get(
   "/",
   rabbitWeightController.getWeightRecords
@@ -28,6 +33,8 @@ router.post(
 // Delete weight record
 router.delete(
   "/:id",
+  authenticateToken,
+  requireAdmin,
   rabbitWeightController.deleteWeightRecord
 );
 

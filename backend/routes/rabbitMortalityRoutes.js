@@ -8,6 +8,11 @@ const rabbitMortalityController = require("../controllers/rabbitMortalityControl
 // ======================================
 
 // Get all mortality records
+const {
+  authenticateToken,
+  requireAdmin,
+} = require("../middleware/authMiddleware");
+
 router.get(
   "/",
   rabbitMortalityController.getMortality
@@ -22,6 +27,8 @@ router.post(
 // Delete mortality record
 router.delete(
   "/:id",
+  authenticateToken,
+  requireAdmin,
   rabbitMortalityController.deleteMortality
 );
 

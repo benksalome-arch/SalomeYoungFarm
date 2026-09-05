@@ -9,6 +9,11 @@ const rabbitBreedingController = require("../controllers/rabbitBreedingControlle
 // ======================================
 
 // Get all rabbit breeding records
+const {
+  authenticateToken,
+  requireAdmin,
+} = require("../middleware/authMiddleware");
+
 router.get(
   "/",
   rabbitBreedingController.getBreedingRecords
@@ -29,6 +34,8 @@ router.post(
 // Delete breeding record
 router.delete(
   "/:id",
+  authenticateToken,
+  requireAdmin,
   rabbitBreedingController.deleteBreedingRecord
 );
 

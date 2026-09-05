@@ -6,6 +6,11 @@ const upload = require("../middleware/upload");
 const galleryController = require("../controllers/galleryController");
 
 // Get all gallery photos for a goat
+const {
+  authenticateToken,
+  requireAdmin,
+} = require("../middleware/authMiddleware");
+
 router.get(
   "/:id",
   galleryController.getPhotos
@@ -21,6 +26,8 @@ router.post(
 // Delete a gallery photo
 router.delete(
   "/photo/:photoId",
+  authenticateToken,
+  requireAdmin,
   galleryController.deletePhoto
 );
 

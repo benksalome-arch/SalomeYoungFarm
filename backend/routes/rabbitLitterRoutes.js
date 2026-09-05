@@ -8,6 +8,11 @@ const rabbitLitterController = require("../controllers/rabbitLitterController");
 // ======================================
 
 // Get all litter records
+const {
+  authenticateToken,
+  requireAdmin,
+} = require("../middleware/authMiddleware");
+
 router.get(
   "/",
   rabbitLitterController.getLitters
@@ -28,6 +33,8 @@ router.post(
 // Delete litter record
 router.delete(
   "/:id",
+  authenticateToken,
+  requireAdmin,
   rabbitLitterController.deleteLitter
 );
 

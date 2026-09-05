@@ -4,6 +4,11 @@ const router = express.Router();
 const eggProductionController = require("../controllers/eggProductionController");
 
 // Get all egg production records
+const {
+  authenticateToken,
+  requireAdmin,
+} = require("../middleware/authMiddleware");
+
 router.get("/", eggProductionController.getEggProduction);
 
 // Get one record
@@ -13,9 +18,13 @@ router.get("/:id", eggProductionController.getEggRecord);
 router.post("/", eggProductionController.createEggRecord);
 
 // Update record
-router.put("/:id", eggProductionController.updateEggRecord);
+router.put("/:id",
+  authenticateToken,
+  requireAdmin, eggProductionController.updateEggRecord);
 
 // Delete record
-router.delete("/:id", eggProductionController.deleteEggRecord);
+router.delete("/:id",
+  authenticateToken,
+  requireAdmin, eggProductionController.deleteEggRecord);
 
 module.exports = router;

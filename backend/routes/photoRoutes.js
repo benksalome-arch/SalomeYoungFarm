@@ -6,6 +6,11 @@ const upload = require("../middleware/upload");
 const photoController = require("../controllers/photoController");
 
 // Upload goat photo
+const {
+  authenticateToken,
+  requireAdmin,
+} = require("../middleware/authMiddleware");
+
 router.post(
   "/:id",
   upload.single("photo"),
@@ -15,6 +20,8 @@ router.post(
 // Delete goat photo
 router.delete(
   "/:id",
+  authenticateToken,
+  requireAdmin,
   photoController.deletePhoto
 );
 
