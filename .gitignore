@@ -5,3 +5,4 @@ Microsoft VS Code/
 .env
 *.env
 backend/.env
+.vercel
