@@ -23,7 +23,7 @@
       "handle": "filesystem"
     },
     {
-      "src": "/(.*)",
+      "src": "/((?!assets/|favicon\\.svg$|icons\\.svg$).*)",
       "dest": "/frontend/index.html"
     }
   ]
