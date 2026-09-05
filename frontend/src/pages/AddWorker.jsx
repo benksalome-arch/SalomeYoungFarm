@@ -110,29 +110,9 @@ function AddWorker() {
                 onChange={handleChange}
                 placeholder={t("fullName")}
                 required
-                style={{
-                  width: "100%",
-                  boxSizing: "border-box",
-                  paddingRight: "45px",
-                }}
+                style={{ width: "100%", boxSizing: "border-box" }}
               />
 
-              <button
-                type="button"
-                onClick={() => setShowPassword((prev) => !prev)}
-                aria-label={showPassword ? "Hide password" : "Show password"}
-                style={{
-                  marginLeft: "-45px",
-                  width: "40px",
-                  border: "none",
-                  background: "transparent",
-                  cursor: "pointer",
-                  fontSize: "18px",
-                  verticalAlign: "middle",
-                }}
-              >
-                {showPassword ? "🙈" : "👁️"}
-              </button>
             </div>
 
             <div>
@@ -198,8 +178,29 @@ function AddWorker() {
                 onChange={handleChange}
                 placeholder={t("password")}
                 required
-                style={{ width: "100%", boxSizing: "border-box" }}
+                style={{
+                  width: "100%",
+                  boxSizing: "border-box",
+                  paddingRight: "45px",
+                }}
               />
+
+              <button
+                type="button"
+                onClick={() => setShowPassword((prev) => !prev)}
+                aria-label={showPassword ? "Hide password" : "Show password"}
+                style={{
+                  marginLeft: "-45px",
+                  width: "40px",
+                  border: "none",
+                  background: "transparent",
+                  cursor: "pointer",
+                  fontSize: "18px",
+                  verticalAlign: "middle",
+                }}
+              >
+                {showPassword ? "🙈" : "👁️"}
+              </button>
             </div>
 
             <div>
