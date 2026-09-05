@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { useLanguage } from "../context/LanguageContext";
+import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import API_URL from "../api";
 
 function Login() {
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const { language, setLanguage } = useLanguage();
 
@@ -97,8 +99,7 @@ function Login() {
         return;
       }
 
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("user", JSON.stringify(data.user));
+      login(data.user, data.token);
 
       navigate("/");
     } catch (err) {
