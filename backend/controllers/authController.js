@@ -42,17 +42,18 @@ async function sendResetEmail({ to, subject, text, html }) {
 // =====================================
 
 exports.login = (req, res) => {
-  const { email, password } = req.body;
+  const { identifier, email, password } = req.body;
+  const loginIdentifier = identifier || email;
 
-  if (!email || !password) {
+  if (!loginIdentifier || !password) {
     return res.status(400).json({
       message: "Email and password are required",
     });
   }
 
   db.query(
-    "SELECT * FROM users WHERE email = ?",
-    [email],
+    "SELECT * FROM users WHERE email = ? OR phone = ? LIMIT 1",
+    [loginIdentifier, loginIdentifier],
     async (err, results) => {
       if (err) {
         console.error("Login database error:", err);
