@@ -239,7 +239,27 @@ function Layout() {
             }
 
             .syf-user-info {
-              display: none !important;
+              display: block !important;
+              min-width: 0 !important;
+              max-width: 120px !important;
+              overflow: hidden !important;
+              white-space: nowrap !important;
+              text-overflow: ellipsis !important;
+              line-height: 1.2 !important;
+              font-size: 12px !important;
+            }
+
+            .syf-user-info strong,
+            .syf-user-info small {
+              display: block !important;
+              overflow: hidden !important;
+              text-overflow: ellipsis !important;
+              white-space: nowrap !important;
+            }
+
+            .syf-user-info small {
+              font-size: 11px !important;
+              margin-top: 2px !important;
             }
 
             .syf-logout {
