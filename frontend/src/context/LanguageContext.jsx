@@ -1434,7 +1434,7 @@ const translations = {
     weightHistory: 'Gewichtsgeschiedenis',
     weightKg: 'Gewicht (kg)',
     welcome: 
-      "Welkom bij het Salome Young Farm Managementsysteem.",
+      "Welkom bij het Salome Young Farm-beheersysteem.",
     worker: "Werknemer",
     manager: "Manager",
     administrator: "Beheerder",
