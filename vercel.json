@@ -20,6 +20,14 @@
       "dest": "backend/server.js"
     },
     {
+      "src": "/assets/(.*)",
+      "dest": "/frontend/assets/$1"
+    },
+    {
+      "src": "/salome_young_farm_logo\\.png",
+      "dest": "/frontend/salome_young_farm_logo.png"
+    },
+    {
       "handle": "filesystem"
     },
     {

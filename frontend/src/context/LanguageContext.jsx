@@ -1055,7 +1055,7 @@ const translations = {
     customerPlaceholder: "Inloopklant",
     dailyEggCollection: "Dagelijkse registraties van eierverzameling.",
     dailyFeedRecords: "Dagelijkse voerregistraties",
-    dashboard: "Dashboard",
+    dashboard: "Overzicht",
     dashboardConnected: "Dashboard verbonden",
     dataManagementDescription: "Manage test and application data.",
     dataManagementDescription: "Beheer test- en applicatiegegevens.",
