@@ -13,6 +13,7 @@ function EditWorker() {
   const [formData, setFormData] = useState({
     full_name: "",
     email: "",
+    phone: "",
     role: "worker",
     active: true,
   });
@@ -48,7 +49,8 @@ function EditWorker() {
 
       setFormData({
         full_name: data.full_name,
-        email: data.email,
+        email: data.email || "",
+        phone: data.phone || "",
         role: data.role,
         active: Boolean(data.active),
       });
@@ -145,7 +147,19 @@ function EditWorker() {
             name="email"
             value={formData.email}
             onChange={handleChange}
-            required
+          />
+
+          <br />
+          <br />
+
+          <label>{t("phone")}</label>
+
+          <input
+            type="tel"
+            name="phone"
+            value={formData.phone}
+            onChange={handleChange}
+            placeholder={t("phoneNumber")}
           />
 
           <br />

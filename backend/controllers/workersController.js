@@ -4,7 +4,7 @@ const bcrypt = require("bcrypt");
 // Get all workers
 exports.getAllWorkers = (req, res) => {
   db.query(
-    "SELECT id, full_name, email, role, active, created_at FROM users ORDER BY full_name",
+    "SELECT id, full_name, email, phone, role, active, created_at FROM users ORDER BY full_name",
     (err, results) => {
       if (err) {
         console.error(err);
@@ -21,7 +21,7 @@ exports.getAllWorkers = (req, res) => {
 // Get one worker
 exports.getWorkerById = (req, res) => {
   db.query(
-    "SELECT id, full_name, email, role, active FROM users WHERE id=?",
+    "SELECT id, full_name, email, phone, role, active FROM users WHERE id=?",
     [req.params.id],
     (err, results) => {
       if (err) {
@@ -48,20 +48,28 @@ exports.createWorker = async (req, res) => {
   const {
     full_name,
     email,
+    phone,
     password,
     role,
   } = req.body;
+
+  if (!full_name || (!email && !phone) || !password || !role) {
+    return res.status(400).json({
+      message: "Full name, password, role, and either email or phone are required.",
+    });
+  }
 
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     db.query(
       `INSERT INTO users
-      (full_name,email,password,role,active)
-      VALUES (?,?,?,?,1)`,
+      (full_name,email,phone,password,role,active)
+      VALUES (?,?,?,?,?,1)`,
       [
         full_name,
         email,
+        phone,
         hashedPassword,
         role,
       ],
@@ -94,6 +102,7 @@ exports.updateWorker = (req, res) => {
   const {
     full_name,
     email,
+    phone,
     role,
     active,
   } = req.body;
@@ -103,12 +112,14 @@ exports.updateWorker = (req, res) => {
      SET
      full_name=?,
      email=?,
+     phone=?,
      role=?,
      active=?
      WHERE id=?`,
     [
       full_name,
       email,
+      phone,
       role,
       active,
       req.params.id,
