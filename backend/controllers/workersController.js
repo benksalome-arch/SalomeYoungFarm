@@ -45,13 +45,12 @@ exports.getWorkerById = (req, res) => {
 // Create worker
 // Workers created by an administrator are active immediately.
 exports.createWorker = async (req, res) => {
-  const {
-    full_name,
-    email,
-    phone,
-    password,
-    role,
-  } = req.body;
+  let { full_name, email, phone, password, role } = req.body;
+
+  full_name = full_name?.trim();
+  email = email?.trim() || null;
+  phone = phone?.trim() || null;
+  role = role?.trim().toLowerCase();
 
   if (!full_name || (!email && !phone) || !password || !role) {
     return res.status(400).json({
@@ -59,41 +58,52 @@ exports.createWorker = async (req, res) => {
     });
   }
 
+  if (!["worker", "manager", "admin"].includes(role)) {
+    return res.status(400).json({
+      message: "Invalid account role.",
+    });
+  }
+
   try {
+    const existing = await new Promise((resolve, reject) => {
+      db.query(
+        "SELECT id FROM users WHERE (email IS NOT NULL AND email = ?) OR (phone IS NOT NULL AND phone = ?) LIMIT 1",
+        [email, phone],
+        (err, results) => {
+          if (err) reject(err);
+          else resolve(results);
+        }
+      );
+    });
+
+    if (existing.length > 0) {
+      return res.status(409).json({
+        message: "An account with this email or phone number already exists.",
+      });
+    }
+
     const hashedPassword = await bcrypt.hash(password, 10);
 
     db.query(
       `INSERT INTO users
-      (full_name,email,phone,password,role,active)
-      VALUES (?,?,?,?,?,1)`,
-      [
-        full_name,
-        email,
-        phone,
-        hashedPassword,
-        role,
-      ],
+      (full_name, email, phone, password, role, active)
+      VALUES (?, ?, ?, ?, ?, 1)`,
+      [full_name, email, phone, hashedPassword, role],
       (err, result) => {
         if (err) {
           console.error(err);
-
-          return res.status(500).json({
-            message: "Database error",
-          });
+          return res.status(500).json({ message: err.sqlMessage || "Database error" });
         }
 
         res.json({
-          message: "Worker created successfully!",
+          message: "Account created successfully!",
           id: result.insertId,
         });
       }
     );
   } catch (error) {
     console.error(error);
-
-    res.status(500).json({
-      message: "Server error",
-    });
+    res.status(500).json({ message: "Server error" });
   }
 };
 
