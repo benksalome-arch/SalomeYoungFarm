@@ -124,7 +124,7 @@ function GoatGallery({ goatId }) {
               }}
             >
               <img
-                src={`${API}/uploads/goats/${photo.photo}`}
+                src={photo.photo?.startsWith("http") ? photo.photo : `${API}/uploads/goats/${photo.photo}`}
                 alt=""
                 style={{
                   width: "100%",

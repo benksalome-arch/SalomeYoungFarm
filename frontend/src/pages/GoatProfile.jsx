@@ -122,7 +122,7 @@ function GoatProfile() {
         >
           {goat.photo ? (
             <img
-              src={`${API}/uploads/goats/${goat.photo}`}
+              src={goat.photo?.startsWith("http") ? goat.photo : `${API}/uploads/goats/${goat.photo}`}
               alt=""
               style={{
                 width: "100%",

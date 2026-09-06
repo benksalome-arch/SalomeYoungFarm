@@ -200,7 +200,7 @@ function EditGoat() {
   const displayedPhoto = photoPreview
     ? photoPreview
     : photo
-      ? `${API_URL}/uploads/goats/${photo}`
+      ? (photo.startsWith("http") ? photo : `${API_URL}/uploads/goats/${photo}`)
       : "";
 
   return (

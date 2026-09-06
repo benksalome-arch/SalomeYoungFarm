@@ -13,6 +13,8 @@ const {
 
 router.post(
   "/:id",
+  authenticateToken,
+  requireAdmin,
   upload.single("photo"),
   photoController.uploadPhoto
 );

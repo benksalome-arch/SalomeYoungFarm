@@ -1,9 +1,23 @@
 const db = require("../db");
 const fs = require("fs");
 const path = require("path");
+const { put, del } = require("@vercel/blob");
+
+function query(sql, params) {
+  return new Promise((resolve, reject) => {
+    db.query(sql, params, (err, results) => {
+      if (err) reject(err);
+      else resolve(results);
+    });
+  });
+}
+
+function isBlobUrl(value) {
+  return typeof value === "string" && value.startsWith("https://");
+}
 
 // Upload goat photo
-exports.uploadPhoto = (req, res) => {
+exports.uploadPhoto = async (req, res) => {
   const { id } = req.params;
 
   if (!req.file) {
@@ -12,86 +26,99 @@ exports.uploadPhoto = (req, res) => {
     });
   }
 
-  db.query(
-    "SELECT photo FROM goats WHERE id=?",
-    [id],
-    (err, results) => {
-      if (err) {
-        console.error(err);
-        return res.status(500).json({
-          message: "Database error.",
-        });
-      }
+  try {
+    const results = await query(
+      "SELECT photo FROM goats WHERE id=?",
+      [id]
+    );
 
-      if (results.length === 0) {
-        return res.status(404).json({
-          message: "Goat not found.",
-        });
-      }
-
-      const oldPhoto = results[0].photo;
-
-      if (oldPhoto) {
-        const oldPath = path.join(
-          __dirname,
-          "..",
-          "uploads",
-          "goats",
-          oldPhoto
-        );
-
-        if (fs.existsSync(oldPath)) {
-          fs.unlinkSync(oldPath);
-        }
-      }
-
-      db.query(
-        "UPDATE goats SET photo=? WHERE id=?",
-        [req.file.filename, id],
-        (err) => {
-          if (err) {
-            console.error(err);
-
-            return res.status(500).json({
-              message: "Failed to save photo.",
-            });
-          }
-
-          res.json({
-            message: "Photo uploaded successfully!",
-            filename: req.file.filename,
-          });
-        }
-      );
+    if (results.length === 0) {
+      return res.status(404).json({
+        message: "Goat not found.",
+      });
     }
-  );
+
+    const oldPhoto = results[0].photo;
+
+    const fileBuffer = await fs.promises.readFile(req.file.path);
+
+    const blob = await put(
+      `goats/${Date.now()}-${req.file.filename}`,
+      fileBuffer,
+      {
+        access: "public",
+        contentType: req.file.mimetype,
+      }
+    );
+
+    if (oldPhoto) {
+      try {
+        if (isBlobUrl(oldPhoto)) {
+          await del(oldPhoto);
+        } else {
+          const oldPath = path.join(
+            __dirname,
+            "..",
+            "uploads",
+            "goats",
+            oldPhoto
+          );
+
+          if (fs.existsSync(oldPath)) {
+            await fs.promises.unlink(oldPath);
+          }
+        }
+      } catch (deleteErr) {
+        console.error("Old photo delete error:", deleteErr);
+      }
+    }
+
+    await fs.promises.unlink(req.file.path).catch(() => {});
+
+    await query(
+      "UPDATE goats SET photo=? WHERE id=?",
+      [blob.url, id]
+    );
+
+    return res.json({
+      message: "Photo uploaded successfully!",
+      photo: blob.url,
+    });
+  } catch (err) {
+    console.error("Photo upload error:", err);
+
+    if (req.file?.path) {
+      await fs.promises.unlink(req.file.path).catch(() => {});
+    }
+
+    return res.status(500).json({
+      message: "Failed to upload photo.",
+    });
+  }
 };
 
 // Delete goat photo
-exports.deletePhoto = (req, res) => {
+exports.deletePhoto = async (req, res) => {
   const { id } = req.params;
 
-  db.query(
-    "SELECT photo FROM goats WHERE id=?",
-    [id],
-    (err, results) => {
-      if (err) {
-        console.error(err);
+  try {
+    const results = await query(
+      "SELECT photo FROM goats WHERE id=?",
+      [id]
+    );
 
-        return res.status(500).json({
-          message: "Database error.",
-        });
-      }
+    if (results.length === 0) {
+      return res.status(404).json({
+        message: "Goat not found.",
+      });
+    }
 
-      if (results.length === 0) {
-        return res.status(404).json({
-          message: "Goat not found.",
-        });
-      }
+    const photo = results[0].photo;
 
-      const photo = results[0].photo;
-
-      if (photo) {
+    if (photo) {
+      if (isBlobUrl(photo)) {
+        await del(photo);
+      } else {
         const photoPath = path.join(
           __dirname,
           "..",
@@ -101,27 +128,24 @@ exports.deletePhoto = (req, res) => {
         );
 
         if (fs.existsSync(photoPath)) {
-          fs.unlinkSync(photoPath);
+          await fs.promises.unlink(photoPath);
         }
       }
-
-      db.query(
-        "UPDATE goats SET photo=NULL WHERE id=?",
-        [id],
-        (err) => {
-          if (err) {
-            console.error(err);
-
-            return res.status(500).json({
-              message: "Database error.",
-            });
-          }
-
-          res.json({
-            message: "Photo removed successfully!",
-          });
-        }
-      );
     }
-  );
+
+    await query(
+      "UPDATE goats SET photo=NULL WHERE id=?",
+      [id]
+    );
+
+    return res.json({
+      message: "Photo removed successfully!",
+    });
+  } catch (err) {
+    console.error("Photo delete error:", err);
+
+    return res.status(500).json({
+      message: "Failed to delete photo.",
+    });
+  }
 };
