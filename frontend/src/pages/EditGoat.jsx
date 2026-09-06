@@ -239,7 +239,7 @@ function EditGoat() {
             textDecoration: "none",
           }}
         >
-          ← Profile
+          ← {t("profile")}
         </Link>
       </div>
 
@@ -423,7 +423,7 @@ function EditGoat() {
             type="submit"
             className="button"
           >
-            Update Goat
+            {t("updateGoat")}
           </button>
         </form>
       </div>
