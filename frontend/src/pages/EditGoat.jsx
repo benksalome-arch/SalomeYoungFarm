@@ -262,7 +262,7 @@ function EditGoat() {
         {displayedPhoto ? (
           <img
             src={displayedPhoto}
-            alt="Goat"
+            alt={t("goat")}
             style={{
               width: "100%",
               maxWidth: "320px",
