@@ -14,7 +14,7 @@ function Goats() {
   useEffect(() => {
     async function loadGoats() {
       try {
-        const response = await fetch(`${API_URL}/api/goats`);
+        const response = await fetch(`${API_URL}/api/goats`, { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } });
         const data = await response.json();
 
         if (!response.ok) {
@@ -154,17 +154,39 @@ function Goats() {
             const name = goat.name || "-";
             const breed = goat.breed || "-";
             const sex = goat.sex || "-";
-            const birthDate =
+            const birthDateValue =
               goat.birth_date ||
               goat.date_of_birth ||
               "-";
+            const birthDate =
+              birthDateValue === "-"
+                ? "-"
+                : String(birthDateValue).slice(0, 10).split("-").reverse().join("-");
+            const sexValue = goat.sex || "-";
+            const sexKey = String(sexValue).toLowerCase();
+            const translatedSex =
+              sexKey === "female"
+                ? t("female")
+                : sexKey === "male"
+                  ? t("male")
+                  : sexValue;
+
             const weight =
               goat.weight !== null &&
               goat.weight !== undefined &&
               goat.weight !== ""
                 ? goat.weight
                 : "-";
-            const status = goat.status || t("healthy");
+            const statusValue = goat.status || "healthy";
+            const statusKey = String(statusValue).toLowerCase();
+            const statusTranslations = {
+              healthy: t("healthy"),
+              sick: t("sick"),
+              sold: t("sold"),
+              treated: t("treated"),
+              unknown: t("unknown"),
+            };
+            const status = statusTranslations[statusKey] || statusValue;
 
             return (
               <div
@@ -297,7 +319,7 @@ function Goats() {
                         marginTop: "3px",
                       }}
                     >
-                      {sex}
+                      {translatedSex}
                     </div>
                   </div>
 
@@ -396,10 +418,15 @@ function Goats() {
                       if (!confirmed) return;
 
                       try {
+                        const token = localStorage.getItem("token");
+
                         const response = await fetch(
                           `${API_URL}/api/goats/${goat.id}`,
                           {
                             method: "DELETE",
+                            headers: {
+                              Authorization: `Bearer ${token}`,
+                            },
                           }
                         );
 
