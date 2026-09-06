@@ -199,34 +199,3 @@
   color: #222;
   background: #fff;
 }
-
-@media (max-width: 700px) {
-  .add-goat-page {
-    padding: 14px !important;
-  }
-
-  .add-goat-page > .card {
-    padding: 16px !important;
-  }
-
-  .add-goat-page section {
-    padding: 16px !important;
-  }
-
-  .add-goat-page section:first-of-type > div {
-    grid-template-columns: 1fr !important;
-    gap: 16px !important;
-  }
-
-  .add-goat-page section:first-of-type > div > div:first-child {
-    max-width: 240px !important;
-  }
-
-  .add-goat-page section:first-of-type input[type="file"] {
-    width: 100%;
-  }
-
-  .add-goat-page h2 {
-    color: #222 !important;
-  }
-}
