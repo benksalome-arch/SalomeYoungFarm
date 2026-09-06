@@ -75,6 +75,8 @@ function EditGoat() {
     }
 
     try {
+      const token = localStorage.getItem("token");
+
       const uploadData = new FormData();
       uploadData.append("photo", selectedFile);
 
@@ -82,6 +84,9 @@ function EditGoat() {
         `${API_URL}/api/photos/${id}`,
         {
           method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
           body: uploadData,
         }
       );
