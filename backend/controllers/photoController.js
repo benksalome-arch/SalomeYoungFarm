@@ -40,7 +40,7 @@ exports.uploadPhoto = async (req, res) => {
 
     const oldPhoto = results[0].photo;
 
-    const fileBuffer = await fs.promises.readFile(req.file.path);
+    const fileBuffer = req.file.buffer;
 
     const blob = await put(
       `goats/${Date.now()}-${req.file.filename}`,
@@ -73,8 +73,6 @@ exports.uploadPhoto = async (req, res) => {
       }
     }
 
-    await fs.promises.unlink(req.file.path).catch(() => {});
-
     await query(
       "UPDATE goats SET photo=? WHERE id=?",
       [blob.url, id]
@@ -86,10 +84,6 @@ exports.uploadPhoto = async (req, res) => {
     });
   } catch (err) {
     console.error("Photo upload error:", err);
-
-    if (req.file?.path) {
-      await fs.promises.unlink(req.file.path).catch(() => {});
-    }
 
     return res.status(500).json({
       message: "Failed to upload photo.",
