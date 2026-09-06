@@ -182,3 +182,51 @@
     border-right-color: var(--border);
   }
 }
+
+/* Add Goat - clean responsive layout */
+.add-goat-page {
+  color: #222;
+}
+
+.add-goat-page input,
+.add-goat-page select,
+.add-goat-page textarea {
+  color: #222;
+  -webkit-text-fill-color: #222;
+}
+
+.add-goat-page input[type="file"] {
+  color: #222;
+  background: #fff;
+}
+
+@media (max-width: 700px) {
+  .add-goat-page {
+    padding: 14px !important;
+  }
+
+  .add-goat-page > .card {
+    padding: 16px !important;
+  }
+
+  .add-goat-page section {
+    padding: 16px !important;
+  }
+
+  .add-goat-page section:first-of-type > div {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+
+  .add-goat-page section:first-of-type > div > div:first-child {
+    max-width: 240px !important;
+  }
+
+  .add-goat-page section:first-of-type input[type="file"] {
+    width: 100%;
+  }
+
+  .add-goat-page h2 {
+    color: #222 !important;
+  }
+}

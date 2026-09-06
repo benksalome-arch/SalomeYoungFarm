@@ -138,6 +138,7 @@ function AddGoat() {
     fontSize: "15px",
     lineHeight: 1.3,
     margin: 0,
+    color: "#222",
   };
 
   const inputStyle = {
@@ -167,9 +168,10 @@ function AddGoat() {
 
   return (
     <div
-      className="page"
+      className="page add-goat-page"
       style={{
         width: "100%",
+        color: "#222",
         maxWidth: "1200px",
         margin: "0 auto",
         padding: "20px",
@@ -244,6 +246,7 @@ function AddGoat() {
                 margin: "0 0 18px",
                 fontSize: "22px",
                 lineHeight: 1.3,
+                color: "#222",
               }}
             >
               📷 {t("goatPhoto")}
@@ -253,8 +256,9 @@ function AddGoat() {
               style={{
                 display: "grid",
                 gridTemplateColumns:
-                  "minmax(150px, 200px) minmax(0, 1fr)",
+                  "repeat(auto-fit, minmax(min(100%, 200px), 1fr))",
                 gap: "24px",
+                width: "100%",
                 alignItems: "center",
               }}
             >
@@ -326,6 +330,7 @@ function AddGoat() {
                 margin: "0 0 20px",
                 fontSize: "22px",
                 lineHeight: 1.3,
+                color: "#222",
               }}
             >
               {t("basicInformation")}
