@@ -92,6 +92,8 @@ function AddGoat() {
       }
 
       if (selectedFile) {
+        const token = localStorage.getItem("token");
+
         const photoData = new FormData();
         photoData.append("photo", selectedFile);
 
@@ -99,6 +101,9 @@ function AddGoat() {
           `${API_URL}/api/photos/${goatId}`,
           {
             method: "POST",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
             body: photoData,
           }
         );
