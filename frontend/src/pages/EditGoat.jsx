@@ -229,7 +229,7 @@ function EditGoat() {
             color: "#1b5e20",
           }}
         >
-          ✏️ Edit Goat
+          ✏️ {t("editGoat")}
         </h1>
 
         <Link
@@ -256,7 +256,7 @@ function EditGoat() {
             fontSize: "20px",
           }}
         >
-          📷 Goat Photo
+          📷 {t("goatPhoto")}
         </h2>
 
         {displayedPhoto ? (
@@ -321,7 +321,7 @@ function EditGoat() {
               opacity: selectedFile ? 1 : 0.5,
             }}
           >
-            📤 Upload Photo
+            📤 {t("uploadPhoto")}
           </button>
 
           {photo && (
@@ -335,7 +335,7 @@ function EditGoat() {
                 border: "none",
               }}
             >
-              🗑 Delete Photo
+              🗑 {t("deletePhoto")}
             </button>
           )}
         </div>
