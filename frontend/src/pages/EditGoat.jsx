@@ -118,10 +118,15 @@ function EditGoat() {
     }
 
     try {
+      const token = localStorage.getItem("token");
+
       const response = await fetch(
         `${API_URL}/api/photos/${id}`,
         {
           method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
 
@@ -163,6 +168,7 @@ function EditGoat() {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
           body: JSON.stringify(dataToSend),
         }
