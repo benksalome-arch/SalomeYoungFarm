@@ -98,7 +98,7 @@ function AddGoat() {
         photoData.append("photo", selectedFile);
 
         const photoResponse = await fetch(
-          `${API_URL}/api/photos/${goatId}`,
+          `${API_URL}/api/photos/new/${goatId}`,
           {
             method: "POST",
             headers: {

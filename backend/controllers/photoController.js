@@ -40,6 +40,14 @@ exports.uploadPhoto = async (req, res) => {
 
     const oldPhoto = results[0].photo;
 
+    // Only allow non-admin users to attach a photo to a goat
+    // that does not already have one.
+    if (oldPhoto && req.user?.role !== "admin") {
+      return res.status(403).json({
+        message: "Administrator access required to replace a goat photo.",
+      });
+    }
+
     const fileBuffer = req.file.buffer;
 
     const blob = await put(

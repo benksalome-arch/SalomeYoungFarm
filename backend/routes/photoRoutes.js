@@ -5,12 +5,21 @@ const router = express.Router();
 const upload = require("../middleware/upload");
 const photoController = require("../controllers/photoController");
 
-// Upload goat photo
 const {
   authenticateToken,
   requireAdmin,
 } = require("../middleware/authMiddleware");
 
+// Photo for a newly created goat.
+// The controller must reject goats that already have a photo.
+router.post(
+  "/new/:id",
+  authenticateToken,
+  upload.single("photo"),
+  photoController.uploadPhoto
+);
+
+// Replace photo on an existing goat - Admin only
 router.post(
   "/:id",
   authenticateToken,
@@ -19,7 +28,7 @@ router.post(
   photoController.uploadPhoto
 );
 
-// Delete goat photo
+// Delete goat photo - Admin only
 router.delete(
   "/:id",
   authenticateToken,
