@@ -325,14 +325,147 @@ function AddGoat() {
 
           <p style={{ margin: "0 0 16px" }}>
             <label style={labelStyle}>{t("birthDate")}</label>
-            <input
-              type="date"
-              lang="en-GB"
-              name="date_of_birth"
-              value={formData.date_of_birth}
-              onChange={handleChange}
-              style={inputStyle}
-            />
+            <div style={{ position: "relative" }}>
+              <input
+                type="text"
+                value={
+                  formData.date_of_birth
+                    ? formData.date_of_birth.split("-").reverse().join("-")
+                    : ""
+                }
+                placeholder="DD-MM-JJJJ"
+                readOnly
+                onClick={() => {
+                  const today = new Date();
+                  const selected = formData.date_of_birth
+                    ? new Date(formData.date_of_birth + "T00:00:00")
+                    : today;
+
+                  const year = selected.getFullYear();
+                  const month = selected.getMonth();
+
+                  const firstDay = new Date(year, month, 1).getDay();
+                  const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+                  const overlay = document.createElement("div");
+                  overlay.style.cssText = `
+                    position:fixed;
+                    inset:0;
+                    background:rgba(0,0,0,.35);
+                    display:flex;
+                    align-items:center;
+                    justify-content:center;
+                    z-index:99999;
+                  `;
+
+                  const box = document.createElement("div");
+                  box.style.cssText = `
+                    width:min(92vw,360px);
+                    background:#fff;
+                    border-radius:14px;
+                    padding:18px;
+                    box-sizing:border-box;
+                    box-shadow:0 8px 30px rgba(0,0,0,.25);
+                  `;
+
+                  const title = document.createElement("div");
+                  title.textContent = selected.toLocaleDateString("en-GB", {
+                    day:"2-digit",
+                    month:"2-digit",
+                    year:"numeric"
+                  }).replaceAll("/", "-");
+                  title.style.cssText = `
+                    text-align:center;
+                    font-size:20px;
+                    font-weight:700;
+                    margin-bottom:14px;
+                  `;
+
+                  const grid = document.createElement("div");
+                  grid.style.cssText = `
+                    display:grid;
+                    grid-template-columns:repeat(7,1fr);
+                    gap:6px;
+                  `;
+
+                  ["Su","Mo","Tu","We","Th","Fr","Sa"].forEach(day => {
+                    const el = document.createElement("div");
+                    el.textContent = day;
+                    el.style.cssText = "text-align:center;font-weight:600;font-size:13px;padding:6px 0;";
+                    grid.appendChild(el);
+                  });
+
+                  for (let i = 0; i < firstDay; i++) {
+                    grid.appendChild(document.createElement("div"));
+                  }
+
+                  for (let day = 1; day <= daysInMonth; day++) {
+                    const el = document.createElement("button");
+                    el.type = "button";
+                    el.textContent = day;
+                    el.style.cssText = `
+                      min-height:40px;
+                      border:1px solid #ddd;
+                      border-radius:8px;
+                      background:#fff;
+                      color:#222;
+                      -webkit-text-fill-color:#222;
+                      font-size:15px;
+                      font-weight:500;
+                      display:flex;
+                      align-items:center;
+                      justify-content:center;
+                    `;
+
+                    el.onclick = () => {
+                      const value =
+                        year + "-" +
+                        String(month + 1).padStart(2, "0") + "-" +
+                        String(day).padStart(2, "0");
+
+                      setFormData(prev => ({
+                        ...prev,
+                        date_of_birth: value
+                      }));
+
+                      document.body.removeChild(overlay);
+                    };
+
+                    grid.appendChild(el);
+                  }
+
+                  const cancel = document.createElement("button");
+                  cancel.type = "button";
+                  cancel.textContent = "Cancel";
+                  cancel.style.cssText = `
+                    width:100%;
+                    margin-top:14px;
+                    min-height:44px;
+                    border:1px solid #ccc;
+                    border-radius:8px;
+                    background:#fff;
+                    color:#222;
+                    -webkit-text-fill-color:#222;
+                    font-size:15px;
+                    font-weight:600;
+                  `;
+                  cancel.onclick = () => document.body.removeChild(overlay);
+
+                  box.appendChild(title);
+                  box.appendChild(grid);
+                  box.appendChild(cancel);
+                  overlay.appendChild(box);
+                  document.body.appendChild(overlay);
+                }}
+                style={{
+                  ...inputStyle,
+                  color:"#222",
+                  WebkitTextFillColor:"#222",
+                  backgroundColor:"#fff",
+                  cursor:"pointer"
+                }}
+              />
+            </div>
           </p>
 
           <p style={{ margin: "0 0 16px" }}>
