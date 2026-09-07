@@ -65,7 +65,12 @@ function AddGoat() {
         body: JSON.stringify({
           ...formData,
           date_of_birth: formData.date_of_birth
-            ? String(formData.date_of_birth).split("T")[0]
+            ? (() => {
+                const parts = String(formData.date_of_birth).split("/");
+                return parts.length === 3
+                  ? `${parts[2]}-${parts[1].padStart(2, "0")}-${parts[0].padStart(2, "0")}`
+                  : String(formData.date_of_birth);
+              })()
             : null,
         }),
       });
@@ -326,11 +331,26 @@ function AddGoat() {
           <p style={{ margin: "0 0 16px" }}>
             <label style={labelStyle}>{t("birthDate")}</label>
             <input
-              type="date"
-              lang="en-GB"
+              type="text"
               name="date_of_birth"
               value={formData.date_of_birth}
-              onChange={handleChange}
+              onChange={(e) => {
+                let value = e.target.value.replace(/\D/g, "").slice(0, 8);
+
+                if (value.length > 4) {
+                  value = `${value.slice(0, 2)}/${value.slice(2, 4)}/${value.slice(4)}`;
+                } else if (value.length > 2) {
+                  value = `${value.slice(0, 2)}/${value.slice(2)}`;
+                }
+
+                setFormData({
+                  ...formData,
+                  date_of_birth: value,
+                });
+              }}
+              inputMode="numeric"
+              placeholder="DD/MM/YYYY"
+              maxLength={10}
               style={inputStyle}
             />
           </p>
