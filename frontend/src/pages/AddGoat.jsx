@@ -125,45 +125,26 @@ function AddGoat() {
     }
   }
 
-  const fieldStyle = {
-    display: "flex",
-    flexDirection: "column",
-    gap: "7px",
-    minWidth: 0,
+  const inputStyle = {
+    width: "100%",
+    boxSizing: "border-box",
+    padding: "10px 12px",
+    minHeight: "44px",
+    border: "1px solid #cfd6cf",
+    borderRadius: "7px",
+    background: "#fff",
+    color: "#222",
+    WebkitTextFillColor: "#222",
+    fontSize: "15px",
   };
 
   const labelStyle = {
     display: "block",
+    marginBottom: "7px",
     fontWeight: 600,
     fontSize: "15px",
     lineHeight: 1.3,
-    margin: 0,
     color: "#222",
-  };
-
-  const inputStyle = {
-    width: "100%",
-    minWidth: 0,
-    height: "44px",
-    padding: "9px 12px",
-    border: "1px solid #cfd6cf",
-    borderRadius: "7px",
-    background: "#fff",
-    boxSizing: "border-box",
-    fontSize: "15px",
-  };
-
-  const textareaStyle = {
-    width: "100%",
-    minWidth: 0,
-    padding: "10px 12px",
-    border: "1px solid #cfd6cf",
-    borderRadius: "7px",
-    background: "#fff",
-    boxSizing: "border-box",
-    fontSize: "15px",
-    resize: "vertical",
-    minHeight: "120px",
   };
 
   return (
@@ -171,8 +152,7 @@ function AddGoat() {
       className="page add-goat-page"
       style={{
         width: "100%",
-        color: "#222",
-        maxWidth: "1200px",
+        maxWidth: "700px",
         margin: "0 auto",
         padding: "20px",
         boxSizing: "border-box",
@@ -183,38 +163,27 @@ function AddGoat() {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          gap: "20px",
-          marginBottom: "25px",
+          gap: "15px",
+          marginBottom: "20px",
           flexWrap: "wrap",
         }}
       >
-        <div style={{ minWidth: 0 }}>
-          <h1
-            style={{
-              margin: 0,
-              fontSize: "clamp(30px, 4vw, 44px)",
-              lineHeight: 1.15,
-            }}
-          >
-            🐐 {t("addGoat")}
-          </h1>
-
-          <p
-            style={{
-              margin: "8px 0 0",
-              color: "#666",
-              fontSize: "16px",
-              lineHeight: 1.5,
-            }}
-          >
-            {t("registerNewGoat")}
-          </p>
-        </div>
+        <h1
+          style={{
+            margin: 0,
+            fontSize: "30px",
+            color: "#1b5e20",
+          }}
+        >
+          🐐 {t("addGoat")}
+        </h1>
 
         <Link
           to="/goats"
           className="button"
-          style={{ whiteSpace: "nowrap" }}
+          style={{
+            textDecoration: "none",
+          }}
         >
           ← {t("back")}
         </Link>
@@ -223,263 +192,213 @@ function AddGoat() {
       <div
         className="card"
         style={{
-          width: "100%",
-          maxWidth: "1100px",
-          margin: "0 auto",
-          padding: "clamp(18px, 3vw, 32px)",
-          boxSizing: "border-box",
+          marginBottom: "20px",
+          textAlign: "center",
         }}
       >
-        <form onSubmit={handleSubmit}>
-          <section
+        <h2
+          style={{
+            marginTop: 0,
+            fontSize: "20px",
+          }}
+        >
+          📷 {t("goatPhoto")}
+        </h2>
+
+        {photoPreview ? (
+          <img
+            src={photoPreview}
+            alt={t("goat")}
             style={{
-              marginBottom: "32px",
-              padding: "20px",
-              background: "#f7f9f7",
-              border: "1px solid #e0e5e0",
+              width: "100%",
+              maxWidth: "320px",
+              height: "280px",
+              objectFit: "cover",
               borderRadius: "12px",
-              boxSizing: "border-box",
+              display: "block",
+              margin: "0 auto 15px",
+            }}
+          />
+        ) : (
+          <div
+            style={{
+              width: "100%",
+              maxWidth: "320px",
+              height: "280px",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              fontSize: "100px",
+              background: "#f0f2f0",
+              borderRadius: "12px",
+              margin: "0 auto 15px",
             }}
           >
-            <h2
-              style={{
-                margin: "0 0 18px",
-                fontSize: "22px",
-                lineHeight: 1.3,
-                color: "#222",
-              }}
+            🐐
+          </div>
+        )}
+
+        <label
+          style={{
+            display: "block",
+            marginBottom: "8px",
+            fontWeight: 600,
+            color: "#222",
+          }}
+        >
+          {t("selectPhoto")}
+        </label>
+
+        <input
+          type="file"
+          accept="image/*"
+          onChange={handlePhotoChange}
+          style={{
+            width: "100%",
+            maxWidth: "320px",
+            boxSizing: "border-box",
+            margin: "0 auto",
+          }}
+        />
+      </div>
+
+      <div className="card">
+        <form onSubmit={handleSubmit}>
+          <h2
+            style={{
+              marginTop: 0,
+              marginBottom: "22px",
+              fontSize: "22px",
+              color: "#222",
+            }}
+          >
+            {t("basicInformation")}
+          </h2>
+
+          <p style={{ margin: "0 0 7px" }}>
+            <label style={labelStyle}>{t("tag")}</label>
+            <input
+              type="text"
+              name="tag"
+              value={formData.tag}
+              onChange={handleChange}
+              required
+              style={inputStyle}
+            />
+          </p>
+
+          <p style={{ margin: "0 0 16px" }}>
+            <label style={labelStyle}>{t("name")}</label>
+            <input
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              required
+              style={inputStyle}
+            />
+          </p>
+
+          <p style={{ margin: "0 0 16px" }}>
+            <label style={labelStyle}>{t("breed")}</label>
+            <input
+              type="text"
+              name="breed"
+              value={formData.breed}
+              onChange={handleChange}
+              style={inputStyle}
+            />
+          </p>
+
+          <p style={{ margin: "0 0 16px" }}>
+            <label style={labelStyle}>{t("sex")}</label>
+            <select
+              name="sex"
+              value={formData.sex}
+              onChange={handleChange}
+              style={inputStyle}
             >
-              📷 {t("goatPhoto")}
-            </h2>
+              <option value="Female">{t("female")}</option>
+              <option value="Male">{t("male")}</option>
+            </select>
+          </p>
 
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns:
-                  "repeat(auto-fit, minmax(min(100%, 200px), 1fr))",
-                gap: "24px",
-                width: "100%",
-                alignItems: "center",
-              }}
+          <p style={{ margin: "0 0 16px" }}>
+            <label style={labelStyle}>{t("birthDate")}</label>
+            <input
+              type="date"
+              lang="en-GB"
+              name="date_of_birth"
+              value={formData.date_of_birth}
+              onChange={handleChange}
+              style={inputStyle}
+            />
+          </p>
+
+          <p style={{ margin: "0 0 16px" }}>
+            <label style={labelStyle}>
+              {t("weight")} (kg)
+            </label>
+            <input
+              type="number"
+              name="weight"
+              value={formData.weight}
+              onChange={handleChange}
+              min="0"
+              step="0.01"
+              placeholder="Bijv. 25"
+              style={inputStyle}
+            />
+          </p>
+
+          <p style={{ margin: "0 0 16px" }}>
+            <label style={labelStyle}>{t("color")}</label>
+            <input
+              type="text"
+              name="color"
+              value={formData.color}
+              onChange={handleChange}
+              style={inputStyle}
+            />
+          </p>
+
+          <p style={{ margin: "0 0 16px" }}>
+            <label style={labelStyle}>{t("status")}</label>
+            <select
+              name="status"
+              value={formData.status}
+              onChange={handleChange}
+              style={inputStyle}
             >
-              <div
-                style={{
-                  width: "100%",
-                  aspectRatio: "1 / 1",
-                  maxWidth: "200px",
-                  margin: "0 auto",
-                }}
-              >
-                {photoPreview ? (
-                  <img
-                    src={photoPreview}
-                    alt="Goat preview"
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "cover",
-                      borderRadius: "12px",
-                      border: "1px solid #ccc",
-                      display: "block",
-                    }}
-                  />
-                ) : (
-                  <div
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      background: "#e9ece9",
-                      borderRadius: "12px",
-                      fontSize: "70px",
-                      border: "1px solid #ddd",
-                      boxSizing: "border-box",
-                    }}
-                  >
-                    🐐
-                  </div>
-                )}
-              </div>
+              <option value="Healthy">{t("healthy")}</option>
+              <option value="Sick">{t("sick")}</option>
+              <option value="Treated">{t("treated")}</option>
+              <option value="Sold">{t("sold")}</option>
+              <option value="Dead">{t("dead")}</option>
+            </select>
+          </p>
 
-              <div style={{ minWidth: 0 }}>
-                <label style={labelStyle}>
-                  {t("selectPhoto")}
-                </label>
-
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handlePhotoChange}
-                  style={{
-                    display: "block",
-                    width: "100%",
-                    maxWidth: "100%",
-                    marginTop: "10px",
-                    boxSizing: "border-box",
-                  }}
-                />
-              </div>
-            </div>
-          </section>
-
-          <section>
-            <h2
-              style={{
-                margin: "0 0 20px",
-                fontSize: "22px",
-                lineHeight: 1.3,
-                color: "#222",
-              }}
-            >
-              {t("basicInformation")}
-            </h2>
-
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns:
-                  "repeat(auto-fit, minmax(min(100%, 240px), 1fr))",
-                gap: "20px",
-                width: "100%",
-              }}
-            >
-              <div style={fieldStyle}>
-                <label style={labelStyle}>{t("tag")}</label>
-
-                <input
-                  type="text"
-                  name="tag"
-                  value={formData.tag}
-                  onChange={handleChange}
-                  required
-                  style={inputStyle}
-                />
-              </div>
-
-              <div style={fieldStyle}>
-                <label style={labelStyle}>{t("name")}</label>
-
-                <input
-                  type="text"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  required
-                  style={inputStyle}
-                />
-              </div>
-
-              <div style={fieldStyle}>
-                <label style={labelStyle}>{t("breed")}</label>
-
-                <input
-                  type="text"
-                  name="breed"
-                  value={formData.breed}
-                  onChange={handleChange}
-                  style={inputStyle}
-                />
-              </div>
-
-              <div style={fieldStyle}>
-                <label style={labelStyle}>{t("sex")}</label>
-
-                <select
-                  name="sex"
-                  value={formData.sex}
-                  onChange={handleChange}
-                  style={inputStyle}
-                >
-                  <option value="Female">{t("female")}</option>
-                  <option value="Male">{t("male")}</option>
-                </select>
-              </div>
-
-              <div style={fieldStyle}>
-                <label style={labelStyle}>
-                  {t("birthDate")}
-                </label>
-
-                <input
-                  type="date"
-                  name="date_of_birth"
-                  value={formData.date_of_birth}
-                  onChange={handleChange}
-                  style={inputStyle}
-                />
-              </div>
-
-              <div style={fieldStyle}>
-                <label style={labelStyle}>
-                  {t("weight")} (kg)
-                </label>
-
-                <input
-                  type="number"
-                  name="weight"
-                  value={formData.weight}
-                  onChange={handleChange}
-                  min="0"
-                  step="0.01"
-                  placeholder="Bijv. 25"
-                  style={inputStyle}
-                />
-              </div>
-
-              <div style={fieldStyle}>
-                <label style={labelStyle}>{t("color")}</label>
-
-                <input
-                  type="text"
-                  name="color"
-                  value={formData.color}
-                  onChange={handleChange}
-                  style={inputStyle}
-                />
-              </div>
-
-              <div style={fieldStyle}>
-                <label style={labelStyle}>{t("status")}</label>
-
-                <select
-                  name="status"
-                  value={formData.status}
-                  onChange={handleChange}
-                  style={inputStyle}
-                >
-                  <option value="Healthy">{t("healthy")}</option>
-                  <option value="Sick">{t("sick")}</option>
-                  <option value="Treated">{t("treated")}</option>
-                  <option value="Sold">{t("sold")}</option>
-                  <option value="Dead">{t("dead")}</option>
-                </select>
-              </div>
-            </div>
-          </section>
-
-          <div style={{ marginTop: "24px" }}>
+          <p style={{ margin: "0 0 20px" }}>
             <label style={labelStyle}>{t("notes")}</label>
-
             <textarea
               name="notes"
-              rows="5"
+              rows="4"
               value={formData.notes}
               onChange={handleChange}
               style={{
-                ...textareaStyle,
-                marginTop: "7px",
+                ...inputStyle,
+                minHeight: "120px",
+                resize: "vertical",
               }}
             />
-          </div>
+          </p>
 
           <div
             style={{
               display: "flex",
               gap: "12px",
               flexWrap: "wrap",
-              marginTop: "25px",
+              marginTop: "20px",
             }}
           >
             <button
