@@ -336,7 +336,7 @@ function EditGoat() {
 
       <div className="card">
         <form onSubmit={handleSubmit}>
-          <p>{t("tag")}</p>
+          <p>{t("earTag")}</p>
           <input
             name="tag"
             value={formData.tag}

@@ -310,7 +310,7 @@ function AddGoat() {
           </h2>
 
           <p style={{ margin: "0 0 7px" }}>
-            <label style={labelStyle}>{t("tag")}</label>
+            <label style={labelStyle}>{t("earTag")}</label>
             <input
               type="text"
               name="tag"
