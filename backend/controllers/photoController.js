@@ -51,11 +51,12 @@ exports.uploadPhoto = async (req, res) => {
     const fileBuffer = req.file.buffer;
 
     const blob = await put(
-      `goats/${Date.now()}-${req.file.filename}`,
+      `goats/${Date.now()}-${req.file.originalname}`,
       fileBuffer,
       {
         access: "public",
         contentType: req.file.mimetype,
+        token: process.env.BLOB_READ_WRITE_TOKEN,
       }
     );
 

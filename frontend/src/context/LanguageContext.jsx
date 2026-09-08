@@ -1496,7 +1496,7 @@ const translations = {
     swahili: "Swahili",
     system: "Systeem",
     systemStatus: "Systeemstatus",
-    tag: "Tag",
+    tag: "Oormerk",
     tagNumber: "Tagnummer",
     testData: 'Testgegevens',
     token: "Token",
