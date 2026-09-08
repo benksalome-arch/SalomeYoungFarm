@@ -53,7 +53,7 @@ function AddGoat() {
     e.preventDefault();
 
     if (!formData.date_of_birth) {
-      alert(t("dateOfBirth") + " is required.");
+      alert(t("dateRequired"));
       return;
     }
 
@@ -264,16 +264,36 @@ function AddGoat() {
         </label>
 
         <input
+          id="goat-photo-input"
           type="file"
           accept="image/*"
           onChange={handlePhotoChange}
+          style={{ display: "none" }}
+        />
+
+        <label
+          htmlFor="goat-photo-input"
           style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
             width: "100%",
             maxWidth: "320px",
+            minHeight: "44px",
             boxSizing: "border-box",
             margin: "0 auto",
+            padding: "10px 14px",
+            background: "#fff",
+            border: "1px solid #cfd6cf",
+            borderRadius: "7px",
+            color: "#222",
+            fontSize: "15px",
+            fontWeight: 600,
+            cursor: "pointer",
           }}
-        />
+        >
+          {selectedFile ? selectedFile.name : t("chooseFile")}
+        </label>
       </div>
 
       <div className="card">
@@ -498,7 +518,7 @@ function AddGoat() {
               onChange={handleChange}
               min="0"
               step="0.01"
-              placeholder="Bijv. 25"
+              placeholder={t("weightPlaceholder")}
               style={inputStyle}
             />
           </p>
