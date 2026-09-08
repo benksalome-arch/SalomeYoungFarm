@@ -403,15 +403,20 @@ function AddGoat() {
                     const el = document.createElement("button");
                     el.type = "button";
                     el.textContent = day;
+                    const isToday =
+                      day === today.getDate() &&
+                      month === today.getMonth() &&
+                      year === today.getFullYear();
+
                     el.style.cssText = `
                       min-height:40px;
-                      border:1px solid #ddd;
+                      border:${isToday ? "2px solid #2e7d32" : "1px solid #ddd"};
                       border-radius:8px;
-                      background:#fff;
+                      background:${isToday ? "#e8f5e9" : "#fff"};
                       color:#222;
                       -webkit-text-fill-color:#222;
                       font-size:15px;
-                      font-weight:500;
+                      font-weight:${isToday ? "700" : "500"};
                       display:flex;
                       align-items:center;
                       justify-content:center;
