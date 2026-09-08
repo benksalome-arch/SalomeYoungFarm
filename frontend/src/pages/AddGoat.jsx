@@ -120,7 +120,7 @@ function AddGoat() {
       navigate(`/goats/${goatId}`);
     } catch (err) {
       console.error("Add goat error:", err);
-      alert("Database or network error.");
+      alert(`Save failed: ${err?.message || err}`);
       setSaving(false);
     }
   }
