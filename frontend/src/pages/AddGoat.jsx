@@ -52,6 +52,11 @@ function AddGoat() {
   async function handleSubmit(e) {
     e.preventDefault();
 
+    if (!formData.date_of_birth) {
+      alert(t("dateOfBirth") + " is required.");
+      return;
+    }
+
     if (saving) return;
 
     setSaving(true);
