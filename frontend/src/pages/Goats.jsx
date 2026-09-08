@@ -188,6 +188,12 @@ function Goats() {
             };
             const status = statusTranslations[statusKey] || statusValue;
 
+            const photoUrl = goat.photo
+              ? String(goat.photo).startsWith("http")
+                ? goat.photo
+                : `${API_URL}/uploads/goats/${goat.photo}`
+              : "";
+
             return (
               <div
                 key={goat.id}
@@ -220,11 +226,38 @@ function Goats() {
                   >
                     <div
                       style={{
-                        fontSize: "42px",
-                        lineHeight: 1,
+                        width: "58px",
+                        height: "58px",
+                        flexShrink: 0,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        overflow: "hidden",
+                        borderRadius: "10px",
+                        background: "#f0f2f0",
                       }}
                     >
-                      🐐
+                      {photoUrl ? (
+                        <img
+                          src={photoUrl}
+                          alt={name}
+                          style={{
+                            width: "100%",
+                            height: "100%",
+                            objectFit: "cover",
+                            display: "block",
+                          }}
+                        />
+                      ) : (
+                        <span
+                          style={{
+                            fontSize: "42px",
+                            lineHeight: 1,
+                          }}
+                        >
+                          🐐
+                        </span>
+                      )}
                     </div>
 
                     <div style={{ minWidth: 0 }}>
