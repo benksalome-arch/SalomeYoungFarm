@@ -445,7 +445,7 @@ function Goats() {
                     }}
                     onClick={async () => {
                       const confirmed = window.confirm(
-                        `Delete goat ${name} (${tag})?`
+                        `${t("delete")} ${t("goat")} ${name} (${tag})?`
                       );
 
                       if (!confirmed) return;
@@ -468,7 +468,7 @@ function Goats() {
 
                           throw new Error(
                             data.message ||
-                              "Failed to delete goat."
+                              t("failedToDeleteGoat")
                           );
                         }
 
@@ -485,7 +485,7 @@ function Goats() {
 
                         alert(
                           error.message ||
-                            "Could not delete goat."
+                            t("failedToDeleteGoat")
                         );
                       }
                     }}

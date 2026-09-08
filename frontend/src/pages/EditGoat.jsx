@@ -94,7 +94,7 @@ function EditGoat() {
       const data = await response.json();
 
       if (!response.ok) {
-        alert(data.message || "Failed to upload photo.");
+        alert(t("failedToUploadPhoto"));
         return;
       }
 
@@ -103,10 +103,7 @@ function EditGoat() {
       setSelectedFile(null);
       setPhotoPreview("");
 
-      alert(
-        data.message ||
-          "Goat photo uploaded successfully."
-      );
+      alert(t("photoUploadedSuccessfully"));
     } catch (err) {
       console.error("Photo upload error:", err);
       alert(t("failedToUploadPhoto"));
@@ -138,7 +135,7 @@ function EditGoat() {
       const data = await response.json();
 
       if (!response.ok) {
-        alert(data.message || "Failed to delete photo.");
+        alert(t("failedToDeletePhoto"));
         return;
       }
 
@@ -146,10 +143,7 @@ function EditGoat() {
       setSelectedFile(null);
       setPhotoPreview("");
 
-      alert(
-        data.message ||
-          "Goat photo deleted successfully."
-      );
+      alert(t("photoDeletedSuccessfully"));
     } catch (err) {
       console.error("Photo delete error:", err);
       alert(t("failedToDeletePhoto"));
@@ -183,22 +177,16 @@ function EditGoat() {
 
       if (!response.ok) {
         console.error("Update goat error:", data);
-        alert(
-          data.message ||
-            "Failed to update goat."
-        );
+        alert(t("failedToUpdateGoat"));
         return;
       }
 
-      alert(
-        data.message ||
-          "Goat updated successfully."
-      );
+      alert(t("goatUpdatedSuccessfully"));
 
       navigate("/goats");
     } catch (err) {
       console.error("Update goat error:", err);
-      alert(t("databaseError"));
+      alert(t("failedToUpdateGoat"));
     }
   }
 

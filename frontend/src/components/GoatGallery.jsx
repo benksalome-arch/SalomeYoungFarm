@@ -25,7 +25,7 @@ function GoatGallery({ goatId }) {
 
   async function uploadPhoto() {
     if (!selectedFile) {
-      alert("Please select a photo.");
+      alert(t("selectPhoto"));
       return;
     }
 
@@ -55,7 +55,7 @@ function GoatGallery({ goatId }) {
   }
 
   async function deletePhoto(photoId) {
-    if (!window.confirm("Delete this photo?")) return;
+    if (!window.confirm(t("deleteGoatPhoto"))) return;
 
     try {
       const response = await fetch(

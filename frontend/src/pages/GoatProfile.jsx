@@ -36,6 +36,9 @@ function GoatProfile() {
       `${API}/api/photos/${id}`,
       {
         method: "POST",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
         body: formData,
       }
     );
@@ -56,6 +59,9 @@ function GoatProfile() {
       `${API}/api/photos/${id}`,
       {
         method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
       }
     );
 

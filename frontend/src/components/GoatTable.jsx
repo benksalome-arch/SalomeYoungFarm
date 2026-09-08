@@ -10,10 +10,15 @@ function GoatTable({ goats }) {
     }
 
     try {
+      const token = localStorage.getItem("token");
+
       const response = await fetch(
         `${API_URL}/api/goats/${id}`,
         {
           method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
 
@@ -28,7 +33,7 @@ function GoatTable({ goats }) {
 
       alert(
         data.message ||
-          "Goat deleted successfully."
+          t("goatDeletedSuccessfully")
       );
 
       window.location.reload();
@@ -38,7 +43,7 @@ function GoatTable({ goats }) {
         err
       );
 
-      alert("Failed to delete goat.");
+      alert(t("failedToDeleteGoat"));
     }
   }
 

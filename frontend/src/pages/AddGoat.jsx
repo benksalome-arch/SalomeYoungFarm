@@ -40,7 +40,7 @@ function AddGoat() {
     }
 
     if (!file.type.startsWith("image/")) {
-      alert("Please select an image file.");
+      alert(t("selectImageFile"));
       e.target.value = "";
       return;
     }
@@ -73,7 +73,16 @@ function AddGoat() {
       const data = await response.json();
 
       if (!response.ok) {
-        alert(data.message || "Failed to save goat.");
+        if (response.status === 409 || String(data.message || "").includes("already exists")) {
+          alert(
+            t("goatTagAlreadyExists").replace(
+              "{tag}",
+              formData.tag || ""
+            )
+          );
+        } else {
+          alert(t("failedSaveGoat"));
+        }
         setSaving(false);
         return;
       }
@@ -86,7 +95,7 @@ function AddGoat() {
 
       if (!goatId) {
         console.error("Create goat response:", data);
-        alert("Goat was saved, but the new goat ID was not returned.");
+        alert(t("goatSavedIdMissing"));
         navigate("/goats");
         return;
       }
@@ -112,15 +121,15 @@ function AddGoat() {
 
         if (!photoResponse.ok) {
           console.error("Photo upload error:", photoResult);
-          alert("Goat was saved, but the photo could not be uploaded.");
+          alert(t("goatSavedPhotoFailed"));
         }
       }
 
-      alert("Goat added successfully!");
+      alert(t("goatAddedSuccessfully"));
       navigate(`/goats/${goatId}`);
     } catch (err) {
       console.error("Add goat error:", err);
-      alert(`Save failed: ${err?.message || err}`);
+      alert(t("saveFailed").replace("{message}", err?.message || err));
       setSaving(false);
     }
   }
@@ -388,7 +397,7 @@ function AddGoat() {
                     gap:6px;
                   `;
 
-                  ["Su","Mo","Tu","We","Th","Fr","Sa"].forEach(day => {
+                  [t("sun"), t("mon"), t("tue"), t("wed"), t("thu"), t("fri"), t("sat") ].forEach(day => {
                     const el = document.createElement("div");
                     el.textContent = day;
                     el.style.cssText = "text-align:center;font-weight:600;font-size:13px;padding:6px 0;";
@@ -441,7 +450,7 @@ function AddGoat() {
 
                   const cancel = document.createElement("button");
                   cancel.type = "button";
-                  cancel.textContent = "Cancel";
+                  cancel.textContent = t("cancel");
                   cancel.style.cssText = `
                     width:100%;
                     margin-top:14px;
