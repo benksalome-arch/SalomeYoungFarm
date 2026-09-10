@@ -86,6 +86,7 @@ function AddBreeding() {
             value={formData.doe_id}
             onChange={handleChange}
             required
+            style={inputStyle}
           >
             <option value="">{t("selectDoe")}</option>
 
@@ -104,6 +105,7 @@ function AddBreeding() {
             value={formData.buck_id}
             onChange={handleChange}
             required
+            style={inputStyle}
           >
             <option value="">{t("selectBuck")}</option>
 
@@ -239,6 +241,7 @@ function AddBreeding() {
             name="veterinarian"
             value={formData.veterinarian}
             onChange={handleChange}
+            style={inputStyle}
           />
 
           <p>{t("notes")}</p>
@@ -247,6 +250,7 @@ function AddBreeding() {
             rows="4"
             value={formData.notes}
             onChange={handleChange}
+            style={{ ...inputStyle, minHeight: "100px", resize: "vertical" }}
           />
 
           <br />
