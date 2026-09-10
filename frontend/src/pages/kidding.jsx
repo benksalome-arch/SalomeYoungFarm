@@ -1,11 +1,15 @@
 import API_URL from "../api";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useLanguage } from "../context/LanguageContext";
 
 function Kidding() {
   const { t } = useLanguage();
+  const navigate = useNavigate();
+
   const [records, setRecords] = useState([]);
+  const [breedingRecords, setBreedingRecords] = useState([]);
+  const [showBreedingSelection, setShowBreedingSelection] = useState(false);
 
   useEffect(() => {
     loadRecords();
@@ -16,6 +20,17 @@ function Kidding() {
       const response = await fetch(`${API_URL}/api/kidding`);
       const data = await response.json();
       setRecords(data);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async function openBirthRegistration() {
+    try {
+      const response = await fetch(`${API_URL}/api/breeding`);
+      const data = await response.json();
+      setBreedingRecords(data);
+      setShowBreedingSelection(true);
     } catch (error) {
       console.error(error);
     }
@@ -47,38 +62,95 @@ function Kidding() {
             ← {t("backToBreeding")}
           </Link>
 
-          <Link className="button" to="/breeding">
+          <button
+            type="button"
+            className="button"
+            onClick={openBirthRegistration}
+          >
             ➕ {t("newKidding")}
-          </Link>
+          </button>
         </div>
 
-        <div style={{ overflowX: "auto", width: "100%" }}>
+        {showBreedingSelection && (
+          <div
+            className="card"
+            style={{
+              marginBottom: "20px",
+              background: "#fff",
+            }}
+          >
+            <h3 style={{ color: "#222", WebkitTextFillColor: "#222" }}>
+              {t("newKidding")}
+            </h3>
+
+            <p style={{ color: "#222", WebkitTextFillColor: "#222" }}>
+              Select the breeding record for this birth:
+            </p>
+
+            {breedingRecords.length === 0 ? (
+              <p style={{ color: "#222", WebkitTextFillColor: "#222" }}>
+                No breeding records found.
+              </p>
+            ) : (
+              <div style={{ display: "grid", gap: "10px" }}>
+                {breedingRecords.map((breeding) => (
+                  <button
+                    key={breeding.id}
+                    type="button"
+                    className="button"
+                    style={{
+                      width: "100%",
+                      textAlign: "left",
+                      background: "#fff",
+                      color: "#222",
+                      WebkitTextFillColor: "#222",
+                      border: "1px solid #cfd6cf",
+                    }}
+                    onClick={() =>
+                      navigate(`/breeding/${breeding.id}/kidding`)
+                    }
+                  >
+                    {breeding.doe_name || "-"} × {breeding.buck_name || "-"}
+                    {" — "}
+                    {formatDate(breeding.mating_date)}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        <div
+          className="kidding-table-wrapper"
+          style={{ overflowX: "auto", width: "100%" }}
+        >
           <table
-            className="table"
+            className="table kidding-table"
             style={{
               width: "100%",
               minWidth: "700px",
               borderCollapse: "collapse",
+              tableLayout: "fixed",
             }}
           >
             <thead>
               <tr>
-                <th style={{ padding: "12px 16px", textAlign: "left" }}>
+                <th style={{ padding: "12px 16px", textAlign: "center" }}>
                   {t("date")}
                 </th>
-                <th style={{ padding: "12px 16px", textAlign: "left" }}>
+                <th style={{ padding: "12px 16px", textAlign: "center" }}>
                   {t("doe")}
                 </th>
-                <th style={{ padding: "12px 16px", textAlign: "left" }}>
+                <th style={{ padding: "12px 16px", textAlign: "center" }}>
                   {t("buck")}
                 </th>
-                <th style={{ padding: "12px 16px", textAlign: "left" }}>
+                <th style={{ padding: "12px 16px", textAlign: "center" }}>
                   {t("male")}
                 </th>
-                <th style={{ padding: "12px 16px", textAlign: "left" }}>
+                <th style={{ padding: "12px 16px", textAlign: "center" }}>
                   {t("female")}
                 </th>
-                <th style={{ padding: "12px 16px", textAlign: "left" }}>
+                <th style={{ padding: "12px 16px", textAlign: "center" }}>
                   {t("stillborn")}
                 </th>
               </tr>
