@@ -114,7 +114,7 @@ function Breeding() {
         <div className="breeding-header">
 
           <div>
-            <h2>{t("breedingRecords")}</h2>
+            <h2 style={{ color: "#222", WebkitTextFillColor: "#222" }}>{t("breedingRecords")}</h2>
 
             <p className="breeding-count">
               {records.length}{" "}
