@@ -101,11 +101,13 @@ function Kidding() {
                     style={{
                       width: "100%",
                       textAlign: "left",
-                      background: "#fff",
-                      color: "#222",
-                      WebkitTextFillColor: "#222",
-                      border: "1px solid #cfd6cf",
+                      background: "#2e7d32",
+                      color: "#fff",
+                      WebkitTextFillColor: "#fff",
+                      border: "none",
                       textDecoration: "none",
+                      cursor: "pointer",
+                      fontWeight: 600,
                     }}
                   >
                     {breeding.doe_name || "-"} × {breeding.buck_name || "-"}
