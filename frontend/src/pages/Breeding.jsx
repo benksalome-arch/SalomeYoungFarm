@@ -260,18 +260,6 @@ function Breeding() {
                       type="button"
                       className="button"
                       onClick={() =>
-                        navigate(
-                          `/breeding/${record.id}/kidding`
-                        )
-                      }
-                    >
-                      🍼 {t("registerKidding")}
-                    </button>
-
-                    <button
-                      type="button"
-                      className="button"
-                      onClick={() =>
                         deleteRecord(record.id)
                       }
                     >
