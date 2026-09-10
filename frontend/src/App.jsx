@@ -251,6 +251,11 @@ function App() {
           />
 
           <Route
+            path="/kidding/add"
+            element={<AddKidding />}
+          />
+
+          <Route
             path="/breeding/:id/kidding"
             element={<AddKidding />}
           />

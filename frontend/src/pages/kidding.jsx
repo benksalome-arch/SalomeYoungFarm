@@ -62,13 +62,9 @@ function Kidding() {
             ← {t("backToBreeding")}
           </Link>
 
-          <button
-            type="button"
-            className="button"
-            onClick={openBirthRegistration}
-          >
+          <Link className="button" to="/kidding/add">
             ➕ {t("newKidding")}
-          </button>
+          </Link>
         </div>
 
         {showBreedingSelection && (
