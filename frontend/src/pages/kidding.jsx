@@ -58,10 +58,6 @@ function Kidding() {
             flexWrap: "wrap",
           }}
         >
-          <Link className="button" to="/breeding">
-            ← {t("backToBreeding")}
-          </Link>
-
           <Link className="button" to="/kidding/add">
             ➕ {t("newKidding")}
           </Link>
