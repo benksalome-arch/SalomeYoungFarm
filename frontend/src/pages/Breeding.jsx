@@ -128,13 +128,6 @@ function Breeding() {
 
             <Link
               className="button"
-              to="/kidding"
-            >
-              🍼 {t("kiddingRecords")}
-            </Link>
-
-            <Link
-              className="button"
               to="/breeding/add"
             >
               ➕ {t("newBreeding")}
