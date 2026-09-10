@@ -94,10 +94,10 @@ function Kidding() {
             ) : (
               <div style={{ display: "grid", gap: "10px" }}>
                 {breedingRecords.map((breeding) => (
-                  <Link
+                  <a
                     key={breeding.id}
+                    href={`/breeding/${breeding.id}/kidding`}
                     className="button"
-                    to={`/breeding/${breeding.id}/kidding`}
                     style={{
                       width: "100%",
                       textAlign: "left",
@@ -105,12 +105,13 @@ function Kidding() {
                       color: "#222",
                       WebkitTextFillColor: "#222",
                       border: "1px solid #cfd6cf",
+                      textDecoration: "none",
                     }}
                   >
                     {breeding.doe_name || "-"} × {breeding.buck_name || "-"}
                     {" — "}
                     {formatDate(breeding.mating_date)}
-                  </Link>
+                  </a>
                 ))}
               </div>
             )}
