@@ -84,12 +84,12 @@ function Kidding() {
             </h3>
 
             <p style={{ color: "#222", WebkitTextFillColor: "#222" }}>
-              Select the breeding record for this birth:
+              {t("selectBreedingRecordForBirth")}
             </p>
 
             {breedingRecords.length === 0 ? (
               <p style={{ color: "#222", WebkitTextFillColor: "#222" }}>
-                No breeding records found.
+                {t("noBreedingRecordsFound")}
               </p>
             ) : (
               <div style={{ display: "grid", gap: "10px" }}>
