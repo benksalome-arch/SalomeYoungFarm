@@ -139,16 +139,29 @@ function Chickens() {
           </p>
         </div>
 
-        <Link
-          className="button"
-          to="/chickens/add"
-          style={{
-            whiteSpace: "nowrap",
-            flexShrink: 0,
-          }}
-        >
-          ➕ {t("addChicken")}
-        </Link>
+        <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
+          <Link
+            className="button"
+            to="/chickens/add"
+            style={{
+              whiteSpace: "nowrap",
+              flexShrink: 0,
+            }}
+          >
+            ➕ {t("addChicken")}
+          </Link>
+
+          <Link
+            className="button"
+            to="/chickens/flock"
+            style={{
+              whiteSpace: "nowrap",
+              flexShrink: 0,
+            }}
+          >
+            🐔 {t("registerFlock")}
+          </Link>
+        </div>
       </div>
 
       {/* CHICKEN TABLE */}
