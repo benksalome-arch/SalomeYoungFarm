@@ -237,7 +237,7 @@ function RegisterChickenFlock() {
                 document.body.appendChild(overlay);
               }}
               style={{
-                width: "100%",
+                width: "160px",
                 boxSizing: "border-box",
                 padding: "10px 12px",
                 border: "1px solid #ccc",
