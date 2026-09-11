@@ -1,11 +1,10 @@
 import API_URL from "../api";
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useLanguage } from "../context/LanguageContext";
 
 function Kidding() {
   const { t } = useLanguage();
-  const navigate = useNavigate();
 
   const [records, setRecords] = useState([]);
   const [breedingRecords, setBreedingRecords] = useState([]);
@@ -43,6 +42,56 @@ function Kidding() {
 
   return (
     <div className="page">
+      <style>{`
+        .kidding-mobile-list {
+          display: none;
+        }
+
+        .kidding-mobile-card {
+          background: #fff;
+          border: 1px solid #e1e5e1;
+          border-radius: 10px;
+          padding: 16px;
+          margin-bottom: 12px;
+          box-sizing: border-box;
+        }
+
+        .kidding-mobile-row {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          gap: 16px;
+          padding: 7px 0;
+          border-bottom: 1px solid #eeeeee;
+        }
+
+        .kidding-mobile-row:last-child {
+          border-bottom: none;
+        }
+
+        .kidding-mobile-label {
+          font-weight: 600;
+          color: #222;
+          flex: 0 0 auto;
+        }
+
+        .kidding-mobile-value {
+          color: #555;
+          text-align: right;
+          overflow-wrap: anywhere;
+        }
+
+        @media (max-width: 700px) {
+          .kidding-table-wrapper {
+            display: none !important;
+          }
+
+          .kidding-mobile-list {
+            display: block;
+          }
+        }
+      `}</style>
+
       <div className="page-header">
         <h1>🍼 {t("kiddingRecords")}</h1>
         <p>{t("allGoatBirths")}</p>
@@ -100,6 +149,7 @@ function Kidding() {
                       textDecoration: "none",
                       cursor: "pointer",
                       fontWeight: 600,
+                      boxSizing: "border-box",
                     }}
                   >
                     {breeding.doe_name || "-"} × {breeding.buck_name || "-"}
@@ -112,6 +162,7 @@ function Kidding() {
           </div>
         )}
 
+        {/* Desktop table */}
         <div
           className="kidding-table-wrapper"
           style={{ overflowX: "auto", width: "100%" }}
@@ -187,6 +238,79 @@ function Kidding() {
               )}
             </tbody>
           </table>
+        </div>
+
+        {/* Mobile cards */}
+        <div className="kidding-mobile-list">
+          {records.length === 0 ? (
+            <div
+              style={{
+                textAlign: "center",
+                padding: "24px",
+                color: "#222",
+              }}
+            >
+              {t("noKiddingRecordsFound")}
+            </div>
+          ) : (
+            records.map((record) => (
+              <div className="kidding-mobile-card" key={record.id}>
+                <div className="kidding-mobile-row">
+                  <span className="kidding-mobile-label">
+                    {t("date")}
+                  </span>
+                  <span className="kidding-mobile-value">
+                    {formatDate(record.kidding_date)}
+                  </span>
+                </div>
+
+                <div className="kidding-mobile-row">
+                  <span className="kidding-mobile-label">
+                    {t("doe")}
+                  </span>
+                  <span className="kidding-mobile-value">
+                    {record.doe_name || "-"}
+                  </span>
+                </div>
+
+                <div className="kidding-mobile-row">
+                  <span className="kidding-mobile-label">
+                    {t("buck")}
+                  </span>
+                  <span className="kidding-mobile-value">
+                    {record.buck_name || "-"}
+                  </span>
+                </div>
+
+                <div className="kidding-mobile-row">
+                  <span className="kidding-mobile-label">
+                    {t("male")}
+                  </span>
+                  <span className="kidding-mobile-value">
+                    {record.male_kids ?? 0}
+                  </span>
+                </div>
+
+                <div className="kidding-mobile-row">
+                  <span className="kidding-mobile-label">
+                    {t("female")}
+                  </span>
+                  <span className="kidding-mobile-value">
+                    {record.female_kids ?? 0}
+                  </span>
+                </div>
+
+                <div className="kidding-mobile-row">
+                  <span className="kidding-mobile-label">
+                    {t("stillborn")}
+                  </span>
+                  <span className="kidding-mobile-value">
+                    {record.stillborn ?? 0}
+                  </span>
+                </div>
+              </div>
+            ))
+          )}
         </div>
       </div>
     </div>
