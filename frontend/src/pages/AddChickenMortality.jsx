@@ -118,7 +118,15 @@ function AddChickenMortality() {
         }}
       >
         <div>
-          <h1>🐔 {t("recordChickenMortality")}</h1>
+          <h1
+          style={{
+            margin: 0,
+            color: "#222",
+            WebkitTextFillColor: "#222",
+          }}
+        >
+          🐔 {t("recordChickenMortality")}
+        </h1>
         </div>
 
         <Link
