@@ -11,7 +11,7 @@ function AddChickenMortality() {
 
   const [formData, setFormData] = useState({
     chicken_id: "",
-    mortality_date: new Date().toISOString().split("T")[0],
+    mortality_date: "",
     quantity: 1,
     cause: "",
     notes: "",
