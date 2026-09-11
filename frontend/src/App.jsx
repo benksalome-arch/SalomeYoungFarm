@@ -79,6 +79,7 @@ import AddFeedUsage from "./pages/AddFeedUsage";
 
 import Chickens from "./pages/Chickens";
 import AddChicken from "./pages/AddChicken";
+import RegisterChickenFlock from "./pages/RegisterChickenFlock";
 import EditChicken from "./pages/EditChicken";
 import ChickenProfile from "./pages/ChickenProfile";
 
@@ -358,6 +359,11 @@ function App() {
           <Route
             path="/chickens/add"
             element={<AddChicken />}
+          />
+
+          <Route
+            path="/chickens/flock"
+            element={<RegisterChickenFlock />}
           />
 
           <Route
