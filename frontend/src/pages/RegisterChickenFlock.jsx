@@ -6,14 +6,6 @@ import { useLanguage } from "../context/LanguageContext";
 function RegisterChickenFlock() {
   const { t } = useLanguage();
 
-  const inputStyle = {
-    width: "100%",
-    boxSizing: "border-box",
-    padding: "10px 12px",
-    border: "1px solid #ccc",
-    borderRadius: "8px",
-    fontSize: "16px",
-  };
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -170,7 +162,7 @@ function RegisterChickenFlock() {
 
                 const box = document.createElement("div");
                 box.style.cssText =
-                  "width:min(92vw,360px);background:#fff;border-radius:14px;padding:18px;box-sizing:border-box;box-shadow:0 8px 30px rgba(0,0,0,.25);";
+                  "width:min(92vw,320px);background:#fff;border-radius:14px;padding:14px;box-sizing:border-box;box-shadow:0 8px 30px rgba(0,0,0,.25);";
 
                 const title = document.createElement("div");
                 title.textContent = selected
@@ -245,7 +237,12 @@ function RegisterChickenFlock() {
                 document.body.appendChild(overlay);
               }}
               style={{
-                ...inputStyle,
+                width: "100%",
+                boxSizing: "border-box",
+                padding: "10px 12px",
+                border: "1px solid #ccc",
+                borderRadius: "8px",
+                fontSize: "16px",
                 color: "#222",
                 WebkitTextFillColor: "#222",
                 backgroundColor: "#fff",
