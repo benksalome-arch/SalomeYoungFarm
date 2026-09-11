@@ -5,6 +5,15 @@ import { useLanguage } from "../context/LanguageContext";
 
 function RegisterChickenFlock() {
   const { t } = useLanguage();
+
+  const inputStyle = {
+    width: "100%",
+    boxSizing: "border-box",
+    padding: "10px 12px",
+    border: "1px solid #ccc",
+    borderRadius: "8px",
+    fontSize: "16px",
+  };
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
