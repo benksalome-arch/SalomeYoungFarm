@@ -109,9 +109,36 @@ function AddFeed() {
       min-width: 0;
     }
 
-    .add-feed-field > div input,
-    .add-feed-field > div select {
+    .add-feed-field > div {
+      display: flex;
+      width: 100%;
+      min-width: 0;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      background: #fff;
+      overflow: hidden;
+    }
+
+    .add-feed-field > div input {
+      flex: 1 1 auto !important;
+      min-width: 0 !important;
+      width: auto !important;
       border: none !important;
+      outline: none !important;
+      border-radius: 0 !important;
+      margin: 0 !important;
+    }
+
+    .add-feed-field > div select {
+      flex: 0 0 105px !important;
+      width: 105px !important;
+      min-width: 105px !important;
+      border: none !important;
+      border-left: 1px solid #ddd !important;
+      outline: none !important;
+      border-radius: 0 !important;
+      margin: 0 !important;
     }
 
     .add-feed-notes {
