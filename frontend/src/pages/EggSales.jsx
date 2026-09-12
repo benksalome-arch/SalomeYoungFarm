@@ -245,14 +245,35 @@ function EggSales() {
                   </td>
 
                   <td>
-                    <button
-                      className="button"
-                      onClick={() =>
-                        deleteSale(sale.id)
-                      }
+                    <div
+                      style={{
+                        display: "flex",
+                        gap: "8px",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        flexWrap: "nowrap",
+                        minWidth: "190px",
+                      }}
                     >
-                      🗑 {text("delete", "Delete")}
-                    </button>
+                      <Link
+                        to={`/egg-sales/${sale.id}/edit`}
+                        className="button"
+                        style={{
+                          textDecoration: "none",
+                        }}
+                      >
+                        ✏️ {text("edit", "Edit")}
+                      </Link>
+
+                      <button
+                        className="button"
+                        onClick={() =>
+                          deleteSale(sale.id)
+                        }
+                      >
+                        🗑 {text("delete", "Delete")}
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))
