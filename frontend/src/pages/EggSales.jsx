@@ -260,6 +260,7 @@ function EggSales() {
                         className="button"
                         style={{
                           textDecoration: "none",
+                          whiteSpace: "nowrap",
                         }}
                       >
                         ✏️ {text("edit", "Edit")}
@@ -267,6 +268,9 @@ function EggSales() {
 
                       <button
                         className="button"
+                        style={{
+                          whiteSpace: "nowrap",
+                        }}
                         onClick={() =>
                           deleteSale(sale.id)
                         }
