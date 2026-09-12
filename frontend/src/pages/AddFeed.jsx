@@ -15,7 +15,7 @@ function AddFeed() {
     minimum_stock: "",
     cost_per_unit: "",
     supplier: "",
-    purchase_date: new Date().toISOString().split("T")[0],
+    purchase_date: "",
     notes: "",
   });
 
@@ -52,18 +52,93 @@ function AddFeed() {
   }
 
   const labelStyle = {
-    display: "block",
-    fontWeight: "600",
-    marginBottom: "8px",
+    fontWeight: 600,
+    fontSize: "15px",
+    textAlign: "right",
+    color: "#222",
   };
 
   const inputStyle = {
     width: "100%",
     boxSizing: "border-box",
+    padding: "10px 12px",
+    minHeight: "44px",
+    border: "1px solid #cfd6cf",
+    borderRadius: "7px",
+    background: "#fff",
+    color: "#222",
+    WebkitTextFillColor: "#222",
+    fontSize: "15px",
   };
+
+  const responsiveStyles = `
+    .add-feed-field {
+      display: grid;
+      grid-template-columns: 150px minmax(0, 260px);
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    .add-feed-field > label,
+    .add-feed-notes > label {
+      margin: 0 !important;
+      font-weight: 600 !important;
+      font-size: 15px !important;
+      text-align: right !important;
+      color: #222 !important;
+      -webkit-text-fill-color: #222 !important;
+    }
+
+    .add-feed-field input,
+    .add-feed-field select,
+    .add-feed-notes textarea {
+      width: 100% !important;
+      box-sizing: border-box !important;
+      padding: 10px 12px !important;
+      min-height: 44px !important;
+      border: 1px solid #cfd6cf !important;
+      border-radius: 7px !important;
+      background: #fff !important;
+      color: #222 !important;
+      -webkit-text-fill-color: #222 !important;
+      font-size: 15px !important;
+    }
+
+    .add-feed-field > div {
+      min-width: 0;
+    }
+
+    .add-feed-field > div input,
+    .add-feed-field > div select {
+      border: none !important;
+    }
+
+    .add-feed-notes {
+      display: grid;
+      grid-template-columns: 150px minmax(0, 260px);
+      align-items: start;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .add-feed-notes textarea {
+      min-height: 100px !important;
+      resize: vertical;
+    }
+
+    @media (max-width: 700px) {
+      .add-feed-field,
+      .add-feed-notes {
+        grid-template-columns: 105px minmax(0, 1fr);
+        gap: 10px;
+      }
+    }
+  `;
 
   return (
     <div className="page">
+      <style>{responsiveStyles}</style>
       <div
         className="page-header"
         style={{
@@ -76,7 +151,13 @@ function AddFeed() {
         }}
       >
         <div>
-          <h1 style={{ marginBottom: "6px" }}>
+          <h1
+            style={{
+              margin: "0 0 6px 0",
+              color: "#222",
+              WebkitTextFillColor: "#222",
+            }}
+          >
             🌾 {t("addFeed")}
           </h1>
 
@@ -101,7 +182,7 @@ function AddFeed() {
         className="card"
         style={{
           width: "100%",
-          maxWidth: "900px",
+          maxWidth: "620px",
           margin: "0 auto",
           padding: "30px",
           boxSizing: "border-box",
@@ -113,22 +194,20 @@ function AddFeed() {
             textAlign: "center",
             marginTop: 0,
             marginBottom: "30px",
+            color: "#222",
+            WebkitTextFillColor: "#222",
           }}
         >
           🌾 {t("feedManagement")}
         </h2>
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="add-feed-form">
           <div
             style={{
-              display: "grid",
-              gridTemplateColumns:
-                "repeat(3, minmax(0, 1fr))",
-              gap: "24px 28px",
-              alignItems: "start",
+              display: "block",
             }}
           >
-            <div>
+            <div className="add-feed-field">
               <label
                 htmlFor="feed_name"
                 style={labelStyle}
@@ -147,7 +226,7 @@ function AddFeed() {
               />
             </div>
 
-            <div>
+            <div className="add-feed-field">
               <label
                 htmlFor="category"
                 style={labelStyle}
@@ -180,7 +259,7 @@ function AddFeed() {
               </select>
             </div>
 
-            <div>
+            <div className="add-feed-field">
               <label
                 htmlFor="quantity"
                 style={labelStyle}
@@ -253,7 +332,7 @@ function AddFeed() {
               </div>
             </div>
 
-            <div>
+            <div className="add-feed-field">
               <label
                 htmlFor="minimum_stock"
                 style={labelStyle}
@@ -324,7 +403,7 @@ function AddFeed() {
               </div>
             </div>
 
-            <div>
+            <div className="add-feed-field">
               <label
                 htmlFor="cost_per_unit"
                 style={labelStyle}
@@ -343,7 +422,7 @@ function AddFeed() {
               />
             </div>
 
-            <div>
+            <div className="add-feed-field">
               <label
                 htmlFor="supplier"
                 style={labelStyle}
@@ -361,7 +440,7 @@ function AddFeed() {
               />
             </div>
 
-            <div>
+            <div className="add-feed-field">
               <label
                 htmlFor="purchase_date"
                 style={labelStyle}
@@ -371,19 +450,145 @@ function AddFeed() {
 
               <input
                 id="purchase_date"
-                type="date"
+                type="text"
                 name="purchase_date"
-                value={formData.purchase_date}
-                onChange={handleChange}
-                style={inputStyle}
+                value={
+                  formData.purchase_date
+                    ? formData.purchase_date.split("-").reverse().join("-")
+                    : ""
+                }
+                placeholder="DD-MM-JJJJ"
+                readOnly
+                required
+                onClick={() => {
+                  const today = new Date();
+
+                  const selected = formData.purchase_date
+                    ? new Date(formData.purchase_date + "T00:00:00")
+                    : today;
+
+                  const year = selected.getFullYear();
+                  const month = selected.getMonth();
+                  const firstDay = new Date(year, month, 1).getDay();
+                  const daysInMonth = new Date(
+                    year,
+                    month + 1,
+                    0
+                  ).getDate();
+
+                  const overlay = document.createElement("div");
+
+                  overlay.style.cssText =
+                    "position:fixed;inset:0;background:rgba(0,0,0,.35);display:flex;align-items:center;justify-content:center;z-index:99999;";
+
+                  const box = document.createElement("div");
+
+                  box.style.cssText =
+                    "width:min(92vw,320px);background:#fff;border-radius:14px;padding:18px;box-sizing:border-box;box-shadow:0 8px 30px rgba(0,0,0,.25);";
+
+                  const title = document.createElement("div");
+
+                  title.textContent = selected
+                    .toLocaleDateString("en-GB", {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                    })
+                    .replaceAll("/", "-");
+
+                  title.style.cssText =
+                    "text-align:center;font-size:20px;font-weight:700;margin-bottom:14px;color:#222;-webkit-text-fill-color:#222;";
+
+                  const grid = document.createElement("div");
+
+                  grid.style.cssText =
+                    "display:grid;grid-template-columns:repeat(7,1fr);gap:6px;";
+
+                  [
+                    t("sun"),
+                    t("mon"),
+                    t("tue"),
+                    t("wed"),
+                    t("thu"),
+                    t("fri"),
+                    t("sat"),
+                  ].forEach((day) => {
+                    const el = document.createElement("div");
+
+                    el.textContent = day;
+
+                    el.style.cssText =
+                      "text-align:center;font-weight:600;font-size:13px;padding:6px 0;color:#222;-webkit-text-fill-color:#222;";
+
+                    grid.appendChild(el);
+                  });
+
+                  for (let i = 0; i < firstDay; i++) {
+                    grid.appendChild(document.createElement("div"));
+                  }
+
+                  for (let day = 1; day <= daysInMonth; day++) {
+                    const el = document.createElement("button");
+
+                    el.type = "button";
+                    el.textContent = day;
+
+                    const isToday =
+                      day === today.getDate() &&
+                      month === today.getMonth() &&
+                      year === today.getFullYear();
+
+                    el.style.cssText = `min-height:40px;border:${
+                      isToday ? "2px solid #2e7d32" : "1px solid #ddd"
+                    };border-radius:8px;background:${
+                      isToday ? "#e8f5e9" : "#fff"
+                    };color:#222;-webkit-text-fill-color:#222;font-size:15px;font-weight:600;display:flex;align-items:center;justify-content:center;`;
+
+                    el.onclick = () => {
+                      const value =
+                        year +
+                        "-" +
+                        String(month + 1).padStart(2, "0") +
+                        "-" +
+                        String(day).padStart(2, "0");
+
+                      setFormData((prev) => ({
+                        ...prev,
+                        purchase_date: value,
+                      }));
+
+                      document.body.removeChild(overlay);
+                    };
+
+                    grid.appendChild(el);
+                  }
+
+                  const cancel = document.createElement("button");
+
+                  cancel.type = "button";
+                  cancel.textContent = t("cancel");
+
+                  cancel.style.cssText =
+                    "width:100%;margin-top:14px;min-height:44px;border:1px solid #ccc;border-radius:8px;background:#fff;color:#222;-webkit-text-fill-color:#222;font-size:15px;font-weight:600;";
+
+                  cancel.onclick = () =>
+                    document.body.removeChild(overlay);
+
+                  box.appendChild(title);
+                  box.appendChild(grid);
+                  box.appendChild(cancel);
+
+                  overlay.appendChild(box);
+                  document.body.appendChild(overlay);
+                }}
+                style={{
+                  ...inputStyle,
+                  cursor: "pointer",
+                }}
               />
             </div>
 
-            <div
-              style={{
-                gridColumn: "1 / -1",
-              }}
-            >
+            <div className="add-feed-notes">
               <label
                 htmlFor="notes"
                 style={{
@@ -413,9 +618,10 @@ function AddFeed() {
           <div
             style={{
               display: "flex",
-              gap: "12px",
-              marginTop: "28px",
+              gap: "10px",
+              justifyContent: "center",
               flexWrap: "wrap",
+              marginTop: "28px",
             }}
           >
             <button
