@@ -146,18 +146,28 @@ function EggSales() {
         }}
       >
         <div className="card">
-          <h3>{text("totalSales", "Total Sales")}</h3>
-          <h2>{sales.length}</h2>
+          <h3 style={{ color: "#222", WebkitTextFillColor: "#222" }}>
+            {text("totalSales", "Total Sales")}
+          </h3>
+          <h2 style={{ color: "#222", WebkitTextFillColor: "#222" }}>
+            {sales.length}
+          </h2>
         </div>
 
         <div className="card">
-          <h3>{text("eggsSold", "Eggs Sold")}</h3>
-          <h2>{totalEggs}</h2>
+          <h3 style={{ color: "#222", WebkitTextFillColor: "#222" }}>
+            {text("eggsSold", "Eggs Sold")}
+          </h3>
+          <h2 style={{ color: "#222", WebkitTextFillColor: "#222" }}>
+            {totalEggs}
+          </h2>
         </div>
 
         <div className="card">
-          <h3>{text("totalRevenue", "Total Revenue")}</h3>
-          <h2>
+          <h3 style={{ color: "#222", WebkitTextFillColor: "#222" }}>
+            {text("totalRevenue", "Total Revenue")}
+          </h3>
+          <h2 style={{ color: "#222", WebkitTextFillColor: "#222" }}>
             KES {totalRevenue.toLocaleString()}
           </h2>
         </div>
