@@ -1,9 +1,11 @@
 import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { useLanguage } from "../context/LanguageContext";
 
 function AddFeedUsage() {
   const navigate = useNavigate();
+  const { t } = useLanguage();
 
   const [feeds, setFeeds] = useState([]);
 

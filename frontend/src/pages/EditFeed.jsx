@@ -1,8 +1,10 @@
 import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
+import { useLanguage } from "../context/LanguageContext";
 
 function EditFeed() {
+  const { t } = useLanguage();
   const { id } = useParams();
   const navigate = useNavigate();
 
