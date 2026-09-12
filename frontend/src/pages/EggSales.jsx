@@ -177,6 +177,7 @@ function EggSales() {
           style={{
             width: "100%",
             minWidth: "0",
+            tableLayout: "fixed",
           }}
         >
           <thead>
@@ -252,7 +253,7 @@ function EggSales() {
                         justifyContent: "center",
                         alignItems: "center",
                         flexWrap: "nowrap",
-                        minWidth: "190px",
+                        minWidth: "0",
                       }}
                     >
                       <Link
@@ -343,6 +344,11 @@ function EggSales() {
       </div>
 
       <style>{`
+        .egg-sales-desktop table th:last-child,
+        .egg-sales-desktop table td:last-child {
+          width: 200px;
+        }
+
         @media (max-width: 700px) {
           .egg-sales-desktop {
             display: none !important;
