@@ -88,6 +88,8 @@ function AddFeed() {
       text-align: right !important;
       color: #222 !important;
       -webkit-text-fill-color: #222 !important;
+      overflow-wrap: anywhere;
+      line-height: 1.25;
     }
 
     .add-feed-field input,
