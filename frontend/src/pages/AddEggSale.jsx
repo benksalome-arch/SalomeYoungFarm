@@ -7,6 +7,34 @@ function AddEggSale() {
   const { t } = useLanguage();
   const navigate = useNavigate();
 
+  const fieldStyle = {
+    display: "grid",
+    gridTemplateColumns: "150px minmax(0, 260px)",
+    alignItems: "center",
+    gap: "14px",
+    marginBottom: "16px",
+  };
+
+  const labelStyle = {
+    fontWeight: 600,
+    fontSize: "15px",
+    textAlign: "right",
+    color: "#222",
+  };
+
+  const inputStyle = {
+    width: "100%",
+    boxSizing: "border-box",
+    padding: "10px 12px",
+    minHeight: "44px",
+    border: "1px solid #cfd6cf",
+    borderRadius: "7px",
+    background: "#fff",
+    color: "#222",
+    WebkitTextFillColor: "#222",
+    fontSize: "15px",
+  };
+
   const [formData, setFormData] = useState({
     sale_date: "",
     customer: "",
@@ -58,8 +86,66 @@ function AddEggSale() {
     }
   }
 
+  const responsiveStyles = `
+    .add-egg-sale-field {
+      display: grid;
+      grid-template-columns: 150px minmax(0, 260px);
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    .add-egg-sale-field label,
+    .add-egg-sale-notes label {
+      display: block !important;
+      margin-bottom: 0 !important;
+      font-weight: 600 !important;
+      font-size: 15px !important;
+      text-align: right !important;
+      color: #222 !important;
+      -webkit-text-fill-color: #222 !important;
+    }
+
+    .add-egg-sale-field input,
+    .add-egg-sale-field select,
+    .add-egg-sale-notes textarea {
+      width: 100% !important;
+      box-sizing: border-box !important;
+      padding: 10px 12px !important;
+      min-height: 44px !important;
+      border: 1px solid #cfd6cf !important;
+      border-radius: 7px !important;
+      background: #fff !important;
+      color: #222 !important;
+      -webkit-text-fill-color: #222 !important;
+      font-size: 15px !important;
+    }
+
+    .add-egg-sale-notes {
+      display: grid;
+      grid-template-columns: 150px minmax(0, 260px);
+      align-items: start;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .add-egg-sale-notes textarea {
+      min-height: 100px !important;
+      resize: vertical;
+    }
+
+    @media (max-width: 700px) {
+      .add-egg-sale-field,
+      .add-egg-sale-notes {
+        grid-template-columns: 105px minmax(0, 1fr);
+        gap: 10px;
+      }
+    }
+  `;
+
   return (
     <div className="page">
+      <style>{responsiveStyles}</style>
       <div
         className="page-header"
         style={{
@@ -72,7 +158,13 @@ function AddEggSale() {
         }}
       >
         <div>
-          <h1 style={{ marginBottom: "6px" }}>
+          <h1
+            style={{
+              margin: "0 0 6px 0",
+              color: "#222",
+              WebkitTextFillColor: "#222",
+            }}
+          >
             🥚 {t("recordEggSale")}
           </h1>
 
@@ -97,7 +189,7 @@ function AddEggSale() {
         className="card"
         style={{
           width: "100%",
-          maxWidth: "900px",
+          maxWidth: "620px",
           margin: "0 auto",
           padding: "30px",
           boxSizing: "border-box",
@@ -109,21 +201,20 @@ function AddEggSale() {
             textAlign: "center",
             marginTop: 0,
             marginBottom: "30px",
+            color: "#222",
+            WebkitTextFillColor: "#222",
           }}
         >
           🥚 {t("saleDetails")}
         </h2>
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="add-egg-sale-form">
           <div
             style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
-              gap: "24px 28px",
-              alignItems: "start",
+              display: "block",
             }}
           >
-            <div>
+            <div className="add-egg-sale-field">
               <label
                 htmlFor="sale_date"
                 style={{
@@ -284,7 +375,7 @@ function AddEggSale() {
               />
             </div>
 
-            <div>
+            <div className="add-egg-sale-field">
               <label
                 htmlFor="customer"
                 style={{
@@ -310,7 +401,7 @@ function AddEggSale() {
               />
             </div>
 
-            <div>
+            <div className="add-egg-sale-field">
               <label
                 htmlFor="quantity"
                 style={{
@@ -338,7 +429,7 @@ function AddEggSale() {
               />
             </div>
 
-            <div>
+            <div className="add-egg-sale-field">
               <label
                 htmlFor="price_per_egg"
                 style={{
@@ -366,7 +457,7 @@ function AddEggSale() {
               />
             </div>
 
-            <div>
+            <div className="add-egg-sale-field">
               <label
                 htmlFor="payment_method"
                 style={{
@@ -394,11 +485,7 @@ function AddEggSale() {
               </select>
             </div>
 
-            <div
-              style={{
-                gridColumn: "1 / -1",
-              }}
-            >
+            <div className="add-egg-sale-notes">
               <label
                 htmlFor="notes"
                 style={{
@@ -430,9 +517,10 @@ function AddEggSale() {
           <div
             style={{
               display: "flex",
-              gap: "12px",
-              marginTop: "28px",
+              gap: "10px",
+              justifyContent: "center",
               flexWrap: "wrap",
+              marginTop: "28px",
             }}
           >
             <button type="submit" className="button">
