@@ -176,7 +176,7 @@ function EggSales() {
           className="table"
           style={{
             width: "100%",
-            minWidth: "850px",
+            minWidth: "0",
           }}
         >
           <thead>
