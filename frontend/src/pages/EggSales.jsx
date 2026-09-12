@@ -350,6 +350,18 @@ function EggSales() {
 
           .egg-sales-mobile {
             display: block !important;
+            width: 100%;
+            max-width: 100%;
+            min-width: 0;
+            box-sizing: border-box;
+            overflow-x: hidden;
+          }
+
+          .egg-sales-mobile .card {
+            width: 100%;
+            max-width: 100%;
+            min-width: 0;
+            box-sizing: border-box;
           }
         }
       `}</style>
