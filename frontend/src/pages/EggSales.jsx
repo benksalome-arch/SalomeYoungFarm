@@ -346,7 +346,13 @@ function EggSales() {
       <style>{`
         .egg-sales-desktop table th:last-child,
         .egg-sales-desktop table td:last-child {
-          width: 200px;
+          width: 220px;
+          overflow: hidden;
+        }
+
+        .egg-sales-desktop td:last-child .button {
+          padding: 8px 10px;
+          font-size: 13px;
         }
 
         @media (max-width: 700px) {
