@@ -165,7 +165,7 @@ function EggSales() {
 
       {/* SALES TABLE */}
       <div
-        className="card"
+        className="card egg-sales-desktop"
         style={{
           width: "100%",
           overflowX: "auto",
@@ -285,6 +285,74 @@ function EggSales() {
           </tbody>
         </table>
       </div>
+
+      {/* MOBILE SALES LIST */}
+      <div
+        className="egg-sales-mobile"
+        style={{
+          display: "none",
+        }}
+      >
+        {sales.map((sale) => (
+          <div
+            key={sale.id}
+            className="card"
+            style={{
+              marginBottom: "12px",
+            }}
+          >
+            <div><strong>{text("date", "Date")}:</strong> {sale.sale_date ? sale.sale_date.split("T")[0] : "-"}</div>
+            <div><strong>{text("customer", "Customer")}:</strong> {sale.customer || text("walkInCustomer", "Walk-in Customer")}</div>
+            <div><strong>{text("quantity", "Quantity")}:</strong> {sale.quantity}</div>
+            <div><strong>{text("pricePerEgg", "Price/Egg")}:</strong> KES {Number(sale.price_per_egg || 0).toLocaleString()}</div>
+            <div><strong>{text("total", "Total")}:</strong> KES {Number(sale.total_amount || 0).toLocaleString()}</div>
+            <div><strong>{text("payment", "Payment")}:</strong> {sale.payment_method || "-"}</div>
+
+            <div
+              style={{
+                display: "flex",
+                gap: "8px",
+                justifyContent: "center",
+                flexWrap: "wrap",
+                marginTop: "12px",
+              }}
+            >
+              <Link
+                to={`/egg-sales/${sale.id}/edit`}
+                className="button"
+                style={{
+                  textDecoration: "none",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                ✏️ {text("edit", "Edit")}
+              </Link>
+
+              <button
+                className="button"
+                style={{
+                  whiteSpace: "nowrap",
+                }}
+                onClick={() => deleteSale(sale.id)}
+              >
+                🗑 {text("delete", "Delete")}
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <style>{`
+        @media (max-width: 700px) {
+          .egg-sales-desktop {
+            display: none !important;
+          }
+
+          .egg-sales-mobile {
+            display: block !important;
+          }
+        }
+      `}</style>
     </div>
   );
 }
