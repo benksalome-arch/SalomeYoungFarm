@@ -8,6 +8,8 @@ function AddRabbitMortality() {
   const navigate = useNavigate();
 
   const [rabbits, setRabbits] = useState([]);
+  const [calendarOpen, setCalendarOpen] = useState(false);
+  const [calendarMonth, setCalendarMonth] = useState(new Date());
 
   const [formData, setFormData] = useState({
     rabbit_id: "",
@@ -50,6 +52,50 @@ function AddRabbitMortality() {
       [name]: value,
     });
   }
+
+  function formatDisplayDate(value) {
+    if (!value) return "";
+    const [year, month, day] = value.split("-");
+    return `${day}-${month}-${year}`;
+  }
+
+  function selectCalendarDate(day) {
+    const year = calendarMonth.getFullYear();
+    const month = String(calendarMonth.getMonth() + 1).padStart(2, "0");
+    const date = String(day).padStart(2, "0");
+
+    setFormData({
+      ...formData,
+      mortality_date: `${year}-${month}-${date}`,
+    });
+    setCalendarOpen(false);
+  }
+
+  function changeCalendarMonth(offset) {
+    setCalendarMonth(
+      new Date(
+        calendarMonth.getFullYear(),
+        calendarMonth.getMonth() + offset,
+        1
+      )
+    );
+  }
+
+  const firstDay = new Date(
+    calendarMonth.getFullYear(),
+    calendarMonth.getMonth(),
+    1
+  ).getDay();
+
+  const daysInMonth = new Date(
+    calendarMonth.getFullYear(),
+    calendarMonth.getMonth() + 1,
+    0
+  ).getDate();
+
+  const calendarDays = [];
+  for (let i = 0; i < firstDay; i++) calendarDays.push(null);
+  for (let day = 1; day <= daysInMonth; day++) calendarDays.push(day);
 
   const selectedRabbit = rabbits.find(
     (rabbit) =>
@@ -152,9 +198,17 @@ function AddRabbitMortality() {
         }}
       >
         <div>
-          <h1>☠️ {t("recordRabbitMortality")}</h1>
+          <h1
+            style={{
+              margin: 0,
+              color: "#222",
+              WebkitTextFillColor: "#222",
+            }}
+          >
+            ☠️ {t("recordRabbitMortality")}
+          </h1>
 
-          <p>
+          <p style={{ color: "#222", WebkitTextFillColor: "#222" }}>
             {t("rabbitMortalityDescription")}
           </p>
         </div>
@@ -169,15 +223,24 @@ function AddRabbitMortality() {
 
       {/* Form */}
 
-      <div className="card">
+      <div
+        className="card"
+        style={{
+          width: "100%",
+          maxWidth: "620px",
+          margin: "0 auto",
+          boxSizing: "border-box",
+        }}
+      >
         <form onSubmit={handleSubmit}>
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "180px minmax(0, 1fr)",
-              gap: "16px 20px",
+              gridTemplateColumns: "150px minmax(0, 260px)",
+              gap: "14px",
               alignItems: "center",
-              maxWidth: "850px",
+              maxWidth: "620px",
+              margin: "0 auto",
             }}
           >
             {/* Rabbit */}
@@ -186,6 +249,16 @@ function AddRabbitMortality() {
             <div>
               <select
                 name="rabbit_id"
+                style={{
+                  width: "100%",
+                  boxSizing: "border-box",
+                  padding: "10px 12px",
+                  minHeight: "44px",
+                  border: "1px solid #cfd6cf",
+                  borderRadius: "7px",
+                  background: "#fff",
+                  color: "#222",
+                }}
                 value={formData.rabbit_id}
                 onChange={handleChange}
                 required
@@ -233,14 +306,176 @@ function AddRabbitMortality() {
             {/* Date */}
             <label>{t("mortalityDate")}</label>
 
-            <input
-              type="date"
-              name="mortality_date"
-              value={formData.mortality_date}
-              onChange={handleChange}
-              required
-              style={{ width: "100%" }}
-            />
+            <div style={{ position: "relative" }}>
+              <input
+                type="text"
+                value={formatDisplayDate(formData.mortality_date)}
+                placeholder="DD-MM-JJJJ"
+                readOnly
+                required
+                onClick={() => {
+                  setCalendarMonth(
+                    formData.mortality_date
+                      ? new Date(formData.mortality_date + "T00:00:00")
+                      : new Date()
+                  );
+                  setCalendarOpen(true);
+                }}
+                style={{
+                  width: "100%",
+                  boxSizing: "border-box",
+                  padding: "10px 12px",
+                  minHeight: "44px",
+                  border: "1px solid #cfd6cf",
+                  borderRadius: "7px",
+                  background: "#fff",
+                  color: "#222",
+                  WebkitTextFillColor: "#222",
+                  fontSize: "15px",
+                  cursor: "pointer",
+                }}
+              />
+
+              {calendarOpen && (
+                <div
+                  style={{
+                    position: "fixed",
+                    left: "50%",
+                    top: "50%",
+                    transform: "translate(-50%, -50%)",
+                    width: "min(92vw, 320px)",
+                    maxHeight: "90vh",
+                    overflowY: "auto",
+                    zIndex: 9999,
+                    background: "#fff",
+                    border: "1px solid #ddd",
+                    borderRadius: "10px",
+                    boxShadow: "0 8px 30px rgba(0,0,0,.25)",
+                    padding: "14px",
+                    boxSizing: "border-box",
+                  }}
+                >
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      marginBottom: "10px",
+                    }}
+                  >
+                    <button
+                      type="button"
+                      onClick={() => changeCalendarMonth(-1)}
+                      style={{
+                        border: "none",
+                        background: "none",
+                        fontSize: "22px",
+                        cursor: "pointer",
+                      }}
+                    >
+                      ‹
+                    </button>
+
+                    <strong style={{ color: "#222" }}>
+                      {calendarMonth.toLocaleString(undefined, {
+                        month: "long",
+                      })}{" "}
+                      {calendarMonth.getFullYear()}
+                    </strong>
+
+                    <button
+                      type="button"
+                      onClick={() => changeCalendarMonth(1)}
+                      style={{
+                        border: "none",
+                        background: "none",
+                        fontSize: "22px",
+                        cursor: "pointer",
+                      }}
+                    >
+                      ›
+                    </button>
+                  </div>
+
+                  <div
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns: "repeat(7, minmax(0, 1fr))",
+                      gap: "4px",
+                      textAlign: "center",
+                    }}
+                  >
+                    {["Zo", "Ma", "Di", "Wo", "Do", "Vr", "Za"].map((day) => (
+                      <strong
+                        key={day}
+                        style={{
+                          fontSize: "12px",
+                          color: "#666",
+                          padding: "4px 0",
+                        }}
+                      >
+                        {day}
+                      </strong>
+                    ))}
+
+                    {calendarDays.map((day, index) => {
+                      if (!day) return <div key={index} />;
+
+                      const selected =
+                        formData.mortality_date ===
+                        `${calendarMonth.getFullYear()}-${String(
+                          calendarMonth.getMonth() + 1
+                        ).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+
+                      const today = new Date();
+                      const isToday =
+                        day === today.getDate() &&
+                        calendarMonth.getMonth() === today.getMonth() &&
+                        calendarMonth.getFullYear() === today.getFullYear();
+
+                      return (
+                        <button
+                          key={day}
+                          type="button"
+                          onClick={() => selectCalendarDate(day)}
+                          style={{
+                            border: "none",
+                            borderRadius: "7px",
+                            padding: "8px 0",
+                            cursor: "pointer",
+                            background:
+                              selected || isToday
+                                ? "#1976D2"
+                                : "transparent",
+                            color:
+                              selected || isToday ? "#fff" : "#222",
+                            fontSize: "14px",
+                          }}
+                        >
+                          {day}
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => setCalendarOpen(false)}
+                    style={{
+                      marginTop: "10px",
+                      width: "100%",
+                      padding: "8px",
+                      border: "none",
+                      borderRadius: "7px",
+                      background: "#eee",
+                      cursor: "pointer",
+                    }}
+                  >
+                    {t("cancel")}
+                  </button>
+                </div>
+              )}
+            </div>
 
             {/* Quantity */}
             <label>{t("quantity")}</label>
