@@ -270,6 +270,13 @@ export default function AddGoatMortality() {
             grid-template-columns: 105px minmax(0, 1fr);
             gap: 10px;
           }
+
+          .add-goat-mortality-calendar {
+            left: 10px !important;
+            right: 10px !important;
+            width: auto !important;
+            max-width: none !important;
+          }
         }
       `}</style>
 
@@ -384,6 +391,7 @@ export default function AddGoatMortality() {
 
                 {calendarOpen && (
                   <div
+                    className="add-goat-mortality-calendar"
                     style={{
                       position: "fixed",
                       zIndex: 1000,
