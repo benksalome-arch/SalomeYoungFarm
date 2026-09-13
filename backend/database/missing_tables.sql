@@ -376,4 +376,17 @@ CREATE TABLE IF NOT EXISTS password_resets (
     ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-
+-- Goat mortality records
+CREATE TABLE IF NOT EXISTS goat_mortality (
+  id INT NOT NULL AUTO_INCREMENT,
+  goat_id INT NOT NULL,
+  mortality_date DATE NOT NULL,
+  cause VARCHAR(255) DEFAULT NULL,
+  notes TEXT,
+  created_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  KEY idx_goat_mortality_goat_id (goat_id),
+  CONSTRAINT fk_goat_mortality_goat
+    FOREIGN KEY (goat_id) REFERENCES goats(id)
+    ON DELETE RESTRICT
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

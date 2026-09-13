@@ -29,6 +29,7 @@ const healthRoutes = require("./routes/healthRoutes");
 const weightRoutes = require("./routes/weightRoutes");
 const breedingRoutes = require("./routes/breedingRoutes");
 const kiddingRoutes = require("./routes/kiddingRoutes");
+const goatMortalityRoutes = require("./routes/goatMortalityRoutes");
 
 // Workers
 const workersRoutes = require("./routes/workersRoutes");
@@ -83,6 +84,7 @@ app.use("/api/health", healthRoutes);
 app.use("/api/weight", weightRoutes);
 app.use("/api/breeding", breedingRoutes);
 app.use("/api/kidding", kiddingRoutes);
+app.use("/api/goat-mortality", goatMortalityRoutes);
 
 // Workers
 app.use("/api/workers", workersRoutes);
@@ -120,8 +122,13 @@ app.use("/api/gallery", galleryRoutes);
 // Start Server
 // =====================================
 
-const PORT = process.env.PORT || 5000;
+// Vercel serverless export
+module.exports = app;
 
-app.listen(PORT, () => {
-  console.log(`✅ Server running on port ${PORT}`);
-});
+// Local development
+if (require.main === module) {
+  const PORT = process.env.PORT || 5000;
+  app.listen(PORT, () => {
+    console.log(`✅ Server running on port ${PORT}`);
+  });
+}

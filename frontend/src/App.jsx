@@ -38,6 +38,8 @@ import AddBreeding from "./pages/AddBreeding";
 
 import Kidding from "./pages/kidding";
 import AddKidding from "./pages/AddKidding";
+import GoatMortality from "./pages/GoatMortality";
+import AddGoatMortality from "./pages/AddGoatMortality";
 
 // ======================
 // Workers
@@ -261,6 +263,18 @@ function App() {
           <Route
             path="/breeding/:id/kidding"
             element={<AddKidding />}
+          />
+
+          {/* Goat Mortality */}
+
+          <Route
+            path="/goat-mortality"
+            element={<GoatMortality />}
+          />
+
+          <Route
+            path="/goat-mortality/add"
+            element={<AddGoatMortality />}
           />
 
           {/* ======================

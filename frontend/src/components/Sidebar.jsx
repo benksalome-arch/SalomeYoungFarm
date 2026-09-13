@@ -39,6 +39,11 @@ function Sidebar() {
           path: "/kidding",
           icon: "🐐",
         },
+        {
+          name: t("goatMortality"),
+          path: "/goat-mortality",
+          icon: "💀",
+        },
       ],
     },
 
