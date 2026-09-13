@@ -190,7 +190,7 @@ function Goats() {
             const status = statusTranslations[statusKey] || statusValue;
             const statusColor =
               statusKey === "dead"
-                ? "#d32f2f"
+                ? "#FF9800"
                 : "#4caf50";
 
             const photoUrl = goat.photo
