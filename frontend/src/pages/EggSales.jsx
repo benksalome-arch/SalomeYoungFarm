@@ -223,7 +223,10 @@ function EggSales() {
                 <tr key={sale.id}>
                   <td>
                     {sale.sale_date
-                      ? sale.sale_date.split("T")[0]
+                      ? (() => {
+                          const d = sale.sale_date.split("T")[0].split("-");
+                          return `${d[2]}-${d[1]}-${d[0]}`;
+                        })()
                       : "-"}
                   </td>
 
