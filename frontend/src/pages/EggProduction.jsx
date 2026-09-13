@@ -112,7 +112,23 @@ function EggProduction() {
                   <td style={{ textAlign: "center" }}>
                     {record.broken_eggs}
                   </td>
-                  <td style={{ textAlign: "center" }}>
+                  <td
+                    style={{
+                      textAlign: "center",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    <Link
+                      to={`/egg-production/${record.id}/edit`}
+                      className="button"
+                      style={{
+                        textDecoration: "none",
+                        marginRight: "8px",
+                      }}
+                    >
+                      ✏️ {t("edit")}
+                    </Link>
+
                     <button
                       className="button"
                       onClick={() => deleteRecord(record.id)}

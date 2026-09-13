@@ -91,9 +91,11 @@ import AddChickenVaccination from "./pages/AddChickenVaccination";
 
 import EggProduction from "./pages/EggProduction";
 import AddEggProduction from "./pages/AddEggProduction";
+import EditEggProduction from "./pages/EditEggProduction";
 
 import EggSales from "./pages/EggSales";
 import AddEggSale from "./pages/AddEggSale";
+import EditEggSale from "./pages/EditEggSale";
 
 // ======================
 // Rabbits
@@ -412,6 +414,11 @@ function App() {
             element={<AddEggProduction />}
           />
 
+          <Route
+            path="/egg-production/:id/edit"
+            element={<EditEggProduction />}
+          />
+
           {/* Egg Sales */}
 
           <Route
@@ -422,6 +429,11 @@ function App() {
           <Route
             path="/egg-sales/add"
             element={<AddEggSale />}
+          />
+
+          <Route
+            path="/egg-sales/:id/edit"
+            element={<EditEggSale />}
           />
 
           {/* ======================
