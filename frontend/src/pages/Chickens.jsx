@@ -89,6 +89,59 @@ function Chickens() {
     verticalAlign: "middle",
   };
 
+  const mobileStyles = `
+    .chickens-mobile-list {
+      display: none;
+    }
+
+    .chickens-mobile-card {
+      border: 1px solid #e1e5e1;
+      border-radius: 10px;
+      padding: 14px;
+      margin-bottom: 12px;
+      background: #fff;
+    }
+
+    .chickens-mobile-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 8px;
+      line-height: 1.35;
+    }
+
+    .chickens-mobile-label {
+      font-weight: 600;
+      color: #222;
+      flex: 0 0 auto;
+    }
+
+    .chickens-mobile-value {
+      color: #222;
+      text-align: right;
+      overflow-wrap: anywhere;
+    }
+
+    .chickens-mobile-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+
+    @media (max-width: 700px) {
+      .chickens-desktop-table {
+        display: none !important;
+      }
+
+      .chickens-mobile-list {
+        display: block;
+      }
+    }
+  `;
+
   return (
     <div
       style={{
@@ -99,7 +152,7 @@ function Chickens() {
         overflow: "hidden",
       }}
     >
-      {/* PAGE HEADER */}
+      <style>{mobileStyles}</style>\n\n      {/* PAGE HEADER */}
 
       <div
         style={{
@@ -176,6 +229,7 @@ function Chickens() {
           overflow: "hidden",
         }}
       >
+        <div className="chickens-desktop-table">
         <table
           className="table"
           style={{
@@ -414,6 +468,92 @@ function Chickens() {
             )}
           </tbody>
         </table>
+        </div>
+
+        <div className="chickens-mobile-list">
+          {chickens.length === 0 ? (
+            <div style={{ color: "#222", WebkitTextFillColor: "#222" }}>
+              {t("noChickensFound")}
+            </div>
+          ) : (
+            chickens.map((chicken) => (
+              <div className="chickens-mobile-card" key={chicken.id}>
+                <div className="chickens-mobile-row">
+                  <span className="chickens-mobile-label">{t("tag")}</span>
+                  <span className="chickens-mobile-value">
+                    {chicken.tag_number || "-"}
+                  </span>
+                </div>
+
+                <div className="chickens-mobile-row">
+                  <span className="chickens-mobile-label">{t("name")}</span>
+                  <span className="chickens-mobile-value">
+                    {chicken.name || "-"}
+                  </span>
+                </div>
+
+                <div className="chickens-mobile-row">
+                  <span className="chickens-mobile-label">{t("breed")}</span>
+                  <span className="chickens-mobile-value">
+                    {chicken.breed || "-"}
+                  </span>
+                </div>
+
+                <div className="chickens-mobile-row">
+                  <span className="chickens-mobile-label">{t("type")}</span>
+                  <span className="chickens-mobile-value">
+                    {chicken.type || "-"}
+                  </span>
+                </div>
+
+                <div className="chickens-mobile-row">
+                  <span className="chickens-mobile-label">{t("quantity")}</span>
+                  <span className="chickens-mobile-value">
+                    {chicken.quantity ?? 0}
+                  </span>
+                </div>
+
+                <div className="chickens-mobile-row">
+                  <span className="chickens-mobile-label">{t("status")}</span>
+                  <span className="chickens-mobile-value">
+                    {chicken.status || "-"}
+                  </span>
+                </div>
+
+                <div className="chickens-mobile-actions">
+                  <Link
+                    className="button"
+                    to={`/chickens/${chicken.id}`}
+                    style={{ textDecoration: "none" }}
+                  >
+                    👁 {t("view")}
+                  </Link>
+
+                  <Link
+                    className="button"
+                    to={`/chickens/edit/${chicken.id}`}
+                    style={{ textDecoration: "none" }}
+                  >
+                    ✏ {t("edit")}
+                  </Link>
+
+                  <button
+                    type="button"
+                    className="button"
+                    onClick={() => deleteChicken(chicken.id)}
+                    style={{
+                      background: "#D32F2F",
+                      color: "#fff",
+                      border: "none",
+                    }}
+                  >
+                    🗑 {t("delete")}
+                  </button>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
       </div>
     </div>
   );
