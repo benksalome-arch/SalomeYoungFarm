@@ -110,7 +110,7 @@ function EggProduction() {
                     {record.eggs_collected}
                   </td>
                   <td style={{ textAlign: "center" }}>
-                    {record.broken_eggs}
+                    {record.cracked_eggs ?? 0}
                   </td>
                   <td
                     style={{
