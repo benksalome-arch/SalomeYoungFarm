@@ -85,6 +85,49 @@ db.getConnection((err, connection) => {
       }
     );
 
+    // Safely add chicken gender quantities for flock registration.
+    db.query(
+      `SELECT COLUMN_NAME
+       FROM INFORMATION_SCHEMA.COLUMNS
+       WHERE TABLE_SCHEMA = DATABASE()
+       AND TABLE_NAME = 'chickens'
+       AND COLUMN_NAME IN ('male_quantity', 'female_quantity')`,
+      (columnErr, rows) => {
+        if (columnErr) {
+          console.error("❌ Could not check chicken gender quantities:", columnErr);
+          return;
+        }
+
+        const existing = rows.map((row) => row.COLUMN_NAME);
+        const missing = [];
+
+        if (!existing.includes("male_quantity")) {
+          missing.push("ADD COLUMN male_quantity INT DEFAULT NULL");
+        }
+
+        if (!existing.includes("female_quantity")) {
+          missing.push("ADD COLUMN female_quantity INT DEFAULT NULL");
+        }
+
+        if (missing.length === 0) {
+          console.log("✅ Chicken gender quantity columns already exist");
+          return;
+        }
+
+        db.query(
+          `ALTER TABLE chickens ${missing.join(", ")}`,
+          (alterErr) => {
+            if (alterErr) {
+              console.error("❌ Could not add chicken gender quantities:", alterErr);
+              return;
+            }
+
+            console.log("✅ Added missing chicken gender quantity columns");
+          }
+        );
+      }
+    );
+
     // Safely add users.phone if an older database does not have it.
     db.query(
       `SELECT COUNT(*) AS count
