@@ -29,7 +29,12 @@ function EditChicken() {
   async function loadChicken() {
     try {
       const response = await fetch(
-        `${API_URL}/api/chickens/${id}`
+        `${API_URL}/api/chickens/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
       );
 
       const data = await response.json();
