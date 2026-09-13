@@ -58,7 +58,13 @@ exports.getChicken = (req, res) => {
         });
       }
 
-      res.json(results[0]);
+      const chicken = results[0];
+
+      if (Number(chicken.quantity) <= 0) {
+        chicken.status = "Dead";
+      }
+
+      res.json(chicken);
     }
   );
 };
@@ -82,16 +88,24 @@ exports.createChicken = (req, res) => {
     notes,
   } = req.body;
 
-  if (!tag_number || !String(tag_number).trim()) {
-    return res.status(400).json({
-      message: "Chicken tag number is required.",
-    });
-  }
+  const cleanTagNumber =
+    tag_number && String(tag_number).trim()
+      ? String(tag_number).trim()
+      : null;
 
-  db.query(
-    "SELECT id FROM chickens WHERE tag_number = ?",
-    [tag_number],
-    (checkErr, rows) => {
+  const checkTag = (callback) => {
+    if (!cleanTagNumber) {
+      return callback(null, []);
+    }
+
+    db.query(
+      "SELECT id FROM chickens WHERE tag_number = ?",
+      [cleanTagNumber],
+      callback
+    );
+  };
+
+  checkTag((checkErr, rows) => {
       if (checkErr) {
         console.error(
           "Check chicken tag error:",
@@ -127,7 +141,7 @@ exports.createChicken = (req, res) => {
         )
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
         [
-          tag_number.trim(),
+          cleanTagNumber,
           name || null,
           breed || null,
           type || null,
@@ -192,19 +206,27 @@ exports.updateChicken = (req, res) => {
     notes,
   } = req.body;
 
-  if (!tag_number || !String(tag_number).trim()) {
-    return res.status(400).json({
-      message: "Chicken tag number is required.",
-    });
-  }
+  const cleanTagNumber =
+    tag_number && String(tag_number).trim()
+      ? String(tag_number).trim()
+      : null;
 
-  db.query(
-    `SELECT id
-     FROM chickens
-     WHERE tag_number = ?
-     AND id <> ?`,
-    [tag_number, id],
-    (checkErr, rows) => {
+  const checkTag = (callback) => {
+    if (!cleanTagNumber) {
+      return callback(null, []);
+    }
+
+    db.query(
+      `SELECT id
+       FROM chickens
+       WHERE tag_number = ?
+       AND id <> ?`,
+      [cleanTagNumber, id],
+      callback
+    );
+  };
+
+  checkTag((checkErr, rows) => {
       if (checkErr) {
         console.error(
           "Check chicken tag during update error:",
@@ -239,7 +261,7 @@ exports.updateChicken = (req, res) => {
            notes = ?
          WHERE id = ?`,
         [
-          tag_number.trim(),
+          cleanTagNumber,
           name || null,
           breed || null,
           type || null,
