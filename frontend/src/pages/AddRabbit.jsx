@@ -20,11 +20,94 @@ function AddRabbit() {
     notes: "",
   });
 
+  const [calendarOpen, setCalendarOpen] = useState(false);
+  const [calendarMonth, setCalendarMonth] = useState(new Date());
+
+  const formStyle = {
+    width: "100%",
+    maxWidth: "620px",
+    margin: "0 auto",
+  };
+
+  const fieldStyle = {
+    display: "grid",
+    gridTemplateColumns: "150px minmax(0, 260px)",
+    alignItems: "center",
+    gap: "14px",
+    marginBottom: "16px",
+  };
+
+  const labelStyle = {
+    fontWeight: 600,
+    fontSize: "15px",
+    textAlign: "right",
+    color: "#222",
+    WebkitTextFillColor: "#222",
+  };
+
+  const inputStyle = {
+    width: "100%",
+    boxSizing: "border-box",
+    padding: "10px 12px",
+    minHeight: "44px",
+    border: "1px solid #cfd6cf",
+    borderRadius: "7px",
+    background: "#fff",
+    color: "#222",
+    WebkitTextFillColor: "#222",
+    fontSize: "15px",
+  };
+
   function handleChange(e) {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
+  }
+
+  function formatDateDisplay(value) {
+    if (!value) return "";
+    const d = value.split("-");
+    return `${d[2]}-${d[1]}-${d[0]}`;
+  }
+
+  function getDaysInMonth(date) {
+    return new Date(
+      date.getFullYear(),
+      date.getMonth() + 1,
+      0
+    ).getDate();
+  }
+
+  function getFirstDayOfMonth(date) {
+    return new Date(
+      date.getFullYear(),
+      date.getMonth(),
+      1
+    ).getDay();
+  }
+
+  function selectDate(day) {
+    const year = calendarMonth.getFullYear();
+    const month = String(calendarMonth.getMonth() + 1).padStart(2, "0");
+    const selectedDay = String(day).padStart(2, "0");
+
+    setFormData({
+      ...formData,
+      birth_date: `${year}-${month}-${selectedDay}`,
+    });
+
+    setCalendarOpen(false);
+  }
+
+  function changeMonth(offset) {
+    setCalendarMonth(
+      new Date(
+        calendarMonth.getFullYear(),
+        calendarMonth.getMonth() + offset,
+        1
+      )
+    );
   }
 
   async function handleSubmit(e) {
@@ -58,26 +141,119 @@ function AddRabbit() {
       if (response.ok) {
         navigate("/rabbits");
       }
-
     } catch (err) {
       console.error(err);
       alert(t("failedToSaveRabbit"));
     }
   }
 
+  const daysInMonth = getDaysInMonth(calendarMonth);
+  const firstDay = getFirstDayOfMonth(calendarMonth);
+
+  const weekdays = [
+    t("sun"),
+    t("mon"),
+    t("tue"),
+    t("wed"),
+    t("thu"),
+    t("fri"),
+    t("sat"),
+  ];
+
+  const monthNames = [
+    t("january"),
+    t("february"),
+    t("march"),
+    t("april"),
+    t("may"),
+    t("june"),
+    t("july"),
+    t("august"),
+    t("september"),
+    t("october"),
+    t("november"),
+    t("december"),
+  ];
+
+  const today = new Date();
+
   return (
-    <div className="page">
-      <div className="page-header">
-        <h1>🐇 {t("addRabbit")}</h1>
-      </div>
+    <>
+      <style>{`
+        .add-rabbit-form {
+          width: 100%;
+        }
 
-      <div className="card">
-        <form onSubmit={handleSubmit}>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px" }}>
+        .add-rabbit-field {
+          display: grid;
+          grid-template-columns: 150px minmax(0, 260px);
+          align-items: center;
+          gap: 14px;
+          margin-bottom: 16px;
+        }
 
-            <div>
-              <label>{t("tagNumber")}</label>
+        .add-rabbit-notes {
+          display: grid;
+          grid-template-columns: 150px minmax(0, 260px);
+          align-items: start;
+          gap: 14px;
+          margin-bottom: 20px;
+        }
+
+        .add-rabbit-buttons {
+          display: flex;
+          gap: 10px;
+          justify-content: center;
+          flex-wrap: wrap;
+        }
+
+        @media (max-width: 700px) {
+          .add-rabbit-field,
+          .add-rabbit-notes {
+            grid-template-columns: 105px minmax(0, 1fr);
+            gap: 10px;
+          }
+
+          .add-rabbit-label {
+            overflow-wrap: anywhere;
+            line-height: 1.25;
+          }
+        }
+      `}</style>
+
+      <div className="page">
+        <div className="page-header">
+          <h1
+            style={{
+              margin: 0,
+              color: "#222",
+              WebkitTextFillColor: "#222",
+            }}
+          >
+            🐇 {t("addRabbit")}
+          </h1>
+        </div>
+
+        <div
+          className="card"
+          style={{
+            width: "100%",
+            maxWidth: "620px",
+            margin: "0 auto",
+            boxSizing: "border-box",
+          }}
+        >
+          <form
+            className="add-rabbit-form"
+            onSubmit={handleSubmit}
+            style={formStyle}
+          >
+            <div className="add-rabbit-field">
+              <label className="add-rabbit-label" style={labelStyle}>
+                {t("tagNumber")}
+              </label>
               <input
+                style={inputStyle}
                 type="text"
                 name="tag_number"
                 value={formData.tag_number}
@@ -86,9 +262,12 @@ function AddRabbit() {
               />
             </div>
 
-            <div>
-              <label>{t("name")}</label>
+            <div className="add-rabbit-field">
+              <label className="add-rabbit-label" style={labelStyle}>
+                {t("name")}
+              </label>
               <input
+                style={inputStyle}
                 type="text"
                 name="name"
                 value={formData.name}
@@ -96,9 +275,12 @@ function AddRabbit() {
               />
             </div>
 
-            <div>
-              <label>{t("breed")}</label>
+            <div className="add-rabbit-field">
+              <label className="add-rabbit-label" style={labelStyle}>
+                {t("breed")}
+              </label>
               <input
+                style={inputStyle}
                 type="text"
                 name="breed"
                 value={formData.breed}
@@ -107,9 +289,12 @@ function AddRabbit() {
               />
             </div>
 
-            <div>
-              <label>{t("sex")}</label>
+            <div className="add-rabbit-field">
+              <label className="add-rabbit-label" style={labelStyle}>
+                {t("sex")}
+              </label>
               <select
+                style={inputStyle}
                 name="sex"
                 value={formData.sex}
                 onChange={handleChange}
@@ -119,19 +304,171 @@ function AddRabbit() {
               </select>
             </div>
 
-            <div>
-              <label>{t("birthDate")}</label>
-              <input
-                type="date"
-                name="birth_date"
-                value={formData.birth_date}
-                onChange={handleChange}
-              />
+            <div
+              className="add-rabbit-field"
+              style={{ position: "relative" }}
+            >
+              <label className="add-rabbit-label" style={labelStyle}>
+                {t("birthDate")}
+              </label>
+
+              <div style={{ position: "relative" }}>
+                <input
+                  style={{
+                    ...inputStyle,
+                    cursor: "pointer",
+                  }}
+                  type="text"
+                  value={formatDateDisplay(formData.birth_date)}
+                  placeholder="DD-MM-JJJJ"
+                  readOnly
+                  onClick={() => {
+                    setCalendarMonth(
+                      formData.birth_date
+                        ? new Date(`${formData.birth_date}T00:00:00`)
+                        : new Date()
+                    );
+                    setCalendarOpen(!calendarOpen);
+                  }}
+                />
+
+                {calendarOpen && (
+                  <div
+                    style={{
+                      position: "fixed",
+                      zIndex: 9999,
+                      width: "min(92vw, 320px)",
+                      padding: "14px",
+                      background: "#fff",
+                      border: "1px solid #ccc",
+                      borderRadius: "10px",
+                      boxShadow: "0 6px 20px rgba(0,0,0,0.18)",
+                      boxSizing: "border-box",
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        marginBottom: "12px",
+                      }}
+                    >
+                      <button
+                        type="button"
+                        onClick={() => changeMonth(-1)}
+                        style={{
+                          border: "none",
+                          background: "transparent",
+                          fontSize: "22px",
+                          cursor: "pointer",
+                        }}
+                      >
+                        ‹
+                      </button>
+
+                      <strong
+                        style={{
+                          color: "#222",
+                          WebkitTextFillColor: "#222",
+                        }}
+                      >
+                        {monthNames[calendarMonth.getMonth()]}{" "}
+                        {calendarMonth.getFullYear()}
+                      </strong>
+
+                      <button
+                        type="button"
+                        onClick={() => changeMonth(1)}
+                        style={{
+                          border: "none",
+                          background: "transparent",
+                          fontSize: "22px",
+                          cursor: "pointer",
+                        }}
+                      >
+                        ›
+                      </button>
+                    </div>
+
+                    <div
+                      style={{
+                        display: "grid",
+                        gridTemplateColumns: "repeat(7, 1fr)",
+                        gap: "4px",
+                        textAlign: "center",
+                      }}
+                    >
+                      {weekdays.map((day) => (
+                        <div
+                          key={day}
+                          style={{
+                            fontWeight: 600,
+                            fontSize: "12px",
+                            color: "#666",
+                          }}
+                        >
+                          {day}
+                        </div>
+                      ))}
+
+                      {Array.from({ length: firstDay }).map((_, index) => (
+                        <div key={`empty-${index}`} />
+                      ))}
+
+                      {Array.from(
+                        { length: daysInMonth },
+                        (_, index) => index + 1
+                      ).map((day) => {
+                        const isSelected =
+                          formData.birth_date ===
+                          `${calendarMonth.getFullYear()}-${String(
+                            calendarMonth.getMonth() + 1
+                          ).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+
+                        const isToday =
+                          day === today.getDate() &&
+                          calendarMonth.getMonth() === today.getMonth() &&
+                          calendarMonth.getFullYear() === today.getFullYear();
+
+                        return (
+                          <button
+                            key={day}
+                            type="button"
+                            onClick={() => selectDate(day)}
+                            style={{
+                              border: "none",
+                              borderRadius: "6px",
+                              padding: "7px 2px",
+                              cursor: "pointer",
+                              background:
+                                isSelected || isToday
+                                  ? "#1976d2"
+                                  : "transparent",
+                              color:
+                                isSelected || isToday
+                                  ? "#fff"
+                                  : "#222",
+                              fontWeight:
+                                isSelected || isToday ? 700 : 400,
+                            }}
+                          >
+                            {day}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
 
-            <div>
-              <label>{t("source")}</label>
+            <div className="add-rabbit-field">
+              <label className="add-rabbit-label" style={labelStyle}>
+                {t("source")}
+              </label>
               <input
+                style={inputStyle}
                 type="text"
                 name="source"
                 value={formData.source}
@@ -139,9 +476,12 @@ function AddRabbit() {
               />
             </div>
 
-            <div>
-              <label>{t("quantity")}</label>
+            <div className="add-rabbit-field">
+              <label className="add-rabbit-label" style={labelStyle}>
+                {t("quantity")}
+              </label>
               <input
+                style={inputStyle}
                 type="number"
                 min="1"
                 name="quantity"
@@ -151,9 +491,12 @@ function AddRabbit() {
               />
             </div>
 
-            <div>
-              <label>{t("status")}</label>
+            <div className="add-rabbit-field">
+              <label className="add-rabbit-label" style={labelStyle}>
+                {t("status")}
+              </label>
               <select
+                style={inputStyle}
                 name="status"
                 value={formData.status}
                 onChange={handleChange}
@@ -164,9 +507,12 @@ function AddRabbit() {
               </select>
             </div>
 
-            <div>
-              <label>{t("purchasePrice")}</label>
+            <div className="add-rabbit-field">
+              <label className="add-rabbit-label" style={labelStyle}>
+                {t("purchasePrice")}
+              </label>
               <input
+                style={inputStyle}
                 type="number"
                 step="0.01"
                 min="0"
@@ -177,30 +523,35 @@ function AddRabbit() {
               />
             </div>
 
-            <div style={{ gridColumn: "1 / -1" }}>
-              <label>{t("notes")}</label>
+            <div className="add-rabbit-notes">
+              <label className="add-rabbit-label" style={labelStyle}>
+                {t("notes")}
+              </label>
               <textarea
+                style={{
+                  ...inputStyle,
+                  minHeight: "100px",
+                  resize: "vertical",
+                }}
                 name="notes"
-                rows="4"
                 value={formData.notes}
                 onChange={handleChange}
               />
             </div>
 
-          </div>
+            <div className="add-rabbit-buttons">
+              <button className="button" type="submit">
+                💾 {t("save")}
+              </button>
 
-          <div style={{ display: "flex", gap: "10px", marginTop: "20px" }}>
-            <button className="button" type="submit">
-              💾 {t("save")}
-            </button>
-
-            <Link className="button" to="/rabbits">
-              {t("cancel")}
-            </Link>
-          </div>
-        </form>
+              <Link className="button" to="/rabbits">
+                {t("cancel")}
+              </Link>
+            </div>
+          </form>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 
