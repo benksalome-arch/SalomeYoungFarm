@@ -101,8 +101,16 @@ exports.createMortality = (req, res) => {
           }
 
           db.query(
-            "UPDATE chickens SET quantity = quantity - ? WHERE id=?",
+            `UPDATE chickens
+             SET
+               quantity = quantity - ?,
+               status = CASE
+                 WHEN quantity - ? <= 0 THEN 'Dead'
+                 ELSE status
+               END
+             WHERE id=?`,
             [
+              quantity,
               quantity,
               chicken_id,
             ],
