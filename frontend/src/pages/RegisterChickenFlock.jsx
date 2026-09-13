@@ -13,7 +13,9 @@ function RegisterChickenFlock() {
     name: "",
     breed: "",
     type: "",
-    sex: "Female",
+    sex: "Mixed",
+    male_quantity: "",
+    female_quantity: "",
     hatch_date: "",
     source: "",
     quantity: "",
@@ -32,13 +34,28 @@ function RegisterChickenFlock() {
   async function handleSubmit(e) {
     e.preventDefault();
 
-    const quantity = Number(formData.quantity);
+    const maleQuantity =
+      formData.sex === "Separate"
+        ? Number(formData.male_quantity)
+        : null;
+
+    const femaleQuantity =
+      formData.sex === "Separate"
+        ? Number(formData.female_quantity)
+        : null;
+
+    const quantity =
+      formData.sex === "Separate"
+        ? maleQuantity + femaleQuantity
+        : Number(formData.quantity);
 
     const payload = {
       ...formData,
       tag_number: formData.tag_number.trim() || null,
       name: formData.name.trim() || null,
       quantity,
+      male_quantity: maleQuantity,
+      female_quantity: femaleQuantity,
       purchase_price:
         formData.purchase_price === ""
           ? 0
@@ -248,8 +265,8 @@ function RegisterChickenFlock() {
               value={formData.sex}
               onChange={handleChange}
             >
-              <option value="Female">{t("female")}</option>
-              <option value="Male">{t("male")}</option>
+              <option value="Mixed">{t("mixed")}</option>
+              <option value="Separate">{t("separate")}</option>
             </select>
           </div>
 
@@ -381,76 +398,153 @@ function RegisterChickenFlock() {
             </div>
           </div>
 
-          <div style={{
-            display: "grid",
-            gridTemplateColumns: "150px minmax(0, 260px)",
-            alignItems: "center",
-            gap: "14px",
-            marginBottom: "16px",
-          }}>
-            <label style={{
-              fontWeight: 600,
-              fontSize: "15px",
-              textAlign: "right",
-              color: "#222",
-            }}>{t("source")}</label>
-
-            <input
-              style={{
-                width: "100%",
-                boxSizing: "border-box",
-                padding: "10px 12px",
-                minHeight: "44px",
-                border: "1px solid #cfd6cf",
-                borderRadius: "7px",
-                background: "#fff",
-                color: "#222",
-                WebkitTextFillColor: "#222",
+          {formData.sex === "Mixed" ? (
+            <div style={{
+              display: "grid",
+              gridTemplateColumns: "150px minmax(0, 260px)",
+              alignItems: "center",
+              gap: "14px",
+              marginBottom: "16px",
+            }}>
+              <label style={{
+                fontWeight: 600,
                 fontSize: "15px",
-              }}
-              type="text"
-              name="source"
-              value={formData.source}
-              onChange={handleChange}
-              placeholder={t("sourcePlaceholder")}
-            />
-          </div>
-
-          <div style={{
-            display: "grid",
-            gridTemplateColumns: "150px minmax(0, 260px)",
-            alignItems: "center",
-            gap: "14px",
-            marginBottom: "16px",
-          }}>
-            <label style={{
-              fontWeight: 600,
-              fontSize: "15px",
-              textAlign: "right",
-              color: "#222",
-            }}>{t("quantity")}</label>
-
-            <input
-              style={{
-                width: "100%",
-                boxSizing: "border-box",
-                padding: "10px 12px",
-                minHeight: "44px",
-                border: "1px solid #cfd6cf",
-                borderRadius: "7px",
-                background: "#fff",
+                textAlign: "right",
                 color: "#222",
-                WebkitTextFillColor: "#222",
-                fontSize: "15px",
-              }}
-              type="number"
-              min="1"
-              name="quantity"
-              value={formData.quantity}
-              onChange={handleChange}
-              required
-            />
-          </div>
+              }}>{t("quantity")}</label>
+
+              <input
+                style={{
+                  width: "100%",
+                  boxSizing: "border-box",
+                  padding: "10px 12px",
+                  minHeight: "44px",
+                  border: "1px solid #cfd6cf",
+                  borderRadius: "7px",
+                  background: "#fff",
+                  color: "#222",
+                  WebkitTextFillColor: "#222",
+                  fontSize: "15px",
+                }}
+                type="number"
+                min="1"
+                name="quantity"
+                value={formData.quantity}
+                onChange={handleChange}
+                required
+              />
+            </div>
+          ) : (
+            <>
+              <div style={{
+                display: "grid",
+                gridTemplateColumns: "150px minmax(0, 260px)",
+                alignItems: "center",
+                gap: "14px",
+                marginBottom: "16px",
+              }}>
+                <label style={{
+                  fontWeight: 600,
+                  fontSize: "15px",
+                  textAlign: "right",
+                  color: "#222",
+                }}>{t("male")}</label>
+
+                <input
+                  style={{
+                    width: "100%",
+                    boxSizing: "border-box",
+                    padding: "10px 12px",
+                    minHeight: "44px",
+                    border: "1px solid #cfd6cf",
+                    borderRadius: "7px",
+                    background: "#fff",
+                    color: "#222",
+                    WebkitTextFillColor: "#222",
+                    fontSize: "15px",
+                  }}
+                  type="number"
+                  min="0"
+                  name="male_quantity"
+                  value={formData.male_quantity}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+
+              <div style={{
+                display: "grid",
+                gridTemplateColumns: "150px minmax(0, 260px)",
+                alignItems: "center",
+                gap: "14px",
+                marginBottom: "16px",
+              }}>
+                <label style={{
+                  fontWeight: 600,
+                  fontSize: "15px",
+                  textAlign: "right",
+                  color: "#222",
+                }}>{t("female")}</label>
+
+                <input
+                  style={{
+                    width: "100%",
+                    boxSizing: "border-box",
+                    padding: "10px 12px",
+                    minHeight: "44px",
+                    border: "1px solid #cfd6cf",
+                    borderRadius: "7px",
+                    background: "#fff",
+                    color: "#222",
+                    WebkitTextFillColor: "#222",
+                    fontSize: "15px",
+                  }}
+                  type="number"
+                  min="0"
+                  name="female_quantity"
+                  value={formData.female_quantity}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+
+              <div style={{
+                display: "grid",
+                gridTemplateColumns: "150px minmax(0, 260px)",
+                alignItems: "center",
+                gap: "14px",
+                marginBottom: "16px",
+              }}>
+                <label style={{
+                  fontWeight: 600,
+                  fontSize: "15px",
+                  textAlign: "right",
+                  color: "#222",
+                }}>{t("quantity")}</label>
+
+                <input
+                  style={{
+                    width: "100%",
+                    boxSizing: "border-box",
+                    padding: "10px 12px",
+                    minHeight: "44px",
+                    border: "1px solid #cfd6cf",
+                    borderRadius: "7px",
+                    background: "#f5f5f5",
+                    color: "#222",
+                    WebkitTextFillColor: "#222",
+                    fontSize: "15px",
+                  }}
+                  type="number"
+                  value={
+                    (Number(formData.male_quantity) || 0) +
+                    (Number(formData.female_quantity) || 0)
+                  }
+                  readOnly
+                />
+              </div>
+            </>
+          )}
 
           <div style={{
             display: "grid",
