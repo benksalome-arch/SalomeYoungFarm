@@ -184,9 +184,14 @@ function Goats() {
               sick: t("sick"),
               sold: t("sold"),
               treated: t("treated"),
+              dead: t("dead"),
               unknown: t("unknown"),
             };
             const status = statusTranslations[statusKey] || statusValue;
+            const statusColor =
+              statusKey === "dead"
+                ? "#d32f2f"
+                : "#4caf50";
 
             const photoUrl = goat.photo
               ? String(goat.photo).startsWith("http")
@@ -286,12 +291,12 @@ function Goats() {
 
                   <span
                     style={{
-                      background: "#4caf50",
-                      color: "white",
                       borderRadius: "20px",
                       padding: "7px 12px",
                       fontSize: "13px",
                       fontWeight: "600",
+                      background: statusColor,
+                      color: "#fff",
                       flexShrink: 0,
                       maxWidth: "110px",
                       textAlign: "center",
