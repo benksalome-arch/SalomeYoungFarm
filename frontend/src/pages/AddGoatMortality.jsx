@@ -469,6 +469,24 @@ export default function AddGoatMortality() {
                       }).map((_, index) => {
                         const day = index + 1;
 
+                        const today = new Date();
+                        const isToday =
+                          day === today.getDate() &&
+                          calendarMonth.getMonth() === today.getMonth() &&
+                          calendarMonth.getFullYear() === today.getFullYear();
+
+                        const selectedDate = formData.mortality_date
+                          ? new Date(
+                              `${formData.mortality_date}T00:00:00`
+                            )
+                          : null;
+
+                        const isSelected =
+                          selectedDate &&
+                          day === selectedDate.getDate() &&
+                          month === selectedDate.getMonth() &&
+                          year === selectedDate.getFullYear();
+
                         return (
                           <button
                             key={day}
@@ -479,10 +497,20 @@ export default function AddGoatMortality() {
                             style={{
                               border: "none",
                               background:
-                                "transparent",
+                                isSelected || isToday
+                                  ? "#1976d2"
+                                  : "transparent",
+                              color:
+                                isSelected || isToday
+                                  ? "#fff"
+                                  : "#222",
                               padding: "7px 0",
                               cursor: "pointer",
                               borderRadius: "5px",
+                              fontWeight:
+                                isToday || isSelected
+                                  ? 700
+                                  : 400,
                             }}
                           >
                             {day}
