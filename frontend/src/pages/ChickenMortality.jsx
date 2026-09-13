@@ -132,6 +132,8 @@ function ChickenMortality() {
               fontSize: "42px",
               lineHeight: "1.2",
               display: "block",
+              color: "#222",
+              WebkitTextFillColor: "#222",
             }}
           >
             🐔 {t("chickenMortality")}
@@ -168,11 +170,23 @@ function ChickenMortality() {
           textAlign: "center",
         }}
       >
-        <h3 style={{ margin: 0 }}>
+        <h3
+          style={{
+            margin: 0,
+            color: "#222",
+            WebkitTextFillColor: "#222",
+          }}
+        >
           {t("totalDeaths")}
         </h3>
 
-        <h2 style={{ margin: "8px 0 0" }}>
+        <h2
+          style={{
+            margin: "8px 0 0",
+            color: "#222",
+            WebkitTextFillColor: "#222",
+          }}
+        >
           {totalDeaths}
         </h2>
       </div>
@@ -393,7 +407,8 @@ function ChickenMortality() {
               style={{
                 padding: "30px 10px",
                 textAlign: "center",
-                color: "#666",
+                color: "#222",
+                WebkitTextFillColor: "#222",
               }}
             >
               {t("noMortalityRecords")}
