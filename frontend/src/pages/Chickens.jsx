@@ -152,7 +152,9 @@ function Chickens() {
         overflow: "hidden",
       }}
     >
-      <style>{mobileStyles}</style>\n\n      {/* PAGE HEADER */}
+      <style>{mobileStyles}</style>
+
+      {/* PAGE HEADER */}
 
       <div
         style={{
