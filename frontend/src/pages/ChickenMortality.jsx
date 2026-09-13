@@ -319,7 +319,12 @@ function ChickenMortality() {
                       whiteSpace: "nowrap",
                     }}
                   >
-                    {record.mortality_date?.split("T")[0] || "-"}
+                    {record.mortality_date
+  ? (() => {
+      const d = record.mortality_date.split("T")[0].split("-");
+      return `${d[2]}-${d[1]}-${d[0]}`;
+    })()
+  : "-"}
                   </td>
 
                   <td
@@ -419,7 +424,12 @@ function ChickenMortality() {
                 <div className="mortality-mobile-row">
                   <span className="mortality-mobile-label">{t("date")}</span>
                   <span className="mortality-mobile-value">
-                    {record.mortality_date?.split("T")[0] || "-"}
+                    {record.mortality_date
+  ? (() => {
+      const d = record.mortality_date.split("T")[0].split("-");
+      return `${d[2]}-${d[1]}-${d[0]}`;
+    })()
+  : "-"}
                   </span>
                 </div>
 
