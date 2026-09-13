@@ -50,6 +50,41 @@ db.getConnection((err, connection) => {
 
     console.log("✅ Database tables checked/created successfully");
 
+    // Safely allow chickens.tag_number to be NULL on older databases.
+    db.query(
+      `SELECT IS_NULLABLE
+       FROM INFORMATION_SCHEMA.COLUMNS
+       WHERE TABLE_SCHEMA = DATABASE()
+       AND TABLE_NAME = 'chickens'
+       AND COLUMN_NAME = 'tag_number'`,
+      (columnErr, rows) => {
+        if (columnErr) {
+          console.error("❌ Could not check chickens.tag_number:", columnErr);
+          return;
+        }
+
+        if (rows.length && rows[0].IS_NULLABLE === "NO") {
+          db.query(
+            `ALTER TABLE chickens
+             MODIFY COLUMN tag_number VARCHAR(100) DEFAULT NULL`,
+            (alterErr) => {
+              if (alterErr) {
+                console.error(
+                  "❌ Could not update chickens.tag_number:",
+                  alterErr
+                );
+                return;
+              }
+
+              console.log("✅ Updated chickens.tag_number to allow NULL");
+            }
+          );
+        } else {
+          console.log("✅ chickens.tag_number already allows NULL");
+        }
+      }
+    );
+
     // Safely add users.phone if an older database does not have it.
     db.query(
       `SELECT COUNT(*) AS count
