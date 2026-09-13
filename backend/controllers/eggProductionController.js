@@ -76,7 +76,7 @@ exports.createEggRecord = (req, res) => {
       chicken_id,
       production_date,
       eggs_collected,
-      broken_eggs,
+      cracked_eggs,
       notes
     )
     VALUES (?,?,?,?,?)`,
@@ -127,7 +127,7 @@ exports.updateEggRecord = (req, res) => {
        chicken_id=?,
        production_date=?,
        eggs_collected=?,
-       broken_eggs=?,
+       cracked_eggs=?,
        notes=?
      WHERE id=?`,
     [
