@@ -65,14 +65,28 @@ function EggProduction() {
       </div>
 
       <div className="card">
-        <table className="table">
+        <table
+          className="table"
+          style={{
+            tableLayout: "fixed",
+            width: "100%",
+          }}
+        >
+          <colgroup>
+            <col style={{ width: "18%" }} />
+            <col style={{ width: "22%" }} />
+            <col style={{ width: "15%" }} />
+            <col style={{ width: "15%" }} />
+            <col style={{ width: "30%" }} />
+          </colgroup>
+
           <thead>
             <tr>
-              <th>{t("date")}</th>
-              <th>{t("chicken")}</th>
-              <th>{t("eggs")}</th>
-              <th>{t("broken")}</th>
-              <th>{t("actions")}</th>
+              <th style={{ textAlign: "center" }}>{t("date")}</th>
+              <th style={{ textAlign: "center" }}>{t("chicken")}</th>
+              <th style={{ textAlign: "center" }}>{t("eggs")}</th>
+              <th style={{ textAlign: "center" }}>{t("broken")}</th>
+              <th style={{ textAlign: "center" }}>{t("actions")}</th>
             </tr>
           </thead>
 
@@ -86,11 +100,19 @@ function EggProduction() {
             ) : (
               records.map((record) => (
                 <tr key={record.id}>
-                  <td>{record.production_date?.split("T")[0]}</td>
-                  <td>{record.name || record.tag_number}</td>
-                  <td>{record.eggs_collected}</td>
-                  <td>{record.broken_eggs}</td>
-                  <td>
+                  <td style={{ textAlign: "center" }}>
+                    {record.production_date?.split("T")[0]}
+                  </td>
+                  <td style={{ textAlign: "center" }}>
+                    {record.name || record.tag_number}
+                  </td>
+                  <td style={{ textAlign: "center" }}>
+                    {record.eggs_collected}
+                  </td>
+                  <td style={{ textAlign: "center" }}>
+                    {record.broken_eggs}
+                  </td>
+                  <td style={{ textAlign: "center" }}>
                     <button
                       className="button"
                       onClick={() => deleteRecord(record.id)}
