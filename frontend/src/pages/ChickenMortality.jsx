@@ -60,8 +60,60 @@ function ChickenMortality() {
     0
   );
 
+  const mobileStyles = `
+    .mortality-mobile-list {
+      display: none;
+    }
+
+    @media (max-width: 700px) {
+      .mortality-desktop-table {
+        display: none !important;
+      }
+
+      .mortality-mobile-list {
+        display: block;
+      }
+
+      .mortality-mobile-card {
+        border: 1px solid #e1e5e1;
+        border-radius: 10px;
+        padding: 14px;
+        margin-bottom: 12px;
+        background: #fff;
+      }
+
+      .mortality-mobile-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 8px;
+        line-height: 1.35;
+      }
+
+      .mortality-mobile-label {
+        font-weight: 600;
+        color: #222;
+        flex: 0 0 auto;
+      }
+
+      .mortality-mobile-value {
+        color: #222;
+        text-align: right;
+        overflow-wrap: anywhere;
+      }
+
+      .mortality-mobile-actions {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 12px;
+      }
+    }
+  `;
+
   return (
-    <div className="page">
+    <>
+      <style>{mobileStyles}</style>
+      <div className="page">
 
       <div
         style={{
@@ -135,6 +187,7 @@ function ChickenMortality() {
           boxSizing: "border-box",
         }}
       >
+        <div className="mortality-desktop-table">
         <table
           className="table"
           style={{
@@ -332,9 +385,74 @@ function ChickenMortality() {
             )}
           </tbody>
         </table>
+        </div>
+
+        <div className="mortality-mobile-list">
+          {records.length === 0 ? (
+            <div
+              style={{
+                padding: "30px 10px",
+                textAlign: "center",
+                color: "#666",
+              }}
+            >
+              {t("noMortalityRecords")}
+            </div>
+          ) : (
+            records.map((record) => (
+              <div className="mortality-mobile-card" key={record.id}>
+                <div className="mortality-mobile-row">
+                  <span className="mortality-mobile-label">{t("date")}</span>
+                  <span className="mortality-mobile-value">
+                    {record.mortality_date?.split("T")[0] || "-"}
+                  </span>
+                </div>
+
+                <div className="mortality-mobile-row">
+                  <span className="mortality-mobile-label">{t("tag")}</span>
+                  <span className="mortality-mobile-value">
+                    {record.tag_number || "-"}
+                  </span>
+                </div>
+
+                <div className="mortality-mobile-row">
+                  <span className="mortality-mobile-label">{t("name")}</span>
+                  <span className="mortality-mobile-value">
+                    {record.name || "-"}
+                  </span>
+                </div>
+
+                <div className="mortality-mobile-row">
+                  <span className="mortality-mobile-label">{t("quantity")}</span>
+                  <span className="mortality-mobile-value">
+                    {record.quantity ?? 0}
+                  </span>
+                </div>
+
+                <div className="mortality-mobile-row">
+                  <span className="mortality-mobile-label">{t("cause")}</span>
+                  <span className="mortality-mobile-value">
+                    {record.cause || "-"}
+                  </span>
+                </div>
+
+                <div className="mortality-mobile-actions">
+                  <button
+                    className="button"
+                    onClick={() => deleteRecord(record.id)}
+                    style={{ whiteSpace: "nowrap" }}
+                  >
+                    🗑 {t("delete")}
+                  </button>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
       </div>
 
     </div>
+    </>
   );
 }
 export default ChickenMortality;
