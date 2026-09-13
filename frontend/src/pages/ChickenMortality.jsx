@@ -37,6 +37,9 @@ function ChickenMortality() {
         `${API_URL}/api/chicken-mortality/${id}`,
         {
           method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         }
       );
 
