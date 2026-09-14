@@ -128,6 +128,53 @@ db.getConnection((err, connection) => {
       }
     );
 
+    // Safely add missing Rabbit registration columns on older databases.
+    db.query(
+      `SELECT COLUMN_NAME
+       FROM INFORMATION_SCHEMA.COLUMNS
+       WHERE TABLE_SCHEMA = DATABASE()
+       AND TABLE_NAME = 'rabbits'
+       AND COLUMN_NAME IN ('source', 'quantity', 'purchase_price')`,
+      (columnErr, rows) => {
+        if (columnErr) {
+          console.error("❌ Could not check Rabbit registration columns:", columnErr);
+          return;
+        }
+
+        const existing = rows.map((row) => row.COLUMN_NAME);
+        const missing = [];
+
+        if (!existing.includes("source")) {
+          missing.push("ADD COLUMN source VARCHAR(150) DEFAULT NULL");
+        }
+
+        if (!existing.includes("quantity")) {
+          missing.push("ADD COLUMN quantity INT DEFAULT 0");
+        }
+
+        if (!existing.includes("purchase_price")) {
+          missing.push("ADD COLUMN purchase_price DECIMAL(12,2) DEFAULT NULL");
+        }
+
+        if (missing.length === 0) {
+          console.log("✅ Rabbit registration columns already exist");
+          return;
+        }
+
+        db.query(
+          `ALTER TABLE rabbits ${missing.join(", ")}`,
+          (alterErr) => {
+            if (alterErr) {
+              console.error("❌ Could not add Rabbit registration columns:", alterErr);
+              return;
+            }
+
+            console.log("✅ Added missing Rabbit registration columns");
+          }
+        );
+      }
+    );
+
     // Safely add users.phone if an older database does not have it.
     db.query(
       `SELECT COUNT(*) AS count
