@@ -70,6 +70,7 @@ function EditRabbit() {
 
     const payload = {
       ...formData,
+      birth_date: formData.birth_date || null,
       quantity: Number(formData.quantity),
       purchase_price:
         formData.purchase_price === ""
