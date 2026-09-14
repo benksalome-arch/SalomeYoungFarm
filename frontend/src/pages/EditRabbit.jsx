@@ -1,8 +1,10 @@
 import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
+import { useLanguage } from "../context/LanguageContext";
 
 function EditRabbit() {
+  const { t } = useLanguage();
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -26,7 +28,12 @@ function EditRabbit() {
   async function loadRabbit() {
     try {
       const response = await fetch(
-        `${API_URL}/api/rabbits/${id}`
+        `${API_URL}/api/rabbits/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
       );
 
       const data = await response.json();
@@ -58,11 +65,59 @@ function EditRabbit() {
     });
   }
 
+  const [calendarOpen, setCalendarOpen] = useState(false);
+  const [calendarMonth, setCalendarMonth] = useState(new Date());
+
+  function formatDisplayDate(value) {
+    if (!value) return "";
+    const [year, month, day] = value.split("-");
+    return `${day}-${month}-${year}`;
+  }
+
+  function selectCalendarDate(day) {
+    const year = calendarMonth.getFullYear();
+    const month = String(calendarMonth.getMonth() + 1).padStart(2, "0");
+    const date = String(day).padStart(2, "0");
+
+    setFormData({
+      ...formData,
+      birth_date: `${year}-${month}-${date}`,
+    });
+    setCalendarOpen(false);
+  }
+
+  function changeCalendarMonth(offset) {
+    setCalendarMonth(
+      new Date(
+        calendarMonth.getFullYear(),
+        calendarMonth.getMonth() + offset,
+        1
+      )
+    );
+  }
+
+  const firstDay = new Date(
+    calendarMonth.getFullYear(),
+    calendarMonth.getMonth(),
+    1
+  ).getDay();
+
+  const daysInMonth = new Date(
+    calendarMonth.getFullYear(),
+    calendarMonth.getMonth() + 1,
+    0
+  ).getDate();
+
+  const calendarDays = [];
+  for (let i = 0; i < firstDay; i++) calendarDays.push(null);
+  for (let day = 1; day <= daysInMonth; day++) calendarDays.push(day);
+
   async function handleSubmit(e) {
     e.preventDefault();
 
     const payload = {
       ...formData,
+      birth_date: formData.birth_date || null,
       quantity: Number(formData.quantity),
       purchase_price:
         formData.purchase_price === ""
@@ -77,6 +132,7 @@ function EditRabbit() {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
           body: JSON.stringify(payload),
         }
@@ -92,148 +148,238 @@ function EditRabbit() {
 
     } catch (err) {
       console.error(err);
-      alert("Failed to update rabbit.");
+      alert(t("failedToUpdateRabbit"));
     }
   }
 
+  const fieldStyle = {
+    display: "flex",
+    flexDirection: "column",
+    gap: "7px",
+    minWidth: 0,
+  };
+
+  const labelStyle = {
+    display: "block",
+    fontWeight: 600,
+    fontSize: "15px",
+    lineHeight: 1.3,
+    margin: 0,
+  };
+
+  const inputStyle = {
+    width: "100%",
+    minWidth: 0,
+    height: "44px",
+    padding: "9px 12px",
+    border: "1px solid #cfd6cf",
+    borderRadius: "7px",
+    background: "#fff",
+    boxSizing: "border-box",
+    fontSize: "15px",
+  };
+
+  const textareaStyle = {
+    width: "100%",
+    minWidth: 0,
+    minHeight: "120px",
+    padding: "10px 12px",
+    border: "1px solid #cfd6cf",
+    borderRadius: "7px",
+    background: "#fff",
+    boxSizing: "border-box",
+    fontSize: "15px",
+    resize: "vertical",
+    fontFamily: "inherit",
+  };
+
   return (
     <div className="page">
-
-      <div className="page-header">
-        <h1>🐇 Edit Rabbit</h1>
+      <div
+        className="page-header"
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          gap: "20px",
+          flexWrap: "wrap",
+          marginBottom: "25px",
+        }}
+      >
+        <h1 style={{ margin: 0, lineHeight: 1.15 }}>
+          🐇 {t("editRabbit")}
+        </h1>
       </div>
 
-      <div className="card">
-
+      <div
+        className="card"
+        style={{
+          width: "100%",
+          maxWidth: "900px",
+          margin: "0 auto",
+          padding: "clamp(20px, 4vw, 32px)",
+          boxSizing: "border-box",
+          borderRadius: "14px",
+        }}
+      >
         <form onSubmit={handleSubmit}>
-
-          <label>Tag Number</label>
-          <input
-            type="text"
-            name="tag_number"
-            value={formData.tag_number}
-            onChange={handleChange}
-            required
-          />
-
-          <br /><br />
-
-          <label>Name</label>
-          <input
-            type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-          />
-
-          <br /><br />
-
-          <label>Breed</label>
-          <input
-            type="text"
-            name="breed"
-            value={formData.breed}
-            onChange={handleChange}
-            required
-          />
-
-          <br /><br />
-
-          <label>Sex</label>
-          <select
-            name="sex"
-            value={formData.sex}
-            onChange={handleChange}
+          <div
+            className="rabbit-edit-grid"
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
+              gap: "20px 24px",
+              width: "100%",
+              alignItems: "start",
+            }}
           >
-            <option value="Female">Female</option>
-            <option value="Male">Male</option>
-          </select>
+            <div style={fieldStyle}>
+              <label style={labelStyle}>{t("tagNumber")}</label>
+              <input
+                type="text"
+                name="tag_number"
+                value={formData.tag_number}
+                onChange={handleChange}
+                required
+                style={inputStyle}
+              />
+            </div>
 
-          <br /><br />
+            <div style={fieldStyle}>
+              <label style={labelStyle}>{t("name")}</label>
+              <input
+                type="text"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                required
+                style={inputStyle}
+              />
+            </div>
 
-          <label>Birth Date</label>
-          <input
-            type="date"
-            name="birth_date"
-            value={formData.birth_date}
-            onChange={handleChange}
-          />
+            <div style={fieldStyle}>
+              <label style={labelStyle}>{t("breed")}</label>
+              <input
+                type="text"
+                name="breed"
+                value={formData.breed}
+                onChange={handleChange}
+                required
+                style={inputStyle}
+              />
+            </div>
 
-          <br /><br />
+            <div style={fieldStyle}>
+              <label style={labelStyle}>{t("sex")}</label>
+              <select
+                name="sex"
+                value={formData.sex}
+                onChange={handleChange}
+                style={inputStyle}
+              >
+                <option value="Female">{t("female")}</option>
+                <option value="Male">{t("male")}</option>
+              </select>
+            </div>
 
-          <label>Source</label>
-          <input
-            type="text"
-            name="source"
-            value={formData.source}
-            onChange={handleChange}
-          />
+            <div style={fieldStyle}>
+              <label style={labelStyle}>{t("birthDate")}</label>
+              <input
+                type="date"
+                name="birth_date"
+                value={formData.birth_date}
+                onChange={handleChange}
+                required
+                style={inputStyle}
+              />
+            </div>
 
-          <br /><br />
+            <div style={fieldStyle}>
+              <label style={labelStyle}>{t("source")}</label>
+              <input
+                type="text"
+                name="source"
+                value={formData.source}
+                onChange={handleChange}
+                style={inputStyle}
+              />
+            </div>
 
-          <label>Quantity</label>
-          <input
-            type="number"
-            min="1"
-            name="quantity"
-            value={formData.quantity}
-            onChange={handleChange}
-            required
-          />
+            <div style={fieldStyle}>
+              <label style={labelStyle}>{t("quantity")}</label>
+              <input
+                type="number"
+                name="quantity"
+                value={formData.quantity}
+                onChange={handleChange}
+                min="0"
+                style={inputStyle}
+              />
+            </div>
 
-          <br /><br />
+            <div style={fieldStyle}>
+              <label style={labelStyle}>{t("status")}</label>
+              <select
+                name="status"
+                value={formData.status}
+                onChange={handleChange}
+                style={inputStyle}
+              >
+                <option value="Active">{t("active")}</option>
+                <option value="Sold">{t("sold")}</option>
+                <option value="Dead">{t("dead")}</option>
+              </select>
+            </div>
 
-          <label>Status</label>
-          <select
-            name="status"
-            value={formData.status}
-            onChange={handleChange}
+            <div style={fieldStyle}>
+              <label style={labelStyle}>{t("purchasePrice")}</label>
+              <input
+                type="number"
+                name="purchase_price"
+                value={formData.purchase_price}
+                onChange={handleChange}
+                min="0"
+                step="0.01"
+                style={inputStyle}
+              />
+            </div>
+          </div>
+
+          <div style={{ marginTop: "22px" }}>
+            <label style={labelStyle}>{t("notes")}</label>
+            <textarea
+              name="notes"
+              rows="5"
+              value={formData.notes}
+              onChange={handleChange}
+              style={{
+                ...textareaStyle,
+                marginTop: "7px",
+              }}
+            />
+          </div>
+
+          <div
+            style={{
+              display: "flex",
+              gap: "12px",
+              flexWrap: "wrap",
+              marginTop: "25px",
+            }}
           >
-            <option value="Active">Active</option>
-            <option value="Sold">Sold</option>
-            <option value="Dead">Dead</option>
-          </select>
-
-          <br /><br />
-
-          <label>Purchase Price</label>
-          <input
-            type="number"
-            step="0.01"
-            min="0"
-            name="purchase_price"
-            value={formData.purchase_price}
-            onChange={handleChange}
-          />
-
-          <br /><br />
-
-          <label>Notes</label>
-          <textarea
-            name="notes"
-            rows="4"
-            value={formData.notes}
-            onChange={handleChange}
-          />
-
-          <br /><br />
-
-          <div style={{ display: "flex", gap: "10px" }}>
             <button className="button" type="submit">
-              💾 Update
+              💾 {t("update")}
             </button>
 
             <Link className="button" to="/rabbits">
-              Cancel
+              {t("cancel")}
             </Link>
           </div>
-
         </form>
-
       </div>
-
     </div>
   );
+
 }
 
 export default EditRabbit;
