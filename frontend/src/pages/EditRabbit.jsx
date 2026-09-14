@@ -224,11 +224,11 @@ function EditRabbit() {
       >
         <form onSubmit={handleSubmit}>
           <div
+            className="rabbit-edit-grid"
             style={{
               display: "grid",
-              gridTemplateColumns:
-                "repeat(auto-fit, minmax(min(100%, 260px), 1fr))",
-              gap: "22px",
+              gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
+              gap: "20px 24px",
               width: "100%",
               alignItems: "start",
             }}

@@ -178,3 +178,20 @@ canvas {
     min-height: 44px;
   }
 }
+
+/* Rabbit edit form - phone layout */
+@media (max-width: 700px) {
+  .rabbit-edit-grid {
+    grid-template-columns: 1fr !important;
+    gap: 18px !important;
+  }
+
+  .rabbit-edit-grid input,
+  .rabbit-edit-grid select,
+  .rabbit-edit-grid textarea {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+}
