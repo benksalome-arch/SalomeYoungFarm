@@ -28,7 +28,12 @@ function EditRabbit() {
   async function loadRabbit() {
     try {
       const response = await fetch(
-        `${API_URL}/api/rabbits/${id}`
+        `${API_URL}/api/rabbits/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
       );
 
       const data = await response.json();
@@ -79,6 +84,7 @@ function EditRabbit() {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
           body: JSON.stringify(payload),
         }
