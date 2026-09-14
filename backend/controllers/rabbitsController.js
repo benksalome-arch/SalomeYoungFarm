@@ -79,7 +79,7 @@ exports.createRabbit = (req, res) => {
   db.query(
     `INSERT INTO rabbits
     (
-      tag_number,
+      tag,
       name,
       breed,
       sex,
