@@ -409,7 +409,7 @@ function Rabbits() {
                       style={{
                         display: "inline-block",
                         background:
-                          rabbit.status === "Healthy"
+                          rabbit.status === "Healthy" || rabbit.status === "Active"
                             ? "#4CAF50"
                             : rabbit.status === "Sick"
                               ? "#E53935"
@@ -538,7 +538,7 @@ function Rabbits() {
                     style={{
                       display: "inline-block",
                       background:
-                        rabbit.status === "Healthy"
+                        rabbit.status === "Healthy" || rabbit.status === "Active"
                           ? "#4CAF50"
                           : rabbit.status === "Sick"
                             ? "#E53935"
