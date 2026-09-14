@@ -143,45 +143,67 @@ exports.updateRabbit = (req, res) => {
   } = req.body;
 
   db.query(
-    `UPDATE rabbits
-     SET
-       tag=?,
-       name=?,
-       breed=?,
-       sex=?,
-       date_of_birth=?,
-       source=?,
-       quantity=?,
-       status=?,
-       purchase_price=?,
-       notes=?
-     WHERE id=?`,
-    [
-      tag_number,
-      name,
-      breed,
-      sex,
-      birth_date,
-      source,
-      quantity,
-      status,
-      purchase_price,
-      notes,
-      req.params.id,
-    ],
-    (err) => {
+    "SELECT id FROM rabbits WHERE tag=? AND id<>?",
+    [tag_number, req.params.id],
+    (checkErr, existing) => {
 
-      if (err) {
-        console.error(err);
+      if (checkErr) {
+        console.error(checkErr);
 
         return res.status(500).json({
           message: "Database error",
         });
       }
 
-      res.json({
-        message: "Rabbit updated successfully!",
-      });
+      if (existing.length > 0) {
+        return res.status(400).json({
+          message: "Rabbit tag number is already in use.",
+        });
+      }
+
+      db.query(
+        `UPDATE rabbits
+         SET
+           tag=?,
+           name=?,
+           breed=?,
+           sex=?,
+           date_of_birth=?,
+           source=?,
+           quantity=?,
+           status=?,
+           purchase_price=?,
+           notes=?
+         WHERE id=?`,
+        [
+          tag_number,
+          name,
+          breed,
+          sex,
+          birth_date,
+          source,
+          quantity,
+          status,
+          purchase_price,
+          notes,
+          req.params.id,
+        ],
+        (err) => {
+
+          if (err) {
+            console.error(err);
+
+            return res.status(500).json({
+              message: "Database error",
+            });
+          }
+
+          res.json({
+            message: "Rabbit updated successfully!",
+          });
+
+        }
+      );
 
     }
   );
