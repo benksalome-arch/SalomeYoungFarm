@@ -104,6 +104,7 @@ import EditEggSale from "./pages/EditEggSale";
 // ======================
 
 import Rabbits from "./pages/Rabbits";
+import EditRabbit from "./pages/EditRabbit";
 import AddRabbit from "./pages/AddRabbit";
 import RabbitProfile from "./pages/RabbitProfile";
 
@@ -457,6 +458,10 @@ function App() {
           <Route
             path="/rabbits"
             element={<Rabbits />}
+          />
+          <Route
+            path="/rabbits/edit/:id"
+            element={<EditRabbit />}
           />
 
           <Route
