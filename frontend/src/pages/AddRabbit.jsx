@@ -88,7 +88,16 @@ function AddRabbit() {
   }
 
   function selectDate(day) {
-    const year = calendarMonth.getFullYear();
+    const monthKeys = [
+  "january", "february", "march", "april", "may", "june",
+  "july", "august", "september", "october", "november", "december",
+];
+
+const weekdayKeys = [
+  "sun", "mon", "tue", "wed", "thu", "fri", "sat",
+];
+
+const year = calendarMonth.getFullYear();
     const month = String(calendarMonth.getMonth() + 1).padStart(2, "0");
     const selectedDay = String(day).padStart(2, "0");
 
