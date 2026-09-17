@@ -770,6 +770,7 @@ function AddRabbitLitter() {
                             }}
                             style={{
                               minHeight: "40px",
+                              minHeight: "40px",
                               border:
                                 selected || isToday
                                   ? "2px solid #2e7d32"
