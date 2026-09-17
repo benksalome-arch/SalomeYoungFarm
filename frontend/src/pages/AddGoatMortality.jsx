@@ -394,137 +394,174 @@ export default function AddGoatMortality() {
                     className="add-goat-mortality-calendar"
                     style={{
                       position: "fixed",
-                      zIndex: 1000,
-                      background: "#fff",
-                      border: "1px solid #ccc",
-                      borderRadius: "8px",
-                      padding: "12px",
-                      boxShadow:
-                        "0 8px 24px rgba(0,0,0,0.15)",
-                      width: "min(92vw,320px)",
-                      boxSizing: "border-box",
+                      inset: 0,
+                      background: "rgba(0,0,0,.35)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      zIndex: 99999,
                     }}
+                    onClick={() => setCalendarOpen(false)}
                   >
                     <div
                       style={{
-                        display: "flex",
-                        justifyContent:
-                          "space-between",
-                        alignItems: "center",
-                        marginBottom: "10px",
+                        width: "min(92vw,360px)",
+                        background: "#fff",
+                        borderRadius: "14px",
+                        padding: "18px",
+                        boxSizing: "border-box",
+                        boxShadow: "0 8px 30px rgba(0,0,0,.25)",
                       }}
+                      onClick={(e) => e.stopPropagation()}
                     >
-                      <button
-                        type="button"
-                        onClick={goPreviousMonth}
+                      <div
                         style={{
-                          border: "none",
-                          background: "transparent",
-                          cursor: "pointer",
-                          fontSize: "20px",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "space-between",
+                          marginBottom: "14px",
                         }}
                       >
-                        ‹
-                      </button>
-
-                      <strong>
-                        {monthNames[month]} {year}
-                      </strong>
-
-                      <button
-                        type="button"
-                        onClick={goNextMonth}
-                        style={{
-                          border: "none",
-                          background: "transparent",
-                          cursor: "pointer",
-                          fontSize: "20px",
-                        }}
-                      >
-                        ›
-                      </button>
-                    </div>
-
-                    <div
-                      style={{
-                        display: "grid",
-                        gridTemplateColumns:
-                          "repeat(7, 1fr)",
-                        gap: "4px",
-                        textAlign: "center",
-                      }}
-                    >
-                      {weekdays.map((day) => (
-                        <div
-                          key={day}
+                        <button
+                          type="button"
+                          onClick={goPreviousMonth}
                           style={{
-                            fontWeight: 600,
-                            fontSize: "12px",
+                            border: "1px solid #ddd",
+                            background: "#fff",
+                            borderRadius: "8px",
+                            width: "38px",
+                            height: "38px",
+                            fontSize: "22px",
+                            cursor: "pointer",
                           }}
                         >
-                          {day}
+                          ‹
+                        </button>
+
+                        <div
+                          style={{
+                            fontSize: "18px",
+                            fontWeight: "700",
+                            color: "#222",
+                            WebkitTextFillColor: "#222",
+                          }}
+                        >
+                          {monthNames[month]} {year}
                         </div>
-                      ))}
 
-                      {Array.from({
-                        length: firstDay,
-                      }).map((_, index) => (
-                        <div key={`empty-${index}`} />
-                      ))}
+                        <button
+                          type="button"
+                          onClick={goNextMonth}
+                          style={{
+                            border: "1px solid #ddd",
+                            background: "#fff",
+                            borderRadius: "8px",
+                            width: "38px",
+                            height: "38px",
+                            fontSize: "22px",
+                            cursor: "pointer",
+                          }}
+                        >
+                          ›
+                        </button>
+                      </div>
 
-                      {Array.from({
-                        length: daysInMonth,
-                      }).map((_, index) => {
-                        const day = index + 1;
-
-                        const today = new Date();
-                        const isToday =
-                          day === today.getDate() &&
-                          calendarMonth.getMonth() === today.getMonth() &&
-                          calendarMonth.getFullYear() === today.getFullYear();
-
-                        const selectedDate = formData.mortality_date
-                          ? new Date(
-                              `${formData.mortality_date}T00:00:00`
-                            )
-                          : null;
-
-                        const isSelected =
-                          selectedDate &&
-                          day === selectedDate.getDate() &&
-                          month === selectedDate.getMonth() &&
-                          year === selectedDate.getFullYear();
-
-                        return (
-                          <button
+                      <div
+                        style={{
+                          display: "grid",
+                          gridTemplateColumns: "repeat(7,1fr)",
+                          gap: "6px",
+                        }}
+                      >
+                        {weekdays.map((day) => (
+                          <div
                             key={day}
-                            type="button"
-                            onClick={() =>
-                              handleDateSelect(day)
-                            }
                             style={{
-                              border: "none",
-                              background:
-                                isSelected || isToday
-                                  ? "#1976d2"
-                                  : "transparent",
-                              color:
-                                isSelected || isToday
-                                  ? "#fff"
-                                  : "#222",
-                              padding: "7px 0",
-                              cursor: "pointer",
-                              borderRadius: "5px",
-                              fontWeight:
-                                isToday || isSelected
-                                  ? 700
-                                  : 400,
+                              textAlign: "center",
+                              fontWeight: "600",
+                              fontSize: "13px",
+                              padding: "6px 0",
+                              color: "#222",
                             }}
                           >
                             {day}
-                          </button>
-                        );
-                      })}
+                          </div>
+                        ))}
+
+                        {Array.from({ length: firstDay }).map((_, index) => (
+                          <div key={"empty-" + index} />
+                        ))}
+
+                        {Array.from({ length: daysInMonth }).map((_, index) => {
+                          const day = index + 1;
+                          const today = new Date();
+
+                          const isToday =
+                            day === today.getDate() &&
+                            month === today.getMonth() &&
+                            year === today.getFullYear();
+
+                          const selectedDate = formData.mortality_date
+                            ? new Date(`${formData.mortality_date}T00:00:00`)
+                            : null;
+
+                          const isSelected =
+                            selectedDate &&
+                            day === selectedDate.getDate() &&
+                            month === selectedDate.getMonth() &&
+                            year === selectedDate.getFullYear();
+
+                          return (
+                            <button
+                              key={day}
+                              type="button"
+                              onClick={() => handleDateSelect(day)}
+                              style={{
+                                minHeight: "40px",
+                                border: isSelected
+                                  ? "2px solid #2e7d32"
+                                  : isToday
+                                  ? "2px solid #2e7d32"
+                                  : "1px solid #ddd",
+                                borderRadius: "8px",
+                                background:
+                                  isSelected || isToday
+                                    ? "#e8f5e9"
+                                    : "#fff",
+                                color: "#222",
+                                WebkitTextFillColor: "#222",
+                                fontSize: "15px",
+                                fontWeight:
+                                  isSelected || isToday ? "700" : "500",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                cursor: "pointer",
+                              }}
+                            >
+                              {day}
+                            </button>
+                          );
+                        })}
+                      </div>
+
+                      <button
+                        type="button"
+                        onClick={() => setCalendarOpen(false)}
+                        style={{
+                          width: "100%",
+                          marginTop: "14px",
+                          padding: "10px",
+                          border: "none",
+                          borderRadius: "8px",
+                          background: "#2e7d32",
+                          color: "#fff",
+                          fontWeight: "600",
+                          cursor: "pointer",
+                        }}
+                      >
+                        {t("cancel")}
+                      </button>
                     </div>
                   </div>
                 )}
