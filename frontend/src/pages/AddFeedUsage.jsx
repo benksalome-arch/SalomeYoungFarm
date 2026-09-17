@@ -7,6 +7,86 @@ function AddFeedUsage() {
   const navigate = useNavigate();
   const { t } = useLanguage();
 
+  const labelStyle = {
+    fontWeight: 600,
+    fontSize: "15px",
+    textAlign: "right",
+    color: "#222",
+    WebkitTextFillColor: "#222",
+  };
+
+  const inputStyle = {
+    width: "100%",
+    boxSizing: "border-box",
+    padding: "10px 12px",
+    minHeight: "44px",
+    border: "1px solid #cfd6cf",
+    borderRadius: "7px",
+    background: "#fff",
+    color: "#222",
+    WebkitTextFillColor: "#222",
+    fontSize: "15px",
+  };
+
+  const responsiveStyles = `
+    .feed-usage-field {
+      display: grid;
+      grid-template-columns: 150px minmax(0, 320px);
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    .feed-usage-field > label,
+    .feed-usage-notes > label {
+      margin: 0 !important;
+      font-weight: 600 !important;
+      font-size: 15px !important;
+      text-align: right !important;
+      color: #222 !important;
+      -webkit-text-fill-color: #222 !important;
+      overflow-wrap: anywhere;
+      line-height: 1.25;
+    }
+
+    .feed-usage-field input,
+    .feed-usage-field select,
+    .feed-usage-notes textarea {
+      width: 100% !important;
+      box-sizing: border-box !important;
+      padding: 10px 12px !important;
+      min-height: 44px !important;
+      border: 1px solid #cfd6cf !important;
+      border-radius: 7px !important;
+      background: #fff !important;
+      color: #222 !important;
+      -webkit-text-fill-color: #222 !important;
+      font-size: 15px !important;
+    }
+
+    .feed-usage-notes {
+      display: grid;
+      grid-template-columns: 150px minmax(0, 320px);
+      align-items: start;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .feed-usage-notes textarea {
+      min-height: 100px !important;
+      resize: vertical;
+    }
+
+    @media (max-width: 700px) {
+      .feed-usage-field,
+      .feed-usage-notes {
+        grid-template-columns: 105px minmax(0, 1fr);
+        gap: 10px;
+      }
+    }
+  `;
+
+
   const [feeds, setFeeds] = useState([]);
 
   const [formData, setFormData] = useState({
@@ -74,54 +154,58 @@ function AddFeedUsage() {
 
   return (
     <div className="page">
+      <style>{responsiveStyles}</style>
       <div
+        className="page-header"
         style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "flex-start",
-          gap: 20,
-          marginBottom: 30,
-          flexWrap: "wrap",
+          position: "relative",
+          textAlign: "center",
+          marginBottom: "24px",
         }}
       >
-        <div>
-          <h1
-            style={{
-              margin: "0 0 8px 0",
-              fontSize: 32,
-              lineHeight: 1.2,
-              fontWeight: 700,
-            }}
-          >
-            🌾 Voergebruik registreren
-          </h1>
-          <p
-            style={{
-              margin: 0,
-              color: "#666",
-              fontSize: 16,
-              lineHeight: 1.5,
-            }}
-          >
-            Registreer het dagelijkse voerverbruik van de dieren.
-          </p>
-        </div>
+        <h1
+          style={{
+            margin: "0 0 6px 0",
+            color: "#222",
+            WebkitTextFillColor: "#222",
+          }}
+        >
+          🌾 Voergebruik registreren
+        </h1>
 
-        <Link className="button" to="/feed/usage">
-          ← Terug
+        <p style={{ margin: 0 }}>
+          Registreer het dagelijkse voerverbruik van de dieren.
+        </p>
+
+        <Link
+          className="button"
+          to="/feed/usage"
+          style={{
+            textDecoration: "none",
+            whiteSpace: "nowrap",
+            position: "absolute",
+            right: 0,
+            top: 0,
+          }}
+        >
+          ← {t("back")}
         </Link>
       </div>
 
       <div
         className="card"
         style={{
-          maxWidth: 760,
+          width: "100%",
+          maxWidth: "620px",
           margin: "0 auto",
+          padding: "30px",
+          boxSizing: "border-box",
+          borderRadius: "14px",
         }}
       >
         <form onSubmit={handleSubmit}>
-          <div style={{ marginBottom: 20 }}>
-            <label style={{ display: "block", marginBottom: 7, fontWeight: 600 }}>
+          <div className="feed-usage-field">
+            <label htmlFor="feed_id" style={labelStyle}>
               Voer
             </label>
 
@@ -130,7 +214,7 @@ function AddFeedUsage() {
               value={formData.feed_id}
               onChange={handleChange}
               required
-              style={{ width: "100%" }}
+              style={inputStyle}
             >
               <option value="">{t("selectFeed")}</option>
 
@@ -142,8 +226,8 @@ function AddFeedUsage() {
             </select>
           </div>
 
-          <div style={{ marginBottom: 20 }}>
-            <label style={{ display: "block", marginBottom: 7, fontWeight: 600 }}>
+          <div className="feed-usage-field">
+            <label htmlFor="animal_type" style={labelStyle}>
               Diersoort
             </label>
 
@@ -151,7 +235,7 @@ function AddFeedUsage() {
               name="animal_type"
               value={formData.animal_type}
               onChange={handleChange}
-              style={{ width: "100%" }}
+              style={inputStyle}
             >
               <option value="Goat">{t("goat")}</option>
               <option value="Chicken">{t("chicken")}</option>
@@ -159,8 +243,8 @@ function AddFeedUsage() {
             </select>
           </div>
 
-          <div style={{ marginBottom: 20 }}>
-            <label style={{ display: "block", marginBottom: 7, fontWeight: 600 }}>
+          <div className="feed-usage-field">
+            <label htmlFor="animal_id" style={labelStyle}>
               Diernummer
               <span style={{ fontWeight: 400, color: "#777" }}>
                 {" "} (optioneel)
@@ -173,12 +257,12 @@ function AddFeedUsage() {
               value={formData.animal_id}
               onChange={handleChange}
               placeholder="Bijvoorbeeld 12"
-              style={{ width: "100%" }}
+              style={inputStyle}
             />
           </div>
 
-          <div style={{ marginBottom: 20 }}>
-            <label style={{ display: "block", marginBottom: 7, fontWeight: 600 }}>
+          <div className="feed-usage-field">
+            <label htmlFor="quantity_used" style={labelStyle}>
               Hoeveelheid gebruikt (kg)
             </label>
 
@@ -191,45 +275,265 @@ function AddFeedUsage() {
               onChange={handleChange}
               placeholder="Bijvoorbeeld 2.50"
               required
-              style={{ width: "100%" }}
+              style={inputStyle}
             />
           </div>
 
-          <div style={{ marginBottom: 20 }}>
-            <label style={{ display: "block", marginBottom: 7, fontWeight: 600 }}>
+          <div className="feed-usage-field">
+            <label htmlFor="usage_date" style={labelStyle}>
               Datum
             </label>
 
-            <input
-              type="date"
-              name="usage_date"
-              value={formData.usage_date}
-              onChange={handleChange}
-              required
-              style={{ width: "100%" }}
-            />
+            <div style={{ position: "relative" }}>
+              <input
+                id="usage_date"
+                type="text"
+                value={
+                  formData.usage_date
+                    ? formData.usage_date.split("-").reverse().join("-")
+                    : ""
+                }
+                placeholder="DD-MM-JJJJ"
+                readOnly
+                required
+                onClick={() => {
+                  const selected = formData.usage_date
+                    ? new Date(formData.usage_date + "T00:00:00")
+                    : new Date();
+
+                  setCalendarMonth(
+                    new Date(
+                      selected.getFullYear(),
+                      selected.getMonth(),
+                      1
+                    )
+                  );
+                  setCalendarOpen(true);
+                }}
+                style={{
+                  ...inputStyle,
+                  cursor: "pointer",
+                }}
+              />
+
+              {calendarOpen && (
+                <div
+                  style={{
+                    position: "fixed",
+                    inset: 0,
+                    background: "rgba(0,0,0,.35)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    zIndex: 99999,
+                  }}
+                  onClick={() => setCalendarOpen(false)}
+                >
+                  <div
+                    style={{
+                      width: "min(92vw,360px)",
+                      background: "#fff",
+                      borderRadius: "14px",
+                      padding: "18px",
+                      boxSizing: "border-box",
+                      boxShadow: "0 8px 30px rgba(0,0,0,.25)",
+                    }}
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        marginBottom: "14px",
+                      }}
+                    >
+                      <button
+                        type="button"
+                        onClick={goPreviousMonth}
+                        style={{
+                          width: "38px",
+                          height: "38px",
+                          border: "1px solid #ccc",
+                          borderRadius: "8px",
+                          background: "#fff",
+                          color: "#222",
+                          fontSize: "20px",
+                          cursor: "pointer",
+                        }}
+                      >
+                        ‹
+                      </button>
+
+                      <div
+                        style={{
+                          textAlign: "center",
+                          fontSize: "18px",
+                          fontWeight: 700,
+                          color: "#222",
+                        }}
+                      >
+                        {calendarMonth.toLocaleDateString("default", {
+                          month: "long",
+                          year: "numeric",
+                        })}
+                      </div>
+
+                      <button
+                        type="button"
+                        onClick={goNextMonth}
+                        style={{
+                          width: "38px",
+                          height: "38px",
+                          border: "1px solid #ccc",
+                          borderRadius: "8px",
+                          background: "#fff",
+                          color: "#222",
+                          fontSize: "20px",
+                          cursor: "pointer",
+                        }}
+                      >
+                        ›
+                      </button>
+                    </div>
+
+                    <div
+                      style={{
+                        display: "grid",
+                        gridTemplateColumns: "repeat(7, 1fr)",
+                        gap: "6px",
+                      }}
+                    >
+                      {[
+                        t("sun"),
+                        t("mon"),
+                        t("tue"),
+                        t("wed"),
+                        t("thu"),
+                        t("fri"),
+                        t("sat"),
+                      ].map((day) => (
+                        <div
+                          key={day}
+                          style={{
+                            textAlign: "center",
+                            fontWeight: 600,
+                            fontSize: "13px",
+                            padding: "6px 0",
+                            color: "#222",
+                          }}
+                        >
+                          {day}
+                        </div>
+                      ))}
+
+                      {Array.from({
+                        length: getFirstDayOfMonth(calendarMonth),
+                      }).map((_, index) => (
+                        <div key={`empty-${index}`} />
+                      ))}
+
+                      {Array.from({
+                        length: getDaysInMonth(calendarMonth),
+                      }).map((_, index) => {
+                        const day = index + 1;
+                        const today = new Date();
+
+                        const isToday =
+                          day === today.getDate() &&
+                          calendarMonth.getMonth() === today.getMonth() &&
+                          calendarMonth.getFullYear() === today.getFullYear();
+
+                        const selectedDate = formData.usage_date
+                          ? new Date(formData.usage_date + "T00:00:00")
+                          : null;
+
+                        const isSelected =
+                          selectedDate &&
+                          day === selectedDate.getDate() &&
+                          calendarMonth.getMonth() === selectedDate.getMonth() &&
+                          calendarMonth.getFullYear() === selectedDate.getFullYear();
+
+                        return (
+                          <button
+                            key={day}
+                            type="button"
+                            onClick={() => handleDateSelect(day)}
+                            style={{
+                              minHeight: "40px",
+                              border:
+                                isToday || isSelected
+                                  ? "2px solid #2e7d32"
+                                  : "1px solid #ddd",
+                              borderRadius: "8px",
+                              background:
+                                isSelected || isToday ? "#e8f5e9" : "#fff",
+                              color: "#222",
+                              fontSize: "15px",
+                              fontWeight: 600,
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              cursor: "pointer",
+                            }}
+                          >
+                            {day}
+                          </button>
+                        );
+                      })}
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => setCalendarOpen(false)}
+                      style={{
+                        width: "100%",
+                        marginTop: "14px",
+                        minHeight: "44px",
+                        border: "1px solid #2e7d32",
+                        borderRadius: "8px",
+                        background: "#2e7d32",
+                        color: "#fff",
+                        fontSize: "15px",
+                        fontWeight: 600,
+                        cursor: "pointer",
+                      }}
+                    >
+                      {t("cancel")}
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
 
-          <div style={{ marginBottom: 25 }}>
-            <label style={{ display: "block", marginBottom: 7, fontWeight: 600 }}>
+          <div className="feed-usage-notes">
+            <label htmlFor="notes" style={labelStyle}>
               Opmerkingen
             </label>
 
             <textarea
+              id="notes"
               name="notes"
               value={formData.notes}
               onChange={handleChange}
               rows="4"
               placeholder="Eventuele opmerkingen..."
-              style={{ width: "100%", resize: "vertical" }}
+              style={{
+                ...inputStyle,
+                minHeight: "100px",
+                resize: "vertical",
+              }}
             />
           </div>
 
           <div
             style={{
               display: "flex",
-              gap: 12,
+              gap: "10px",
+              justifyContent: "center",
               flexWrap: "wrap",
+              marginTop: "28px",
             }}
           >
             <button className="button" type="submit">
