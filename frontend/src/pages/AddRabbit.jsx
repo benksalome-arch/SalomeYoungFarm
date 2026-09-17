@@ -88,10 +88,7 @@ function AddRabbit() {
   }
 
   function selectDate(day) {
-    const monthKeys = [
-  "january", "february", "march", "april", "may", "june",
-  "july", "august", "september", "october", "november", "december",
-];
+    
 
 const weekdayKeys = [
   "sun", "mon", "tue", "wed", "thu", "fri", "sat",
@@ -413,7 +410,7 @@ const year = calendarMonth.getFullYear();
                               WebkitTextFillColor: "#222",
                             }}
                           >
-                            {t(monthKeys[month])} {year}
+                            {t(["january","february","march","april","may","june","july","august","september","october","november","december"][month])} {year}
                           </div>
             
                           <button
