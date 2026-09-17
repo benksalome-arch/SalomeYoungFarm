@@ -363,6 +363,26 @@ function AddRabbitMortality() {
     }
   `;
 
+  function goPreviousMonth() {
+    setCalendarMonth(
+      new Date(
+        calendarMonth.getFullYear(),
+        calendarMonth.getMonth() - 1,
+        1
+      )
+    );
+  }
+
+  function goNextMonth() {
+    setCalendarMonth(
+      new Date(
+        calendarMonth.getFullYear(),
+        calendarMonth.getMonth() + 1,
+        1
+      )
+    );
+  }
+
   return (
     <>
       <style>{`
