@@ -284,6 +284,10 @@ function EggSales() {
                         className="button"
                         style={{
                           whiteSpace: "nowrap",
+                          background: "#dc3545",
+                          borderColor: "#dc3545",
+                          color: "#fff",
+                          WebkitTextFillColor: "#fff",
                         }}
                         onClick={() =>
                           deleteSale(sale.id)
@@ -346,6 +350,10 @@ function EggSales() {
                 className="button"
                 style={{
                   whiteSpace: "nowrap",
+                  background: "#dc3545",
+                  borderColor: "#dc3545",
+                  color: "#fff",
+                  WebkitTextFillColor: "#fff",
                 }}
                 onClick={() => deleteSale(sale.id)}
               >
