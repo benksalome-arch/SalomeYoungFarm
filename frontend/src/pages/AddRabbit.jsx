@@ -333,131 +333,178 @@ function AddRabbit() {
                 />
 
                 {calendarOpen && (
+              <div
+                style={{
+                  position: "fixed",
+                  inset: 0,
+                  background: "rgba(0,0,0,0.35)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  zIndex: 99999,
+                  padding: "16px",
+                  boxSizing: "border-box",
+                }}
+                onClick={() => setCalendarOpen(false)}
+              >
+                <div
+                  style={{
+                    width: "min(92vw, 360px)",
+                    background: "#fff",
+                    borderRadius: "14px",
+                    padding: "18px",
+                    boxSizing: "border-box",
+                    boxShadow: "0 8px 30px rgba(0,0,0,0.25)",
+                  }}
+                  onClick={(e) => e.stopPropagation()}
+                >
                   <div
                     style={{
-                      position: "fixed",
-                      inset: 0,
-                      background: "rgba(0,0,0,.35)",
                       display: "flex",
+                      justifyContent: "space-between",
                       alignItems: "center",
-                      justifyContent: "center",
-                      zIndex: 99999,
+                      marginBottom: "14px",
                     }}
                   >
-                    <div
+                    <button
+                      type="button"
+                      onClick={() => changeMonth(-1)}
                       style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        marginBottom: "12px",
+                        width: "40px",
+                        height: "40px",
+                        border: "none",
+                        borderRadius: "8px",
+                        background: "#f1f4f1",
+                        color: "#222",
+                        fontSize: "24px",
+                        cursor: "pointer",
                       }}
                     >
-                      <button
-                        type="button"
-                        onClick={() => changeMonth(-1)}
-                        style={{
-                          border: "none",
-                          background: "transparent",
-                          fontSize: "22px",
-                          cursor: "pointer",
-                        }}
-                      >
-                        ‹
-                      </button>
+                      ‹
+                    </button>
 
-                      <strong
-                        style={{
-                          color: "#222",
-                          WebkitTextFillColor: "#222",
-                        }}
-                      >
-                        {monthNames[calendarMonth.getMonth()]}{" "}
-                        {calendarMonth.getFullYear()}
-                      </strong>
-
-                      <button
-                        type="button"
-                        onClick={() => changeMonth(1)}
-                        style={{
-                          border: "none",
-                          background: "transparent",
-                          fontSize: "22px",
-                          cursor: "pointer",
-                        }}
-                      >
-                        ›
-                      </button>
-                    </div>
-
-                    <div
+                    <strong
                       style={{
-                        display: "grid",
-                        gridTemplateColumns: "repeat(7, 1fr)",
-                        gap: "4px",
-                        textAlign: "center",
+                        color: "#222",
+                        WebkitTextFillColor: "#222",
+                        fontSize: "16px",
                       }}
                     >
-                      {weekdays.map((day) => (
-                        <div
+                      {monthNames[calendarMonth.getMonth()]}{" "}
+                      {calendarMonth.getFullYear()}
+                    </strong>
+
+                    <button
+                      type="button"
+                      onClick={() => changeMonth(1)}
+                      style={{
+                        width: "40px",
+                        height: "40px",
+                        border: "none",
+                        borderRadius: "8px",
+                        background: "#f1f4f1",
+                        color: "#222",
+                        fontSize: "24px",
+                        cursor: "pointer",
+                      }}
+                    >
+                      ›
+                    </button>
+                  </div>
+
+                  <div
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns: "repeat(7, 1fr)",
+                      gap: "5px",
+                      textAlign: "center",
+                    }}
+                  >
+                    {weekdays.map((day) => (
+                      <div
+                        key={day}
+                        style={{
+                          fontWeight: 600,
+                          fontSize: "12px",
+                          color: "#666",
+                          paddingBottom: "4px",
+                        }}
+                      >
+                        {day}
+                      </div>
+                    ))}
+
+                    {Array.from({ length: firstDay }).map((_, index) => (
+                      <div key={`empty-${index}`} />
+                    ))}
+
+                    {Array.from(
+                      { length: daysInMonth },
+                      (_, index) => index + 1
+                    ).map((day) => {
+                      const isSelected =
+                        formData.birth_date ===
+                        `${calendarMonth.getFullYear()}-${String(
+                          calendarMonth.getMonth() + 1
+                        ).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+
+                      const isToday =
+                        day === today.getDate() &&
+                        calendarMonth.getMonth() === today.getMonth() &&
+                        calendarMonth.getFullYear() === today.getFullYear();
+
+                      return (
+                        <button
                           key={day}
+                          type="button"
+                          onClick={() => selectDate(day)}
                           style={{
-                            fontWeight: 600,
-                            fontSize: "12px",
-                            color: "#666",
+                            width: "40px",
+                            height: "40px",
+                            margin: "0 auto",
+                            border: "none",
+                            borderRadius: "50%",
+                            cursor: "pointer",
+                            background:
+                              isSelected || isToday
+                                ? "#2e7d32"
+                                : "transparent",
+                            color:
+                              isSelected || isToday
+                                ? "#fff"
+                                : "#222",
+                            fontWeight:
+                              isSelected || isToday ? 700 : 400,
+                            fontSize: "14px",
                           }}
                         >
                           {day}
-                        </div>
-                      ))}
-
-                      {Array.from({ length: firstDay }).map((_, index) => (
-                        <div key={`empty-${index}`} />
-                      ))}
-
-                      {Array.from(
-                        { length: daysInMonth },
-                        (_, index) => index + 1
-                      ).map((day) => {
-                        const isSelected =
-                          formData.birth_date ===
-                          `${calendarMonth.getFullYear()}-${String(
-                            calendarMonth.getMonth() + 1
-                          ).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
-
-                        const isToday =
-                          day === today.getDate() &&
-                          calendarMonth.getMonth() === today.getMonth() &&
-                          calendarMonth.getFullYear() === today.getFullYear();
-
-                        return (
-                          <button
-                            key={day}
-                            type="button"
-                            onClick={() => selectDate(day)}
-                            style={{
-                              border: "none",
-                              borderRadius: "6px",
-                              padding: "7px 2px",
-                              cursor: "pointer",
-                              background:
-                                isSelected || isToday
-                                  ? "#1976d2"
-                                  : "transparent",
-                              color:
-                                isSelected || isToday
-                                  ? "#fff"
-                                  : "#222",
-                              fontWeight:
-                                isSelected || isToday ? 700 : 400,
-                            }}
-                          >
-                            {day}
-                          </button>
-                        );
-                      })}
-                    </div>
+                        </button>
+                      );
+                    })}
                   </div>
-                )}
+
+                  <button
+                    type="button"
+                    onClick={() => setCalendarOpen(false)}
+                    style={{
+                      width: "100%",
+                      marginTop: "16px",
+                      padding: "11px",
+                      border: "none",
+                      borderRadius: "8px",
+                      background: "#2e7d32",
+                      color: "#fff",
+                      fontSize: "14px",
+                      fontWeight: 600,
+                      cursor: "pointer",
+                    }}
+                  >
+                    {t("cancel")}
+                  </button>
+                </div>
+              </div>
+            )}
               </div>
             </div>
 
