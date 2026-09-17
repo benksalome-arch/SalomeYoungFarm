@@ -445,7 +445,7 @@ const year = calendarMonth.getFullYear();
                             marginBottom: "4px",
                           }}
                         >
-                          {weekdayKeys.map((key) => (
+                          {["sun", "mon", "tue", "wed", "thu", "fri", "sat"].map((key) => (
                             <div
                               key={key}
                               style={{
@@ -499,7 +499,7 @@ const year = calendarMonth.getFullYear();
                               <button
                                 key={day}
                                 type="button"
-                                onClick={() => handleDateSelect(day)}
+                                onClick={() => selectDate(day)}
                                 style={{
                                   minHeight: "40px",
                                   border:
