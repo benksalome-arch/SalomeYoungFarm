@@ -405,7 +405,7 @@ function AddRabbitMortality() {
     "-" +
     String(today.getDate()).padStart(2, "0");
 
-  const selectedValue = form.death_date || "";
+  const selectedValue = formData.death_date || "";
 
   return (
     <>
