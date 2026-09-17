@@ -485,8 +485,15 @@ const year = calendarMonth.getFullYear();
                               "-" +
                               String(day).padStart(2, "0");
             
-                            const isToday = dateValue === todayValue;
-                            const isSelected = dateValue === selectedValue;
+                            const now = new Date();
+                            const currentToday =
+                              now.getFullYear() +
+                              "-" +
+                              String(now.getMonth() + 1).padStart(2, "0") +
+                              "-" +
+                              String(now.getDate()).padStart(2, "0");
+                            const isToday = dateValue === currentToday;
+                            const isSelected = dateValue === formData.birth_date;
             
                             return (
                               <button
