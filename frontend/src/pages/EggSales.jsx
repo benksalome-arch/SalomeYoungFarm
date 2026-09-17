@@ -192,7 +192,9 @@ function EggSales() {
         >
           <thead>
             <tr>
-              <th>{text("date", "Date")}</th>
+              <th style={{ textAlign: "center" }}>
+                {text("date", "Date")}
+              </th>
               <th>{text("customer", "Customer")}</th>
               <th>{text("quantity", "Quantity")}</th>
               <th>{text("pricePerEgg", "Price/Egg")}</th>
@@ -221,7 +223,7 @@ function EggSales() {
             ) : (
               sales.map((sale) => (
                 <tr key={sale.id}>
-                  <td>
+                  <td style={{ textAlign: "center" }}>
                     {sale.sale_date
                       ? (() => {
                           const d = sale.sale_date.split("T")[0].split("-");
@@ -319,7 +321,10 @@ function EggSales() {
               marginBottom: "12px",
             }}
           >
-            <div><strong>{text("date", "Date")}:</strong> {sale.sale_date ? sale.sale_date.split("T")[0] : "-"}</div>
+            <div style={{ textAlign: "center" }}>
+              <strong>{text("date", "Date")}:</strong>{" "}
+              {sale.sale_date ? sale.sale_date.split("T")[0] : "-"}
+            </div>
             <div><strong>{text("customer", "Customer")}:</strong> {sale.customer || text("walkInCustomer", "Walk-in Customer")}</div>
             <div><strong>{text("quantity", "Quantity")}:</strong> {sale.quantity}</div>
             <div><strong>{text("pricePerEgg", "Price/Egg")}:</strong> KES {Number(sale.price_per_egg || 0).toLocaleString()}</div>
