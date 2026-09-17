@@ -649,6 +649,29 @@ function AddRabbitLitter() {
                       box-shadow: 0 8px 30px rgba(0,0,0,0.25) !important;
                     }
 
+                    .rabbit-litter-calendar-cancel {
+                      display: block !important;
+                      width: 100% !important;
+                      height: 40px !important;
+                      min-height: 40px !important;
+                      max-height: 40px !important;
+                      margin: 16px 0 0 0 !important;
+                      padding: 0 !important;
+                      border: none !important;
+                      border-radius: 7px !important;
+                      background: #2e7d32 !important;
+                      color: #fff !important;
+                      -webkit-text-fill-color: #fff !important;
+                      font-size: 14px !important;
+                      font-weight: 600 !important;
+                      line-height: 40px !important;
+                      text-align: center !important;
+                      white-space: nowrap !important;
+                      writing-mode: horizontal-tb !important;
+                      transform: none !important;
+                      box-sizing: border-box !important;
+                    }
+
                     .rabbit-litter-calendar-nav {
                       width: 38px !important;
                       min-width: 38px !important;
@@ -801,17 +824,28 @@ function AddRabbitLitter() {
 
                     <button
                       type="button"
+                      className="rabbit-litter-calendar-cancel"
                       onClick={() => setCalendarOpen(false)}
                       style={{
+                        display: "block",
                         width: "100%",
-                        marginTop: "16px",
+                        height: "40px",
                         minHeight: "40px",
+                        maxHeight: "40px",
+                        margin: "16px 0 0 0",
+                        padding: "0",
                         border: "none",
                         borderRadius: "7px",
                         background: "#2e7d32",
                         color: "#fff",
                         WebkitTextFillColor: "#fff",
                         fontWeight: 600,
+                        fontSize: "14px",
+                        lineHeight: "40px",
+                        textAlign: "center",
+                        whiteSpace: "nowrap",
+                        writingMode: "horizontal-tb",
+                        transform: "none",
                         cursor: "pointer",
                       }}
                     >
