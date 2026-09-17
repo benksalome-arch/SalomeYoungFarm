@@ -383,6 +383,147 @@ function AddRabbitLitter() {
         }
       `}</style>
 
+      <style>{`
+        .rabbit-litter-page {
+          width: 100%;
+        }
+
+        .rabbit-litter-header {
+          text-align: center;
+        }
+
+        .rabbit-litter-header > div:first-child {
+          width: 100%;
+        }
+
+        .rabbit-litter-header h1 {
+          margin: 0 0 8px 0;
+          color: #222 !important;
+          -webkit-text-fill-color: #222 !important;
+          font-size: 30px;
+          line-height: 1.2;
+          font-weight: 700;
+        }
+
+        .rabbit-litter-header p {
+          margin: 0;
+          color: #555 !important;
+          font-size: 16px;
+        }
+
+        .rabbit-litter-header > a {
+          position: absolute;
+          right: 0;
+          top: 50%;
+          transform: translateY(-50%);
+        }
+
+        .rabbit-litter-form-card {
+          width: min(100%, 620px);
+          margin: 0 auto;
+          padding: 30px;
+          box-sizing: border-box;
+          border-radius: 14px;
+        }
+
+        .rabbit-litter-form-card form {
+          display: flex;
+          flex-direction: column;
+          width: 100%;
+        }
+
+        .rabbit-litter-form-card form > div {
+          display: grid;
+          grid-template-columns: 150px minmax(0, 320px);
+          gap: 14px;
+          align-items: center;
+          width: 100%;
+          margin-bottom: 15px !important;
+        }
+
+        .rabbit-litter-form-card form > div > label {
+          text-align: right;
+          color: #222;
+          font-weight: 600;
+          margin: 0;
+        }
+
+        .rabbit-litter-form-card input,
+        .rabbit-litter-form-card select,
+        .rabbit-litter-form-card textarea {
+          width: 100% !important;
+          box-sizing: border-box;
+          min-height: 44px;
+          padding: 9px 11px !important;
+          margin: 0 !important;
+          border: 1px solid #cfd6cf !important;
+          border-radius: 7px;
+          background: #fff !important;
+          color: #222 !important;
+          -webkit-text-fill-color: #222 !important;
+        }
+
+        .rabbit-litter-form-card textarea {
+          min-height: 96px;
+        }
+
+        .rabbit-litter-form-card .rabbit-litter-date-field > div {
+          width: 100%;
+        }
+
+        .rabbit-litter-form-card .rabbit-litter-date-field input {
+          cursor: pointer;
+        }
+
+        .rabbit-litter-form-card form > div:last-child {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 10px;
+          margin-top: 8px;
+          margin-bottom: 0 !important;
+          width: 100%;
+        }
+
+        .rabbit-litter-form-card form > div:last-child .button {
+          min-height: 44px;
+          padding: 10px 20px;
+          border-radius: 8px;
+        }
+
+        @media (max-width: 700px) {
+          .rabbit-litter-header {
+            flex-direction: column;
+            margin-bottom: 20px !important;
+          }
+
+          .rabbit-litter-header h1 {
+            font-size: 26px;
+          }
+
+          .rabbit-litter-header > a {
+            position: static;
+            transform: none;
+            margin-top: 10px;
+          }
+
+          .rabbit-litter-form-card {
+            width: 100%;
+            padding: 22px 16px;
+          }
+
+          .rabbit-litter-form-card form > div {
+            grid-template-columns: 105px minmax(0, 1fr);
+            gap: 10px;
+          }
+
+          .rabbit-litter-form-card form > div > label {
+            text-align: right;
+            font-size: 14px;
+          }
+        }
+      `}</style>
+
       {/* Form */}
 
       <div className="card rabbit-litter-form-card">
@@ -472,140 +613,207 @@ function AddRabbitLitter() {
 
               {calendarOpen && (
                 <div
-                  className="rabbit-litter-calendar"
+                  onClick={(e) => {
+                    if (e.target === e.currentTarget) {
+                      setCalendarOpen(false);
+                    }
+                  }}
                   style={{
-                    position: "absolute",
-                    top: "calc(100% + 6px)",
-                    left: "50%",
-                    transform: "translateX(-50%)",
-                    zIndex: 9999,
-                    width: "min(92vw, 320px)",
-                    padding: "14px",
-                    background: "#fff",
-                    border: "1px solid #ccc",
-                    borderRadius: "10px",
-                    boxShadow: "0 6px 20px rgba(0,0,0,0.18)",
+                    position: "fixed",
+                    inset: 0,
+                    background: "rgba(0, 0, 0, 0.35)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    zIndex: 99999,
+                    padding: "16px",
                     boxSizing: "border-box",
                   }}
                 >
                   <div
-                    className="rabbit-litter-calendar-header"
                     style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                      marginBottom: "12px",
+                      width: "min(92vw, 360px)",
+                      background: "#fff",
+                      borderRadius: "14px",
+                      padding: "18px",
+                      boxSizing: "border-box",
+                      boxShadow: "0 8px 30px rgba(0, 0, 0, 0.25)",
                     }}
                   >
-                    <button
-                      type="button"
-                      onClick={() => changeCalendarMonth(-1)}
+                    <div
                       style={{
-                        border: "none",
-                        background: "transparent",
-                        fontSize: "22px",
-                        cursor: "pointer",
-                        color: "#222",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        gap: "10px",
+                        marginBottom: "14px",
                       }}
                     >
-                      ‹
-                    </button>
-
-                    <strong style={{ color: "#222", WebkitTextFillColor: "#222" }}>
-                      {monthNames[calendarMonth.getMonth()]}{" "}
-                      {calendarMonth.getFullYear()}
-                    </strong>
-
-                    <button
-                      type="button"
-                      onClick={() => changeCalendarMonth(1)}
-                      style={{
-                        border: "none",
-                        background: "transparent",
-                        fontSize: "22px",
-                        cursor: "pointer",
-                        color: "#222",
-                      }}
-                    >
-                      ›
-                    </button>
-                  </div>
-
-                  <div
-                    className="rabbit-litter-calendar-grid"
-                    style={{
-                      display: "grid",
-                      gridTemplateColumns: "repeat(7, 1fr)",
-                      gap: "4px",
-                      textAlign: "center",
-                    }}
-                  >
-                    {weekdays.map((day) => (
-                      <div
-                        key={day}
+                      <button
+                        type="button"
+                        onClick={() => changeCalendarMonth(-1)}
                         style={{
-                          fontWeight: 600,
-                          fontSize: "12px",
-                          color: "#666",
+                          width: "38px",
+                          height: "38px",
+                          border: "1px solid #cfd6cf",
+                          borderRadius: "8px",
+                          background: "#fff",
+                          color: "#222",
+                          fontSize: "20px",
+                          fontWeight: 700,
+                          cursor: "pointer",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
                         }}
                       >
-                        {day}
+                        ‹
+                      </button>
+
+                      <div
+                        style={{
+                          flex: 1,
+                          textAlign: "center",
+                          fontSize: "19px",
+                          fontWeight: 700,
+                          color: "#222",
+                          WebkitTextFillColor: "#222",
+                        }}
+                      >
+                        {monthNames[calendarMonth.getMonth()]}{" "}
+                        {calendarMonth.getFullYear()}
                       </div>
-                    ))}
 
-                    {Array.from({ length: firstDay }).map((_, index) => (
-                      <div key={`empty-${index}`} />
-                    ))}
+                      <button
+                        type="button"
+                        onClick={() => changeCalendarMonth(1)}
+                        style={{
+                          width: "38px",
+                          height: "38px",
+                          border: "1px solid #cfd6cf",
+                          borderRadius: "8px",
+                          background: "#fff",
+                          color: "#222",
+                          fontSize: "20px",
+                          fontWeight: 700,
+                          cursor: "pointer",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                        }}
+                      >
+                        ›
+                      </button>
+                    </div>
 
-                    {Array.from(
-                      { length: daysInMonth },
-                      (_, index) => index + 1
-                    ).map((day) => {
-                      const selected =
-                        form.birth_date ===
-                        `${calendarMonth.getFullYear()}-${String(
-                          calendarMonth.getMonth() + 1
-                        ).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
-
-                      const isToday =
-                        day === today.getDate() &&
-                        calendarMonth.getMonth() === today.getMonth() &&
-                        calendarMonth.getFullYear() === today.getFullYear();
-
-                      return (
-                        <button
-                          className={`rabbit-litter-calendar-day${
-                            selected || isToday
-                              ? " rabbit-litter-calendar-selected"
-                              : ""
-                          }`}
+                    <div
+                      style={{
+                        display: "grid",
+                        gridTemplateColumns: "repeat(7, 1fr)",
+                        gap: "6px",
+                        marginBottom: "4px",
+                      }}
+                    >
+                      {weekdays.map((day) => (
+                        <div
                           key={day}
-                          type="button"
-                          onPointerDown={(e) => {
-                            e.preventDefault();
-                            selectCalendarDate(day);
-                          }}
                           style={{
-                            border: "none",
-                            borderRadius: "6px",
-                            padding: "7px 2px",
-                            cursor: "pointer",
-                            background:
-                              selected || isToday
-                                ? "#1976d2"
-                                : "transparent",
-                            color:
-                              selected || isToday
-                                ? "#fff"
-                                : "#222",
-                            fontWeight:
-                              selected || isToday ? 700 : 400,
+                            textAlign: "center",
+                            fontWeight: 600,
+                            fontSize: "13px",
+                            padding: "6px 0",
+                            color: "#222",
+                            WebkitTextFillColor: "#222",
                           }}
                         >
                           {day}
-                        </button>
-                      );
-                    })}
+                        </div>
+                      ))}
+                    </div>
+
+                    <div
+                      style={{
+                        display: "grid",
+                        gridTemplateColumns: "repeat(7, 1fr)",
+                        gap: "6px",
+                      }}
+                    >
+                      {Array.from({ length: firstDay }).map((_, index) => (
+                        <div key={`empty-${index}`} />
+                      ))}
+
+                      {Array.from(
+                        { length: daysInMonth },
+                        (_, index) => index + 1
+                      ).map((day) => {
+                        const value =
+                          `${calendarMonth.getFullYear()}-${String(
+                            calendarMonth.getMonth() + 1
+                          ).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+
+                        const selected = form.birth_date === value;
+
+                        const isToday =
+                          day === today.getDate() &&
+                          calendarMonth.getMonth() === today.getMonth() &&
+                          calendarMonth.getFullYear() === today.getFullYear();
+
+                        return (
+                          <button
+                            key={day}
+                            type="button"
+                            onPointerDown={(e) => {
+                              e.preventDefault();
+                              selectCalendarDate(day);
+                            }}
+                            style={{
+                              minHeight: "40px",
+                              border:
+                                selected || isToday
+                                  ? "2px solid #2e7d32"
+                                  : "1px solid #ddd",
+                              borderRadius: "8px",
+                              background: selected
+                                ? "#2e7d32"
+                                : isToday
+                                ? "#e8f5e9"
+                                : "#fff",
+                              color: selected ? "#fff" : "#222",
+                              WebkitTextFillColor: selected
+                                ? "#fff"
+                                : "#222",
+                              fontSize: "15px",
+                              fontWeight: 600,
+                              cursor: "pointer",
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                            }}
+                          >
+                            {day}
+                          </button>
+                        );
+                      })}
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => setCalendarOpen(false)}
+                      style={{
+                        width: "100%",
+                        marginTop: "16px",
+                        minHeight: "44px",
+                        border: "none",
+                        borderRadius: "8px",
+                        background: "#2e7d32",
+                        color: "#fff",
+                        fontSize: "15px",
+                        fontWeight: 600,
+                        cursor: "pointer",
+                      }}
+                    >
+                      Annuleren
+                    </button>
                   </div>
                 </div>
               )}
