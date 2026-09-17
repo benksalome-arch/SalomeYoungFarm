@@ -230,6 +230,139 @@ function AddRabbitMortality() {
     }
   `;
 
+  const professionalCalendarCSS = `
+    .rabbit-mortality-calendar,
+    .rabbit-mortality-calendar * {
+      box-sizing: border-box !important;
+    }
+
+    .rabbit-mortality-calendar {
+      position: fixed !important;
+      inset: 0 !important;
+      width: 100vw !important;
+      height: 100vh !important;
+      padding: 16px !important;
+      margin: 0 !important;
+      background: rgba(0,0,0,0.35) !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      z-index: 2147483647 !important;
+    }
+
+    .rabbit-mortality-calendar-card {
+      width: min(92vw, 360px) !important;
+      max-width: 360px !important;
+      min-width: 360px !important;
+      padding: 18px !important;
+      margin: 0 !important;
+      background: #fff !important;
+      border: none !important;
+      border-radius: 14px !important;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.25) !important;
+    }
+
+    .rabbit-mortality-calendar-header {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+      gap: 10px !important;
+      margin-bottom: 14px !important;
+    }
+
+    .rabbit-mortality-calendar-nav {
+      all: unset !important;
+      width: 38px !important;
+      height: 38px !important;
+      min-width: 38px !important;
+      max-width: 38px !important;
+      min-height: 38px !important;
+      max-height: 38px !important;
+      border: 1px solid #cfd6cf !important;
+      border-radius: 8px !important;
+      background: #fff !important;
+      color: #222 !important;
+      font-size: 20px !important;
+      font-weight: 700 !important;
+      line-height: 38px !important;
+      text-align: center !important;
+      cursor: pointer !important;
+    }
+
+    .rabbit-mortality-calendar-month {
+      flex: 1 !important;
+      text-align: center !important;
+      color: #222 !important;
+      font-size: 19px !important;
+      font-weight: 700 !important;
+      line-height: 38px !important;
+    }
+
+    .rabbit-mortality-calendar-weekdays,
+    .rabbit-mortality-calendar-days {
+      display: grid !important;
+      grid-template-columns: repeat(7, minmax(0, 1fr)) !important;
+      gap: 6px !important;
+      width: 100% !important;
+    }
+
+    .rabbit-mortality-calendar-weekday {
+      text-align: center !important;
+      color: #222 !important;
+      font-size: 13px !important;
+      font-weight: 600 !important;
+      padding: 6px 0 !important;
+    }
+
+    .rabbit-mortality-calendar-day {
+      all: unset !important;
+      width: 100% !important;
+      height: 40px !important;
+      min-height: 40px !important;
+      max-height: 40px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      border: 1px solid #ddd !important;
+      border-radius: 7px !important;
+      background: #fff !important;
+      color: #222 !important;
+      font-size: 15px !important;
+      font-weight: 600 !important;
+      line-height: 40px !important;
+      cursor: pointer !important;
+    }
+
+    .rabbit-mortality-calendar-day.selected {
+      border: 2px solid #2e7d32 !important;
+      background: #2e7d32 !important;
+      color: #fff !important;
+    }
+
+    .rabbit-mortality-calendar-day.today {
+      border: 2px solid #2e7d32 !important;
+      background: #e8f5e9 !important;
+      color: #222 !important;
+    }
+
+    .rabbit-mortality-calendar-cancel {
+      all: unset !important;
+      width: 100% !important;
+      height: 40px !important;
+      min-height: 40px !important;
+      max-height: 40px !important;
+      margin-top: 16px !important;
+      border-radius: 7px !important;
+      background: #2e7d32 !important;
+      color: #fff !important;
+      font-size: 14px !important;
+      font-weight: 600 !important;
+      line-height: 40px !important;
+      text-align: center !important;
+      cursor: pointer !important;
+    }
+  `;
+
   return (
     <>
       <style>{`
@@ -488,6 +621,8 @@ function AddRabbitMortality() {
               />
 
               {calendarOpen && (
+                <>
+                  <style>{professionalCalendarCSS}</style>
                 <div
                   style={{
                     position: "fixed",
@@ -671,6 +806,7 @@ function AddRabbitMortality() {
                     {t("cancel")}
                   </button>
                 </div>
+                </>
               )}
             </div>
 
