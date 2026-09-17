@@ -384,29 +384,28 @@ function AddRabbitMortality() {
   }
 
   const monthKeys = [
-    "january",
-    "february",
-    "march",
-    "april",
-    "may",
-    "june",
-    "july",
-    "august",
-    "september",
-    "october",
-    "november",
-    "december",
+    "january","february","march","april","may","june",
+    "july","august","september","october","november","december",
   ];
 
   const weekdayKeys = [
-    "sun",
-    "mon",
-    "tue",
-    "wed",
-    "thu",
-    "fri",
-    "sat",
+    "sun","mon","tue","wed","thu","fri","sat",
   ];
+
+  const year = calendarMonth.getFullYear();
+  const month = calendarMonth.getMonth();
+
+
+  const today = new Date();
+
+  const todayValue =
+    today.getFullYear() +
+    "-" +
+    String(today.getMonth() + 1).padStart(2, "0") +
+    "-" +
+    String(today.getDate()).padStart(2, "0");
+
+  const selectedValue = form.death_date || "";
 
   return (
     <>
