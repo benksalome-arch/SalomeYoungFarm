@@ -19,6 +19,10 @@ function AddChickenVaccination() {
     notes: "",
   });
 
+  const [calendarOpen, setCalendarOpen] = useState(false);
+  const [calendarField, setCalendarField] = useState("");
+  const [calendarMonth, setCalendarMonth] = useState(new Date());
+
   useEffect(() => {
     loadChickens();
   }, []);
@@ -46,6 +50,126 @@ function AddChickenVaccination() {
       [e.target.name]: e.target.value,
     });
   }
+
+  function getDaysInMonth(year, month) {
+    return new Date(year, month + 1, 0).getDate();
+  }
+
+  function getFirstDayOfMonth(year, month) {
+    return new Date(year, month, 1).getDay();
+  }
+
+  function openCalendar(field) {
+    const currentValue = formData[field];
+
+    const baseDate = currentValue
+      ? new Date(currentValue + "T00:00:00")
+      : new Date();
+
+    setCalendarField(field);
+
+    setCalendarMonth(
+      new Date(
+        baseDate.getFullYear(),
+        baseDate.getMonth(),
+        1
+      )
+    );
+
+    setCalendarOpen(true);
+  }
+
+  function goPreviousMonth() {
+    setCalendarMonth(
+      new Date(
+        calendarMonth.getFullYear(),
+        calendarMonth.getMonth() - 1,
+        1
+      )
+    );
+  }
+
+  function goNextMonth() {
+    setCalendarMonth(
+      new Date(
+        calendarMonth.getFullYear(),
+        calendarMonth.getMonth() + 1,
+        1
+      )
+    );
+  }
+
+  function handleDateSelect(day) {
+    const year = calendarMonth.getFullYear();
+    const month = calendarMonth.getMonth();
+
+    const value =
+      year +
+      "-" +
+      String(month + 1).padStart(2, "0") +
+      "-" +
+      String(day).padStart(2, "0");
+
+    setFormData((prev) => ({
+      ...prev,
+      [calendarField]: value,
+    }));
+
+    setCalendarOpen(false);
+    setCalendarField("");
+  }
+
+  function formatDate(value) {
+    if (!value) return "";
+
+    const parts = value.split("-");
+
+    if (parts.length !== 3) return value;
+
+    return `${parts[2]}-${parts[1]}-${parts[0]}`;
+  }
+
+  const monthKeys = [
+    "january",
+    "february",
+    "march",
+    "april",
+    "may",
+    "june",
+    "july",
+    "august",
+    "september",
+    "october",
+    "november",
+    "december",
+  ];
+
+  const weekdayKeys = [
+    "sun",
+    "mon",
+    "tue",
+    "wed",
+    "thu",
+    "fri",
+    "sat",
+  ];
+
+  const year = calendarMonth.getFullYear();
+  const month = calendarMonth.getMonth();
+  const daysInMonth = getDaysInMonth(year, month);
+  const firstDay = getFirstDayOfMonth(year, month);
+
+  const today = new Date();
+  const todayValue =
+    today.getFullYear() +
+    "-" +
+    String(today.getMonth() + 1).padStart(2, "0") +
+    "-" +
+    String(today.getDate()).padStart(2, "0");
+
+  const selectedValue = calendarField
+    ? formData[calendarField]
+    : "";
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -89,6 +213,7 @@ function AddChickenVaccination() {
     lineHeight: 1.3,
     margin: 0,
     color: "#222",
+    WebkitTextFillColor: "#222",
   };
 
   const inputStyle = {
@@ -112,6 +237,8 @@ function AddChickenVaccination() {
     border: "1px solid #cfd6cf",
     borderRadius: "7px",
     background: "#fff",
+    color: "#222",
+    WebkitTextFillColor: "#222",
     boxSizing: "border-box",
     fontSize: "15px",
     resize: "vertical",
@@ -177,7 +304,6 @@ function AddChickenVaccination() {
         }}
       >
         <form onSubmit={handleSubmit}>
-
           {/* VACCINATION DETAILS */}
           <section>
             <h2
@@ -185,6 +311,8 @@ function AddChickenVaccination() {
                 margin: "0 0 20px",
                 fontSize: "22px",
                 lineHeight: 1.3,
+                color: "#222",
+                WebkitTextFillColor: "#222",
               }}
             >
               💉 {t("recordChickenVaccination")}
@@ -236,114 +364,15 @@ function AddChickenVaccination() {
                 <input
                   type="text"
                   name="vaccination_date"
-                  value={
-                    formData.vaccination_date
-                      ? formData.vaccination_date.split("-").reverse().join("-")
-                      : ""
-                  }
+                  value={formatDate(formData.vaccination_date)}
                   placeholder="DD-MM-JJJJ"
                   readOnly
                   required
-                  onClick={() => {
-                    const today = new Date();
-                    const selected = formData.vaccination_date
-                      ? new Date(formData.vaccination_date + "T00:00:00")
-                      : today;
-
-                    const year = selected.getFullYear();
-                    const month = selected.getMonth();
-                    const firstDay = new Date(year, month, 1).getDay();
-                    const daysInMonth = new Date(year, month + 1, 0).getDate();
-
-                    const overlay = document.createElement("div");
-                    overlay.style.cssText =
-                      "position:fixed;inset:0;background:rgba(0,0,0,.35);display:flex;align-items:center;justify-content:center;z-index:99999;";
-
-                    const box = document.createElement("div");
-                    box.style.cssText =
-                      "width:min(92vw,320px);background:#fff;border-radius:14px;padding:18px;box-sizing:border-box;box-shadow:0 8px 30px rgba(0,0,0,.25);";
-
-                    const title = document.createElement("div");
-                    title.textContent = selected
-                      .toLocaleDateString("en-GB", {
-                        day: "2-digit",
-                        month: "2-digit",
-                        year: "numeric",
-                      })
-                      .replaceAll("/", "-");
-
-                    title.style.cssText =
-                      "text-align:center;font-size:20px;font-weight:700;margin-bottom:14px;color:#222;";
-
-                    const grid = document.createElement("div");
-                    grid.style.cssText =
-                      "display:grid;grid-template-columns:repeat(7,1fr);gap:6px;";
-
-                    [t("sun"), t("mon"), t("tue"), t("wed"), t("thu"), t("fri"), t("sat")].forEach(
-                      (day) => {
-                        const el = document.createElement("div");
-                        el.textContent = day;
-                        el.style.cssText =
-                          "text-align:center;font-weight:600;font-size:13px;padding:6px 0;color:#222;";
-                        grid.appendChild(el);
-                      }
-                    );
-
-                    for (let i = 0; i < firstDay; i++) {
-                      grid.appendChild(document.createElement("div"));
-                    }
-
-                    for (let day = 1; day <= daysInMonth; day++) {
-                      const el = document.createElement("button");
-                      el.type = "button";
-                      el.textContent = day;
-
-                      const isToday =
-                        day === today.getDate() &&
-                        month === today.getMonth() &&
-                        year === today.getFullYear();
-
-                      el.style.cssText =
-                        "min-height:40px;border:" +
-                        (isToday ? "2px solid #2e7d32" : "1px solid #ddd") +
-                        ";border-radius:8px;background:" +
-                        (isToday ? "#e8f5e9" : "#fff") +
-                        ";color:#222;-webkit-text-fill-color:#222;font-size:15px;font-weight:600;display:flex;align-items:center;justify-content:center;";
-
-                      el.onclick = () => {
-                        const value =
-                          year +
-                          "-" +
-                          String(month + 1).padStart(2, "0") +
-                          "-" +
-                          String(day).padStart(2, "0");
-
-                        setFormData((prev) => ({
-                          ...prev,
-                          vaccination_date: value,
-                        }));
-
-                        document.body.removeChild(overlay);
-                      };
-
-                      grid.appendChild(el);
-                    }
-
-                    const cancel = document.createElement("button");
-                    cancel.type = "button";
-                    cancel.textContent = t("cancel");
-                    cancel.style.cssText =
-                      "width:100%;margin-top:14px;min-height:44px;border:1px solid #ccc;border-radius:8px;background:#fff;color:#222;-webkit-text-fill-color:#222;font-size:15px;font-weight:600;";
-
-                    cancel.onclick = () => document.body.removeChild(overlay);
-
-                    box.appendChild(title);
-                    box.appendChild(grid);
-                    box.appendChild(cancel);
-                    overlay.appendChild(box);
-                    document.body.appendChild(overlay);
+                  onClick={() => openCalendar("vaccination_date")}
+                  style={{
+                    ...inputStyle,
+                    cursor: "pointer",
                   }}
-                  style={inputStyle}
                 />
               </div>
 
@@ -387,113 +416,14 @@ function AddChickenVaccination() {
                 <input
                   type="text"
                   name="next_due_date"
-                  value={
-                    formData.next_due_date
-                      ? formData.next_due_date.split("-").reverse().join("-")
-                      : ""
-                  }
+                  value={formatDate(formData.next_due_date)}
                   placeholder="DD-MM-JJJJ"
                   readOnly
-                  onClick={() => {
-                    const today = new Date();
-                    const selected = formData.next_due_date
-                      ? new Date(formData.next_due_date + "T00:00:00")
-                      : today;
-
-                    const year = selected.getFullYear();
-                    const month = selected.getMonth();
-                    const firstDay = new Date(year, month, 1).getDay();
-                    const daysInMonth = new Date(year, month + 1, 0).getDate();
-
-                    const overlay = document.createElement("div");
-                    overlay.style.cssText =
-                      "position:fixed;inset:0;background:rgba(0,0,0,.35);display:flex;align-items:center;justify-content:center;z-index:99999;";
-
-                    const box = document.createElement("div");
-                    box.style.cssText =
-                      "width:min(92vw,320px);background:#fff;border-radius:14px;padding:18px;box-sizing:border-box;box-shadow:0 8px 30px rgba(0,0,0,.25);";
-
-                    const title = document.createElement("div");
-                    title.textContent = selected
-                      .toLocaleDateString("en-GB", {
-                        day: "2-digit",
-                        month: "2-digit",
-                        year: "numeric",
-                      })
-                      .replaceAll("/", "-");
-
-                    title.style.cssText =
-                      "text-align:center;font-size:20px;font-weight:700;margin-bottom:14px;color:#222;";
-
-                    const grid = document.createElement("div");
-                    grid.style.cssText =
-                      "display:grid;grid-template-columns:repeat(7,1fr);gap:6px;";
-
-                    [t("sun"), t("mon"), t("tue"), t("wed"), t("thu"), t("fri"), t("sat")].forEach(
-                      (day) => {
-                        const el = document.createElement("div");
-                        el.textContent = day;
-                        el.style.cssText =
-                          "text-align:center;font-weight:600;font-size:13px;padding:6px 0;color:#222;";
-                        grid.appendChild(el);
-                      }
-                    );
-
-                    for (let i = 0; i < firstDay; i++) {
-                      grid.appendChild(document.createElement("div"));
-                    }
-
-                    for (let day = 1; day <= daysInMonth; day++) {
-                      const el = document.createElement("button");
-                      el.type = "button";
-                      el.textContent = day;
-
-                      const isToday =
-                        day === today.getDate() &&
-                        month === today.getMonth() &&
-                        year === today.getFullYear();
-
-                      el.style.cssText =
-                        "min-height:40px;border:" +
-                        (isToday ? "2px solid #2e7d32" : "1px solid #ddd") +
-                        ";border-radius:8px;background:" +
-                        (isToday ? "#e8f5e9" : "#fff") +
-                        ";color:#222;-webkit-text-fill-color:#222;font-size:15px;font-weight:600;display:flex;align-items:center;justify-content:center;";
-
-                      el.onclick = () => {
-                        const value =
-                          year +
-                          "-" +
-                          String(month + 1).padStart(2, "0") +
-                          "-" +
-                          String(day).padStart(2, "0");
-
-                        setFormData((prev) => ({
-                          ...prev,
-                          next_due_date: value,
-                        }));
-
-                        document.body.removeChild(overlay);
-                      };
-
-                      grid.appendChild(el);
-                    }
-
-                    const cancel = document.createElement("button");
-                    cancel.type = "button";
-                    cancel.textContent = t("cancel");
-                    cancel.style.cssText =
-                      "width:100%;margin-top:14px;min-height:44px;border:1px solid #ccc;border-radius:8px;background:#fff;color:#222;-webkit-text-fill-color:#222;font-size:15px;font-weight:600;";
-
-                    cancel.onclick = () => document.body.removeChild(overlay);
-
-                    box.appendChild(title);
-                    box.appendChild(grid);
-                    box.appendChild(cancel);
-                    overlay.appendChild(box);
-                    document.body.appendChild(overlay);
+                  onClick={() => openCalendar("next_due_date")}
+                  style={{
+                    ...inputStyle,
+                    cursor: "pointer",
                   }}
-                  style={inputStyle}
                 />
               </div>
 
@@ -561,6 +491,224 @@ function AddChickenVaccination() {
           </div>
         </form>
       </div>
+
+      {/* PROFESSIONAL CALENDAR */}
+      {calendarOpen && (
+        <div
+          onClick={(e) => {
+            if (e.target === e.currentTarget) {
+              setCalendarOpen(false);
+              setCalendarField("");
+            }
+          }}
+          style={{
+            position: "fixed",
+            inset: 0,
+            background: "rgba(0, 0, 0, 0.35)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: 99999,
+            padding: "16px",
+            boxSizing: "border-box",
+          }}
+        >
+          <div
+            style={{
+              width: "min(92vw, 360px)",
+              background: "#fff",
+              borderRadius: "14px",
+              padding: "18px",
+              boxSizing: "border-box",
+              boxShadow: "0 8px 30px rgba(0, 0, 0, 0.25)",
+            }}
+          >
+            {/* CALENDAR HEADER */}
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                gap: "10px",
+                marginBottom: "14px",
+              }}
+            >
+              <button
+                type="button"
+                onClick={goPreviousMonth}
+                aria-label="Previous month"
+                style={{
+                  width: "38px",
+                  height: "38px",
+                  border: "1px solid #cfd6cf",
+                  borderRadius: "8px",
+                  background: "#fff",
+                  color: "#222",
+                  fontSize: "20px",
+                  fontWeight: 700,
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                ‹
+              </button>
+
+              <div
+                style={{
+                  flex: 1,
+                  textAlign: "center",
+                  fontSize: "19px",
+                  fontWeight: 700,
+                  color: "#222",
+                  WebkitTextFillColor: "#222",
+                }}
+              >
+                {t(monthKeys[month])} {year}
+              </div>
+
+              <button
+                type="button"
+                onClick={goNextMonth}
+                aria-label="Next month"
+                style={{
+                  width: "38px",
+                  height: "38px",
+                  border: "1px solid #cfd6cf",
+                  borderRadius: "8px",
+                  background: "#fff",
+                  color: "#222",
+                  fontSize: "20px",
+                  fontWeight: 700,
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                ›
+              </button>
+            </div>
+
+            {/* WEEKDAYS */}
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(7, 1fr)",
+                gap: "6px",
+                marginBottom: "4px",
+              }}
+            >
+              {weekdayKeys.map((key) => (
+                <div
+                  key={key}
+                  style={{
+                    textAlign: "center",
+                    fontWeight: 600,
+                    fontSize: "13px",
+                    padding: "6px 0",
+                    color: "#222",
+                    WebkitTextFillColor: "#222",
+                  }}
+                >
+                  {t(key)}
+                </div>
+              ))}
+            </div>
+
+            {/* DAYS */}
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(7, 1fr)",
+                gap: "6px",
+              }}
+            >
+              {Array.from({ length: firstDay }).map((_, index) => (
+                <div key={`empty-${index}`} />
+              ))}
+
+              {Array.from(
+                { length: daysInMonth },
+                (_, index) => index + 1
+              ).map((day) => {
+                const dateValue =
+                  year +
+                  "-" +
+                  String(month + 1).padStart(2, "0") +
+                  "-" +
+                  String(day).padStart(2, "0");
+
+                const isToday = dateValue === todayValue;
+                const isSelected = dateValue === selectedValue;
+
+                return (
+                  <button
+                    key={day}
+                    type="button"
+                    onClick={() => handleDateSelect(day)}
+                    style={{
+                      minHeight: "40px",
+                      border:
+                        isSelected || isToday
+                          ? "2px solid #2e7d32"
+                          : "1px solid #ddd",
+                      borderRadius: "8px",
+                      background:
+                        isSelected
+                          ? "#2e7d32"
+                          : isToday
+                          ? "#e8f5e9"
+                          : "#fff",
+                      color:
+                        isSelected
+                          ? "#fff"
+                          : "#222",
+                      WebkitTextFillColor:
+                        isSelected
+                          ? "#fff"
+                          : "#222",
+                      fontSize: "15px",
+                      fontWeight: 600,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      cursor: "pointer",
+                    }}
+                  >
+                    {day}
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* CANCEL */}
+            <button
+              type="button"
+              onClick={() => {
+                setCalendarOpen(false);
+                setCalendarField("");
+              }}
+              style={{
+                width: "100%",
+                marginTop: "14px",
+                minHeight: "44px",
+                border: "1px solid #ccc",
+                borderRadius: "8px",
+                background: "#fff",
+                color: "#222",
+                WebkitTextFillColor: "#222",
+                fontSize: "15px",
+                fontWeight: 600,
+                cursor: "pointer",
+              }}
+            >
+              {t("cancel")}
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
