@@ -410,7 +410,7 @@ const year = calendarMonth.getFullYear();
                               WebkitTextFillColor: "#222",
                             }}
                           >
-                            {t(["january","february","march","april","may","june","july","august","september","october","november","december"][month])} {year}
+                            {t(["january","february","march","april","may","june","july","august","september","october","november","december"][calendarMonth.getMonth()])} {calendarMonth.getFullYear()}
                           </div>
             
                           <button
@@ -479,9 +479,9 @@ const year = calendarMonth.getFullYear();
                             (_, index) => index + 1
                           ).map((day) => {
                             const dateValue =
-                              year +
+                              calendarMonth.getFullYear() +
                               "-" +
-                              String(month + 1).padStart(2, "0") +
+                              String(calendarMonth.getMonth() + 1).padStart(2, "0") +
                               "-" +
                               String(day).padStart(2, "0");
             
