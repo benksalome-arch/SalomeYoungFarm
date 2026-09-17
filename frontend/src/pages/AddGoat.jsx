@@ -18,6 +18,53 @@ function AddGoat() {
     status: "Healthy",
     notes: "",
   });
+  const [calendarOpen, setCalendarOpen] = useState(false);
+  const [calendarMonth, setCalendarMonth] = useState(new Date());
+
+  function getDaysInMonth(year, month) {
+    return new Date(year, month + 1, 0).getDate();
+  }
+
+  function getFirstDayOfMonth(year, month) {
+    return new Date(year, month, 1).getDay();
+  }
+
+  function goPreviousMonth() {
+    setCalendarMonth(
+      new Date(
+        calendarMonth.getFullYear(),
+        calendarMonth.getMonth() - 1,
+        1
+      )
+    );
+  }
+
+  function goNextMonth() {
+    setCalendarMonth(
+      new Date(
+        calendarMonth.getFullYear(),
+        calendarMonth.getMonth() + 1,
+        1
+      )
+    );
+  }
+
+  function handleDateSelect(day) {
+    const value =
+      calendarMonth.getFullYear() +
+      "-" +
+      String(calendarMonth.getMonth() + 1).padStart(2, "0") +
+      "-" +
+      String(day).padStart(2, "0");
+
+    setFormData((prev) => ({
+      ...prev,
+      date_of_birth: value,
+    }));
+
+    setCalendarOpen(false);
+  }
+
 
   const [selectedFile, setSelectedFile] = useState(null);
   const [photoPreview, setPhotoPreview] = useState(null);
@@ -370,144 +417,203 @@ function AddGoat() {
                 placeholder="DD-MM-JJJJ"
                 readOnly
                 onClick={() => {
-                  const today = new Date();
                   const selected = formData.date_of_birth
                     ? new Date(formData.date_of_birth + "T00:00:00")
-                    : today;
+                    : new Date();
 
-                  const year = selected.getFullYear();
-                  const month = selected.getMonth();
-
-                  const firstDay = new Date(year, month, 1).getDay();
-                  const daysInMonth = new Date(year, month + 1, 0).getDate();
-
-                  const overlay = document.createElement("div");
-                  overlay.style.cssText = `
-                    position:fixed;
-                    inset:0;
-                    background:rgba(0,0,0,.35);
-                    display:flex;
-                    align-items:center;
-                    justify-content:center;
-                    z-index:99999;
-                  `;
-
-                  const box = document.createElement("div");
-                  box.style.cssText = `
-                    width:min(92vw,360px);
-                    background:#fff;
-                    border-radius:14px;
-                    padding:18px;
-                    box-sizing:border-box;
-                    box-shadow:0 8px 30px rgba(0,0,0,.25);
-                  `;
-
-                  const title = document.createElement("div");
-                  title.textContent = selected.toLocaleDateString("en-GB", {
-                    day:"2-digit",
-                    month:"2-digit",
-                    year:"numeric"
-                  }).replaceAll("/", "-");
-                  title.style.cssText = `
-                    text-align:center;
-                    font-size:20px;
-                    font-weight:700;
-                    margin-bottom:14px;
-                  `;
-
-                  const grid = document.createElement("div");
-                  grid.style.cssText = `
-                    display:grid;
-                    grid-template-columns:repeat(7,1fr);
-                    gap:6px;
-                  `;
-
-                  [t("sun"), t("mon"), t("tue"), t("wed"), t("thu"), t("fri"), t("sat") ].forEach(day => {
-                    const el = document.createElement("div");
-                    el.textContent = day;
-                    el.style.cssText = "text-align:center;font-weight:600;font-size:13px;padding:6px 0;";
-                    grid.appendChild(el);
-                  });
-
-                  for (let i = 0; i < firstDay; i++) {
-                    grid.appendChild(document.createElement("div"));
-                  }
-
-                  for (let day = 1; day <= daysInMonth; day++) {
-                    const el = document.createElement("button");
-                    el.type = "button";
-                    el.textContent = day;
-                    const isToday =
-                      day === today.getDate() &&
-                      month === today.getMonth() &&
-                      year === today.getFullYear();
-
-                    el.style.cssText = `
-                      min-height:40px;
-                      border:${isToday ? "2px solid #2e7d32" : "1px solid #ddd"};
-                      border-radius:8px;
-                      background:${isToday ? "#e8f5e9" : "#fff"};
-                      color:#222;
-                      -webkit-text-fill-color:#222;
-                      font-size:15px;
-                      font-weight:${isToday ? "700" : "500"};
-                      display:flex;
-                      align-items:center;
-                      justify-content:center;
-                    `;
-
-                    el.onclick = () => {
-                      const value =
-                        year + "-" +
-                        String(month + 1).padStart(2, "0") + "-" +
-                        String(day).padStart(2, "0");
-
-                      setFormData(prev => ({
-                        ...prev,
-                        date_of_birth: value
-                      }));
-
-                      document.body.removeChild(overlay);
-                    };
-
-                    grid.appendChild(el);
-                  }
-
-                  const cancel = document.createElement("button");
-                  cancel.type = "button";
-                  cancel.textContent = t("cancel");
-                  cancel.style.cssText = `
-                    width:100%;
-                    margin-top:14px;
-                    min-height:44px;
-                    border:1px solid #ccc;
-                    border-radius:8px;
-                    background:#fff;
-                    color:#222;
-                    -webkit-text-fill-color:#222;
-                    font-size:15px;
-                    font-weight:600;
-                  `;
-                  cancel.onclick = () => document.body.removeChild(overlay);
-
-                  box.appendChild(title);
-                  box.appendChild(grid);
-                  box.appendChild(cancel);
-                  overlay.appendChild(box);
-                  document.body.appendChild(overlay);
+                  setCalendarMonth(selected);
+                  setCalendarOpen(true);
                 }}
-                style={{
-                  ...inputStyle,
-                  width: "100%",
-                  boxSizing: "border-box",
-                  background: "#fff",
-                  backgroundColor: "#fff",
-                  color: "#222",
-                  WebkitTextFillColor: "#222",
-                  border: "1px solid #cfd6cf",
-                  cursor: "pointer"
-                }}
+                style={inputStyle}
               />
+
+              {calendarOpen && (
+                <div
+                  style={{
+                    position: "fixed",
+                    inset: 0,
+                    background: "rgba(0,0,0,.35)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    zIndex: 99999,
+                  }}
+                  onClick={() => setCalendarOpen(false)}
+                >
+                  <div
+                    style={{
+                      width: "min(92vw, 360px)",
+                      background: "#fff",
+                      borderRadius: "14px",
+                      padding: "18px",
+                      boxSizing: "border-box",
+                      boxShadow: "0 8px 30px rgba(0,0,0,.25)",
+                    }}
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        marginBottom: "14px",
+                      }}
+                    >
+                      <button
+                        type="button"
+                        onClick={goPreviousMonth}
+                        style={{
+                          border: "1px solid #ddd",
+                          background: "#fff",
+                          borderRadius: "8px",
+                          width: "38px",
+                          height: "38px",
+                          fontSize: "22px",
+                          cursor: "pointer",
+                        }}
+                      >
+                        ‹
+                      </button>
+
+                      <div
+                        style={{
+                          fontSize: "18px",
+                          fontWeight: "700",
+                          color: "#222",
+                          WebkitTextFillColor: "#222",
+                        }}
+                      >
+                        {t(
+                          [
+                            "january",
+                            "february",
+                            "march",
+                            "april",
+                            "may",
+                            "june",
+                            "july",
+                            "august",
+                            "september",
+                            "october",
+                            "november",
+                            "december",
+                          ][calendarMonth.getMonth()]
+                        )}{" "}
+                        {calendarMonth.getFullYear()}
+                      </div>
+
+                      <button
+                        type="button"
+                        onClick={goNextMonth}
+                        style={{
+                          border: "1px solid #ddd",
+                          background: "#fff",
+                          borderRadius: "8px",
+                          width: "38px",
+                          height: "38px",
+                          fontSize: "22px",
+                          cursor: "pointer",
+                        }}
+                      >
+                        ›
+                      </button>
+                    </div>
+
+                    <div
+                      style={{
+                        display: "grid",
+                        gridTemplateColumns: "repeat(7, 1fr)",
+                        gap: "6px",
+                      }}
+                    >
+                      {[t("sun"), t("mon"), t("tue"), t("wed"), t("thu"), t("fri"), t("sat")].map(
+                        (day) => (
+                          <div
+                            key={day}
+                            style={{
+                              textAlign: "center",
+                              fontWeight: "600",
+                              fontSize: "13px",
+                              padding: "6px 0",
+                              color: "#222",
+                            }}
+                          >
+                            {day}
+                          </div>
+                        )
+                      )}
+
+                      {Array.from({
+                        length: getFirstDayOfMonth(
+                          calendarMonth.getFullYear(),
+                          calendarMonth.getMonth()
+                        ),
+                      }).map((_, i) => (
+                        <div key={"empty-" + i} />
+                      ))}
+
+                      {Array.from({
+                        length: getDaysInMonth(
+                          calendarMonth.getFullYear(),
+                          calendarMonth.getMonth()
+                        ),
+                      }).map((_, i) => {
+                        const day = i + 1;
+                        const today = new Date();
+
+                        const isToday =
+                          day === today.getDate() &&
+                          calendarMonth.getMonth() === today.getMonth() &&
+                          calendarMonth.getFullYear() === today.getFullYear();
+
+                        return (
+                          <button
+                            key={day}
+                            type="button"
+                            onClick={() => handleDateSelect(day)}
+                            style={{
+                              minHeight: "40px",
+                              border: isToday
+                                ? "2px solid #2e7d32"
+                                : "1px solid #ddd",
+                              borderRadius: "8px",
+                              background: isToday ? "#e8f5e9" : "#fff",
+                              color: "#222",
+                              WebkitTextFillColor: "#222",
+                              fontSize: "15px",
+                              fontWeight: isToday ? "700" : "500",
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              cursor: "pointer",
+                            }}
+                          >
+                            {day}
+                          </button>
+                        );
+                      })}
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => setCalendarOpen(false)}
+                      style={{
+                        width: "100%",
+                        marginTop: "14px",
+                        padding: "10px",
+                        border: "none",
+                        borderRadius: "8px",
+                        background: "#2e7d32",
+                        color: "#fff",
+                        fontWeight: "600",
+                        cursor: "pointer",
+                      }}
+                    >
+                      {t("cancel")}
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
           </p>
 
