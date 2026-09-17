@@ -407,8 +407,41 @@ function AddRabbitMortality() {
 
   const selectedValue = formData.death_date || "";
 
+
+  const rabbitMortalityTitleFix = `
+    .rabbit-mortality-title {
+      width: 100% !important;
+      margin: 0 0 8px 0 !important;
+      padding: 0 !important;
+      text-align: center !important;
+    }
+
+    .rabbit-mortality-title h1 {
+      margin: 0 0 8px 0 !important;
+      padding: 0 !important;
+      color: #222 !important;
+      -webkit-text-fill-color: #222 !important;
+      font-size: 28px !important;
+      line-height: 1.25 !important;
+      font-weight: 700 !important;
+      letter-spacing: 0 !important;
+      text-align: center !important;
+    }
+
+    .rabbit-mortality-title p {
+      margin: 0 !important;
+      padding: 0 !important;
+      color: #555 !important;
+      -webkit-text-fill-color: #555 !important;
+      font-size: 15px !important;
+      line-height: 1.5 !important;
+      text-align: center !important;
+    }
+  `;
+
   return (
     <>
+      <style>{rabbitMortalityTitleFix}</style>
       <style>{`
         @media (max-width: 700px) {
           .rabbit-mortality-header {
