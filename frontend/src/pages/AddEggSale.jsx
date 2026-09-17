@@ -253,29 +253,24 @@ function AddEggSale() {
       <div
         className="page-header"
         style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "flex-start",
-          gap: "20px",
-          flexWrap: "wrap",
+          position: "relative",
+          textAlign: "center",
           marginBottom: "24px",
         }}
       >
-        <div>
-          <h1
-            style={{
-              margin: "0 0 6px 0",
-              color: "#222",
-              WebkitTextFillColor: "#222",
-            }}
-          >
-            🥚 {t("recordEggSale")}
-          </h1>
+        <h1
+          style={{
+            margin: "0 0 6px 0",
+            color: "#222",
+            WebkitTextFillColor: "#222",
+          }}
+        >
+          🥚 {t("recordEggSale")}
+        </h1>
 
-          <p style={{ margin: 0 }}>
-            {t("recordEggSaleDescription")}
-          </p>
-        </div>
+        <p style={{ margin: 0 }}>
+          {t("recordEggSaleDescription")}
+        </p>
 
         <Link
           className="button"
@@ -283,6 +278,9 @@ function AddEggSale() {
           style={{
             textDecoration: "none",
             whiteSpace: "nowrap",
+            position: "absolute",
+            right: 0,
+            top: 0,
           }}
         >
           ← {t("back")}
