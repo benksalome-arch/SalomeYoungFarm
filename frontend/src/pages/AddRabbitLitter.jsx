@@ -615,6 +615,7 @@ function AddRabbitLitter() {
 
               {calendarOpen && (
                 <div
+                  className="rabbit-litter-professional-calendar"
                   onClick={(e) => {
                     if (e.target === e.currentTarget) {
                       setCalendarOpen(false);
@@ -632,16 +633,64 @@ function AddRabbitLitter() {
                     boxSizing: "border-box",
                   }}
                 >
-                  <div
-                    style={{
-                      width: "min(92vw, 360px)",
-                      background: "#fff",
-                      borderRadius: "14px",
-                      padding: "18px",
-                      boxSizing: "border-box",
-                      boxShadow: "0 8px 30px rgba(0, 0, 0, 0.25)",
-                    }}
-                  >
+                  <style>{`
+                    .rabbit-litter-professional-calendar-card,
+                    .rabbit-litter-professional-calendar-card * {
+                      box-sizing: border-box !important;
+                    }
+
+                    .rabbit-litter-professional-calendar-card {
+                      width: min(92vw, 360px) !important;
+                      max-width: 360px !important;
+                      min-width: 0 !important;
+                      background: #fff !important;
+                      border-radius: 14px !important;
+                      padding: 18px !important;
+                      box-shadow: 0 8px 30px rgba(0,0,0,0.25) !important;
+                    }
+
+                    .rabbit-litter-calendar-nav {
+                      width: 38px !important;
+                      min-width: 38px !important;
+                      max-width: 38px !important;
+                      height: 38px !important;
+                      min-height: 38px !important;
+                      max-height: 38px !important;
+                      padding: 0 !important;
+                      border: 1px solid #cfd6cf !important;
+                      border-radius: 8px !important;
+                      background: #fff !important;
+                      color: #222 !important;
+                      font-size: 20px !important;
+                      font-weight: 700 !important;
+                      display: flex !important;
+                      align-items: center !important;
+                      justify-content: center !important;
+                    }
+
+                    .rabbit-litter-calendar-grid {
+                      display: grid !important;
+                      grid-template-columns: repeat(7, minmax(0, 1fr)) !important;
+                      gap: 6px !important;
+                      width: 100% !important;
+                    }
+
+                    .rabbit-litter-calendar-day {
+                      width: auto !important;
+                      min-width: 0 !important;
+                      max-width: none !important;
+                      min-height: 40px !important;
+                      padding: 0 !important;
+                      border-radius: 7px !important;
+                      display: flex !important;
+                      align-items: center !important;
+                      justify-content: center !important;
+                      font-size: 15px !important;
+                      font-weight: 600 !important;
+                    }
+                  `}</style>
+
+                  <div className="rabbit-litter-professional-calendar-card">
                     <div
                       style={{
                         display: "flex",
@@ -653,21 +702,8 @@ function AddRabbitLitter() {
                     >
                       <button
                         type="button"
+                        className="rabbit-litter-calendar-nav"
                         onClick={() => changeCalendarMonth(-1)}
-                        style={{
-                          width: "38px",
-                          height: "38px",
-                          border: "1px solid #cfd6cf",
-                          borderRadius: "8px",
-                          background: "#fff",
-                          color: "#222",
-                          fontSize: "20px",
-                          fontWeight: 700,
-                          cursor: "pointer",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                        }}
                       >
                         ‹
                       </button>
@@ -688,33 +724,16 @@ function AddRabbitLitter() {
 
                       <button
                         type="button"
+                        className="rabbit-litter-calendar-nav"
                         onClick={() => changeCalendarMonth(1)}
-                        style={{
-                          width: "38px",
-                          height: "38px",
-                          border: "1px solid #cfd6cf",
-                          borderRadius: "8px",
-                          background: "#fff",
-                          color: "#222",
-                          fontSize: "20px",
-                          fontWeight: 700,
-                          cursor: "pointer",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                        }}
                       >
                         ›
                       </button>
                     </div>
 
                     <div
-                      style={{
-                        display: "grid",
-                        gridTemplateColumns: "repeat(7, 1fr)",
-                        gap: "6px",
-                        marginBottom: "4px",
-                      }}
+                      className="rabbit-litter-calendar-grid"
+                      style={{ marginBottom: "4px" }}
                     >
                       {weekdays.map((day) => (
                         <div
@@ -733,13 +752,7 @@ function AddRabbitLitter() {
                       ))}
                     </div>
 
-                    <div
-                      style={{
-                        display: "grid",
-                        gridTemplateColumns: "repeat(7, 1fr)",
-                        gap: "6px",
-                      }}
-                    >
+                    <div className="rabbit-litter-calendar-grid">
                       {Array.from({ length: firstDay }).map((_, index) => (
                         <div key={`empty-${index}`} />
                       ))}
@@ -764,33 +777,20 @@ function AddRabbitLitter() {
                           <button
                             key={day}
                             type="button"
-                            onPointerDown={(e) => {
-                              e.preventDefault();
-                              selectCalendarDate(day);
-                            }}
+                            className="rabbit-litter-calendar-day"
+                            onClick={() => selectCalendarDate(day)}
                             style={{
-                              minHeight: "40px",
-                              minHeight: "40px",
                               border:
                                 selected || isToday
                                   ? "2px solid #2e7d32"
                                   : "1px solid #ddd",
-                              borderRadius: "8px",
                               background: selected
                                 ? "#2e7d32"
                                 : isToday
                                 ? "#e8f5e9"
                                 : "#fff",
                               color: selected ? "#fff" : "#222",
-                              WebkitTextFillColor: selected
-                                ? "#fff"
-                                : "#222",
-                              fontSize: "15px",
-                              fontWeight: 600,
-                              cursor: "pointer",
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
+                              WebkitTextFillColor: selected ? "#fff" : "#222",
                             }}
                           >
                             {day}
@@ -805,12 +805,12 @@ function AddRabbitLitter() {
                       style={{
                         width: "100%",
                         marginTop: "16px",
-                        minHeight: "44px",
+                        minHeight: "40px",
                         border: "none",
-                        borderRadius: "8px",
+                        borderRadius: "7px",
                         background: "#2e7d32",
                         color: "#fff",
-                        fontSize: "15px",
+                        WebkitTextFillColor: "#fff",
                         fontWeight: 600,
                         cursor: "pointer",
                       }}
