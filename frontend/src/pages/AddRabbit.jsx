@@ -374,7 +374,7 @@ function AddRabbit() {
                         >
                           <button
                             type="button"
-                            onClick={goPreviousMonth}
+                            onClick={() => changeMonth(-1)}
                             aria-label="Previous month"
                             style={{
                               width: "38px",
@@ -409,7 +409,7 @@ function AddRabbit() {
             
                           <button
                             type="button"
-                            onClick={goNextMonth}
+                            onClick={() => changeMonth(1)}
                             aria-label="Next month"
                             style={{
                               width: "38px",
