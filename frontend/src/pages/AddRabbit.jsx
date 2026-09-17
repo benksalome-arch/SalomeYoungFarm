@@ -335,18 +335,13 @@ function AddRabbit() {
                 {calendarOpen && (
                   <div
                     style={{
-                      position: "absolute",
-                      top: "calc(100% + 6px)",
-                      left: "50%",
-                      transform: "translateX(-50%)",
-                      zIndex: 9999,
-                      width: "min(92vw, 320px)",
-                      padding: "14px",
-                      background: "#fff",
-                      border: "1px solid #ccc",
-                      borderRadius: "10px",
-                      boxShadow: "0 6px 20px rgba(0,0,0,0.18)",
-                      boxSizing: "border-box",
+                      position: "fixed",
+                      inset: 0,
+                      background: "rgba(0,0,0,.35)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      zIndex: 99999,
                     }}
                   >
                     <div
