@@ -17,6 +17,9 @@ function AddFinance() {
     created_by: 1,
   });
 
+  const [calendarOpen, setCalendarOpen] = useState(false);
+  const [calendarMonth, setCalendarMonth] = useState(new Date());
+
   function handleChange(e) {
     const { name, value } = e.target;
 
@@ -24,6 +27,60 @@ function AddFinance() {
       ...previous,
       [name]: value,
     }));
+  }
+
+  function getDaysInMonth(date) {
+    return new Date(
+      date.getFullYear(),
+      date.getMonth() + 1,
+      0
+    ).getDate();
+  }
+
+  function getFirstDayOfMonth(date) {
+    return new Date(
+      date.getFullYear(),
+      date.getMonth(),
+      1
+    ).getDay();
+  }
+
+  function goPreviousMonth() {
+    setCalendarMonth(
+      (previous) =>
+        new Date(
+          previous.getFullYear(),
+          previous.getMonth() - 1,
+          1
+        )
+    );
+  }
+
+  function goNextMonth() {
+    setCalendarMonth(
+      (previous) =>
+        new Date(
+          previous.getFullYear(),
+          previous.getMonth() + 1,
+          1
+        )
+    );
+  }
+
+  function handleDateSelect(day) {
+    const value =
+      calendarMonth.getFullYear() +
+      "-" +
+      String(calendarMonth.getMonth() + 1).padStart(2, "0") +
+      "-" +
+      String(day).padStart(2, "0");
+
+    setFormData((previous) => ({
+      ...previous,
+      transaction_date: value,
+    }));
+
+    setCalendarOpen(false);
   }
 
   async function handleSubmit(e) {
@@ -54,85 +111,398 @@ function AddFinance() {
   }
 
   const labelStyle = {
-    display: "block",
-    marginBottom: "6px",
-    fontWeight: "600",
-    textAlign: "center",
+    fontWeight: 600,
+    fontSize: "15px",
+    textAlign: "right",
+    color: "#222",
+    WebkitTextFillColor: "#222",
   };
 
   const inputStyle = {
     width: "100%",
     boxSizing: "border-box",
-    padding: "10px",
+    padding: "10px 12px",
+    minHeight: "44px",
+    border: "1px solid #cfd6cf",
+    borderRadius: "7px",
+    background: "#fff",
+    color: "#222",
+    WebkitTextFillColor: "#222",
     fontSize: "15px",
   };
 
+  const responsiveStyles = `
+    .finance-field {
+      display: grid;
+      grid-template-columns: 150px minmax(0, 320px);
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    .finance-field > label,
+    .finance-description > label {
+      margin: 0 !important;
+      font-weight: 600 !important;
+      font-size: 15px !important;
+      text-align: right !important;
+      color: #222 !important;
+      -webkit-text-fill-color: #222 !important;
+      overflow-wrap: anywhere;
+      line-height: 1.25;
+    }
+
+    .finance-field input,
+    .finance-field select,
+    .finance-description textarea {
+      width: 100% !important;
+      box-sizing: border-box !important;
+      padding: 10px 12px !important;
+      min-height: 44px !important;
+      border: 1px solid #cfd6cf !important;
+      border-radius: 7px !important;
+      background: #fff !important;
+      color: #222 !important;
+      -webkit-text-fill-color: #222 !important;
+      font-size: 15px !important;
+    }
+
+    .finance-description {
+      display: grid;
+      grid-template-columns: 150px minmax(0, 320px);
+      align-items: start;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .finance-description textarea {
+      min-height: 100px !important;
+      resize: vertical;
+    }
+
+    .finance-help {
+      grid-column: 2;
+      margin-top: -8px;
+      color: #666;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    @media (max-width: 700px) {
+      .finance-field,
+      .finance-description {
+        grid-template-columns: 105px minmax(0, 1fr);
+        gap: 10px;
+      }
+
+      .finance-help {
+        grid-column: 2;
+      }
+    }
+  `;
+
   return (
-    <div
-      style={{
-        width: "100%",
-        boxSizing: "border-box",
-        padding: "20px",
-      }}
-    >
-      {/* PAGE HEADER */}
+    <div className="page">
+      <style>{responsiveStyles}</style>
+
       <div
+        className="page-header"
         style={{
+          position: "relative",
           textAlign: "center",
-          marginBottom: "25px",
+          marginBottom: "24px",
         }}
       >
         <h1
           style={{
-            margin: "0 0 8px 0",
-            fontSize: "42px",
-            color: "#111",
+            margin: "0 0 6px 0",
+            color: "#222",
+            WebkitTextFillColor: "#222",
           }}
         >
           💰 {t("addTransaction")}
         </h1>
 
-        <p
-          style={{
-            margin: 0,
-            fontSize: "18px",
-          }}
-        >
+        <p style={{ margin: 0 }}>
           {t("createFinancialRecord")}
         </p>
+
+        <Link
+          className="button"
+          to="/finance"
+          style={{
+            textDecoration: "none",
+            whiteSpace: "nowrap",
+            position: "absolute",
+            right: 0,
+            top: 0,
+          }}
+        >
+          ← {t("back")}
+        </Link>
       </div>
 
-      {/* FORM CARD */}
       <div
         className="card"
         style={{
           width: "100%",
-          maxWidth: "700px",
+          maxWidth: "620px",
           margin: "0 auto",
           padding: "30px",
           boxSizing: "border-box",
+          borderRadius: "14px",
         }}
       >
         <form onSubmit={handleSubmit}>
-          {/* 1. TRANSACTION DATE */}
-          <div style={{ marginBottom: "22px" }}>
+
+          <div className="finance-field">
             <label htmlFor="transaction_date" style={labelStyle}>
               {t("date")}
             </label>
 
-            <input
-              id="transaction_date"
-              type="date"
-              name="transaction_date"
-              value={formData.transaction_date}
-              onChange={handleChange}
-              required
-              style={inputStyle}
-            />
+            <div style={{ position: "relative" }}>
+              <input
+                id="transaction_date"
+                type="text"
+                value={
+                  formData.transaction_date
+                    ? formData.transaction_date
+                        .split("-")
+                        .reverse()
+                        .join("-")
+                    : ""
+                }
+                placeholder="DD-MM-JJJJ"
+                readOnly
+                required
+                onClick={() => {
+                  const selected = formData.transaction_date
+                    ? new Date(
+                        formData.transaction_date + "T00:00:00"
+                      )
+                    : new Date();
+
+                  setCalendarMonth(
+                    new Date(
+                      selected.getFullYear(),
+                      selected.getMonth(),
+                      1
+                    )
+                  );
+
+                  setCalendarOpen(true);
+                }}
+                style={{
+                  ...inputStyle,
+                  cursor: "pointer",
+                }}
+              />
+
+              {calendarOpen && (
+                <div
+                  style={{
+                    position: "fixed",
+                    inset: 0,
+                    background: "rgba(0,0,0,.35)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    zIndex: 99999,
+                  }}
+                  onClick={() => setCalendarOpen(false)}
+                >
+                  <div
+                    style={{
+                      width: "min(92vw,360px)",
+                      background: "#fff",
+                      borderRadius: "14px",
+                      padding: "18px",
+                      boxSizing: "border-box",
+                      boxShadow: "0 8px 30px rgba(0,0,0,.25)",
+                    }}
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        marginBottom: "14px",
+                      }}
+                    >
+                      <button
+                        type="button"
+                        onClick={goPreviousMonth}
+                        style={{
+                          width: "38px",
+                          height: "38px",
+                          border: "1px solid #ccc",
+                          borderRadius: "8px",
+                          background: "#fff",
+                          color: "#222",
+                          fontSize: "20px",
+                          cursor: "pointer",
+                        }}
+                      >
+                        ‹
+                      </button>
+
+                      <div
+                        style={{
+                          textAlign: "center",
+                          fontSize: "18px",
+                          fontWeight: 700,
+                          color: "#222",
+                          WebkitTextFillColor: "#222",
+                        }}
+                      >
+                        {calendarMonth.toLocaleDateString("default", {
+                          month: "long",
+                          year: "numeric",
+                        })}
+                      </div>
+
+                      <button
+                        type="button"
+                        onClick={goNextMonth}
+                        style={{
+                          width: "38px",
+                          height: "38px",
+                          border: "1px solid #ccc",
+                          borderRadius: "8px",
+                          background: "#fff",
+                          color: "#222",
+                          fontSize: "20px",
+                          cursor: "pointer",
+                        }}
+                      >
+                        ›
+                      </button>
+                    </div>
+
+                    <div
+                      style={{
+                        display: "grid",
+                        gridTemplateColumns: "repeat(7, 1fr)",
+                        gap: "6px",
+                      }}
+                    >
+                      {[
+                        t("sun"),
+                        t("mon"),
+                        t("tue"),
+                        t("wed"),
+                        t("thu"),
+                        t("fri"),
+                        t("sat"),
+                      ].map((day) => (
+                        <div
+                          key={day}
+                          style={{
+                            textAlign: "center",
+                            fontWeight: 600,
+                            fontSize: "13px",
+                            padding: "6px 0",
+                            color: "#222",
+                            WebkitTextFillColor: "#222",
+                          }}
+                        >
+                          {day}
+                        </div>
+                      ))}
+
+                      {Array.from({
+                        length: getFirstDayOfMonth(calendarMonth),
+                      }).map((_, index) => (
+                        <div key={`empty-${index}`} />
+                      ))}
+
+                      {Array.from({
+                        length: getDaysInMonth(calendarMonth),
+                      }).map((_, index) => {
+                        const day = index + 1;
+                        const today = new Date();
+
+                        const isToday =
+                          day === today.getDate() &&
+                          calendarMonth.getMonth() ===
+                            today.getMonth() &&
+                          calendarMonth.getFullYear() ===
+                            today.getFullYear();
+
+                        const selectedDate = formData.transaction_date
+                          ? new Date(
+                              formData.transaction_date +
+                                "T00:00:00"
+                            )
+                          : null;
+
+                        const isSelected =
+                          selectedDate &&
+                          day === selectedDate.getDate() &&
+                          calendarMonth.getMonth() ===
+                            selectedDate.getMonth() &&
+                          calendarMonth.getFullYear() ===
+                            selectedDate.getFullYear();
+
+                        return (
+                          <button
+                            key={day}
+                            type="button"
+                            onClick={() => handleDateSelect(day)}
+                            style={{
+                              minHeight: "40px",
+                              border:
+                                isToday || isSelected
+                                  ? "2px solid #2e7d32"
+                                  : "1px solid #ddd",
+                              borderRadius: "8px",
+                              background:
+                                isSelected || isToday
+                                  ? "#e8f5e9"
+                                  : "#fff",
+                              color: "#222",
+                              WebkitTextFillColor: "#222",
+                              fontSize: "15px",
+                              fontWeight: 600,
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              cursor: "pointer",
+                            }}
+                          >
+                            {day}
+                          </button>
+                        );
+                      })}
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => setCalendarOpen(false)}
+                      style={{
+                        width: "100%",
+                        marginTop: "14px",
+                        minHeight: "44px",
+                        border: "1px solid #2e7d32",
+                        borderRadius: "8px",
+                        background: "#2e7d32",
+                        color: "#fff",
+                        WebkitTextFillColor: "#fff",
+                        fontSize: "15px",
+                        fontWeight: 600,
+                        cursor: "pointer",
+                      }}
+                    >
+                      {t("cancel")}
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
 
-          {/* 2. TYPE */}
-          <div style={{ marginBottom: "22px" }}>
+          <div className="finance-field">
             <label htmlFor="type" style={labelStyle}>
               {t("type")}
             </label>
@@ -149,8 +519,7 @@ function AddFinance() {
             </select>
           </div>
 
-          {/* 3. CATEGORY */}
-          <div style={{ marginBottom: "22px" }}>
+          <div className="finance-field">
             <label htmlFor="category" style={labelStyle}>
               {t("category")}
             </label>
@@ -167,8 +536,7 @@ function AddFinance() {
             />
           </div>
 
-          {/* 4. AMOUNT */}
-          <div style={{ marginBottom: "22px" }}>
+          <div className="finance-field">
             <label htmlFor="amount" style={labelStyle}>
               {t("amount")} (KES)
             </label>
@@ -187,8 +555,7 @@ function AddFinance() {
             />
           </div>
 
-          {/* 5. PAYMENT METHOD */}
-          <div style={{ marginBottom: "22px" }}>
+          <div className="finance-field">
             <label htmlFor="payment_method" style={labelStyle}>
               {t("paymentMethod")}
             </label>
@@ -206,8 +573,7 @@ function AddFinance() {
             </select>
           </div>
 
-          {/* 6. DESCRIPTION */}
-          <div style={{ marginBottom: "25px" }}>
+          <div className="finance-description">
             <label htmlFor="description" style={labelStyle}>
               {t("description")}
             </label>
@@ -226,32 +592,29 @@ function AddFinance() {
               }}
             />
 
-            <small
-              style={{
-                display: "block",
-                marginTop: "6px",
-                color: "#666",
-                textAlign: "center",
-              }}
-            >
+            <small className="finance-help">
               {t("transactionDetailsHelp")}
             </small>
           </div>
 
-          {/* BUTTONS */}
           <div
             style={{
               display: "flex",
               gap: "10px",
-              justifyContent: "flex-start",
+              justifyContent: "center",
               flexWrap: "wrap",
+              marginTop: "28px",
             }}
           >
             <button className="button" type="submit">
               💾 {t("saveTransaction")}
             </button>
 
-            <Link className="button" to="/finance">
+            <Link
+              className="button"
+              to="/finance"
+              style={{ textDecoration: "none" }}
+            >
               {t("cancel")}
             </Link>
           </div>
