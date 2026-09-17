@@ -193,6 +193,108 @@ exports.markKidding = (req, res) => {
 };
 
 // ===============================
+// Update breeding record
+// ===============================
+exports.updateBreedingRecord = (req, res) => {
+  const { id } = req.params;
+  const {
+    doe_id,
+    buck_id,
+    mating_date,
+    expected_kidding,
+    veterinarian,
+    notes,
+  } = req.body;
+
+  if (!doe_id || !buck_id || !mating_date || !expected_kidding) {
+    return res.status(400).json({
+      message: "Doe, buck, mating date and expected kidding date are required.",
+    });
+  }
+
+  if (String(doe_id) === String(buck_id)) {
+    return res.status(400).json({
+      message: "Doe and buck must be different goats.",
+    });
+  }
+
+  db.query(
+    "SELECT id, sex FROM goats WHERE id IN (?, ?)",
+    [doe_id, buck_id],
+    (goatErr, goats) => {
+      if (goatErr) {
+        console.error(goatErr);
+        return res.status(500).json({ message: "Database error" });
+      }
+
+      const doe = goats.find((g) => String(g.id) === String(doe_id));
+      const buck = goats.find((g) => String(g.id) === String(buck_id));
+
+      if (!doe || !buck) {
+        return res.status(400).json({
+          message: "Selected goats were not found.",
+        });
+      }
+
+      if (doe.sex !== "Female") {
+        return res.status(400).json({
+          message: "Selected doe must be female.",
+        });
+      }
+
+      if (buck.sex !== "Male") {
+        return res.status(400).json({
+          message: "Selected buck must be male.",
+        });
+      }
+
+      const sql = `
+        UPDATE goat_breeding
+        SET
+          doe_id = ?,
+          buck_id = ?,
+          mating_date = ?,
+          expected_kidding = ?,
+          veterinarian = ?,
+          notes = ?
+        WHERE id = ?
+      `;
+
+      db.query(
+        sql,
+        [
+          doe_id,
+          buck_id,
+          mating_date,
+          expected_kidding,
+          veterinarian || null,
+          notes || null,
+          id,
+        ],
+        (err, result) => {
+          if (err) {
+            console.error(err);
+            return res.status(500).json({
+              message: err.message,
+            });
+          }
+
+          if (result.affectedRows === 0) {
+            return res.status(404).json({
+              message: "Breeding record not found.",
+            });
+          }
+
+          res.json({
+            message: "Breeding record updated successfully.",
+          });
+        }
+      );
+    }
+  );
+};
+
+// ===============================
 // Delete breeding record
 // ===============================
 exports.deleteBreedingRecord = (req, res) => {

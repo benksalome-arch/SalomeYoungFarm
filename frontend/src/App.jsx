@@ -35,8 +35,10 @@ import AddWeightRecord from "./pages/AddWeightRecord";
 
 import Breeding from "./pages/Breeding";
 import AddBreeding from "./pages/AddBreeding";
+import EditBreeding from "./pages/EditBreeding";
 
 import Kidding from "./pages/kidding";
+import EditKidding from "./pages/EditKidding";
 import AddKidding from "./pages/AddKidding";
 import GoatMortality from "./pages/GoatMortality";
 import AddGoatMortality from "./pages/AddGoatMortality";
@@ -87,6 +89,7 @@ import ChickenProfile from "./pages/ChickenProfile";
 
 import ChickenMortality from "./pages/ChickenMortality";
 import AddChickenMortality from "./pages/AddChickenMortality";
+import EditChickenMortality from "./pages/EditChickenMortality";
 
 import ChickenVaccinations from "./pages/ChickenVaccinations";
 import AddChickenVaccination from "./pages/AddChickenVaccination";
@@ -122,6 +125,7 @@ import AddRabbitBreeding from "./pages/AddRabbitBreeding";
 
 import RabbitLitters from "./pages/RabbitLitters";
 import AddRabbitLitter from "./pages/AddRabbitLitter";
+import EditRabbitLitter from "./pages/EditRabbitLitter";
 
 import RabbitMortality from "./pages/RabbitMortality";
 import AddRabbitMortality from "./pages/AddRabbitMortality";
@@ -250,6 +254,7 @@ function App() {
             path="/breeding/add"
             element={<AddBreeding />}
           />
+<Route path="/breeding/:id/edit" element={<EditBreeding />} />
 
           <Route
             path="/kidding"
@@ -259,6 +264,10 @@ function App() {
           <Route
             path="/kidding/add"
             element={<AddKidding />}
+          />
+          <Route
+            path="/kidding/:id/edit"
+            element={<EditKidding />}
           />
 
           <Route
@@ -405,6 +414,11 @@ function App() {
             element={<AddChickenMortality />}
           />
 
+          <Route
+            path="/chicken-mortality/:id/edit"
+            element={<EditChickenMortality />}
+          />
+
           {/* Chicken Vaccinations */}
 
           <Route
@@ -520,6 +534,11 @@ function App() {
           <Route
             path="/rabbit-litters/add"
             element={<AddRabbitLitter />}
+          />
+
+          <Route
+            path="/rabbit-litters/:id/edit"
+            element={<EditRabbitLitter />}
           />
 
           {/* Rabbit Mortality */}

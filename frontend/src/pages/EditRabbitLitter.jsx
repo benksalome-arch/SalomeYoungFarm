@@ -1,19 +1,14 @@
 import API_URL from "../api";
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useLanguage } from "../context/LanguageContext";
 
-function AddRabbitLitter() {
+function EditRabbitLitter() {
   const { t } = useLanguage();
+  const { id } = useParams();
   const navigate = useNavigate();
 
-  const [breedings, setBreedings] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [saving, setSaving] = useState(false);
-  const [error, setError] = useState("");
-  const [calendarOpen, setCalendarOpen] = useState(false);
-  const [calendarMonth, setCalendarMonth] = useState(new Date());
-
+  const [breedingRecords, setBreedingRecords] = useState([]);
   const [form, setForm] = useState({
     breeding_id: "",
     birth_date: "",
@@ -23,66 +18,89 @@ function AddRabbitLitter() {
     notes: "",
   });
 
-  useEffect(() => {
-    loadBreedings();
-  }, []);
+  const [calendarOpen, setCalendarOpen] = useState(false);
+  const [calendarMonth, setCalendarMonth] = useState(new Date());
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState("");
 
-  async function loadBreedings() {
+  useEffect(() => {
+    loadData();
+  }, [id]);
+
+  async function loadData() {
     try {
       setLoading(true);
 
-      const response = await fetch(
-        `${API_URL}/api/rabbit-breeding`
-      );
+      const [littersResponse, breedingResponse] = await Promise.all([
+        fetch(`${API_URL}/api/rabbit-litters`),
+        fetch(`${API_URL}/api/rabbit-breeding`),
+      ]);
 
-      const data = await response.json();
+      const litters = await littersResponse.json();
+      const breedings = await breedingResponse.json();
 
-      if (!response.ok) {
-        setError(
-          data.message || "Failed to load breeding records."
-        );
-        return;
+      if (!littersResponse.ok) {
+        throw new Error("Failed to load litter record.");
       }
 
-      setBreedings(data);
+      const litter = litters.find(
+        (item) => String(item.id) === String(id)
+      );
+
+      if (!litter) {
+        throw new Error("Rabbit litter record not found.");
+      }
+
+      setBreedingRecords(
+        Array.isArray(breedings) ? breedings : []
+      );
+
+      setForm({
+        breeding_id: litter.breeding_id || "",
+        birth_date: litter.birth_date
+          ? litter.birth_date.split("T")[0]
+          : "",
+        total_kits: litter.total_kits ?? "",
+        live_kits: litter.live_kits ?? "",
+        dead_kits: litter.dead_kits ?? "",
+        notes: litter.notes || "",
+      });
+
+      if (litter.birth_date) {
+        setCalendarMonth(
+          new Date(`${litter.birth_date.split("T")[0]}T00:00:00`)
+        );
+      }
     } catch (err) {
       console.error(err);
-      setError("Failed to load breeding records.");
+      setError(err.message || "Failed to load litter record.");
     } finally {
       setLoading(false);
     }
   }
 
   function handleChange(e) {
-    const { name, value } = e.target;
-
     setForm((previous) => ({
       ...previous,
-      [name]: value,
+      [e.target.name]: e.target.value,
     }));
   }
-
-  const monthNames = [
-    "Januari", "Februari", "Maart", "April", "Mei", "Juni",
-    "Juli", "Augustus", "September", "Oktober", "November", "December"
-  ];
-
-  const weekdays = ["Zo", "Ma", "Di", "Wo", "Do", "Vr", "Za"];
 
   function formatDateDisplay(value) {
     if (!value) return "";
     const [year, month, day] = value.split("-");
-    return year && month && day ? `${day}-${month}-${year}` : "";
+    return `${day}-${month}-${year}`;
   }
 
   function selectCalendarDate(day) {
     const year = calendarMonth.getFullYear();
     const month = String(calendarMonth.getMonth() + 1).padStart(2, "0");
-    const date = String(day).padStart(2, "0");
+    const selectedDay = String(day).padStart(2, "0");
 
     setForm((previous) => ({
       ...previous,
-      birth_date: `${year}-${month}-${date}`,
+      birth_date: `${year}-${month}-${selectedDay}`,
     }));
 
     setCalendarOpen(false);
@@ -110,36 +128,38 @@ function AddRabbitLitter() {
     1
   ).getDay();
 
-  const today = new Date();
+  const monthNames = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+
+  const weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
   async function handleSubmit(e) {
     e.preventDefault();
-
     setError("");
 
     const total = Number(form.total_kits || 0);
     const live = Number(form.live_kits || 0);
     const dead = Number(form.dead_kits || 0);
 
-    if (!form.breeding_id) {
-      setError("Please select a breeding record.");
-      return;
-    }
-
-    if (!form.birth_date) {
-      setError("Please enter the birth date.");
-      return;
-    }
-
-    if (total < 0 || live < 0 || dead < 0) {
-      setError("Kit quantities cannot be negative.");
+    if (!form.breeding_id || !form.birth_date) {
+      setError("Breeding record and birth date are required.");
       return;
     }
 
     if (live + dead !== total) {
-      setError(
-        "Live kits plus dead kits must equal total kits."
-      );
+      setError("Live kits plus dead kits must equal total kits.");
       return;
     }
 
@@ -147,11 +167,12 @@ function AddRabbitLitter() {
       setSaving(true);
 
       const response = await fetch(
-        `${API_URL}/api/rabbit-litters`,
+        `${API_URL}/api/rabbit-litters/${id}`,
         {
-          method: "POST",
+          method: "PUT",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
           body: JSON.stringify({
             breeding_id: Number(form.breeding_id),
@@ -168,76 +189,64 @@ function AddRabbitLitter() {
 
       if (!response.ok) {
         setError(
-          data.message || "Failed to save litter record."
+          data.message || "Failed to update litter record."
         );
         return;
       }
 
       alert(
         data.message ||
-          "Rabbit litter recorded successfully!"
+          "Rabbit litter record updated successfully!"
       );
 
       navigate("/rabbit-litters");
     } catch (err) {
       console.error(err);
-      setError("Failed to save litter record.");
+      setError("Failed to update litter record.");
     } finally {
       setSaving(false);
     }
   }
 
+  if (loading) {
+    return (
+      <div className="card rabbit-litter-form-card">
+        <p>{t("loading") || "Loading..."}</p>
+      </div>
+    );
+  }
+
   return (
     <div>
-      {/* Header */}
-
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          marginBottom: "20px",
-          gap: "20px",
-        }}
-      >
+      <div className="rabbit-litters-header">
         <div>
-          <h1>🐇 {t("recordRabbitLitter")}</h1>
-
-          <p>
-            {t("litterDescription")}
-          </p>
+          <h1>🐇 {t("rabbitLitters")}</h1>
+          <p>{t("rabbitLitterDescription")}</p>
         </div>
 
-        <Link
+        <button
+          type="button"
           className="button"
-          to="/rabbit-litters"
+          onClick={() => navigate("/rabbit-litters")}
         >
-          ← {t("back")}
-        </Link>
+          ← {t("cancel")}
+        </button>
       </div>
-
-      {/* Error */}
-
-      {error && (
-        <div
-          style={{
-            background: "#FFEBEE",
-            color: "#C62828",
-            padding: "12px 15px",
-            borderRadius: "8px",
-            marginBottom: "20px",
-          }}
-        >
-          {error}
-        </div>
-      )}
-
-      {/* Form */}
 
       <div className="card rabbit-litter-form-card">
         <form onSubmit={handleSubmit}>
 
-          {/* Breeding */}
+          {error && (
+            <div
+              style={{
+                color: "#C62828",
+                marginBottom: "15px",
+                fontWeight: 600,
+              }}
+            >
+              {error}
+            </div>
+          )}
 
           <div style={{ marginBottom: "15px" }}>
             <label>
@@ -248,29 +257,22 @@ function AddRabbitLitter() {
               name="breeding_id"
               value={form.breeding_id}
               onChange={handleChange}
-              disabled={loading || saving}
-              style={{
-                width: "100%",
-                padding: "10px",
-                marginTop: "6px",
-              }}
+              disabled={saving}
             >
               <option value="">
-                {loading
-                  ? "Loading breeding records..."
-                  : t("selectBreedingRecord")}
+                {t("selectBreedingRecord") || "Select breeding record"}
               </option>
 
-              {breedings.map((breeding) => (
+              {breedingRecords.map((breeding) => (
                 <option
                   key={breeding.id}
                   value={breeding.id}
                 >
-                  {breeding.female_tag_number} -{" "}
-                  {breeding.female_name || t("female")}{" "}
+                  {breeding.female_tag_number || "-"} -{" "}
+                  {breeding.female_name || t("rabbit")}{" "}
                   ×{" "}
-                  {breeding.male_tag_number || "Unknown"} -{" "}
-                  {breeding.male_name || t("male")}{" "}
+                  {breeding.male_tag_number || "-"} -{" "}
+                  {breeding.male_name || t("rabbit")}{" "}
                   —{" "}
                   {breeding.breeding_date
                     ? breeding.breeding_date.split("T")[0]
@@ -280,11 +282,12 @@ function AddRabbitLitter() {
             </select>
           </div>
 
-          {/* Birth Date */}
-
           <div
             className="rabbit-litter-date-field"
-            style={{ marginBottom: "15px", position: "relative" }}
+            style={{
+              marginBottom: "15px",
+              position: "relative",
+            }}
           >
             <label>
               <strong>{t("birthDate")}</strong>
@@ -293,7 +296,6 @@ function AddRabbitLitter() {
             <div style={{ position: "relative" }}>
               <input
                 type="text"
-                name="birth_date_display"
                 value={formatDateDisplay(form.birth_date)}
                 placeholder="DD-MM-JJJJ"
                 readOnly
@@ -308,13 +310,10 @@ function AddRabbitLitter() {
                 }}
                 style={{
                   width: "100%",
-                  padding: "10px",
-                  marginTop: "6px",
                   boxSizing: "border-box",
                   cursor: "pointer",
                   color: "#222",
                   WebkitTextFillColor: "#222",
-                  opacity: 1,
                   backgroundColor: "#fff",
                 }}
               />
@@ -352,15 +351,15 @@ function AddRabbitLitter() {
                       style={{
                         border: "none",
                         background: "transparent",
-                        fontSize: "22px",
-                        cursor: "pointer",
+                        fontSize: "28px",
                         color: "#222",
+                        cursor: "pointer",
                       }}
                     >
                       ‹
                     </button>
 
-                    <strong style={{ color: "#222", WebkitTextFillColor: "#222" }}>
+                    <strong style={{ color: "#222" }}>
                       {monthNames[calendarMonth.getMonth()]}{" "}
                       {calendarMonth.getFullYear()}
                     </strong>
@@ -371,9 +370,9 @@ function AddRabbitLitter() {
                       style={{
                         border: "none",
                         background: "transparent",
-                        fontSize: "22px",
-                        cursor: "pointer",
+                        fontSize: "28px",
                         color: "#222",
+                        cursor: "pointer",
                       }}
                     >
                       ›
@@ -384,8 +383,8 @@ function AddRabbitLitter() {
                     className="rabbit-litter-calendar-grid"
                     style={{
                       display: "grid",
-                      gridTemplateColumns: "repeat(7, 1fr)",
-                      gap: "4px",
+                      gridTemplateColumns: "repeat(7, minmax(0, 1fr))",
+                      gap: "3px",
                       textAlign: "center",
                     }}
                   >
@@ -393,33 +392,44 @@ function AddRabbitLitter() {
                       <div
                         key={day}
                         style={{
-                          fontWeight: 600,
+                          fontWeight: 700,
                           fontSize: "12px",
-                          color: "#666",
+                          color: "#555",
+                          padding: "4px 0",
                         }}
                       >
                         {day}
                       </div>
                     ))}
 
-                    {Array.from({ length: firstDay }).map((_, index) => (
-                      <div key={`empty-${index}`} />
-                    ))}
+                    {Array.from({ length: firstDay }).map(
+                      (_, index) => (
+                        <div key={`empty-${index}`} />
+                      )
+                    )}
 
                     {Array.from(
                       { length: daysInMonth },
                       (_, index) => index + 1
                     ).map((day) => {
-                      const selected =
-                        form.birth_date ===
-                        `${calendarMonth.getFullYear()}-${String(
+                      const dateValue =
+                        `${calendarMonth.getFullYear()}-` +
+                        `${String(
                           calendarMonth.getMonth() + 1
-                        ).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+                        ).padStart(2, "0")}-` +
+                        `${String(day).padStart(2, "0")}`;
+
+                      const today = new Date();
+
+                      const selected =
+                        form.birth_date === dateValue;
 
                       const isToday =
                         day === today.getDate() &&
-                        calendarMonth.getMonth() === today.getMonth() &&
-                        calendarMonth.getFullYear() === today.getFullYear();
+                        calendarMonth.getMonth() ===
+                          today.getMonth() &&
+                        calendarMonth.getFullYear() ===
+                          today.getFullYear();
 
                       return (
                         <button
@@ -430,10 +440,9 @@ function AddRabbitLitter() {
                           }`}
                           key={day}
                           type="button"
-                          onPointerDown={(e) => {
-                            e.preventDefault();
-                            selectCalendarDate(day);
-                          }}
+                          onClick={() =>
+                            selectCalendarDate(day)
+                          }
                           style={{
                             border: "none",
                             borderRadius: "6px",
@@ -448,7 +457,9 @@ function AddRabbitLitter() {
                                 ? "#fff"
                                 : "#222",
                             fontWeight:
-                              selected || isToday ? 700 : 400,
+                              selected || isToday
+                                ? 700
+                                : 400,
                           }}
                         >
                           {day}
@@ -461,104 +472,67 @@ function AddRabbitLitter() {
             </div>
           </div>
 
-          {/* Total Kits */}
-
-          <div style={{ marginBottom: "15px" }}>
+          <div>
             <label>
               <strong>{t("totalKits")}</strong>
             </label>
-
             <input
               type="number"
-              min="0"
               name="total_kits"
+              min="0"
               value={form.total_kits}
               onChange={handleChange}
               disabled={saving}
-              placeholder={t("totalKitsExample")}
-              style={{
-                width: "100%",
-                padding: "10px",
-                marginTop: "6px",
-              }}
             />
           </div>
 
-          {/* Live Kits */}
-
-          <div style={{ marginBottom: "15px" }}>
+          <div>
             <label>
               <strong>{t("liveKits")}</strong>
             </label>
-
             <input
               type="number"
-              min="0"
               name="live_kits"
+              min="0"
               value={form.live_kits}
               onChange={handleChange}
               disabled={saving}
-              placeholder={t("livingKitsExample")}
-              style={{
-                width: "100%",
-                padding: "10px",
-                marginTop: "6px",
-              }}
             />
           </div>
 
-          {/* Dead Kits */}
-
-          <div style={{ marginBottom: "15px" }}>
+          <div>
             <label>
               <strong>{t("deadKits")}</strong>
             </label>
-
             <input
               type="number"
-              min="0"
               name="dead_kits"
+              min="0"
               value={form.dead_kits}
               onChange={handleChange}
               disabled={saving}
-              placeholder={t("deadKitsExample")}
-              style={{
-                width: "100%",
-                padding: "10px",
-                marginTop: "6px",
-              }}
             />
           </div>
 
-          {/* Notes */}
-
-          <div style={{ marginBottom: "20px" }}>
+          <div>
             <label>
               <strong>{t("notes")}</strong>
             </label>
-
             <textarea
               name="notes"
               value={form.notes}
               onChange={handleChange}
               disabled={saving}
               rows="4"
-              placeholder={t("litterNotesExample")}
-              style={{
-                width: "100%",
-                padding: "10px",
-                marginTop: "6px",
-                resize: "vertical",
-              }}
             />
           </div>
 
-          {/* Buttons */}
-
           <div
+            className="rabbit-litter-form-actions"
             style={{
               display: "flex",
               gap: "10px",
+              marginTop: "20px",
               flexWrap: "wrap",
             }}
           >
@@ -567,23 +541,22 @@ function AddRabbitLitter() {
               className="button"
               disabled={saving}
             >
-              {saving
-                ? "Saving..."
-                : `💾 ${t("saveLitterRecord")}`}
+              💾 {saving ? "Saving..." : t("update")}
             </button>
 
-            <Link
+            <button
+              type="button"
               className="button"
-              to="/rabbit-litters"
+              onClick={() => navigate("/rabbit-litters")}
+              disabled={saving}
             >
               {t("cancel")}
-            </Link>
+            </button>
           </div>
-
         </form>
       </div>
     </div>
   );
 }
 
-export default AddRabbitLitter;
+export default EditRabbitLitter;

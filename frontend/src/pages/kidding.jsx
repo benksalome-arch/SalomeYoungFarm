@@ -40,6 +40,35 @@ function Kidding() {
     return new Date(date).toLocaleDateString();
   }
 
+  async function deleteRecord(id) {
+    if (!window.confirm("Weet je zeker dat je deze geboorteregistratie wilt verwijderen?")) {
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem("token");
+
+      const response = await fetch(`${API_URL}/api/kidding/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        alert(data.message || "Verwijderen mislukt.");
+        return;
+      }
+
+      loadRecords();
+    } catch (error) {
+      console.error(error);
+      alert("Verwijderen mislukt.");
+    }
+  }
+
   return (
     <div className="page">
       <style>{`
@@ -196,6 +225,9 @@ function Kidding() {
                 <th style={{ padding: "12px 16px", textAlign: "center" }}>
                   {t("stillborn")}
                 </th>
+                <th style={{ padding: "12px 16px", textAlign: "center" }}>
+                  Actie
+                </th>
               </tr>
             </thead>
 
@@ -232,6 +264,22 @@ function Kidding() {
                     </td>
                     <td style={{ padding: "12px 16px" }}>
                       {record.stillborn ?? 0}
+                    </td>
+                    <td style={{ padding: "12px 8px", textAlign: "center" }}>
+                      <div className="kidding-action-buttons">
+                        <Link
+                          className="button kidding-edit-button"
+                          to={`/kidding/${record.id}/edit`}
+                        >
+                          ✏️ {t("edit")}
+                        </Link>
+                        <button
+                          className="button kidding-delete-button"
+                          onClick={() => deleteRecord(record.id)}
+                        >
+                          🗑 {t("delete")}
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))
@@ -306,6 +354,26 @@ function Kidding() {
                   </span>
                   <span className="kidding-mobile-value">
                     {record.stillborn ?? 0}
+                  </span>
+                </div>
+
+                <div className="kidding-mobile-row kidding-mobile-action-row">
+                  <span className="kidding-mobile-label">
+                    Actie
+                  </span>
+                  <span className="kidding-mobile-value kidding-mobile-actions">
+                    <Link
+                      className="button kidding-edit-button"
+                      to={`/kidding/${record.id}/edit`}
+                    >
+                      ✏️ {t("edit")}
+                    </Link>
+                    <button
+                      className="button kidding-delete-button"
+                      onClick={() => deleteRecord(record.id)}
+                    >
+                      🗑 {t("delete")}
+                    </button>
                   </span>
                 </div>
               </div>

@@ -1,6 +1,7 @@
 import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
+import { useLanguage } from "../context/LanguageContext";
 
 function RabbitBreeding() {
   const { t } = useLanguage();
@@ -35,6 +36,38 @@ function RabbitBreeding() {
       setRecords([]);
     } finally {
       setLoading(false);
+    }
+  }
+
+  async function handleDelete(recordId) {
+    if (!window.confirm("Weet je zeker dat je deze fokregistratie wilt verwijderen?")) {
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `${API_URL}/api/rabbit-breeding/${recordId}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        alert(data.message || "Verwijderen mislukt.");
+        return;
+      }
+
+      setRecords((previous) =>
+        previous.filter((record) => record.id !== recordId)
+      );
+    } catch (err) {
+      console.error("Delete breeding error:", err);
+      alert("Verwijderen mislukt.");
     }
   }
 
@@ -91,7 +124,7 @@ function RabbitBreeding() {
 
       <div className="card">
         <table
-          className="table"
+          className="table rabbit-breeding-table"
           style={{
             width: "100%",
             tableLayout: "fixed",
@@ -112,6 +145,7 @@ function RabbitBreeding() {
               <th>{t("status")}</th>
 
               <th>{t("notes")}</th>
+              <th>Actie</th>
             </tr>
           </thead>
 
@@ -119,7 +153,7 @@ function RabbitBreeding() {
             {loading ? (
               <tr>
                 <td
-                  colSpan="7"
+                  colSpan="8"
                   style={{
                     textAlign: "center",
                     padding: "20px",
@@ -131,7 +165,7 @@ function RabbitBreeding() {
             ) : records.length === 0 ? (
               <tr>
                 <td
-                  colSpan="7"
+                  colSpan="8"
                   style={{
                     textAlign: "center",
                     padding: "20px",
@@ -145,7 +179,7 @@ function RabbitBreeding() {
                 <tr key={record.id}>
                   {/* Date */}
 
-                  <td>
+                  <td data-label={t("date")}>
                     {record.breeding_date
                       ? record.breeding_date.split("T")[0]
                       : "-"}
@@ -153,7 +187,7 @@ function RabbitBreeding() {
 
                   {/* Female */}
 
-                  <td>
+                  <td data-label={t("femaleRabbit")}>
                     <strong>
                       {record.female_tag_number || "-"}
                     </strong>
@@ -165,7 +199,7 @@ function RabbitBreeding() {
 
                   {/* Male */}
 
-                  <td>
+                  <td data-label={t("maleRabbit")}>
                     <strong>
                       {record.male_tag_number || "-"}
                     </strong>
@@ -177,13 +211,13 @@ function RabbitBreeding() {
 
                   {/* Type */}
 
-                  <td>
+                  <td data-label={t("type")}>
                     {record.breeding_type || "-"}
                   </td>
 
                   {/* Expected Birth */}
 
-                  <td>
+                  <td data-label={t("expectedBirth")}>
                     {record.expected_birth_date
                       ? record.expected_birth_date.split("T")[0]
                       : "-"}
@@ -192,6 +226,7 @@ function RabbitBreeding() {
                   {/* Status */}
 
                   <td
+                    data-label={t("status")}
                     style={{
                       textAlign: "center",
                     }}
@@ -202,11 +237,30 @@ function RabbitBreeding() {
                   {/* Notes */}
 
                   <td
+                    data-label={t("notes")}
                     style={{
                       wordBreak: "break-word",
                     }}
                   >
                     {record.notes || "-"}
+                  </td>
+
+                  <td data-label="Actie" style={{ textAlign: "center" }}>
+                    <button
+                      type="button"
+                      onClick={() => handleDelete(record.id)}
+                      style={{
+                        background: "#D32F2F",
+                        color: "#fff",
+                        border: "none",
+                        borderRadius: "5px",
+                        padding: "7px 10px",
+                        cursor: "pointer",
+                        whiteSpace: "nowrap",
+                      }}
+                    >
+                      🗑️ Verwijderen
+                    </button>
                   </td>
                 </tr>
               ))

@@ -31,6 +31,13 @@ router.post(
 );
 
 // Delete litter record
+router.put(
+  "/:id",
+  authenticateToken,
+  requireAdmin,
+  rabbitLitterController.updateLitter
+);
+
 router.delete(
   "/:id",
   authenticateToken,

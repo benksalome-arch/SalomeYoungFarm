@@ -10,10 +10,12 @@ function AddRabbitBreeding() {
 
   const [rabbits, setRabbits] = useState([]);
   const [loadingRabbits, setLoadingRabbits] = useState(true);
+  const [calendarOpen, setCalendarOpen] = useState(false);
+  const [calendarMonth, setCalendarMonth] = useState(new Date());
 
   const [formData, setFormData] = useState({
     rabbit_id: id,
-    breeding_date: new Date().toISOString().split("T")[0],
+    breeding_date: "",
     male_rabbit_id: "",
     breeding_type: "",
     expected_birth_date: "",
@@ -94,6 +96,106 @@ function AddRabbitBreeding() {
   });
 
   // ======================================
+  // Automatically calculate expected birth
+  // Rabbit gestation: 31 days
+  // ======================================
+
+  useEffect(() => {
+    if (!formData.breeding_date) {
+      return;
+    }
+
+    const date = new Date(formData.breeding_date + "T00:00:00");
+    date.setDate(date.getDate() + 31);
+
+    const expectedDate =
+      date.getFullYear() +
+      "-" +
+      String(date.getMonth() + 1).padStart(2, "0") +
+      "-" +
+      String(date.getDate()).padStart(2, "0");
+
+    setFormData((previous) => {
+      if (previous.expected_birth_date === expectedDate) {
+        return previous;
+      }
+
+      return {
+        ...previous,
+        expected_birth_date: expectedDate,
+      };
+    });
+  }, [formData.breeding_date]);
+
+  // ======================================
+  // Breeding date calendar
+  // ======================================
+
+  function formatDateDisplay(value) {
+    if (!value) return "";
+    const [year, month, day] = value.split("-");
+    return `${day}-${month}-${year}`;
+  }
+
+  function getDaysInMonth(year, month) {
+    return new Date(year, month + 1, 0).getDate();
+  }
+
+  function getFirstDayOfMonth(year, month) {
+    return new Date(year, month, 1).getDay();
+  }
+
+  function selectBreedingDate(day) {
+    const year = calendarMonth.getFullYear();
+    const month = String(calendarMonth.getMonth() + 1).padStart(2, "0");
+    const selectedDay = String(day).padStart(2, "0");
+
+    setFormData((previous) => ({
+      ...previous,
+      breeding_date: `${year}-${month}-${selectedDay}`,
+    }));
+
+    setCalendarOpen(false);
+  }
+
+  function changeCalendarMonth(offset) {
+    setCalendarMonth(
+      new Date(
+        calendarMonth.getFullYear(),
+        calendarMonth.getMonth() + offset,
+        1
+      )
+    );
+  }
+
+  const daysInMonth = getDaysInMonth(
+    calendarMonth.getFullYear(),
+    calendarMonth.getMonth()
+  );
+
+  const firstDay = getFirstDayOfMonth(
+    calendarMonth.getFullYear(),
+    calendarMonth.getMonth()
+  );
+
+  const monthNames = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+
+  const weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+  // ======================================
   // Handle form changes
   // ======================================
 
@@ -144,6 +246,7 @@ function AddRabbitBreeding() {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
           body: JSON.stringify({
             ...formData,
@@ -213,7 +316,7 @@ function AddRabbitBreeding() {
           Form
       ================================== */}
 
-      <div className="card">
+      <div className="card rabbit-breeding-form-card">
         <form onSubmit={handleSubmit}>
 
           {/* Female Rabbit */}
@@ -266,13 +369,167 @@ function AddRabbitBreeding() {
             Breeding Date
           </label>
 
-          <input
-            type="date"
-            name="breeding_date"
-            value={formData.breeding_date}
-            onChange={handleChange}
-            required
-          />
+          <div style={{ position: "relative" }}>
+            <input
+              type="text"
+              name="breeding_date"
+              value={formatDateDisplay(formData.breeding_date)}
+              placeholder="DD-MM-JJJJ"
+              readOnly
+              required
+              onClick={() => {
+                setCalendarMonth(
+                  formData.breeding_date
+                    ? new Date(`${formData.breeding_date}T00:00:00`)
+                    : new Date()
+                );
+                setCalendarOpen(!calendarOpen);
+              }}
+              style={{
+                width: "100%",
+                boxSizing: "border-box",
+                cursor: "pointer",
+                color: "#222",
+                WebkitTextFillColor: "#222",
+              }}
+            />
+
+            {calendarOpen && (
+              <div
+                style={{
+                  position: "absolute",
+                  top: "calc(100% + 6px)",
+                  left: "50%",
+                  transform: "translateX(-50%)",
+                  zIndex: 9999,
+                  width: "min(92vw, 320px)",
+                  padding: "14px",
+                  background: "#fff",
+                  border: "1px solid #ccc",
+                  borderRadius: "10px",
+                  boxShadow: "0 6px 20px rgba(0,0,0,0.18)",
+                  boxSizing: "border-box",
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    marginBottom: "12px",
+                  }}
+                >
+                  <button
+                    type="button"
+                    onClick={() => changeCalendarMonth(-1)}
+                    style={{
+                      border: "none",
+                      background: "transparent",
+                      fontSize: "28px",
+                      cursor: "pointer",
+                      color: "#222",
+                    }}
+                  >
+                    ‹
+                  </button>
+
+                  <strong style={{ color: "#222" }}>
+                    {monthNames[calendarMonth.getMonth()]}{" "}
+                    {calendarMonth.getFullYear()}
+                  </strong>
+
+                  <button
+                    type="button"
+                    onClick={() => changeCalendarMonth(1)}
+                    style={{
+                      border: "none",
+                      background: "transparent",
+                      fontSize: "28px",
+                      cursor: "pointer",
+                      color: "#222",
+                    }}
+                  >
+                    ›
+                  </button>
+                </div>
+
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "repeat(7, 1fr)",
+                    gap: "4px",
+                    textAlign: "center",
+                  }}
+                >
+                  {weekdays.map(day => (
+                    <div
+                      key={day}
+                      style={{
+                        fontWeight: 700,
+                        fontSize: "12px",
+                        color: "#555",
+                        padding: "4px 0",
+                      }}
+                    >
+                      {day}
+                    </div>
+                  ))}
+
+                  {Array.from({ length: firstDay }).map((_, index) => (
+                    <div key={`empty-${index}`} />
+                  ))}
+
+                  {Array.from(
+                    { length: daysInMonth },
+                    (_, index) => index + 1
+                  ).map(day => {
+                    const dateValue =
+                      `${calendarMonth.getFullYear()}-` +
+                      `${String(calendarMonth.getMonth() + 1).padStart(2, "0")}-` +
+                      `${String(day).padStart(2, "0")}`;
+
+                    const today = new Date();
+
+                    const isSelected =
+                      formData.breeding_date === dateValue;
+
+                    const isToday =
+                      day === today.getDate() &&
+                      calendarMonth.getMonth() === today.getMonth() &&
+                      calendarMonth.getFullYear() === today.getFullYear();
+
+                    return (
+                      <button
+                        key={day}
+                        type="button"
+                        onClick={() => selectBreedingDate(day)}
+                        style={{
+                          border: "none",
+                          borderRadius: "6px",
+                          padding: "7px 0",
+                          cursor: "pointer",
+                          background:
+                            isSelected || isToday
+                              ? "#1976d2"
+                              : "transparent",
+                          color:
+                            isSelected || isToday
+                              ? "#fff"
+                              : "#222",
+                          fontWeight:
+                            isSelected || isToday
+                              ? 700
+                              : 400,
+                        }}
+                      >
+                        {day}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+          </div>
 
           <br />
           <br />
@@ -386,7 +643,8 @@ function AddRabbitBreeding() {
             type="date"
             name="expected_birth_date"
             value={formData.expected_birth_date}
-            onChange={handleChange}
+            readOnly
+            title="Automatically calculated 31 days after breeding date"
           />
 
           <br />

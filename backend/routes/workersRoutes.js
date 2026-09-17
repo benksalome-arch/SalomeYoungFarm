@@ -10,22 +10,23 @@ const {
 } = require("../middleware/authMiddleware");
 
 // Get all workers
+// Admin, Manager and Worker can view workers
 router.get(
   "/",
   authenticateToken,
-  requireAdmin,
   workersController.getAllWorkers
 );
 
 // Get one worker
+// Admin, Manager and Worker can view a worker
 router.get(
   "/:id",
   authenticateToken,
-  requireAdmin,
   workersController.getWorkerById
 );
 
 // Create worker
+// Only Admin can create user accounts
 router.post(
   "/",
   authenticateToken,
@@ -34,6 +35,7 @@ router.post(
 );
 
 // Update worker
+// Only Admin can edit saved worker details
 router.put(
   "/:id",
   authenticateToken,
@@ -42,6 +44,7 @@ router.put(
 );
 
 // Delete worker
+// Only Admin can delete workers
 router.delete(
   "/:id",
   authenticateToken,

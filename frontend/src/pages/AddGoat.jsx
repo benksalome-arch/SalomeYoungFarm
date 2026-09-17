@@ -498,10 +498,14 @@ function AddGoat() {
                 }}
                 style={{
                   ...inputStyle,
-                  color:"#222",
-                  WebkitTextFillColor:"#222",
-                  backgroundColor:"#fff",
-                  cursor:"pointer"
+                  width: "100%",
+                  boxSizing: "border-box",
+                  background: "#fff",
+                  backgroundColor: "#fff",
+                  color: "#222",
+                  WebkitTextFillColor: "#222",
+                  border: "1px solid #cfd6cf",
+                  cursor: "pointer"
                 }}
               />
             </div>

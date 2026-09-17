@@ -87,9 +87,9 @@ function AddBreeding() {
       <div className="card">
         <h1>🧬 {t("newBreedingRecord")}</h1>
 
-        <form onSubmit={handleSubmit} style={{ maxWidth: "520px", margin: "0 auto" }}>
+        <form onSubmit={handleSubmit} className="breeding-add-form">
 
-          <p style={{ labelStyle }}>{t("doe")}</p>
+          <p style={labelStyle}>{t("doe")}</p>
           <select
             name="doe_id"
             value={formData.doe_id}
@@ -108,7 +108,7 @@ function AddBreeding() {
               ))}
           </select>
 
-          <p style={{ labelStyle }}>{t("buck")}</p>
+          <p style={labelStyle}>{t("buck")}</p>
           <select
             name="buck_id"
             value={formData.buck_id}
@@ -127,7 +127,7 @@ function AddBreeding() {
               ))}
           </select>
 
-          <p style={{ labelStyle }}>{t("matingDate")}</p>
+          <p style={labelStyle}>{t("matingDate")}</p>
           <input
             type="text"
             name="mating_date"
@@ -232,7 +232,7 @@ function AddBreeding() {
             style={{ ...inputStyle, cursor: "pointer" }}
           />
 
-          <p style={{ labelStyle }}>{t("expectedKidding")}</p>
+          <p style={labelStyle}>{t("expectedKidding")}</p>
           <input
             type="text"
             value={
@@ -244,7 +244,7 @@ function AddBreeding() {
             style={inputStyle}
           />
 
-          <p style={{ labelStyle }}>{t("veterinarian")}</p>
+          <p style={labelStyle}>{t("veterinarian")}</p>
           <input
             type="text"
             name="veterinarian"
@@ -253,7 +253,7 @@ function AddBreeding() {
             style={inputStyle}
           />
 
-          <p style={{ labelStyle }}>{t("notes")}</p>
+          <p style={labelStyle}>{t("notes")}</p>
           <textarea
             name="notes"
             rows="4"

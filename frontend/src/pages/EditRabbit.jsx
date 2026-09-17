@@ -282,16 +282,176 @@ function EditRabbit() {
               </select>
             </div>
 
-            <div style={fieldStyle}>
-              <label style={labelStyle}>{t("birthDate")}</label>
-              <input
-                type="date"
-                name="birth_date"
-                value={formData.birth_date}
-                onChange={handleChange}
-                required
-                style={inputStyle}
-              />
+            <div
+              className="add-rabbit-field"
+              style={{ ...fieldStyle, position: "relative" }}
+            >
+              <label className="add-rabbit-label" style={labelStyle}>
+                {t("birthDate")}
+              </label>
+
+              <div style={{ position: "relative" }}>
+                <input
+                  style={{
+                    ...inputStyle,
+                    cursor: "pointer",
+                    width: "100%",
+                    minWidth: 0,
+                    boxSizing: "border-box",
+                    color: "#222",
+                    WebkitTextFillColor: "#222",
+                    opacity: 1,
+                  }}
+                  type="text"
+                  name="birth_date_display"
+                  value={formatDisplayDate(formData.birth_date)}
+                  placeholder="DD-MM-JJJJ"
+                  readOnly
+                  onClick={() => {
+                    setCalendarMonth(
+                      formData.birth_date
+                        ? new Date(`${formData.birth_date}T00:00:00`)
+                        : new Date()
+                    );
+                    setCalendarOpen(!calendarOpen);
+                  }}
+                />
+
+                {calendarOpen && (
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: "calc(100% + 6px)",
+                      left: "50%",
+                      transform: "translateX(-50%)",
+                      zIndex: 9999,
+                      width: "min(92vw, 320px)",
+                      padding: "14px",
+                      background: "#fff",
+                      border: "1px solid #ccc",
+                      borderRadius: "10px",
+                      boxShadow: "0 6px 20px rgba(0,0,0,0.18)",
+                      boxSizing: "border-box",
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        marginBottom: "12px",
+                      }}
+                    >
+                      <button
+                        type="button"
+                        onClick={() => changeCalendarMonth(-1)}
+                        style={{
+                          border: "none",
+                          background: "transparent",
+                          fontSize: "22px",
+                          cursor: "pointer",
+                        }}
+                      >
+                        ‹
+                      </button>
+
+                      <strong
+                        style={{
+                          color: "#222",
+                          WebkitTextFillColor: "#222",
+                        }}
+                      >
+                        {calendarMonth.toLocaleString(undefined, {
+                          month: "long",
+                          year: "numeric",
+                        })}
+                      </strong>
+
+                      <button
+                        type="button"
+                        onClick={() => changeCalendarMonth(1)}
+                        style={{
+                          border: "none",
+                          background: "transparent",
+                          fontSize: "22px",
+                          cursor: "pointer",
+                        }}
+                      >
+                        ›
+                      </button>
+                    </div>
+
+                    <div
+                      style={{
+                        display: "grid",
+                        gridTemplateColumns: "repeat(7, 1fr)",
+                        gap: "4px",
+                        textAlign: "center",
+                      }}
+                    >
+                      {["Zo", "Ma", "Di", "Wo", "Do", "Vr", "Za"].map((day) => (
+                        <div
+                          key={day}
+                          style={{
+                            fontWeight: 600,
+                            fontSize: "12px",
+                            color: "#666",
+                          }}
+                        >
+                          {day}
+                        </div>
+                      ))}
+
+                      {calendarDays.map((day, index) =>
+                        day === null ? (
+                          <div key={`empty-${index}`} />
+                        ) : (() => {
+                            const dateValue =
+                              `${calendarMonth.getFullYear()}-${String(
+                                calendarMonth.getMonth() + 1
+                              ).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+
+                            const today = new Date();
+
+                            const isSelected =
+                              formData.birth_date === dateValue;
+
+                            const isToday =
+                              day === today.getDate() &&
+                              calendarMonth.getMonth() === today.getMonth() &&
+                              calendarMonth.getFullYear() === today.getFullYear();
+
+                            return (
+                              <button
+                                key={day}
+                                type="button"
+                                onClick={() => selectCalendarDate(day)}
+                                style={{
+                                  border: "none",
+                                  borderRadius: "6px",
+                                  padding: "7px 2px",
+                                  cursor: "pointer",
+                                  background:
+                                    isSelected || isToday
+                                      ? "#1976d2"
+                                      : "transparent",
+                                  color:
+                                    isSelected || isToday
+                                      ? "#fff"
+                                      : "#222",
+                                  fontWeight:
+                                    isSelected || isToday ? 700 : 400,
+                                }}
+                              >
+                                {day}
+                              </button>
+                            );
+                          })()
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
 
             <div style={fieldStyle}>

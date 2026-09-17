@@ -92,7 +92,7 @@ function EditChicken() {
 
       <div className="card">
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="chicken-edit-form">
 
           <label>{t("tagNumber")}</label>
           <input
@@ -100,7 +100,6 @@ function EditChicken() {
             name="tag_number"
             value={formData.tag_number || ""}
             onChange={handleChange}
-            required
           />
 
           <br /><br />
@@ -121,7 +120,7 @@ function EditChicken() {
             name="breed"
             value={formData.breed || ""}
             onChange={handleChange}
-            required
+
           />
 
           <br /><br />

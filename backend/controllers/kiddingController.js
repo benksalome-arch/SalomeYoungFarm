@@ -80,3 +80,86 @@ exports.addKidding = (req, res) => {
     }
   );
 };
+
+
+// Update kidding record
+exports.updateKidding = (req, res) => {
+  const { breeding_id, kidding_date, male_kids, female_kids, stillborn, notes } = req.body;
+  const id = req.params.id;
+
+  if (!breeding_id || !kidding_date) {
+    return res.status(400).json({ message: "Breeding and kidding date are required." });
+  }
+
+  db.query(
+    `UPDATE goat_kidding
+     SET breeding_id=?, kidding_date=?, male_kids=?, female_kids=?, stillborn=?, notes=?
+     WHERE id=?`,
+    [
+      breeding_id,
+      kidding_date,
+      Number(male_kids) || 0,
+      Number(female_kids) || 0,
+      Number(stillborn) || 0,
+      notes || "",
+      id,
+    ],
+    (err) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).json({ message: err.message });
+      }
+
+      db.query(
+        `UPDATE goat_breeding
+         SET pregnancy_status='Kidded'
+         WHERE id=?`,
+        [breeding_id]
+      );
+
+      res.json({ message: "Kidding updated successfully." });
+    }
+  );
+};
+
+// Delete kidding record
+exports.deleteKidding = (req, res) => {
+  const id = req.params.id;
+
+  db.query(
+    `SELECT breeding_id FROM goat_kidding WHERE id=?`,
+    [id],
+    (err, rows) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).json({ message: err.message });
+      }
+
+      if (!rows.length) {
+        return res.status(404).json({ message: "Kidding record not found." });
+      }
+
+      const breedingId = rows[0].breeding_id;
+
+      db.query(
+        `DELETE FROM goat_kidding WHERE id=?`,
+        [id],
+        (deleteErr) => {
+          if (deleteErr) {
+            console.error(deleteErr);
+            return res.status(500).json({ message: deleteErr.message });
+          }
+
+          db.query(
+            `UPDATE goat_breeding
+             SET pregnancy_status='Pregnant'
+             WHERE id=?`,
+            [breedingId]
+          );
+
+          res.json({ message: "Kidding deleted successfully." });
+        }
+      );
+    }
+  );
+};

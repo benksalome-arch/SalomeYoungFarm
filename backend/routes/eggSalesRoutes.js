@@ -11,8 +11,18 @@ const {
 
 router.get("/", eggSalesController.getSales);
 
+// Get one egg sale
+router.get("/:id", eggSalesController.getSale);
+
 // Create egg sale
 router.post("/", eggSalesController.createSale);
+
+// Update egg sale
+router.put("/:id",
+  authenticateToken,
+  requireAdmin,
+  eggSalesController.updateSale
+);
 
 // Delete egg sale
 router.delete("/:id",

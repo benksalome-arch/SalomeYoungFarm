@@ -26,6 +26,38 @@ exports.getSales = (req, res) => {
 };
 
 // ======================================
+// Get one egg sale
+// ======================================
+
+exports.getSale = (req, res) => {
+
+  db.query(
+    "SELECT * FROM egg_sales WHERE id=?",
+    [req.params.id],
+    (err, results) => {
+
+      if (err) {
+        console.error(err);
+
+        return res.status(500).json({
+          message: "Database error",
+        });
+      }
+
+      if (results.length === 0) {
+        return res.status(404).json({
+          message: "Egg sale not found",
+        });
+      }
+
+      res.json(results[0]);
+
+    }
+  );
+
+};
+
+// ======================================
 // Create egg sale
 // ======================================
 
@@ -109,6 +141,69 @@ exports.createSale = (req, res) => {
 
         }
       );
+
+    }
+  );
+
+};
+
+// ======================================
+// Update sale
+// ======================================
+
+exports.updateSale = (req, res) => {
+
+  const {
+    sale_date,
+    customer,
+    quantity,
+    price_per_egg,
+    payment_method,
+    notes,
+  } = req.body;
+
+  const total_amount =
+    Number(quantity) * Number(price_per_egg);
+
+  db.query(
+    `UPDATE egg_sales
+     SET sale_date=?,
+         customer=?,
+         quantity=?,
+         price_per_egg=?,
+         total_amount=?,
+         payment_method=?,
+         notes=?
+     WHERE id=?`,
+    [
+      sale_date,
+      customer,
+      quantity,
+      price_per_egg,
+      total_amount,
+      payment_method,
+      notes,
+      req.params.id,
+    ],
+    (err, result) => {
+
+      if (err) {
+        console.error(err);
+
+        return res.status(500).json({
+          message: "Database error",
+        });
+      }
+
+      if (result.affectedRows === 0) {
+        return res.status(404).json({
+          message: "Egg sale not found",
+        });
+      }
+
+      res.json({
+        message: "Egg sale updated successfully!",
+      });
 
     }
   );

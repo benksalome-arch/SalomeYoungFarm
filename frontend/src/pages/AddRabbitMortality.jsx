@@ -184,11 +184,161 @@ function AddRabbitMortality() {
     }
   }
 
+  const rabbitMortalityMobileStyles = `
+    @media (max-width: 700px) {
+      .rabbit-mortality-title {
+        width: 100%;
+        text-align: center;
+      }
+
+      .rabbit-mortality-title h1 {
+        font-size: 30px !important;
+        line-height: 1.15 !important;
+      }
+
+      .rabbit-mortality-title p {
+        margin: 8px 0 14px !important;
+        font-size: 17px;
+        line-height: 1.35;
+      }
+
+      .rabbit-mortality-header {
+        flex-direction: column;
+        gap: 4px !important;
+        margin-bottom: 16px !important;
+      }
+
+      .rabbit-mortality-back {
+        align-self: center;
+        flex-shrink: 0;
+      }
+
+      .rabbit-mortality-grid {
+        grid-template-columns: 105px minmax(0, 1fr) !important;
+        gap: 14px 10px !important;
+        width: 100% !important;
+        max-width: 100% !important;
+      }
+
+      .rabbit-mortality-grid > label {
+        font-weight: 600;
+        font-size: 15px;
+        text-align: right;
+        color: #222;
+        -webkit-text-fill-color: #222;
+      }
+    }
+  `;
+
   return (
-    <div>
+    <>
+      <style>{`
+        @media (max-width: 700px) {
+          .rabbit-mortality-header {
+            flex-direction: column;
+            align-items: stretch !important;
+            text-align: center;
+            gap: 12px !important;
+            margin-bottom: 18px !important;
+          }
+
+          .rabbit-mortality-title h1 {
+            font-size: 30px !important;
+            line-height: 1.15 !important;
+          }
+
+          .rabbit-mortality-title p {
+            font-size: 17px !important;
+            line-height: 1.45 !important;
+            margin: 8px 0 0 !important;
+          }
+
+          .rabbit-mortality-back {
+            align-self: center;
+            width: auto;
+            min-width: 120px;
+          }
+
+          .rabbit-mortality-grid {
+            grid-template-columns: 105px minmax(0, 1fr) !important;
+            gap: 10px !important;
+            width: 100%;
+          }
+
+          .rabbit-mortality-grid > label {
+            color: #222 !important;
+            -webkit-text-fill-color: #222 !important;
+            font-weight: 600;
+            overflow-wrap: anywhere;
+            line-height: 1.25;
+          }
+
+          .rabbit-mortality-grid input,
+          .rabbit-mortality-grid select,
+          .rabbit-mortality-grid textarea {
+            min-width: 0 !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+            background: #fff !important;
+            color: #222 !important;
+            -webkit-text-fill-color: #222 !important;
+            border: 1px solid #cfd6cf !important;
+            border-radius: 7px !important;
+          }
+
+          .rabbit-mortality-grid input::placeholder,
+          .rabbit-mortality-grid textarea::placeholder {
+            color: #777 !important;
+            -webkit-text-fill-color: #777 !important;
+            opacity: 1 !important;
+          }
+        }
+
+          .rabbit-mortality-grid input::placeholder,
+          .rabbit-mortality-grid textarea::placeholder {
+            color: #777 !important;
+            -webkit-text-fill-color: #777 !important;
+            opacity: 1 !important;
+          }
+
+          .rabbit-mortality-grid textarea {
+            background: #fff !important;
+            color: #222 !important;
+            -webkit-text-fill-color: #222 !important;
+            border: 1px solid #cfd6cf !important;
+          }
+
+          .rabbit-mortality-grid input::placeholder,
+          .rabbit-mortality-grid textarea::placeholder {
+            color: #777 !important;
+            -webkit-text-fill-color: #777 !important;
+            opacity: 1 !important;
+          }
+
+          .rabbit-mortality-grid textarea {
+            min-width: 0 !important;
+            max-width: 100%;
+            box-sizing: border-box;
+            background: #fff !important;
+            color: #222 !important;
+            -webkit-text-fill-color: #222 !important;
+            border: 1px solid #cfd6cf !important;
+          }
+
+          .rabbit-mortality-grid input::placeholder,
+          .rabbit-mortality-grid textarea::placeholder {
+            color: #777 !important;
+            -webkit-text-fill-color: #777 !important;
+            opacity: 1 !important;
+          }
+        }
+      `}</style>
+
+      <div>
       {/* Header */}
 
       <div
+        className="rabbit-mortality-header"
         style={{
           display: "flex",
           justifyContent: "space-between",
@@ -196,8 +346,9 @@ function AddRabbitMortality() {
           marginBottom: "20px",
           gap: "20px",
         }}
+        className="rabbit-mortality-header"
       >
-        <div>
+        <div className="rabbit-mortality-title">
           <h1
             style={{
               margin: 0,
@@ -214,7 +365,7 @@ function AddRabbitMortality() {
         </div>
 
         <Link
-          className="button"
+          className="button rabbit-mortality-back"
           to="/rabbit-mortality"
         >
           ← {t("back")}
@@ -234,6 +385,7 @@ function AddRabbitMortality() {
       >
         <form onSubmit={handleSubmit}>
           <div
+            className="rabbit-mortality-grid"
             style={{
               display: "grid",
               gridTemplateColumns: "150px minmax(0, 260px)",
@@ -262,7 +414,6 @@ function AddRabbitMortality() {
                 value={formData.rabbit_id}
                 onChange={handleChange}
                 required
-                style={{ width: "100%" }}
               >
                 <option value="">
                   {t("selectRabbit")}
@@ -433,7 +584,53 @@ function AddRabbitMortality() {
                         calendarMonth.getMonth() === today.getMonth() &&
                         calendarMonth.getFullYear() === today.getFullYear();
 
-                      return (
+                      const rabbitMortalityMobileStyles = `
+    @media (max-width: 700px) {
+      .rabbit-mortality-title {
+        width: 100%;
+        text-align: center;
+      }
+
+      .rabbit-mortality-title h1 {
+        font-size: 30px !important;
+        line-height: 1.15 !important;
+      }
+
+      .rabbit-mortality-title p {
+        margin: 8px 0 14px !important;
+        font-size: 17px;
+        line-height: 1.35;
+      }
+
+      .rabbit-mortality-header {
+        flex-direction: column;
+        gap: 4px !important;
+        margin-bottom: 16px !important;
+      }
+
+      .rabbit-mortality-back {
+        align-self: center;
+        flex-shrink: 0;
+      }
+
+      .rabbit-mortality-grid {
+        grid-template-columns: 105px minmax(0, 1fr) !important;
+        gap: 14px 10px !important;
+        width: 100% !important;
+        max-width: 100% !important;
+      }
+
+      .rabbit-mortality-grid > label {
+        font-weight: 600;
+        font-size: 15px;
+        text-align: right;
+        color: #222;
+        -webkit-text-fill-color: #222;
+      }
+    }
+  `;
+
+  return (
                         <button
                           key={day}
                           type="button"
@@ -572,6 +769,7 @@ function AddRabbitMortality() {
         </form>
       </div>
     </div>
+    </>
   );
 }
 

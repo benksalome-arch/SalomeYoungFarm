@@ -280,19 +280,14 @@ function RabbitProfile() {
           ❤️ Breeding
         </Link>
 
-        {/* Litters - not implemented yet */}
+        {/* Litters */}
 
-        <button
+        <Link
           className="button"
-          type="button"
-          disabled
-          style={{
-            opacity: 0.6,
-            cursor: "not-allowed",
-          }}
+          to="/rabbit-litters"
         >
           🐇 Litters
-        </button>
+        </Link>
       </div>
 
       {/* =====================================

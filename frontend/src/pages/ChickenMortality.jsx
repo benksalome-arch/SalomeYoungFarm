@@ -391,15 +391,46 @@ function ChickenMortality() {
                       whiteSpace: "nowrap",
                     }}
                   >
-                    <button
-                      className="button"
-                      onClick={() => deleteRecord(record.id)}
+                    <div
                       style={{
-                        whiteSpace: "nowrap",
+                        display: "flex",
+                        gap: "8px",
+                        justifyContent: "center",
+                        flexWrap: "wrap",
                       }}
                     >
-                      🗑 {t("delete")}
-                    </button>
+                      <Link
+                        className="button"
+                        to={`/chicken-mortality/${record.id}/edit`}
+                        style={{
+                          background: "#2e7d32",
+                          borderColor: "#2e7d32",
+                          color: "#fff",
+                          whiteSpace: "nowrap",
+                          minWidth: "130px",
+                          padding: "8px 14px",
+                          boxSizing: "border-box"
+                        }}
+                      >
+                        ✏️ {t("edit")}
+                      </Link>
+
+                      <button
+                        className="button"
+                        onClick={() => deleteRecord(record.id)}
+                        style={{
+                          background: "#c62828",
+                          borderColor: "#c62828",
+                          color: "#fff",
+                          whiteSpace: "nowrap",
+                          minWidth: "160px",
+                          padding: "8px 18px",
+                          boxSizing: "border-box"
+                        }}
+                      >
+                        🗑 {t("delete")}
+                      </button>
+                    </div>
                   </td>
 
                 </tr>
@@ -465,13 +496,46 @@ function ChickenMortality() {
                 </div>
 
                 <div className="mortality-mobile-actions">
-                  <button
-                    className="button"
-                    onClick={() => deleteRecord(record.id)}
-                    style={{ whiteSpace: "nowrap" }}
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: "8px",
+                      justifyContent: "flex-end",
+                      flexWrap: "wrap",
+                    }}
                   >
-                    🗑 {t("delete")}
-                  </button>
+                    <Link
+                      className="button"
+                      to={`/chicken-mortality/${record.id}/edit`}
+                      style={{
+                        background: "#2e7d32",
+                        borderColor: "#2e7d32",
+                        color: "#fff",
+                        whiteSpace: "nowrap",
+                        minWidth: "130px",
+                        padding: "8px 14px",
+                        boxSizing: "border-box"
+                      }}
+                    >
+                      ✏️ {t("edit")}
+                    </Link>
+
+                    <button
+                      className="button"
+                      onClick={() => deleteRecord(record.id)}
+                      style={{
+                        background: "#c62828",
+                        borderColor: "#c62828",
+                        color: "#fff",
+                        whiteSpace: "nowrap",
+                        minWidth: "160px",
+                        padding: "8px 18px",
+                        boxSizing: "border-box"
+                      }}
+                    >
+                      🗑 {t("delete")}
+                    </button>
+                  </div>
                 </div>
               </div>
             ))

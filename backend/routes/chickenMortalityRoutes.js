@@ -14,6 +14,12 @@ router.get("/", chickenMortalityController.getMortality);
 // Record mortality
 router.post("/", chickenMortalityController.createMortality);
 
+// Update mortality record
+router.put("/:id",
+  authenticateToken,
+  requireAdmin,
+  chickenMortalityController.updateMortality);
+
 // Delete mortality record
 router.delete("/:id",
   authenticateToken,

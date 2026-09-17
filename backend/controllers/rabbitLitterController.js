@@ -216,3 +216,79 @@ exports.deleteLitter = (req, res) => {
     }
   );
 };
+
+// ======================================
+// Update rabbit litter record
+// ======================================
+
+exports.updateLitter = (req, res) => {
+  const {
+    breeding_id,
+    birth_date,
+    total_kits,
+    live_kits,
+    dead_kits,
+    notes,
+  } = req.body;
+
+  if (!breeding_id || !birth_date) {
+    return res.status(400).json({
+      message: "Breeding record and birth date are required.",
+    });
+  }
+
+  const total = Number(total_kits || 0);
+  const live = Number(live_kits || 0);
+  const dead = Number(dead_kits || 0);
+
+  if (total < 0 || live < 0 || dead < 0) {
+    return res.status(400).json({
+      message: "Kit quantities cannot be negative.",
+    });
+  }
+
+  if (live + dead !== total) {
+    return res.status(400).json({
+      message: "Live kits plus dead kits must equal total kits.",
+    });
+  }
+
+  db.query(
+    `UPDATE rabbit_litters
+     SET breeding_id = ?,
+         birth_date = ?,
+         total_kits = ?,
+         live_kits = ?,
+         dead_kits = ?,
+         notes = ?
+     WHERE id = ?`,
+    [
+      breeding_id,
+      birth_date,
+      total,
+      live,
+      dead,
+      notes || null,
+      req.params.id,
+    ],
+    (err, result) => {
+      if (err) {
+        console.error(err);
+
+        return res.status(500).json({
+          message: "Database error",
+        });
+      }
+
+      if (result.affectedRows === 0) {
+        return res.status(404).json({
+          message: "Rabbit litter record not found.",
+        });
+      }
+
+      res.json({
+        message: "Rabbit litter record updated successfully!",
+      });
+    }
+  );
+};

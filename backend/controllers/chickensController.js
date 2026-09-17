@@ -212,13 +212,17 @@ exports.updateChicken = (req, res) => {
     notes,
   } = req.body;
 
-  const cleanTagNumber =
-    tag_number && String(tag_number).trim()
-      ? String(tag_number).trim()
-      : null;
+  // Tag number is OPTIONAL when editing.
+  // Store an empty tag as NULL.
+  const cleanTag =
+    tag_number === undefined ||
+    tag_number === null ||
+    String(tag_number).trim() === ""
+      ? null
+      : String(tag_number).trim();
 
-  const checkTag = (callback) => {
-    if (!cleanTagNumber) {
+  const checkDuplicate = (callback) => {
+    if (!cleanTag) {
       return callback(null, []);
     }
 
@@ -227,98 +231,87 @@ exports.updateChicken = (req, res) => {
        FROM chickens
        WHERE tag_number = ?
        AND id <> ?`,
-      [cleanTagNumber, id],
+      [cleanTag, id],
       callback
     );
   };
 
-  checkTag((checkErr, rows) => {
-      if (checkErr) {
-        console.error(
-          "Check chicken tag during update error:",
-          checkErr
-        );
+  checkDuplicate((checkErr, rows) => {
+    if (checkErr) {
+      console.error(
+        "Check chicken tag during update error:",
+        checkErr
+      );
 
-        return res.status(500).json({
-          message:
-            "Database error while checking chicken tag.",
-        });
-      }
+      return res.status(500).json({
+        message: "Database error while checking chicken tag.",
+      });
+    }
 
-      if (rows.length > 0) {
-        return res.status(409).json({
-          message: `Another chicken already uses tag ${tag_number}. Please use a different tag.`,
-        });
-      }
+    if (rows.length > 0) {
+      return res.status(409).json({
+        message:
+          `Another chicken already uses tag ${cleanTag}. Please use a different tag.`,
+      });
+    }
 
-      db.query(
-        `UPDATE chickens
-         SET
-           tag_number = ?,
-           name = ?,
-           breed = ?,
-           type = ?,
-           sex = ?,
-           male_quantity = ?,
-           female_quantity = ?,
-           hatch_date = ?,
-           source = ?,
-           quantity = ?,
-           status = ?,
-           purchase_price = ?,
-           notes = ?
-         WHERE id = ?`,
-        [
-          cleanTagNumber,
-          name || null,
-          breed || null,
-          type || null,
-          sex || null,
-          male_quantity === "" ? null : male_quantity,
-          female_quantity === "" ? null : female_quantity,
-          cleanDate(hatch_date),
-          source || null,
-          quantity === "" ? null : quantity,
-          status || "Active",
-          purchase_price === ""
-            ? null
-            : purchase_price,
-          notes || null,
-          id,
-        ],
-        (err, result) => {
-          if (err) {
-            console.error(
-              "Update chicken error:",
-              err
-            );
+    db.query(
+      `UPDATE chickens
+       SET
+         tag_number = ?,
+         name = ?,
+         breed = ?,
+         type = ?,
+         sex = ?,
+         hatch_date = ?,
+         source = ?,
+         quantity = ?,
+         status = ?,
+         purchase_price = ?,
+         notes = ?
+       WHERE id = ?`,
+      [
+        cleanTag,
+        name || null,
+        breed || null,
+        type || null,
+        sex || null,
+        cleanDate(hatch_date),
+        source || null,
+        quantity === "" ? null : quantity,
+        status || "Active",
+        purchase_price === "" ? null : purchase_price,
+        notes || null,
+        id,
+      ],
+      (err, result) => {
+        if (err) {
+          console.error("Update chicken error:", err);
 
-            if (err.code === "ER_DUP_ENTRY") {
-              return res.status(409).json({
-                message: `Another chicken already uses tag ${tag_number}. Please use a different tag.`,
-              });
-            }
-
-            return res.status(500).json({
+          if (err.code === "ER_DUP_ENTRY") {
+            return res.status(409).json({
               message:
-                "Database error while updating chicken.",
+                "Another chicken already uses this tag. Please use a different tag.",
             });
           }
 
-          if (result.affectedRows === 0) {
-            return res.status(404).json({
-              message: "Chicken not found.",
-            });
-          }
-
-          res.json({
-            message:
-              "Chicken updated successfully!",
+          return res.status(500).json({
+            message: "Database error while updating chicken.",
           });
         }
-      );
-    }
-  );
+
+        if (result.affectedRows === 0) {
+          return res.status(404).json({
+            message: "Chicken not found.",
+          });
+        }
+
+        res.json({
+          message: "Chicken updated successfully!",
+        });
+      }
+    );
+  });
 };
 
 // ======================================

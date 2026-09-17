@@ -7,7 +7,7 @@ const db = require("../db");
 exports.getRabbits = (req, res) => {
 
   db.query(
-    "SELECT * FROM rabbits ORDER BY created_at DESC",
+    "SELECT *, tag AS tag_number, date_of_birth AS birth_date FROM rabbits ORDER BY created_at DESC",
     (err, results) => {
 
       if (err) {
@@ -32,7 +32,7 @@ exports.getRabbits = (req, res) => {
 exports.getRabbit = (req, res) => {
 
   db.query(
-    "SELECT * FROM rabbits WHERE id=?",
+    "SELECT *, tag AS tag_number, date_of_birth AS birth_date FROM rabbits WHERE id=?",
     [req.params.id],
     (err, results) => {
 

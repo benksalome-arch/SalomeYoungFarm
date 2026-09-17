@@ -14,7 +14,12 @@ function Rabbits() {
   async function loadRabbits() {
     try {
       const response = await fetch(
-        `${API_URL}/api/rabbits`
+        `${API_URL}/api/rabbits`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
       );
 
       const data = await response.json();
@@ -42,6 +47,9 @@ function Rabbits() {
         `${API_URL}/api/rabbits/${id}`,
         {
           method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         }
       );
 
@@ -489,6 +497,7 @@ function Rabbits() {
                           border: "none",
                           whiteSpace: "nowrap",
                           cursor: "pointer",
+                      padding: "8px 18px",
                         }}
                       >
                         🗑 {t("delete")}
@@ -579,6 +588,11 @@ function Rabbits() {
                     <span>{t("quantity")}</span>
                     <strong>{rabbit.quantity ?? 0}</strong>
                   </div>
+
+                  <div>
+                    <span>{t("tagNumber")}</span>
+                    <strong>{rabbit.tag_number || "-"}</strong>
+                  </div>
                 </div>
 
                 <div className="rabbit-mobile-actions">
@@ -605,6 +619,10 @@ function Rabbits() {
                       color: "#fff",
                       border: "none",
                       cursor: "pointer",
+                      padding: "8px 18px",
+                      letterSpacing: "normal",
+                      wordSpacing: "normal",
+                      whiteSpace: "nowrap",
                     }}
                   >
                     🗑 {t("delete")}

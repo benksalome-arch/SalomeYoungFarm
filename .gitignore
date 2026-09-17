@@ -6,3 +6,21 @@ Microsoft VS Code/
 *.env
 backend/.env
 .vercel
+.env*
+
+# Temporary development backups and test files
+*.before-*
+*.backup
+*.before
+backend/test.jpg
+backend/uploads/
+.card
+current-language-context.txt
+translation-keys.txt
+translation-properties.txt
+div
+div:first-child
+frontend/div:first-child
+frontend/frontend@0.0.0
+frontend/vite
+play\"

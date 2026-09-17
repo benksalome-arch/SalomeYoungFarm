@@ -6,6 +6,7 @@ const {
   addBreedingRecord,
   markKidding,
   deleteBreedingRecord,
+  updateBreedingRecord,
 } = require("../controllers/breedingController");
 
 // Get all breeding records
@@ -25,6 +26,8 @@ router.put("/:id/kidding",
   requireAdmin, markKidding);
 
 // Delete breeding record
+router.put("/:id", updateBreedingRecord);
+
 router.delete("/:id",
   authenticateToken,
   requireAdmin, deleteBreedingRecord);

@@ -54,6 +54,9 @@ function RabbitLitters() {
         `${API_URL}/api/rabbit-litters/${id}`,
         {
           method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         }
       );
 
@@ -88,7 +91,7 @@ function RabbitLitters() {
     <div>
       {/* Header */}
 
-      <div
+      <div className="rabbit-litters-header"
         style={{
           display: "flex",
           justifyContent: "space-between",
@@ -116,7 +119,7 @@ function RabbitLitters() {
       {/* Litter Table */}
 
       <div className="card">
-        <table className="table">
+        <table className="table rabbit-litters-table">
           <thead>
             <tr>
               <th>{t("birthDate")}</th>
@@ -137,6 +140,9 @@ function RabbitLitters() {
                   colSpan="8"
                   style={{
                     textAlign: "center",
+                    color: "#666",
+                    WebkitTextFillColor: "#666",
+                    opacity: 1,
                   }}
                 >
                   {t("loadingLitterRecords")}
@@ -144,12 +150,7 @@ function RabbitLitters() {
               </tr>
             ) : litters.length === 0 ? (
               <tr>
-                <td
-                  colSpan="8"
-                  style={{
-                    textAlign: "center",
-                  }}
-                >
+                <td className="rabbit-litters-empty-message" colSpan="8">
                   {t("noRabbitLitterRecordsFound")}
                 </td>
               </tr>
@@ -158,7 +159,12 @@ function RabbitLitters() {
                 <tr key={litter.id}>
                   <td>
                     {litter.birth_date
-                      ? litter.birth_date.split("T")[0]
+                      ? (() => {
+                          const [year, month, day] = litter.birth_date
+                            .split("T")[0]
+                            .split("-");
+                          return `${day}-${month}-${year}`;
+                        })()
                       : ""}
                   </td>
 
@@ -193,22 +199,28 @@ function RabbitLitters() {
                   </td>
 
                   <td>
-                    <button
-                      className="button"
-                      onClick={() =>
-                        deleteLitter(litter.id)
-                      }
-                      disabled={
-                        deleting === litter.id
-                      }
-                      style={{
-                        background: "#C62828",
-                      }}
-                    >
-                      {deleting === litter.id
-                        ? "Deleting..."
-                        : "🗑 Delete"}
-                    </button>
+                    <div className="rabbit-litter-actions">
+                      <Link
+                        className="button rabbit-litter-edit-button"
+                        to={`/rabbit-litters/${litter.id}/edit`}
+                      >
+                        ✏️ {t("edit")}
+                      </Link>
+
+                      <button
+                        className="button rabbit-litter-delete-button"
+                        onClick={() =>
+                          deleteLitter(litter.id)
+                        }
+                        disabled={
+                          deleting === litter.id
+                        }
+                      >
+                        {deleting === litter.id
+                          ? "Deleting..."
+                          : `🗑 ${t("delete")}`}
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))

@@ -249,9 +249,16 @@ function Breeding() {
                   {/* ACTIONS */}
                   <div className="breeding-actions">
 
-                    <button
+                    <Link
+                          className="button breeding-edit-button"
+                          to={`/breeding/${record.id}/edit`}
+                        >
+                          ✏️ {t("edit")}
+                        </Link>
+
+                        <button
                       type="button"
-                      className="button"
+                      className="button breeding-delete-button"
                       onClick={() =>
                         deleteRecord(record.id)
                       }
