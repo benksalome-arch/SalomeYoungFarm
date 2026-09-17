@@ -690,7 +690,20 @@ function AddRabbitMortality() {
                           whiteSpace: "nowrap",
                         }}
                       >
-                        {monthNames[month]} {year}
+                        {[
+                          t("january"),
+                          t("february"),
+                          t("march"),
+                          t("april"),
+                          t("may"),
+                          t("june"),
+                          t("july"),
+                          t("august"),
+                          t("september"),
+                          t("october"),
+                          t("november"),
+                          t("december"),
+                        ][calendarMonth.getMonth()]} {calendarMonth.getFullYear()}
                       </div>
 
                       <button
