@@ -188,10 +188,10 @@ function AddRabbitLitter() {
   }
 
   return (
-    <div>
+    <div className="rabbit-litter-page">
       {/* Header */}
 
-      <div
+      <div className="rabbit-litter-header"
         style={{
           display: "flex",
           justifyContent: "space-between",
@@ -231,6 +231,157 @@ function AddRabbitLitter() {
           {error}
         </div>
       )}
+
+      <style>{`
+        .rabbit-litter-page {
+          width: 100%;
+        }
+
+        .rabbit-litter-header {
+          position: relative;
+          justify-content: center !important;
+          text-align: center;
+          margin-bottom: 24px !important;
+        }
+
+        .rabbit-litter-header > div:first-child {
+          width: 100%;
+        }
+
+        .rabbit-litter-header h1 {
+          margin: 0 0 8px 0;
+          color: #222;
+          -webkit-text-fill-color: #222;
+        }
+
+        .rabbit-litter-header p {
+          margin: 0;
+          color: #555;
+        }
+
+        .rabbit-litter-header > a {
+          position: absolute;
+          right: 0;
+          top: 50%;
+          transform: translateY(-50%);
+        }
+
+        .rabbit-litter-form-card {
+          width: min(100%, 620px);
+          margin: 0 auto;
+          padding: 30px;
+          box-sizing: border-box;
+          border-radius: 14px;
+        }
+
+        .rabbit-litter-form-card form {
+          display: flex;
+          flex-direction: column;
+          width: 100%;
+        }
+
+        .rabbit-litter-form-card form > div {
+          display: grid;
+          grid-template-columns: 150px minmax(0, 320px);
+          gap: 14px;
+          align-items: center;
+          width: 100%;
+          margin-bottom: 15px !important;
+        }
+
+        .rabbit-litter-form-card form > div > label {
+          text-align: right;
+          color: #222;
+          font-weight: 600;
+          margin: 0;
+        }
+
+        .rabbit-litter-form-card input,
+        .rabbit-litter-form-card select,
+        .rabbit-litter-form-card textarea {
+          width: 100% !important;
+          box-sizing: border-box;
+          min-height: 44px;
+          padding: 9px 11px !important;
+          margin: 0 !important;
+          border: 1px solid #cfd6cf;
+          border-radius: 7px;
+          background: #fff;
+          color: #222;
+          -webkit-text-fill-color: #222;
+        }
+
+        .rabbit-litter-form-card textarea {
+          min-height: 96px;
+        }
+
+        .rabbit-litter-form-card .rabbit-litter-date-field > div {
+          width: 100%;
+        }
+
+        .rabbit-litter-form-card .rabbit-litter-date-field input {
+          cursor: pointer;
+        }
+
+        .rabbit-litter-form-card form > div:last-child {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 10px;
+          margin-top: 8px;
+          margin-bottom: 0 !important;
+          width: 100%;
+        }
+
+        .rabbit-litter-form-card form > div:last-child .button {
+          min-height: 44px;
+          padding: 10px 20px;
+          border-radius: 8px;
+        }
+
+        @media (max-width: 700px) {
+          .rabbit-litter-page {
+            width: 100%;
+          }
+
+          .rabbit-litter-header {
+            padding-top: 4px;
+            margin-bottom: 20px !important;
+          }
+
+          .rabbit-litter-header h1 {
+            font-size: 26px;
+            line-height: 1.2;
+          }
+
+          .rabbit-litter-header > a {
+            position: static;
+            transform: none;
+            margin-top: 12px;
+          }
+
+          .rabbit-litter-form-card {
+            width: 100%;
+            padding: 22px 16px;
+          }
+
+          .rabbit-litter-form-card form > div {
+            grid-template-columns: 105px minmax(0, 1fr);
+            gap: 10px;
+          }
+
+          .rabbit-litter-form-card form > div > label {
+            text-align: right;
+            font-size: 14px;
+          }
+
+          .rabbit-litter-form-card form > div:last-child {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+          }
+        }
+      `}</style>
 
       {/* Form */}
 
