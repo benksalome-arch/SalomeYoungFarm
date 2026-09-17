@@ -20,6 +20,7 @@ function AddEggSale() {
     fontSize: "15px",
     textAlign: "right",
     color: "#222",
+    WebkitTextFillColor: "#222",
   };
 
   const inputStyle = {
@@ -44,6 +45,9 @@ function AddEggSale() {
     notes: "",
   });
 
+  const [calendarOpen, setCalendarOpen] = useState(false);
+  const [calendarMonth, setCalendarMonth] = useState(new Date());
+
   function handleChange(e) {
     const { name, value } = e.target;
 
@@ -51,6 +55,73 @@ function AddEggSale() {
       ...prev,
       [name]: value,
     }));
+  }
+
+  function getDaysInMonth(year, month) {
+    return new Date(year, month + 1, 0).getDate();
+  }
+
+  function getFirstDayOfMonth(year, month) {
+    return new Date(year, month, 1).getDay();
+  }
+
+  function openCalendar() {
+    const baseDate = formData.sale_date
+      ? new Date(formData.sale_date + "T00:00:00")
+      : new Date();
+
+    setCalendarMonth(
+      new Date(baseDate.getFullYear(), baseDate.getMonth(), 1)
+    );
+    setCalendarOpen(true);
+  }
+
+  function goPreviousMonth() {
+    setCalendarMonth(
+      new Date(
+        calendarMonth.getFullYear(),
+        calendarMonth.getMonth() - 1,
+        1
+      )
+    );
+  }
+
+  function goNextMonth() {
+    setCalendarMonth(
+      new Date(
+        calendarMonth.getFullYear(),
+        calendarMonth.getMonth() + 1,
+        1
+      )
+    );
+  }
+
+  function handleDateSelect(day) {
+    const year = calendarMonth.getFullYear();
+    const month = calendarMonth.getMonth();
+
+    const value =
+      year +
+      "-" +
+      String(month + 1).padStart(2, "0") +
+      "-" +
+      String(day).padStart(2, "0");
+
+    setFormData((prev) => ({
+      ...prev,
+      sale_date: value,
+    }));
+
+    setCalendarOpen(false);
+  }
+
+  function formatDate(date) {
+    if (!date) return "";
+
+    const parts = date.split("-");
+    if (parts.length !== 3) return date;
+
+    return `${parts[2]}-${parts[1]}-${parts[0]}`;
   }
 
   async function handleSubmit(e) {
@@ -85,6 +156,38 @@ function AddEggSale() {
       alert(t("failedSaveEggSale"));
     }
   }
+
+  const monthKeys = [
+    "january",
+    "february",
+    "march",
+    "april",
+    "may",
+    "june",
+    "july",
+    "august",
+    "september",
+    "october",
+    "november",
+    "december",
+  ];
+
+  const weekdayKeys = [
+    "sun",
+    "mon",
+    "tue",
+    "wed",
+    "thu",
+    "fri",
+    "sat",
+  ];
+
+  const year = calendarMonth.getFullYear();
+  const month = calendarMonth.getMonth();
+  const daysInMonth = getDaysInMonth(year, month);
+  const firstDay = getFirstDayOfMonth(year, month);
+
+  const today = new Date();
 
   const responsiveStyles = `
     .add-egg-sale-field {
@@ -146,6 +249,7 @@ function AddEggSale() {
   return (
     <div className="page">
       <style>{responsiveStyles}</style>
+
       <div
         className="page-header"
         style={{
@@ -209,18 +313,13 @@ function AddEggSale() {
         </h2>
 
         <form onSubmit={handleSubmit} className="add-egg-sale-form">
-          <div
-            style={{
-              display: "block",
-            }}
-          >
+          <div>
             <div className="add-egg-sale-field">
               <label
                 htmlFor="sale_date"
                 style={{
-                  display: "block",
-                  fontWeight: "600",
-                  marginBottom: "8px",
+                  ...labelStyle,
+                  textAlign: "right",
                 }}
               >
                 {t("saleDate")}
@@ -230,160 +329,20 @@ function AddEggSale() {
                 id="sale_date"
                 type="text"
                 name="sale_date"
-                value={
-                  formData.sale_date
-                    ? formData.sale_date.split("-").reverse().join("-")
-                    : ""
-                }
+                value={formatDate(formData.sale_date)}
                 placeholder="DD-MM-JJJJ"
                 readOnly
                 required
-                onClick={() => {
-                  const today = new Date();
-
-                  const selected = formData.sale_date
-                    ? new Date(formData.sale_date + "T00:00:00")
-                    : today;
-
-                  const year = selected.getFullYear();
-                  const month = selected.getMonth();
-                  const firstDay = new Date(year, month, 1).getDay();
-                  const daysInMonth = new Date(
-                    year,
-                    month + 1,
-                    0
-                  ).getDate();
-
-                  const overlay = document.createElement("div");
-
-                  overlay.style.cssText =
-                    "position:fixed;inset:0;background:rgba(0,0,0,.35);display:flex;align-items:center;justify-content:center;z-index:99999;";
-
-                  const box = document.createElement("div");
-
-                  box.style.cssText =
-                    "width:min(92vw,320px);background:#fff;border-radius:14px;padding:18px;box-sizing:border-box;box-shadow:0 8px 30px rgba(0,0,0,.25);";
-
-                  const title = document.createElement("div");
-
-                  title.textContent = selected
-                    .toLocaleDateString("en-GB", {
-                      day: "2-digit",
-                      month: "2-digit",
-                      year: "numeric",
-                    })
-                    .replaceAll("/", "-");
-
-                  title.style.cssText =
-                    "text-align:center;font-size:20px;font-weight:700;margin-bottom:14px;color:#222;-webkit-text-fill-color:#222;";
-
-                  const grid = document.createElement("div");
-
-                  grid.style.cssText =
-                    "display:grid;grid-template-columns:repeat(7,1fr);gap:6px;";
-
-                  [
-                    t("sun"),
-                    t("mon"),
-                    t("tue"),
-                    t("wed"),
-                    t("thu"),
-                    t("fri"),
-                    t("sat"),
-                  ].forEach((day) => {
-                    const el = document.createElement("div");
-
-                    el.textContent = day;
-
-                    el.style.cssText =
-                      "text-align:center;font-weight:600;font-size:13px;padding:6px 0;color:#222;-webkit-text-fill-color:#222;";
-
-                    grid.appendChild(el);
-                  });
-
-                  for (let i = 0; i < firstDay; i++) {
-                    grid.appendChild(document.createElement("div"));
-                  }
-
-                  for (let day = 1; day <= daysInMonth; day++) {
-                    const el = document.createElement("button");
-
-                    el.type = "button";
-                    el.textContent = day;
-
-                    const isToday =
-                      day === today.getDate() &&
-                      month === today.getMonth() &&
-                      year === today.getFullYear();
-
-                    el.style.cssText = `min-height:40px;border:${
-                      isToday ? "2px solid #2e7d32" : "1px solid #ddd"
-                    };border-radius:8px;background:${
-                      isToday ? "#e8f5e9" : "#fff"
-                    };color:#222;-webkit-text-fill-color:#222;font-size:15px;font-weight:600;display:flex;align-items:center;justify-content:center;`;
-
-                    el.onclick = () => {
-                      const value =
-                        year +
-                        "-" +
-                        String(month + 1).padStart(2, "0") +
-                        "-" +
-                        String(day).padStart(2, "0");
-
-                      setFormData((prev) => ({
-                        ...prev,
-                        sale_date: value,
-                      }));
-
-                      document.body.removeChild(overlay);
-                    };
-
-                    grid.appendChild(el);
-                  }
-
-                  const cancel = document.createElement("button");
-
-                  cancel.type = "button";
-                  cancel.textContent = t("cancel");
-
-                  cancel.style.cssText =
-                    "width:100%;margin-top:14px;min-height:44px;border:1px solid #ccc;border-radius:8px;background:#fff;color:#222;-webkit-text-fill-color:#222;font-size:15px;font-weight:600;";
-
-                  cancel.onclick = () =>
-                    document.body.removeChild(overlay);
-
-                  box.appendChild(title);
-                  box.appendChild(grid);
-                  box.appendChild(cancel);
-
-                  overlay.appendChild(box);
-                  document.body.appendChild(overlay);
-                }}
+                onClick={openCalendar}
                 style={{
-                  width: "100%",
-                  boxSizing: "border-box",
-                  padding: "10px 12px",
-                  minHeight: "44px",
-                  border: "1px solid #cfd6cf",
-                  borderRadius: "7px",
-                  background: "#fff",
-                  color: "#222",
-                  WebkitTextFillColor: "#222",
-                  fontSize: "15px",
+                  ...inputStyle,
                   cursor: "pointer",
                 }}
               />
             </div>
 
             <div className="add-egg-sale-field">
-              <label
-                htmlFor="customer"
-                style={{
-                  display: "block",
-                  fontWeight: "600",
-                  marginBottom: "8px",
-                }}
-              >
+              <label htmlFor="customer" style={labelStyle}>
                 {t("customer")}
               </label>
 
@@ -394,22 +353,12 @@ function AddEggSale() {
                 value={formData.customer}
                 onChange={handleChange}
                 placeholder={t("customerPlaceholder")}
-                style={{
-                  width: "100%",
-                  boxSizing: "border-box",
-                }}
+                style={inputStyle}
               />
             </div>
 
             <div className="add-egg-sale-field">
-              <label
-                htmlFor="quantity"
-                style={{
-                  display: "block",
-                  fontWeight: "600",
-                  marginBottom: "8px",
-                }}
-              >
+              <label htmlFor="quantity" style={labelStyle}>
                 {t("quantity")}
               </label>
 
@@ -422,22 +371,12 @@ function AddEggSale() {
                 min="1"
                 step="1"
                 required
-                style={{
-                  width: "100%",
-                  boxSizing: "border-box",
-                }}
+                style={inputStyle}
               />
             </div>
 
             <div className="add-egg-sale-field">
-              <label
-                htmlFor="price_per_egg"
-                style={{
-                  display: "block",
-                  fontWeight: "600",
-                  marginBottom: "8px",
-                }}
-              >
+              <label htmlFor="price_per_egg" style={labelStyle}>
                 {t("pricePerEgg")}
               </label>
 
@@ -450,22 +389,12 @@ function AddEggSale() {
                 min="0"
                 step="0.01"
                 required
-                style={{
-                  width: "100%",
-                  boxSizing: "border-box",
-                }}
+                style={inputStyle}
               />
             </div>
 
             <div className="add-egg-sale-field">
-              <label
-                htmlFor="payment_method"
-                style={{
-                  display: "block",
-                  fontWeight: "600",
-                  marginBottom: "8px",
-                }}
-              >
+              <label htmlFor="payment_method" style={labelStyle}>
                 {t("paymentMethod")}
               </label>
 
@@ -474,10 +403,7 @@ function AddEggSale() {
                 name="payment_method"
                 value={formData.payment_method}
                 onChange={handleChange}
-                style={{
-                  width: "100%",
-                  boxSizing: "border-box",
-                }}
+                style={inputStyle}
               >
                 <option value="Cash">{t("cash")}</option>
                 <option value="M-Pesa">M-Pesa</option>
@@ -489,10 +415,8 @@ function AddEggSale() {
               <label
                 htmlFor="notes"
                 style={{
-                  display: "block",
-                  fontWeight: "600",
-                  marginBottom: "8px",
-                  textAlign: "center",
+                  ...labelStyle,
+                  textAlign: "right",
                 }}
               >
                 {t("notes")}
@@ -506,8 +430,7 @@ function AddEggSale() {
                 placeholder={t("notesPlaceholder")}
                 rows="4"
                 style={{
-                  width: "100%",
-                  boxSizing: "border-box",
+                  ...inputStyle,
                   resize: "vertical",
                 }}
               />
@@ -539,6 +462,193 @@ function AddEggSale() {
           </div>
         </form>
       </div>
+
+      {calendarOpen && (
+        <div
+          onClick={() => setCalendarOpen(false)}
+          style={{
+            position: "fixed",
+            inset: 0,
+            background: "rgba(0, 0, 0, 0.35)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: 99999,
+            padding: "16px",
+            boxSizing: "border-box",
+          }}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              width: "min(92vw, 360px)",
+              background: "#fff",
+              borderRadius: "14px",
+              padding: "18px",
+              boxSizing: "border-box",
+              boxShadow: "0 8px 30px rgba(0,0,0,.25)",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                marginBottom: "16px",
+              }}
+            >
+              <button
+                type="button"
+                onClick={goPreviousMonth}
+                aria-label="Previous month"
+                style={{
+                  width: "38px",
+                  height: "38px",
+                  border: "1px solid #ccc",
+                  borderRadius: "8px",
+                  background: "#fff",
+                  color: "#222",
+                  fontSize: "20px",
+                  fontWeight: 700,
+                  cursor: "pointer",
+                }}
+              >
+                ‹
+              </button>
+
+              <div
+                style={{
+                  textAlign: "center",
+                  fontSize: "19px",
+                  fontWeight: 700,
+                  color: "#222",
+                  WebkitTextFillColor: "#222",
+                }}
+              >
+                {t(monthKeys[month])} {year}
+              </div>
+
+              <button
+                type="button"
+                onClick={goNextMonth}
+                aria-label="Next month"
+                style={{
+                  width: "38px",
+                  height: "38px",
+                  border: "1px solid #ccc",
+                  borderRadius: "8px",
+                  background: "#fff",
+                  color: "#222",
+                  fontSize: "20px",
+                  fontWeight: 700,
+                  cursor: "pointer",
+                }}
+              >
+                ›
+              </button>
+            </div>
+
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(7, 1fr)",
+                gap: "6px",
+              }}
+            >
+              {weekdayKeys.map((key) => (
+                <div
+                  key={key}
+                  style={{
+                    textAlign: "center",
+                    fontWeight: 600,
+                    fontSize: "13px",
+                    padding: "6px 0",
+                    color: "#222",
+                    WebkitTextFillColor: "#222",
+                  }}
+                >
+                  {t(key)}
+                </div>
+              ))}
+
+              {Array.from({ length: firstDay }).map((_, index) => (
+                <div key={`empty-${index}`} />
+              ))}
+
+              {Array.from({ length: daysInMonth }, (_, index) => {
+                const day = index + 1;
+
+                const isToday =
+                  day === today.getDate() &&
+                  month === today.getMonth() &&
+                  year === today.getFullYear();
+
+                const selectedDate = formData.sale_date
+                  ? new Date(formData.sale_date + "T00:00:00")
+                  : null;
+
+                const isSelected =
+                  selectedDate &&
+                  day === selectedDate.getDate() &&
+                  month === selectedDate.getMonth() &&
+                  year === selectedDate.getFullYear();
+
+                return (
+                  <button
+                    key={day}
+                    type="button"
+                    onClick={() => handleDateSelect(day)}
+                    style={{
+                      minHeight: "40px",
+                      border:
+                        isSelected || isToday
+                          ? "2px solid #2e7d32"
+                          : "1px solid #ddd",
+                      borderRadius: "8px",
+                      background:
+                        isSelected
+                          ? "#2e7d32"
+                          : isToday
+                          ? "#e8f5e9"
+                          : "#fff",
+                      color: isSelected ? "#fff" : "#222",
+                      WebkitTextFillColor: isSelected ? "#fff" : "#222",
+                      fontSize: "15px",
+                      fontWeight: 600,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      cursor: "pointer",
+                    }}
+                  >
+                    {day}
+                  </button>
+                );
+              })}
+            </div>
+
+            <button
+              type="button"
+              onClick={() => setCalendarOpen(false)}
+              style={{
+                width: "100%",
+                marginTop: "14px",
+                minHeight: "44px",
+                border: "none",
+                borderRadius: "8px",
+                background: "#2e7d32",
+                color: "#fff",
+                WebkitTextFillColor: "#fff",
+                fontSize: "15px",
+                fontWeight: 600,
+                cursor: "pointer",
+              }}
+            >
+              {t("cancel")}
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
