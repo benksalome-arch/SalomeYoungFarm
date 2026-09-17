@@ -7,6 +7,53 @@ function AddFeed() {
   const navigate = useNavigate();
   const { t } = useLanguage();
 
+  const [calendarOpen, setCalendarOpen] = useState(false);
+  const [calendarMonth, setCalendarMonth] = useState(new Date());
+
+  function getDaysInMonth(date) {
+    return new Date(
+      date.getFullYear(),
+      date.getMonth() + 1,
+      0
+    ).getDate();
+  }
+
+  function getFirstDayOfMonth(date) {
+    return new Date(
+      date.getFullYear(),
+      date.getMonth(),
+      1
+    ).getDay();
+  }
+
+  function goPreviousMonth() {
+    setCalendarMonth(
+      (prev) => new Date(prev.getFullYear(), prev.getMonth() - 1, 1)
+    );
+  }
+
+  function goNextMonth() {
+    setCalendarMonth(
+      (prev) => new Date(prev.getFullYear(), prev.getMonth() + 1, 1)
+    );
+  }
+
+  function handleDateSelect(day) {
+    const value =
+      calendarMonth.getFullYear() +
+      "-" +
+      String(calendarMonth.getMonth() + 1).padStart(2, "0") +
+      "-" +
+      String(day).padStart(2, "0");
+
+    setFormData((prev) => ({
+      ...prev,
+      purchase_date: value,
+    }));
+
+    setCalendarOpen(false);
+  }
+
   const [formData, setFormData] = useState({
     feed_name: "",
     category: "Goat",
