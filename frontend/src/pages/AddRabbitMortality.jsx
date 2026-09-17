@@ -669,7 +669,7 @@ function AddRabbitMortality() {
           onClick={(e) => {
             if (e.target === e.currentTarget) {
               setCalendarOpen(false);
-              setCalendarField("");
+              
             }
           }}
           style={{
@@ -706,7 +706,7 @@ function AddRabbitMortality() {
             >
               <button
                 type="button"
-                onClick={goPreviousMonth}
+                onClick={() => changeCalendarMonth(-1)}
                 aria-label="Previous month"
                 style={{
                   width: "38px",
@@ -741,7 +741,7 @@ function AddRabbitMortality() {
 
               <button
                 type="button"
-                onClick={goNextMonth}
+                onClick={() => changeCalendarMonth(1)}
                 aria-label="Next month"
                 style={{
                   width: "38px",
@@ -818,7 +818,7 @@ function AddRabbitMortality() {
                   <button
                     key={day}
                     type="button"
-                    onClick={() => handleDateSelect(day)}
+                    onClick={() => selectCalendarDate(day)}
                     style={{
                       minHeight: "40px",
                       border:
@@ -859,7 +859,7 @@ function AddRabbitMortality() {
               type="button"
               onClick={() => {
                 setCalendarOpen(false);
-                setCalendarField("");
+                
               }}
               style={{
                 width: "100%",
@@ -867,9 +867,9 @@ function AddRabbitMortality() {
                 minHeight: "44px",
                 border: "1px solid #ccc",
                 borderRadius: "8px",
-                background: "#fff",
-                color: "#222",
-                WebkitTextFillColor: "#222",
+                background: "#2e7d32",
+                color: "#fff",
+                WebkitTextFillColor: "#fff",
                 fontSize: "15px",
                 fontWeight: 600,
                 cursor: "pointer",
