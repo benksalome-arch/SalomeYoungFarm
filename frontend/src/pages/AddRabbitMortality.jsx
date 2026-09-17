@@ -642,50 +642,89 @@ function AddRabbitMortality() {
                   }}
                 >
                   <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                      marginBottom: "10px",
-                    }}
-                  >
-                    <button
-                      type="button"
-                      onClick={() => changeCalendarMonth(-1)}
                       style={{
-                        border: "none",
-                        background: "none",
-                        fontSize: "22px",
-                        cursor: "pointer",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        gap: "10px",
+                        marginBottom: "14px",
+                        width: "100%",
                       }}
                     >
-                      ‹
-                    </button>
+                      <button
+                        type="button"
+                        onClick={goPreviousMonth}
+                        aria-label="Previous month"
+                        style={{
+                          width: "38px",
+                          minWidth: "38px",
+                          height: "38px",
+                          minHeight: "38px",
+                          padding: 0,
+                          border: "1px solid #cfd6cf",
+                          borderRadius: "8px",
+                          background: "#fff",
+                          color: "#222",
+                          WebkitTextFillColor: "#222",
+                          fontSize: "20px",
+                          fontWeight: 700,
+                          lineHeight: "1",
+                          cursor: "pointer",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                        }}
+                      >
+                        ‹
+                      </button>
 
-                    <strong style={{ color: "#222" }}>
-                      {calendarMonth.toLocaleString(undefined, {
-                        month: "long",
-                      })}{" "}
-                      {calendarMonth.getFullYear()}
-                    </strong>
+                      <div
+                        style={{
+                          flex: 1,
+                          textAlign: "center",
+                          fontSize: "19px",
+                          fontWeight: 700,
+                          lineHeight: "38px",
+                          color: "#222",
+                          WebkitTextFillColor: "#222",
+                          whiteSpace: "nowrap",
+                        }}
+                      >
+                        {monthNames[month]} {year}
+                      </div>
 
-                    <button
-                      type="button"
-                      onClick={() => changeCalendarMonth(1)}
+                      <button
+                        type="button"
+                        onClick={goNextMonth}
+                        aria-label="Next month"
+                        style={{
+                          width: "38px",
+                          minWidth: "38px",
+                          height: "38px",
+                          minHeight: "38px",
+                          padding: 0,
+                          border: "1px solid #cfd6cf",
+                          borderRadius: "8px",
+                          background: "#fff",
+                          color: "#222",
+                          WebkitTextFillColor: "#222",
+                          fontSize: "20px",
+                          fontWeight: 700,
+                          lineHeight: "1",
+                          cursor: "pointer",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                        }}
+                      >
+                        ›
+                      </button>
+                    </div>
+
+                    <div
                       style={{
-                        border: "none",
-                        background: "none",
-                        fontSize: "22px",
-                        cursor: "pointer",
-                      }}
-                    >
-                      ›
-                    </button>
-                  </div>
+                        display: "grid",
 
-                  <div
-                    style={{
-                      display: "grid",
                       gridTemplateColumns: "repeat(7, minmax(0, 1fr))",
                       gap: "4px",
                       textAlign: "center",
