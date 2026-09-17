@@ -1,5 +1,6 @@
 import API_URL from "../api";
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { Link, useNavigate } from "react-router-dom";
 import { useLanguage } from "../context/LanguageContext";
 
@@ -613,7 +614,7 @@ function AddRabbitLitter() {
                 }}
               />
 
-              {calendarOpen && (
+              {calendarOpen && createPortal((
                 <div
                   className="rabbit-litter-professional-calendar"
                   onClick={(e) => {
@@ -710,6 +711,113 @@ function AddRabbitLitter() {
                       justify-content: center !important;
                       font-size: 15px !important;
                       font-weight: 600 !important;
+                    }
+                  `}</style>
+
+                  <style>{`
+                    .rabbit-litter-professional-calendar,
+                    .rabbit-litter-professional-calendar * {
+                      box-sizing: border-box !important;
+                    }
+
+                    .rabbit-litter-professional-calendar {
+                      position: fixed !important;
+                      inset: 0 !important;
+                      width: 100vw !important;
+                      height: 100vh !important;
+                      margin: 0 !important;
+                      padding: 16px !important;
+                      display: flex !important;
+                      align-items: center !important;
+                      justify-content: center !important;
+                      z-index: 2147483647 !important;
+                    }
+
+                    .rabbit-litter-professional-calendar-card {
+                      width: 360px !important;
+                      max-width: 92vw !important;
+                      min-width: 0 !important;
+                      height: auto !important;
+                      max-height: 90vh !important;
+                      overflow: auto !important;
+                      margin: 0 !important;
+                      padding: 18px !important;
+                      background: #fff !important;
+                      border: none !important;
+                      border-radius: 14px !important;
+                      box-shadow: 0 8px 30px rgba(0,0,0,0.25) !important;
+                      font-family: Arial, sans-serif !important;
+                    }
+
+                    .rabbit-litter-professional-calendar-card .rabbit-litter-calendar-nav {
+                      width: 38px !important;
+                      height: 38px !important;
+                      min-width: 38px !important;
+                      max-width: 38px !important;
+                      min-height: 38px !important;
+                      max-height: 38px !important;
+                      margin: 0 !important;
+                      padding: 0 !important;
+                      display: flex !important;
+                      align-items: center !important;
+                      justify-content: center !important;
+                      border: 1px solid #cfd6cf !important;
+                      border-radius: 8px !important;
+                      background: #fff !important;
+                      color: #222 !important;
+                      font-size: 20px !important;
+                      font-weight: 700 !important;
+                      line-height: 1 !important;
+                      writing-mode: horizontal-tb !important;
+                      transform: none !important;
+                    }
+
+                    .rabbit-litter-professional-calendar-card .rabbit-litter-calendar-grid {
+                      display: grid !important;
+                      grid-template-columns: repeat(7, minmax(0, 1fr)) !important;
+                      gap: 6px !important;
+                      width: 100% !important;
+                      margin: 0 !important;
+                    }
+
+                    .rabbit-litter-professional-calendar-card .rabbit-litter-calendar-day {
+                      width: 100% !important;
+                      min-width: 0 !important;
+                      max-width: none !important;
+                      height: 40px !important;
+                      min-height: 40px !important;
+                      max-height: 40px !important;
+                      margin: 0 !important;
+                      padding: 0 !important;
+                      display: flex !important;
+                      align-items: center !important;
+                      justify-content: center !important;
+                      border-radius: 7px !important;
+                      font-size: 15px !important;
+                      line-height: 1 !important;
+                      writing-mode: horizontal-tb !important;
+                      transform: none !important;
+                    }
+
+                    .rabbit-litter-professional-calendar-card .rabbit-litter-calendar-cancel {
+                      display: block !important;
+                      width: 100% !important;
+                      height: 40px !important;
+                      min-height: 40px !important;
+                      max-height: 40px !important;
+                      margin: 16px 0 0 0 !important;
+                      padding: 0 !important;
+                      border: none !important;
+                      border-radius: 7px !important;
+                      background: #2e7d32 !important;
+                      color: #fff !important;
+                      font-size: 14px !important;
+                      font-weight: 600 !important;
+                      line-height: 40px !important;
+                      text-align: center !important;
+                      white-space: nowrap !important;
+                      writing-mode: horizontal-tb !important;
+                      transform: none !important;
                     }
                   `}</style>
 
@@ -853,7 +961,7 @@ function AddRabbitLitter() {
                     </button>
                   </div>
                 </div>
-              )}
+              ), document.body)}
             </div>
           </div>
 
