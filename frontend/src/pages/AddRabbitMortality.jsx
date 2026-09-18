@@ -97,6 +97,44 @@ function AddRabbitMortality() {
   for (let i = 0; i < firstDay; i++) calendarDays.push(null);
   for (let day = 1; day <= daysInMonth; day++) calendarDays.push(day);
 
+  const monthKeys = [
+    "january",
+    "february",
+    "march",
+    "april",
+    "may",
+    "june",
+    "july",
+    "august",
+    "september",
+    "october",
+    "november",
+    "december",
+  ];
+
+  const weekdayKeys = [
+    "sun",
+    "mon",
+    "tue",
+    "wed",
+    "thu",
+    "fri",
+    "sat",
+  ];
+
+  const year = calendarMonth.getFullYear();
+  const month = calendarMonth.getMonth();
+
+  const today = new Date();
+  const todayValue =
+    today.getFullYear() +
+    "-" +
+    String(today.getMonth() + 1).padStart(2, "0") +
+    "-" +
+    String(today.getDate()).padStart(2, "0");
+
+  const selectedValue = formData.mortality_date;
+
   const selectedRabbit = rabbits.find(
     (rabbit) =>
       Number(rabbit.id) === Number(formData.rabbit_id)
@@ -383,29 +421,6 @@ function AddRabbitMortality() {
     );
   }
 
-  const monthKeys = [
-    "january","february","march","april","may","june",
-    "july","august","september","october","november","december",
-  ];
-
-  const weekdayKeys = [
-    "sun","mon","tue","wed","thu","fri","sat",
-  ];
-
-  const year = calendarMonth.getFullYear();
-  const month = calendarMonth.getMonth();
-
-
-  const today = new Date();
-
-  const todayValue =
-    today.getFullYear() +
-    "-" +
-    String(today.getMonth() + 1).padStart(2, "0") +
-    "-" +
-    String(today.getDate()).padStart(2, "0");
-
-  const selectedValue = formData.death_date || "";
 
 
   const rabbitMortalityTitleFix = `
