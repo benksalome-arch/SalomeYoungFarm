@@ -436,35 +436,6 @@ function AddKidding() {
                 </div>
               )}
 
-          <div className="add-kidding-field">
-            <label className="add-kidding-label">
-              {t("kiddingDate")}
-            </label>
-
-            <input
-              type="text"
-              value={
-                formData.kidding_date
-                  ? formData.kidding_date.split("-").reverse().join("-")
-                  : ""
-              }
-              placeholder="DD-MM-JJJJ"
-              readOnly
-              onClick={() => {
-                const selected = formData.kidding_date
-                  ? new Date(formData.kidding_date + "T00:00:00")
-                  : new Date();
-
-                setCalendarMonth(selected);
-                setCalendarOpen(true);
-              }}
-              style={{
-                ...inputStyle,
-                cursor: "pointer",
-              }}
-            />
-
-          </div>
 
           {/* Male kids */}
           <div className="add-kidding-field">
