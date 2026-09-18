@@ -372,7 +372,7 @@ function AddKidding() {
                                       ? "#fff"
                                       : "#222",
                                   fontSize: "15px",
-                                  fontWeight: 600,
+                                  fontWeight: isSelected || isToday ? "700" : "500",
                                   display: "flex",
                                   alignItems: "center",
                                   justifyContent: "center",
