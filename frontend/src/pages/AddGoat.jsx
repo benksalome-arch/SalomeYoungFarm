@@ -566,6 +566,14 @@ function AddGoat() {
                           calendarMonth.getMonth() === today.getMonth() &&
                           calendarMonth.getFullYear() === today.getFullYear();
 
+                        const dateValue =
+                          `${calendarMonth.getFullYear()}-${String(
+                            calendarMonth.getMonth() + 1
+                          ).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+
+                        const isSelected =
+                          formData.date_of_birth === dateValue;
+
                         return (
                           <button
                             key={day}
@@ -573,15 +581,21 @@ function AddGoat() {
                             onClick={() => handleDateSelect(day)}
                             style={{
                               minHeight: "40px",
-                              border: isToday
-                                ? "2px solid #2e7d32"
-                                : "1px solid #ddd",
+                              border:
+                                isSelected || isToday
+                                  ? "2px solid #2e7d32"
+                                  : "1px solid #ddd",
                               borderRadius: "8px",
-                              background: isToday ? "#e8f5e9" : "#fff",
-                              color: "#222",
-                              WebkitTextFillColor: "#222",
+                              background: isSelected
+                                ? "#2e7d32"
+                                : isToday
+                                ? "#e8f5e9"
+                                : "#fff",
+                              color: isSelected ? "#fff" : "#222",
+                              WebkitTextFillColor: isSelected ? "#fff" : "#222",
                               fontSize: "15px",
-                              fontWeight: isToday ? "700" : "500",
+                              fontWeight:
+                                isSelected || isToday ? "700" : "500",
                               display: "flex",
                               alignItems: "center",
                               justifyContent: "center",
