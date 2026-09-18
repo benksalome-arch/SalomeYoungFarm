@@ -8,6 +8,50 @@ function AddKidding() {
 
   const [calendarOpen, setCalendarOpen] = useState(false);
   const [calendarMonth, setCalendarMonth] = useState(new Date());
+  function getDaysInMonth(year, month) {
+    return new Date(year, month + 1, 0).getDate();
+  }
+
+  function getFirstDayOfMonth(year, month) {
+    return new Date(year, month, 1).getDay();
+  }
+
+  function goPreviousMonth() {
+    setCalendarMonth(
+      new Date(
+        calendarMonth.getFullYear(),
+        calendarMonth.getMonth() - 1,
+        1
+      )
+    );
+  }
+
+  function goNextMonth() {
+    setCalendarMonth(
+      new Date(
+        calendarMonth.getFullYear(),
+        calendarMonth.getMonth() + 1,
+        1
+      )
+    );
+  }
+
+  function handleDateSelect(day) {
+    const value =
+      calendarMonth.getFullYear() +
+      "-" +
+      String(calendarMonth.getMonth() + 1).padStart(2, "0") +
+      "-" +
+      String(day).padStart(2, "0");
+
+    setFormData((prev) => ({
+      ...prev,
+      kidding_date: value,
+    }));
+
+    setCalendarOpen(false);
+  }
+
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -189,228 +233,206 @@ function AddKidding() {
 
           {/* PROFESSIONAL CALENDAR */}
           {calendarOpen && (
+                <div
+                  style={{
+                    position: "fixed",
+                    inset: 0,
+                    background: "rgba(0,0,0,.35)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    zIndex: 99999,
+                  }}
+                  onClick={() => setCalendarOpen(false)}
+                >
+                  <div
+                    style={{
+                      width: "min(92vw, 360px)",
+                      background: "#fff",
+                      borderRadius: "14px",
+                      padding: "18px",
+                      boxSizing: "border-box",
+                      boxShadow: "0 8px 30px rgba(0,0,0,.25)",
+                    }}
+                    onClick={(e) => e.stopPropagation()}
+                  >
                     <div
-                      onClick={(e) => {
-                        if (e.target === e.currentTarget) {
-                          setCalendarOpen(false);
-                          setCalendarField("");
-                        }
-                      }}
                       style={{
-                        position: "fixed",
-                        inset: 0,
-                        background: "rgba(0, 0, 0, 0.35)",
                         display: "flex",
                         alignItems: "center",
-                        justifyContent: "center",
-                        zIndex: 99999,
-                        padding: "16px",
-                        boxSizing: "border-box",
+                        justifyContent: "space-between",
+                        marginBottom: "14px",
                       }}
                     >
-                      <div
+                      <button
+                        type="button"
+                        onClick={goPreviousMonth}
                         style={{
-                          width: "min(92vw, 360px)",
+                          border: "1px solid #ddd",
                           background: "#fff",
-                          borderRadius: "14px",
-                          padding: "18px",
-                          boxSizing: "border-box",
-                          boxShadow: "0 8px 30px rgba(0, 0, 0, 0.25)",
+                          borderRadius: "8px",
+                          width: "38px",
+                          height: "38px",
+                          fontSize: "22px",
+                          cursor: "pointer",
                         }}
                       >
-                        {/* CALENDAR HEADER */}
-                        <div
-                          style={{
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "space-between",
-                            gap: "10px",
-                            marginBottom: "14px",
-                          }}
-                        >
-                          <button
-                            type="button"
-                            onClick={() => changeMonth(-1)}
-                            aria-label="Previous month"
-                            style={{
-                              width: "38px",
-                              height: "38px",
-                              border: "1px solid #cfd6cf",
-                              borderRadius: "8px",
-                              background: "#fff",
-                              color: "#222",
-                              fontSize: "20px",
-                              fontWeight: 700,
-                              cursor: "pointer",
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                            }}
-                          >
-                            ‹
-                          </button>
-            
-                          <div
-                            style={{
-                              flex: 1,
-                              textAlign: "center",
-                              fontSize: "19px",
-                              fontWeight: 700,
-                              color: "#222",
-                              WebkitTextFillColor: "#222",
-                            }}
-                          >
-                            {t(["january","february","march","april","may","june","july","august","september","october","november","december"][calendarMonth.getMonth()])} {calendarMonth.getFullYear()}
-                          </div>
-            
-                          <button
-                            type="button"
-                            onClick={() => changeMonth(1)}
-                            aria-label="Next month"
-                            style={{
-                              width: "38px",
-                              height: "38px",
-                              border: "1px solid #cfd6cf",
-                              borderRadius: "8px",
-                              background: "#fff",
-                              color: "#222",
-                              fontSize: "20px",
-                              fontWeight: 700,
-                              cursor: "pointer",
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                            }}
-                          >
-                            ›
-                          </button>
-                        </div>
-            
-                        {/* WEEKDAYS */}
-                        <div
-                          style={{
-                            display: "grid",
-                            gridTemplateColumns: "repeat(7, 1fr)",
-                            gap: "6px",
-                            marginBottom: "4px",
-                          }}
-                        >
-                          {["sun", "mon", "tue", "wed", "thu", "fri", "sat"].map((key) => (
-                            <div
-                              key={key}
-                              style={{
-                                textAlign: "center",
-                                fontWeight: 600,
-                                fontSize: "13px",
-                                padding: "6px 0",
-                                color: "#222",
-                                WebkitTextFillColor: "#222",
-                              }}
-                            >
-                              {t(key)}
-                            </div>
-                          ))}
-                        </div>
-            
-                        {/* DAYS */}
-                        <div
-                          style={{
-                            display: "grid",
-                            gridTemplateColumns: "repeat(7, 1fr)",
-                            gap: "6px",
-                          }}
-                        >
-                          {Array.from({ length: firstDay }).map((_, index) => (
-                            <div key={`empty-${index}`} />
-                          ))}
-            
-                          {Array.from(
-                            { length: daysInMonth },
-                            (_, index) => index + 1
-                          ).map((day) => {
-                            const dateValue =
-                              calendarMonth.getFullYear() +
-                              "-" +
-                              String(calendarMonth.getMonth() + 1).padStart(2, "0") +
-                              "-" +
-                              String(day).padStart(2, "0");
-            
-                            const now = new Date();
-                            const currentToday =
-                              now.getFullYear() +
-                              "-" +
-                              String(now.getMonth() + 1).padStart(2, "0") +
-                              "-" +
-                              String(now.getDate()).padStart(2, "0");
-                            const isToday = dateValue === currentToday;
-                            const isSelected = dateValue === formData.kidding_date;
-            
-                            return (
-                              <button
-                                key={day}
-                                type="button"
-                                onClick={() => selectDate(day)}
-                                style={{
-                                  minHeight: "40px",
-                                  border:
-                                    isSelected || isToday
-                                      ? "2px solid #2e7d32"
-                                      : "1px solid #ddd",
-                                  borderRadius: "8px",
-                                  background:
-                                    isSelected
-                                      ? "#2e7d32"
-                                      : isToday
-                                      ? "#e8f5e9"
-                                      : "#fff",
-                                  color:
-                                    isSelected
-                                      ? "#fff"
-                                      : "#222",
-                                  WebkitTextFillColor:
-                                    isSelected
-                                      ? "#fff"
-                                      : "#222",
-                                  fontSize: "15px",
-                                  fontWeight: isSelected || isToday ? "700" : "500",
-                                  display: "flex",
-                                  alignItems: "center",
-                                  justifyContent: "center",
-                                  cursor: "pointer",
-                                }}
-                              >
-                                {day}
-                              </button>
-                            );
-                          })}
-                        </div>
-            
-                        {/* CANCEL */}
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setCalendarOpen(false);
-                            setCalendarField("");
-                          }}
-                          style={{
-                            width: "100%",
-                            marginTop: "14px",
-                            minHeight: "44px",
-                            border: "none",
-                            borderRadius: "8px",
-                            background: "#2e7d32",
-                            color: "#fff",
-                            WebkitTextFillColor: "#fff",
-                            fontSize: "15px",
-                            fontWeight: 600,
-                            cursor: "pointer",
-                          }}
-                        >
-                          {t("cancel")}
-                        </button>
+                        ‹
+                      </button>
+
+                      <div
+                        style={{
+                          fontSize: "18px",
+                          fontWeight: "700",
+                          color: "#222",
+                          WebkitTextFillColor: "#222",
+                        }}
+                      >
+                        {t(
+                          [
+                            "january",
+                            "february",
+                            "march",
+                            "april",
+                            "may",
+                            "june",
+                            "july",
+                            "august",
+                            "september",
+                            "october",
+                            "november",
+                            "december",
+                          ][calendarMonth.getMonth()]
+                        )}{" "}
+                        {calendarMonth.getFullYear()}
                       </div>
+
+                      <button
+                        type="button"
+                        onClick={goNextMonth}
+                        style={{
+                          border: "1px solid #ddd",
+                          background: "#fff",
+                          borderRadius: "8px",
+                          width: "38px",
+                          height: "38px",
+                          fontSize: "22px",
+                          cursor: "pointer",
+                        }}
+                      >
+                        ›
+                      </button>
                     </div>
-                  )}
+
+                    <div
+                      style={{
+                        display: "grid",
+                        gridTemplateColumns: "repeat(7, 1fr)",
+                        gap: "6px",
+                      }}
+                    >
+                      {[t("sun"), t("mon"), t("tue"), t("wed"), t("thu"), t("fri"), t("sat")].map(
+                        (day) => (
+                          <div
+                            key={day}
+                            style={{
+                              textAlign: "center",
+                              fontWeight: "600",
+                              fontSize: "13px",
+                              padding: "6px 0",
+                              color: "#222",
+                            }}
+                          >
+                            {day}
+                          </div>
+                        )
+                      )}
+
+                      {Array.from({
+                        length: getFirstDayOfMonth(
+                          calendarMonth.getFullYear(),
+                          calendarMonth.getMonth()
+                        ),
+                      }).map((_, i) => (
+                        <div key={"empty-" + i} />
+                      ))}
+
+                      {Array.from({
+                        length: getDaysInMonth(
+                          calendarMonth.getFullYear(),
+                          calendarMonth.getMonth()
+                        ),
+                      }).map((_, i) => {
+                        const day = i + 1;
+                        const today = new Date();
+
+                        const isToday =
+                          day === today.getDate() &&
+                          calendarMonth.getMonth() === today.getMonth() &&
+                          calendarMonth.getFullYear() === today.getFullYear();
+
+                        const dateValue =
+                          `${calendarMonth.getFullYear()}-${String(
+                            calendarMonth.getMonth() + 1
+                          ).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+
+                        const isSelected =
+                          formData.kidding_date === dateValue;
+
+                        return (
+                          <button
+                            key={day}
+                            type="button"
+                            onClick={() => handleDateSelect(day)}
+                            style={{
+                              minHeight: "40px",
+                              border:
+                                isSelected || isToday
+                                  ? "2px solid #2e7d32"
+                                  : "1px solid #ddd",
+                              borderRadius: "8px",
+                              background: isSelected
+                                ? "#2e7d32"
+                                : isToday
+                                ? "#e8f5e9"
+                                : "#fff",
+                              color: isSelected ? "#fff" : "#222",
+                              WebkitTextFillColor: isSelected ? "#fff" : "#222",
+                              fontSize: "15px",
+                              fontWeight:
+                                isSelected || isToday ? "700" : "500",
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              cursor: "pointer",
+                            }}
+                          >
+                            {day}
+                          </button>
+                        );
+                      })}
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => setCalendarOpen(false)}
+                      style={{
+                        width: "100%",
+                        marginTop: "14px",
+                        padding: "10px",
+                        border: "none",
+                        borderRadius: "8px",
+                        background: "#2e7d32",
+                        color: "#fff",
+                        fontWeight: "600",
+                        cursor: "pointer",
+                      }}
+                    >
+                      {t("cancel")}
+                    </button>
+                  </div>
+                </div>
+              )}
 
           <div className="add-kidding-field">
             <label className="add-kidding-label">
