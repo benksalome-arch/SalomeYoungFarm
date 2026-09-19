@@ -2531,3 +2531,15 @@ canvas {
   color: #222 !important;
   -webkit-text-fill-color: #222 !important;
 }
+
+/* Receipts form - phone layout */
+@media (max-width: 700px) {
+  .receipts-form-grid {
+    grid-template-columns: 105px minmax(0, 1fr) !important;
+    gap: 10px !important;
+  }
+
+  .receipts-form-grid > label {
+    font-size: 14px !important;
+  }
+}

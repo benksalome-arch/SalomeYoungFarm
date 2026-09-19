@@ -207,7 +207,7 @@ function Receipts() {
         </h2>
 
         <form onSubmit={handleSubmit}>
-          <div style={fieldStyle}>
+          <div className="receipts-form-grid" style={fieldStyle}>
             <label>{tr("receiptDate", "Receipt Date")}</label>
             <div style={{ position: "relative", width: "100%" }}>
               <div
@@ -247,7 +247,7 @@ function Receipts() {
             </div>
           </div>
 
-          <div style={fieldStyle}>
+          <div className="receipts-form-grid" style={fieldStyle}>
             <label>{tr("supplier", "Supplier")}</label>
             <input
               name="supplier"
@@ -257,7 +257,7 @@ function Receipts() {
             />
           </div>
 
-          <div style={fieldStyle}>
+          <div className="receipts-form-grid" style={fieldStyle}>
             <label>{tr("amount", "Amount")}</label>
             <input
               type="number"
@@ -269,7 +269,7 @@ function Receipts() {
             />
           </div>
 
-          <div style={fieldStyle}>
+          <div className="receipts-form-grid" style={fieldStyle}>
             <label>{tr("description", "Description")}</label>
             <textarea
               name="description"
@@ -280,7 +280,7 @@ function Receipts() {
             />
           </div>
 
-          <div style={fieldStyle}>
+          <div className="receipts-form-grid" style={fieldStyle}>
             <label>{tr("receiptFile", "Receipt File")}</label>
             <input
               ref={fileRef}
