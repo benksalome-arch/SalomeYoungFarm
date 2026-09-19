@@ -329,7 +329,17 @@ function AddRabbitLitter() {
         .rabbit-litter-form-card .rabbit-litter-date-field > div > div { width: 100%; min-width: 0; }
 
         .rabbit-litter-form-card .rabbit-litter-date-field input {
-          cursor: pointer;
+          position: fixed !important;
+          left: -9999px !important;
+          top: -9999px !important;
+          width: 1px !important;
+          height: 1px !important;
+          opacity: 0 !important;
+          border: 0 !important;
+          padding: 0 !important;
+          margin: 0 !important;
+          background: transparent !important;
+          pointer-events: none !important;
         }
 
         .rabbit-litter-form-card form > div:last-child {
