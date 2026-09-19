@@ -241,6 +241,7 @@ function Receipts() {
 
               {calendarOpen && (
                 <div
+                  className="receipts-calendar"
                   style={{
                     position: "fixed",
                     inset: 0,
@@ -367,13 +368,16 @@ function Receipts() {
                             onClick={() => handleReceiptDateSelect(day)}
                             style={{
                               minHeight: "40px",
-                              border:
-                                isSelected || isToday
-                                  ? "2px solid #2e7d32"
-                                  : "1px solid #ddd",
+                              border: isSelected
+                                ? "2px solid #2e7d32"
+                                : isToday
+                                ? "2px solid #2e7d32"
+                                : "1px solid #ddd",
                               borderRadius: "8px",
                               background:
-                                isSelected || isToday ? "#e8f5e9" : "#fff",
+                                isSelected || isToday
+                                  ? "#e8f5e9"
+                                  : "#fff",
                               color: "#222",
                               WebkitTextFillColor: "#222",
                               fontSize: "15px",
