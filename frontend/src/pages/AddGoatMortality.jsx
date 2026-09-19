@@ -366,28 +366,43 @@ export default function AddGoatMortality() {
                 {t("mortalityDate")}
               </label>
 
-              <div
-                style={{
-                  position: "relative",
-                  width: "100%",
-                }}
-              >
-                <input
-                  type="text"
-                  value={formatDate(
-                    formData.mortality_date
-                  )}
-                  placeholder="DD-MM-JJJJ"
-                  readOnly
-                  onClick={() =>
-                    setCalendarOpen((open) => !open)
-                  }
+              <div style={{ position: "relative", width: "100%" }}>
+                <div
                   style={{
                     ...inputStyle,
+                    width: "100%",
+                    color: formData.mortality_date ? "#222" : "#777",
+                    WebkitTextFillColor: formData.mortality_date ? "#222" : "#777",
+                    pointerEvents: "none",
+                  }}
+                >
+                  {formData.mortality_date
+                    ? new Date(formData.mortality_date + "T00:00:00").toLocaleDateString("nl-NL", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                      })
+                    : "DD-MM-JJJJ"}
+                </div>
+
+                <input
+                  type="date"
+                  name="mortality_date"
+                  value={formData.mortality_date || ""}
+                  onChange={handleChange}
+                  onClick={(e) => e.currentTarget.showPicker?.()}
+                  onFocus={(e) => e.currentTarget.showPicker?.()}
+                  required
+                  style={{
+                    position: "absolute",
+                    inset: 0,
+                    width: "100%",
+                    height: "100%",
+                    opacity: 0,
                     cursor: "pointer",
                   }}
-                  required
                 />
+              </div>
 
                 {calendarOpen && (
                   <div
@@ -566,7 +581,6 @@ export default function AddGoatMortality() {
                   </div>
                 )}
               </div>
-            </div>
 
             <div className="add-goat-mortality-field">
               <label
