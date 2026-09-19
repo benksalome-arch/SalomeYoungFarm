@@ -181,6 +181,8 @@ function Receipts() {
             <input
               type="date"
               name="receipt_date"
+              onClick={(e) => e.currentTarget.showPicker?.()}
+              onFocus={(e) => e.currentTarget.showPicker?.()}
               value={form.receipt_date}
               onChange={handleChange}
               required
