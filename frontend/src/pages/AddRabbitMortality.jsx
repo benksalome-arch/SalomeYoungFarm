@@ -960,7 +960,7 @@ function AddRabbitMortality() {
                 value={formData.quantity}
                 onChange={handleChange}
                 required
-                style={{ width: "100%" }}
+                style={inputStyle}
               />
 
               {quantityTooHigh && (
@@ -998,7 +998,7 @@ function AddRabbitMortality() {
               value={formData.cause}
               onChange={handleChange}
               placeholder={t("mortalityReasonExample")}
-              style={{ width: "100%" }}
+              style={inputStyle}
             />
 
             {/* Notes */}
@@ -1010,7 +1010,7 @@ function AddRabbitMortality() {
               value={formData.notes}
               onChange={handleChange}
               placeholder={t("additionalNotes")}
-              style={{ width: "100%", boxSizing: "border-box" }}
+              style={{ ...inputStyle, minHeight: "100px", resize: "vertical" }}
             />
 
             {/* Submit */}
