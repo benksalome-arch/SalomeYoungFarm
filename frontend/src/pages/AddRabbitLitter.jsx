@@ -478,7 +478,7 @@ function AddRabbitLitter() {
                   style={{
                     position: "relative",
                     boxSizing: "border-box",
-                    inset: auto,
+                    inset: 0,
                     width: "100%",
                     height: "44px",
                     opacity: 1,
