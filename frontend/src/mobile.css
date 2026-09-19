@@ -1845,191 +1845,7 @@ canvas {
 }
 
 /* =========================================================
-   PROFESSIONAL GOAT BREEDING FORM
-   Label left - field right
-   ========================================================= */
-
-.breeding-add-form {
-  width: 100% !important;
-  max-width: 430px !important;
-  margin: 0 auto !important;
-  box-sizing: border-box !important;
-}
-
-/* Each label */
-.breeding-add-form > p {
-  display: inline-flex !important;
-  width: 150px !important;
-  min-height: 44px !important;
-  margin: 0 10px 14px 0 !important;
-  padding: 0 !important;
-  align-items: center !important;
-  justify-content: flex-end !important;
-  vertical-align: top !important;
-  box-sizing: border-box !important;
-  font-weight: 600 !important;
-  font-size: 15px !important;
-  color: #222 !important;
-}
-
-/* Each field */
-.breeding-add-form > select,
-.breeding-add-form > input,
-.breeding-add-form > textarea {
-  display: inline-block !important;
-  width: 260px !important;
-  margin: 0 0 14px 0 !important;
-  vertical-align: top !important;
-  box-sizing: border-box !important;
-  padding: 10px 12px !important;
-  min-height: 44px !important;
-  border: 1px solid #cfd6cf !important;
-  border-radius: 7px !important;
-  background: #fff !important;
-  color: #222 !important;
-  -webkit-text-fill-color: #222 !important;
-  font-size: 15px !important;
-}
-
-/* Notes field */
-.breeding-add-form > textarea {
-  min-height: 90px !important;
-  resize: vertical !important;
-}
-
-/* Remove old excessive spacing */
-.breeding-add-form > br {
-  display: none !important;
-}
-
-/* Buttons */
-.breeding-add-form > button,
-.breeding-add-form > a {
-  margin-top: 8px !important;
-}
-
-/* Keep buttons together and centered */
-.breeding-add-form > button:first-of-type {
-  margin-left: 155px !important;
-}
-
-@media (max-width: 768px) {
-
-  .breeding-add-form {
-    max-width: 100% !important;
-  }
-
-  .breeding-add-form > p {
-    width: 42% !important;
-    margin-right: 8px !important;
-    justify-content: flex-end !important;
-    font-size: 14px !important;
-  }
-
-  .breeding-add-form > select,
-  .breeding-add-form > input,
-  .breeding-add-form > textarea {
-    width: calc(58% - 8px) !important;
-    font-size: 14px !important;
-  }
-
-  .breeding-add-form > button:first-of-type {
-    margin-left: 0 !important;
-  }
-}
-
-
-/* =========================================================
-   ADD GOAT BREEDING - PROFESSIONAL FORM
-   Same style as Konijn toevoegen
-   ========================================================= */
-
-.breeding-add-form {
-  width: 100% !important;
-  max-width: 600px !important;
-  margin: 0 auto !important;
-  box-sizing: border-box !important;
-  text-align: left !important;
-}
-
-/* Every field row */
-.breeding-add-form > div {
-  display: grid !important;
-  grid-template-columns: 150px 260px !important;
-  column-gap: 10px !important;
-  align-items: center !important;
-  width: 100% !important;
-  margin-bottom: 14px !important;
-  box-sizing: border-box !important;
-}
-
-/* Labels */
-.breeding-add-form label,
-.breeding-add-form p {
-  font-weight: 600 !important;
-  font-size: 15px !important;
-  color: #222 !important;
-  text-align: right !important;
-}
-
-/* Fields */
-.breeding-add-form input,
-.breeding-add-form select,
-.breeding-add-form textarea {
-  width: 260px !important;
-  max-width: 260px !important;
-  box-sizing: border-box !important;
-  padding: 10px 12px !important;
-  min-height: 44px !important;
-  border: 1px solid #cfd6cf !important;
-  border-radius: 7px !important;
-  background: #fff !important;
-  color: #222 !important;
-  -webkit-text-fill-color: #222 !important;
-  font-size: 15px !important;
-}
-
-/* Notes */
-.breeding-add-form textarea {
-  min-height: 90px !important;
-  resize: vertical !important;
-}
-
-/* Buttons */
-.breeding-add-form button,
-.breeding-add-form a {
-  box-sizing: border-box !important;
-}
-
-/* Mobile */
-@media (max-width: 768px) {
-
-  .breeding-add-form {
-    max-width: 100% !important;
-  }
-
-  .breeding-add-form > div {
-    grid-template-columns: 42% 58% !important;
-    column-gap: 8px !important;
-  }
-
-  .breeding-add-form label,
-  .breeding-add-form p {
-    font-size: 14px !important;
-  }
-
-  .breeding-add-form input,
-  .breeding-add-form select,
-  .breeding-add-form textarea {
-    width: 100% !important;
-    max-width: none !important;
-    font-size: 14px !important;
-  }
-}
-
-/* =========================================================
-   ADD BREEDING - PROFESSIONAL FORM STYLE
-   Same reference style as Konijn toevoegen
+   GOAT BREEDING ADD FORM
    ========================================================= */
 
 .breeding-add-form {
@@ -2037,14 +1853,13 @@ canvas {
   max-width: 430px !important;
   margin: 0 auto !important;
   display: grid !important;
-  grid-template-columns: 150px 260px !important;
+  grid-template-columns: 150px minmax(0, 260px) !important;
   column-gap: 10px !important;
   row-gap: 0 !important;
   align-items: center !important;
   box-sizing: border-box !important;
 }
 
-/* Labels */
 .breeding-add-form > p {
   grid-column: 1 !important;
   width: 150px !important;
@@ -2058,15 +1873,16 @@ canvas {
   font-weight: 600 !important;
   font-size: 15px !important;
   color: #222 !important;
+  -webkit-text-fill-color: #222 !important;
   text-align: right !important;
 }
 
-/* All fields */
 .breeding-add-form > select,
 .breeding-add-form > input,
 .breeding-add-form > textarea {
   grid-column: 2 !important;
   width: 260px !important;
+  max-width: 260px !important;
   min-height: 44px !important;
   margin: 0 0 14px 0 !important;
   padding: 10px 12px !important;
@@ -2079,39 +1895,31 @@ canvas {
   font-size: 15px !important;
 }
 
-/* Notes */
 .breeding-add-form > textarea {
-  min-height: 90px !important;
+  min-height: 100px !important;
   resize: vertical !important;
 }
 
-/* Remove the old <br> spacing */
 .breeding-add-form > br {
   display: none !important;
 }
 
-/* Action buttons */
-.breeding-add-form > button,
-.breeding-add-form > a {
-  margin-top: 6px !important;
-}
-
-/* Keep both buttons together */
 .breeding-add-form > button {
   grid-column: 1 !important;
   justify-self: end !important;
+  margin-top: 6px !important;
 }
 
 .breeding-add-form > a {
   grid-column: 2 !important;
   justify-self: start !important;
+  margin-top: 6px !important;
 }
 
-/* Mobile */
 @media (max-width: 768px) {
   .breeding-add-form {
     max-width: 100% !important;
-    grid-template-columns: 42% 58% !important;
+    grid-template-columns: 42% minmax(0, 58%) !important;
     column-gap: 8px !important;
   }
 
@@ -2119,13 +1927,13 @@ canvas {
     width: 100% !important;
     min-height: 44px !important;
     font-size: 14px !important;
-    justify-content: flex-end !important;
   }
 
   .breeding-add-form > select,
   .breeding-add-form > input,
   .breeding-add-form > textarea {
     width: 100% !important;
+    max-width: none !important;
     font-size: 14px !important;
   }
 }
