@@ -365,7 +365,9 @@ function AddGoat() {
               name="date_of_birth"
               value={formData.date_of_birth}
               onChange={handleChange}
-              style={inputStyle}
+              onClick={(e) => e.currentTarget.showPicker?.()}
+              onFocus={(e) => e.currentTarget.showPicker?.()}
+              style={{ ...inputStyle, width: "100%", cursor: "pointer" }}
             />
           </p>
 
