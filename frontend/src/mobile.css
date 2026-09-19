@@ -2520,3 +2520,14 @@ canvas {
     max-width: none !important;
   }
 }
+
+.receipts-page,
+.receipts-page h1,
+.receipts-page h2,
+.receipts-page p,
+.receipts-page label,
+.receipts-page th,
+.receipts-page td {
+  color: #222 !important;
+  -webkit-text-fill-color: #222 !important;
+}
