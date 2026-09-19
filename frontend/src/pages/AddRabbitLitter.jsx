@@ -316,7 +316,7 @@ function AddRabbitLitter() {
           min-height: 96px;
         }
 
-        .rabbit-litter-form-card .rabbit-litter-date-field > div {
+        .rabbit-litter-form-card .rabbit-litter-date-field > div { height: 44px; min-height: 44px;
           width: 100%;
         }
 
@@ -367,7 +367,7 @@ function AddRabbitLitter() {
           }
 
           .rabbit-litter-form-card form > div {
-            grid-template-columns: 125px minmax(0, 1fr);
+            grid-template-columns: 135px 300px; width: fit-content; max-width: 100%; margin-left: auto; margin-right: auto;
             gap: 12px;
           }
 
@@ -470,7 +470,7 @@ function AddRabbitLitter() {
           min-height: 96px;
         }
 
-        .rabbit-litter-form-card .rabbit-litter-date-field > div {
+        .rabbit-litter-form-card .rabbit-litter-date-field > div { height: 44px; min-height: 44px;
           width: 100%;
         }
 
@@ -516,7 +516,7 @@ function AddRabbitLitter() {
           }
 
           .rabbit-litter-form-card form > div {
-            grid-template-columns: 125px minmax(0, 1fr);
+            grid-template-columns: 135px 300px; width: fit-content; max-width: 100%; margin-left: auto; margin-right: auto;
             gap: 12px;
           }
 
