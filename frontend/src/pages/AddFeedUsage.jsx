@@ -82,6 +82,7 @@ function AddFeedUsage() {
     }
 
     @media (max-width: 700px) {
+      .page-header > .button { position: static !important; display: inline-block; margin-top: 12px; }
       .feed-usage-field,
       .feed-usage-notes {
         grid-template-columns: 105px minmax(0, 1fr);
