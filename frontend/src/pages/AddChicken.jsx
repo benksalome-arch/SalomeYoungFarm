@@ -475,7 +475,7 @@ function AddChicken() {
               {t("hatchDate")}
             </label>
             <div style={{ position: "relative", width: "100%" }}>
-  <div style={{ width: "100%", color: formData.hatch_date ? "#222" : "#777", pointerEvents: "none" }}>
+  <div style={{ ...inputStyle, width: "100%", color: formData.hatch_date ? "#222" : "#777", WebkitTextFillColor: formData.hatch_date ? "#222" : "#777", pointerEvents: "none" }}>
     {formData.hatch_date
       ? new Date(formData.hatch_date + "T00:00:00").toLocaleDateString("nl-NL", {
           day: "2-digit",
