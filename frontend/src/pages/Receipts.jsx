@@ -209,25 +209,14 @@ function Receipts() {
         <form onSubmit={handleSubmit}>
           <div style={fieldStyle}>
             <label>{tr("receiptDate", "Receipt Date")}</label>
-
             <div style={{ position: "relative", width: "100%" }}>
               <div
-                onClick={() => {
-                  if (form.receipt_date) {
-                    setCalendarMonth(new Date(form.receipt_date + "T00:00:00"));
-                  } else {
-                    setCalendarMonth(new Date());
-                  }
-                  setCalendarOpen(true);
-                }}
                 style={{
                   ...inputStyle,
                   width: "100%",
                   color: form.receipt_date ? "#222" : "#777",
                   WebkitTextFillColor: form.receipt_date ? "#222" : "#777",
-                  cursor: "pointer",
-                  display: "flex",
-                  alignItems: "center",
+                  pointerEvents: "none",
                 }}
               >
                 {form.receipt_date
@@ -238,183 +227,23 @@ function Receipts() {
                     })
                   : "DD-MM-JJJJ"}
               </div>
-
-              {calendarOpen && (
-                <div
-                  className="receipts-calendar"
-                  style={{
-                    position: "fixed",
-                    inset: 0,
-                    background: "rgba(0,0,0,.35)",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    zIndex: 99999,
-                  }}
-                  onClick={() => setCalendarOpen(false)}
-                >
-                  <div
-                    style={{
-                      width: "min(92vw,360px)",
-                      background: "#fff",
-                      borderRadius: "14px",
-                      padding: "18px",
-                      boxSizing: "border-box",
-                      boxShadow: "0 8px 30px rgba(0,0,0,.25)",
-                    }}
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                        marginBottom: "14px",
-                      }}
-                    >
-                      <button
-                        type="button"
-                        onClick={goPreviousMonth}
-                        style={{
-                          border: "1px solid #ddd",
-                          background: "#fff",
-                          borderRadius: "8px",
-                          width: "38px",
-                          height: "38px",
-                          fontSize: "22px",
-                          cursor: "pointer",
-                        }}
-                      >
-                        ‹
-                      </button>
-
-                      <div
-                        style={{
-                          fontSize: "18px",
-                          fontWeight: "700",
-                          color: "#222",
-                          WebkitTextFillColor: "#222",
-                        }}
-                      >
-                        {monthNames[month]} {year}
-                      </div>
-
-                      <button
-                        type="button"
-                        onClick={goNextMonth}
-                        style={{
-                          border: "1px solid #ddd",
-                          background: "#fff",
-                          borderRadius: "8px",
-                          width: "38px",
-                          height: "38px",
-                          fontSize: "22px",
-                          cursor: "pointer",
-                        }}
-                      >
-                        ›
-                      </button>
-                    </div>
-
-                    <div
-                      style={{
-                        display: "grid",
-                        gridTemplateColumns: "repeat(7,1fr)",
-                        gap: "6px",
-                      }}
-                    >
-                      {weekdays.map((day) => (
-                        <div
-                          key={day}
-                          style={{
-                            textAlign: "center",
-                            fontWeight: "600",
-                            fontSize: "13px",
-                            padding: "6px 0",
-                            color: "#222",
-                          }}
-                        >
-                          {day}
-                        </div>
-                      ))}
-
-                      {Array.from({ length: firstDay }).map((_, index) => (
-                        <div key={"empty-" + index} />
-                      ))}
-
-                      {Array.from({ length: daysInMonth }).map((_, index) => {
-                        const day = index + 1;
-                        const today = new Date();
-
-                        const isToday =
-                          day === today.getDate() &&
-                          month === today.getMonth() &&
-                          year === today.getFullYear();
-
-                        const selectedDate = form.receipt_date
-                          ? new Date(`${form.receipt_date}T00:00:00`)
-                          : null;
-
-                        const isSelected =
-                          selectedDate &&
-                          day === selectedDate.getDate() &&
-                          month === selectedDate.getMonth() &&
-                          year === selectedDate.getFullYear();
-
-                        return (
-                          <button
-                            key={day}
-                            type="button"
-                            onClick={() => handleReceiptDateSelect(day)}
-                            style={{
-                              minHeight: "40px",
-                              border: isSelected
-                                ? "2px solid #2e7d32"
-                                : isToday
-                                ? "2px solid #2e7d32"
-                                : "1px solid #ddd",
-                              borderRadius: "8px",
-                              background:
-                                isSelected || isToday
-                                  ? "#e8f5e9"
-                                  : "#fff",
-                              color: "#222",
-                              WebkitTextFillColor: "#222",
-                              fontSize: "15px",
-                              fontWeight:
-                                isSelected || isToday ? "700" : "500",
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              cursor: "pointer",
-                            }}
-                          >
-                            {day}
-                          </button>
-                        );
-                      })}
-                    </div>
-
-                    <button
-                      type="button"
-                      onClick={() => setCalendarOpen(false)}
-                      style={{
-                        width: "100%",
-                        marginTop: "14px",
-                        padding: "10px",
-                        border: "none",
-                        borderRadius: "8px",
-                        background: "#2e7d32",
-                        color: "#fff",
-                        fontWeight: "600",
-                        cursor: "pointer",
-                      }}
-                    >
-                      {t("cancel")}
-                    </button>
-                  </div>
-                </div>
-              )}
+              <input
+                type="date"
+                name="receipt_date"
+                value={form.receipt_date}
+                onChange={handleChange}
+                onClick={(e) => e.currentTarget.showPicker?.()}
+                onFocus={(e) => e.currentTarget.showPicker?.()}
+                required
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  width: "100%",
+                  height: "100%",
+                  opacity: 0,
+                  cursor: "pointer",
+                }}
+              />
             </div>
           </div>
 
