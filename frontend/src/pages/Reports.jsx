@@ -166,7 +166,7 @@ function Reports() {
         width: "100%",
         maxWidth: "1050px",
         margin: "0 auto",
-        minWidth: 0,
+        minWidth: "650px",
         boxSizing: "border-box",
         padding: "0 20px 30px",
       }}
@@ -177,7 +177,7 @@ function Reports() {
         style={{
           width: "100%",
           maxWidth: "1050px",
-          minWidth: 0,
+          minWidth: "650px",
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
@@ -226,8 +226,8 @@ function Reports() {
       <div
         style={{
           width: "100%",
-          maxWidth: "100%",
-          minWidth: 0,
+          maxWidth: "none",
+          minWidth: "650px",
           display: "grid",
           gridTemplateColumns:
             "repeat(auto-fit, minmax(170px, 1fr))",
@@ -239,9 +239,9 @@ function Reports() {
         <div
           className="card"
           style={{
-            minWidth: 0,
+            minWidth: "650px",
             boxSizing: "border-box",
-            overflow: "hidden",
+            overflowX: "auto",
           }}
         >
           <h3>🐐 {t("goats")}</h3>
@@ -251,9 +251,9 @@ function Reports() {
         <div
           className="card"
           style={{
-            minWidth: 0,
+            minWidth: "650px",
             boxSizing: "border-box",
-            overflow: "hidden",
+            overflowX: "auto",
           }}
         >
           <h3>🐔 {t("chickens")}</h3>
@@ -263,9 +263,9 @@ function Reports() {
         <div
           className="card"
           style={{
-            minWidth: 0,
+            minWidth: "650px",
             boxSizing: "border-box",
-            overflow: "hidden",
+            overflowX: "auto",
           }}
         >
           <h3>🐇 {t("rabbits")}</h3>
@@ -275,9 +275,9 @@ function Reports() {
         <div
           className="card"
           style={{
-            minWidth: 0,
+            minWidth: "650px",
             boxSizing: "border-box",
-            overflow: "hidden",
+            overflowX: "auto",
           }}
         >
           <h3>🐾 {t("totalAnimals")}</h3>
@@ -287,9 +287,9 @@ function Reports() {
         <div
           className="card"
           style={{
-            minWidth: 0,
+            minWidth: "650px",
             boxSizing: "border-box",
-            overflow: "hidden",
+            overflowX: "auto",
           }}
         >
           <h3>🌾 {t("feedTypes")}</h3>
@@ -299,9 +299,9 @@ function Reports() {
         <div
           className="card"
           style={{
-            minWidth: 0,
+            minWidth: "650px",
             boxSizing: "border-box",
-            overflow: "hidden",
+            overflowX: "auto",
           }}
         >
           <h3>📦 Inventory Items</h3>
@@ -315,11 +315,11 @@ function Reports() {
         className="card"
         style={{
           width: "100%",
-          maxWidth: "100%",
-          minWidth: 0,
+          maxWidth: "none",
+          minWidth: "650px",
           boxSizing: "border-box",
           marginBottom: "25px",
-          overflow: "hidden",
+          overflowX: "auto",
         }}
       >
         <h2>💰 Financial Summary</h2>
@@ -385,7 +385,7 @@ function Reports() {
         className="card"
         style={{
           width: "100%",
-          maxWidth: "100%",
+          maxWidth: "none",
           boxSizing: "border-box",
           marginBottom: "25px",
         }}
@@ -650,10 +650,10 @@ function Reports() {
         className="card"
         style={{
           width: "100%",
-          maxWidth: "100%",
-          minWidth: 0,
+          maxWidth: "none",
+          minWidth: "650px",
           boxSizing: "border-box",
-          overflow: "hidden",
+          overflowX: "auto",
           marginBottom: "18px",
         }}
       >
@@ -662,17 +662,17 @@ function Reports() {
         <div
           style={{
             width: "100%",
-            minWidth: 0,
-            overflow: "hidden",
+            minWidth: "650px",
+            overflowX: "auto",
           }}
         >
           <table
             className="table"
             style={{
               width: "100%",
-              maxWidth: "100%",
-              minWidth: 0,
-              tableLayout: "fixed",
+              maxWidth: "none",
+              minWidth: "650px",
+              tableLayout: "auto",
               boxSizing: "border-box",
               borderCollapse: "collapse",
             }}
@@ -790,7 +790,7 @@ function Reports() {
                         padding: "12px 8px",
                         textAlign: "center",
                         fontSize: "13px",
-                        overflow: "hidden",
+                        overflowX: "auto",
                         textOverflow:
                           "ellipsis",
                         whiteSpace:
@@ -808,7 +808,7 @@ function Reports() {
                       style={{
                         padding: "12px 8px",
                         fontSize: "13px",
-                        overflow: "hidden",
+                        overflowX: "auto",
                         textOverflow:
                           "ellipsis",
                         whiteSpace:
@@ -823,7 +823,7 @@ function Reports() {
                       style={{
                         padding: "12px 8px",
                         fontSize: "13px",
-                        overflow: "hidden",
+                        overflowX: "auto",
                         textOverflow:
                           "ellipsis",
                         whiteSpace:
@@ -858,7 +858,7 @@ function Reports() {
                       style={{
                         padding: "12px 8px",
                         fontSize: "13px",
-                        overflow: "hidden",
+                        overflowX: "auto",
                         textOverflow:
                           "ellipsis",
                         whiteSpace:
@@ -887,10 +887,10 @@ function Reports() {
         className="card"
         style={{
           width: "100%",
-          maxWidth: "100%",
-          minWidth: 0,
+          maxWidth: "none",
+          minWidth: "650px",
           boxSizing: "border-box",
-          overflow: "hidden",
+          overflowX: "auto",
         }}
       >
         <h2>🐾 {t("animalSummary")}</h2>
@@ -899,9 +899,9 @@ function Reports() {
           className="table"
           style={{
             width: "100%",
-            maxWidth: "100%",
-            minWidth: 0,
-            tableLayout: "fixed",
+            maxWidth: "none",
+            minWidth: "650px",
+            tableLayout: "auto",
             borderCollapse: "collapse",
             boxSizing: "border-box",
           }}
