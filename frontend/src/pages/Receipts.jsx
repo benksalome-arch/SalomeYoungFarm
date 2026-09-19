@@ -214,7 +214,7 @@ function Receipts() {
           <div className="receipts-form-grid" style={fieldStyle}>
             <label>{tr("receiptDate", "Receipt Date")}</label>
             <div style={{ position: "relative", width: "100%" }}>
-              <div
+              <div onClick={(e) => e.currentTarget.nextElementSibling?.showPicker?.()}
                 style={{
                   ...inputStyle,
                   width: "100%",
