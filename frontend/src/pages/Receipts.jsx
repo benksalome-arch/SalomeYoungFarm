@@ -213,41 +213,15 @@ function Receipts() {
         <form onSubmit={handleSubmit}>
           <div className="receipts-form-grid" style={fieldStyle}>
             <label>{tr("receiptDate", "Receipt Date")}</label>
-            <div style={{ position: "relative", width: "100%" }}>
-              <div onClick={(e) => e.currentTarget.nextElementSibling?.showPicker?.()}
-                style={{
-                  ...inputStyle,
-                  width: "100%",
-                  color: form.receipt_date ? "#222" : "#777",
-                  WebkitTextFillColor: form.receipt_date ? "#222" : "#777",
-                  textAlign: "left",
-                  pointerEvents: "none",
-                }}
-              >
-                {form.receipt_date
-                  ? new Date(form.receipt_date + "T00:00:00").toLocaleDateString("nl-NL", {
-                      day: "2-digit",
-                      month: "2-digit",
-                      year: "numeric",
-                    })
-                  : "DD-MM-JJJJ"}
-              </div>
-              <input
-                type="date"
-                name="receipt_date"
-                value={form.receipt_date}
-                onChange={handleChange}
-                required
-                style={{
-                  position: "absolute",
-                  inset: 0,
-                  width: "100%",
-                  height: "100%",
-                  opacity: 0,
-                  cursor: "pointer",
-                }}
-              />
-            </div>
+            <input
+              type="date"
+              name="receipt_date"
+              value={form.receipt_date}
+              onChange={handleChange}
+              onClick={(e) => e.currentTarget.showPicker?.()}
+              required
+              style={inputStyle}
+            />
           </div>
 
           <div className="receipts-form-grid" style={fieldStyle}>
