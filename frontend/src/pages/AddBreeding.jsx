@@ -242,6 +242,8 @@ function AddBreeding() {
                         width: "38px",
                         height: "38px",
                         fontSize: "22px",
+                        color: "#222",
+                        WebkitTextFillColor: "#222",
                         cursor: "pointer",
                       }}
                     >
@@ -283,6 +285,8 @@ function AddBreeding() {
                         width: "38px",
                         height: "38px",
                         fontSize: "22px",
+                        color: "#222",
+                        WebkitTextFillColor: "#222",
                         cursor: "pointer",
                       }}
                     >
