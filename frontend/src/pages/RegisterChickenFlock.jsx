@@ -347,13 +347,8 @@ function RegisterChickenFlock() {
               paddingTop: "12px",
             }}>{t("hatchDate")}</label>
 
-            <div style={{ width: "100%" }}>
-              <input
-                type="text"
-                value={formData.hatch_date ? formData.hatch_date.split("-").reverse().join("-") : ""}
-                placeholder="DD-MM-JJJJ"
-                readOnly
-                onClick={openCalendar}
+            <div style={{ position: "relative", width: "100%" }}>
+              <div
                 style={{
                   width: "100%",
                   boxSizing: "border-box",
@@ -362,9 +357,36 @@ function RegisterChickenFlock() {
                   border: "1px solid #cfd6cf",
                   borderRadius: "7px",
                   background: "#fff",
-                  color: "#222",
-                  WebkitTextFillColor: "#222",
+                  color: formData.hatch_date ? "#222" : "#777",
+                  WebkitTextFillColor: formData.hatch_date ? "#222" : "#777",
                   fontSize: "15px",
+                  display: "flex",
+                  alignItems: "center",
+                  pointerEvents: "none",
+                }}
+              >
+                {formData.hatch_date
+                  ? new Date(formData.hatch_date + "T00:00:00").toLocaleDateString("nl-NL", {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                    })
+                  : "DD-MM-JJJJ"}
+              </div>
+              <input
+                type="date"
+                name="hatch_date"
+                value={formData.hatch_date || ""}
+                onChange={handleChange}
+                onClick={(e) => e.currentTarget.showPicker?.()}
+                onFocus={(e) => e.currentTarget.showPicker?.()}
+                required
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  width: "100%",
+                  height: "100%",
+                  opacity: 0,
                   cursor: "pointer",
                 }}
               />
