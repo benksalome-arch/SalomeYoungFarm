@@ -467,11 +467,11 @@ function AddRabbitLitter() {
                 disabled={saving}
                 required
                 style={{
-                  position: "fixed",
-                  width: "1px",
-                  height: "1px",
+                  position: "absolute",
+                  width: "100%",
+                  height: "100%",
                   opacity: 0,
-                  pointerEvents: "none"
+                  opacity: 0.01
                 }}
               />
             </div>
