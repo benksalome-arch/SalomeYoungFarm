@@ -351,7 +351,7 @@ function Reports() {
 
             <h2
               style={{
-                color: "#d32f2f",
+                color: "#c62828",
                 fontSize: "24px",
               }}
             >
@@ -368,7 +368,7 @@ function Reports() {
                 color:
                   profit >= 0
                     ? "#1565c0"
-                    : "#d32f2f",
+                    : "#c62828",
                 fontSize: "24px",
               }}
             >
@@ -519,7 +519,7 @@ function Reports() {
                       width: "70%",
                       maxWidth: "180px",
                       height: `${scale(expenses)}px`,
-                      background: "#d32f2f",
+                      background: "#c62828",
                       borderRadius: "8px 8px 0 0",
                     }}
                   />
@@ -531,7 +531,7 @@ function Reports() {
                       width: "100%",
                       textAlign: "center",
                       fontWeight: "bold",
-                      color: "#d32f2f",
+                      color: "#c62828",
                     }}
                   >
                     KES {expenses.toLocaleString()}
@@ -613,7 +613,7 @@ function Reports() {
                           width: "70%",
                           maxWidth: "180px",
                           height: `${scale(result)}px`,
-                          background: "#d32f2f",
+                          background: "#c62828",
                           borderRadius: "0 0 8px 8px",
                         }}
                       />
@@ -627,7 +627,7 @@ function Reports() {
                           width: "100%",
                           textAlign: "center",
                           fontWeight: "bold",
-                          color: "#d32f2f",
+                          color: "#c62828",
                         }}
                       >
                         {t("loss")}: KES {Math.abs(result).toLocaleString()}
