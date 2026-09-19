@@ -657,7 +657,7 @@ function Reports() {
           marginBottom: "18px",
         }}
       >
-        <h2>💵 {t("financialTransactions")}</h2>
+        <h2 style={{ color: "#222", WebkitTextFillColor: "#222" }}>💵 {t("financialTransactions")}</h2>
 
         <div
           style={{
