@@ -155,15 +155,14 @@ function EditFinance() {
               Date
             </label>
 
-            <input
-              id="transaction_date"
-              type="date"
-              name="transaction_date"
-              value={formData.transaction_date}
-              onChange={handleChange}
-              required
-              style={inputStyle}
-            />
+            <div style={{ position: "relative", width: "100%" }}>
+              <div style={{ ...inputStyle, width: "100%", color: formData.transaction_date ? "#222" : "#777", pointerEvents: "none" }}>
+                {formData.transaction_date ? new Date(formData.transaction_date + "T00:00:00").toLocaleDateString("nl-NL", { day: "2-digit", month: "2-digit", year: "numeric" }) : "DD-MM-JJJJ"}
+              </div>
+              <input id="transaction_date" type="date" name="transaction_date" value={formData.transaction_date} onChange={handleChange} required
+                onClick={(e) => e.currentTarget.showPicker?.()} onFocus={(e) => e.currentTarget.showPicker?.()}
+                style={{ position: "absolute", inset: 0, width: "100%", height: "100%", opacity: 0, cursor: "pointer" }} />
+            </div>
           </div>
 
           {/* TYPE */}

@@ -203,13 +203,14 @@ function EditBreeding() {
 
             <div className="breeding-edit-field">
               <label>{t("matingDate")}</label>
-              <input
-                type="date"
-                name="mating_date"
-                value={formData.mating_date}
-                onChange={handleChange}
-                required
-              />
+              <div style={{ position: "relative", width: "100%" }}>
+                <div style={{ width: "100%", color: formData.mating_date ? "#222" : "#777", pointerEvents: "none" }}>
+                  {formData.mating_date ? new Date(formData.mating_date + "T00:00:00").toLocaleDateString("nl-NL", { day: "2-digit", month: "2-digit", year: "numeric" }) : "DD-MM-JJJJ"}
+                </div>
+                <input type="date" name="mating_date" value={formData.mating_date} onChange={handleChange} required
+                  onClick={(e) => e.currentTarget.showPicker?.()} onFocus={(e) => e.currentTarget.showPicker?.()}
+                  style={{ position: "absolute", inset: 0, width: "100%", height: "100%", opacity: 0, cursor: "pointer" }} />
+              </div>
             </div>
 
             <div className="breeding-edit-field">
