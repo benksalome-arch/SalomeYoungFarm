@@ -257,7 +257,7 @@ function Receipts() {
               name="supplier"
               value={form.supplier}
               onChange={handleChange}
-              style={inputStyle}
+              style={{ ...inputStyle, textAlign: "left" }}
             />
           </div>
 
