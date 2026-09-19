@@ -433,7 +433,16 @@ function AddRabbitLitter() {
             <label>
               <strong>{t("birthDate")}</strong>
             </label>
-            <div style={{ position: "relative", width: "100%" }}>
+            <div
+              role="button"
+              tabIndex={0}
+              onClick={(e) => {
+                const input = e.currentTarget.querySelector("input");
+                input?.showPicker?.();
+                input?.focus();
+              }}
+              style={{ position: "relative", width: "100%", cursor: "pointer" }}
+            >
               <div style={{
                 width: "100%",
                 minHeight: "44px",
@@ -445,8 +454,7 @@ function AddRabbitLitter() {
                 color: form.birth_date ? "#222" : "#777",
                 WebkitTextFillColor: form.birth_date ? "#222" : "#777",
                 display: "flex",
-                alignItems: "center",
-                pointerEvents: "none"
+                alignItems: "center"
               }}>
                 {form.birth_date
                   ? new Date(form.birth_date + "T00:00:00").toLocaleDateString("nl-NL", {
@@ -461,16 +469,15 @@ function AddRabbitLitter() {
                 name="birth_date"
                 value={form.birth_date || ""}
                 onChange={handleChange}
-                onClick={(e) => e.currentTarget.showPicker?.()}
                 disabled={saving}
                 required
+                tabIndex={-1}
                 style={{
                   position: "absolute",
-                  inset: 0,
-                  width: "100%",
-                  height: "100%",
+                  width: "1px",
+                  height: "1px",
                   opacity: 0,
-                  cursor: "pointer"
+                  pointerEvents: "none"
                 }}
               />
             </div>
