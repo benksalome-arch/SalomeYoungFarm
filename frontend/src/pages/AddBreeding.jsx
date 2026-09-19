@@ -179,7 +179,7 @@ function AddBreeding() {
           <p style={labelStyle}>{t("matingDate")}</p>
           <div style={{ position: "relative" }}>
             <div style={{ position: "relative", width: "100%" }}>
-  <div style={{ width: "100%", color: formData.mating_date ? "#222" : "#777", pointerEvents: "none" }}>
+  <div style={{ ...inputStyle, width: "100%", color: formData.mating_date ? "#222" : "#777", WebkitTextFillColor: formData.mating_date ? "#222" : "#777", pointerEvents: "none" }}>
     {formData.mating_date
       ? new Date(formData.mating_date + "T00:00:00").toLocaleDateString("nl-NL", {
           day: "2-digit",
