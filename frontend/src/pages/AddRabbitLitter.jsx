@@ -358,6 +358,26 @@ function AddRabbitLitter() {
           border-radius: 8px;
         }
 
+        @media (min-width: 701px) {
+          .rabbit-litter-form-card .rabbit-litter-date-field > div {
+            width: 100% !important;
+            height: 44px !important;
+            min-height: 44px !important;
+          }
+
+          .rabbit-litter-form-card .rabbit-litter-date-field input {
+            position: absolute !important;
+            inset: 0 !important;
+            width: 100% !important;
+            height: 100% !important;
+            opacity: 0 !important;
+            pointer-events: none !important;
+            border: 0 !important;
+            padding: 0 !important;
+            margin: 0 !important;
+          }
+        }
+
         @media (max-width: 700px) {
           .rabbit-litter-header {
             flex-direction: column;
