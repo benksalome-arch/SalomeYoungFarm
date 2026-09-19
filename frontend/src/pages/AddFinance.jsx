@@ -260,40 +260,41 @@ function AddFinance() {
               {t("date")}
             </label>
 
-            <div style={{ position: "relative" }}>
-              <input
-                id="transaction_date"
-                type="text"
-                value={
-                  formData.transaction_date
-                    ? formData.transaction_date
-                        .split("-")
-                        .reverse()
-                        .join("-")
-                    : ""
-                }
-                placeholder="DD-MM-JJJJ"
-                readOnly
-                required
-                onClick={() => {
-                  const selected = formData.transaction_date
-                    ? new Date(
-                        formData.transaction_date + "T00:00:00"
-                      )
-                    : new Date();
-
-                  setCalendarMonth(
-                    new Date(
-                      selected.getFullYear(),
-                      selected.getMonth(),
-                      1
-                    )
-                  );
-
-                  setCalendarOpen(true);
-                }}
+            <div style={{ position: "relative", width: "100%" }}>
+              <div
                 style={{
                   ...inputStyle,
+                  width: "100%",
+                  color: formData.transaction_date ? "#222" : "#777",
+                  WebkitTextFillColor: formData.transaction_date ? "#222" : "#777",
+                  pointerEvents: "none",
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                {formData.transaction_date
+                  ? new Date(formData.transaction_date + "T00:00:00").toLocaleDateString("nl-NL", {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                    })
+                  : "DD-MM-JJJJ"}
+              </div>
+              <input
+                type="date"
+                id="transaction_date"
+                name="transaction_date"
+                value={formData.transaction_date || ""}
+                onChange={handleChange}
+                onClick={(e) => e.currentTarget.showPicker?.()}
+                onFocus={(e) => e.currentTarget.showPicker?.()}
+                required
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  width: "100%",
+                  height: "100%",
+                  opacity: 0,
                   cursor: "pointer",
                 }}
               />
