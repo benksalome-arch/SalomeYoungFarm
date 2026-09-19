@@ -361,19 +361,41 @@ function AddChickenVaccination() {
                   {t("vaccinationDate")}
                 </label>
 
-                <input
-                  type="text"
-                  name="vaccination_date"
-                  value={formatDate(formData.vaccination_date)}
-                  placeholder="DD-MM-JJJJ"
-                  readOnly
-                  required
-                  onClick={() => openCalendar("vaccination_date")}
-                  style={{
-                    ...inputStyle,
-                    cursor: "pointer",
-                  }}
-                />
+                <div style={{ position: "relative", width: "100%" }}>
+                  <div
+                    style={{
+                      ...inputStyle,
+                      width: "100%",
+                      color: formData.vaccination_date ? "#222" : "#777",
+                      pointerEvents: "none",
+                    }}
+                  >
+                    {formData.vaccination_date
+                      ? new Date(formData.vaccination_date + "T00:00:00").toLocaleDateString("nl-NL", {
+                          day: "2-digit",
+                          month: "2-digit",
+                          year: "numeric",
+                        })
+                      : "DD-MM-JJJJ"}
+                  </div>
+                  <input
+                    type="date"
+                    name="vaccination_date"
+                    value={formData.vaccination_date || ""}
+                    onChange={handleChange}
+                    onClick={(e) => e.currentTarget.showPicker?.()}
+                    onFocus={(e) => e.currentTarget.showPicker?.()}
+                    required
+                    style={{
+                      position: "absolute",
+                      inset: 0,
+                      width: "100%",
+                      height: "100%",
+                      opacity: 0,
+                      cursor: "pointer",
+                    }}
+                  />
+                </div>
               </div>
 
               {/* VACCINE NAME */}
@@ -413,18 +435,40 @@ function AddChickenVaccination() {
                   {t("nextDueDate")}
                 </label>
 
-                <input
-                  type="text"
-                  name="next_due_date"
-                  value={formatDate(formData.next_due_date)}
-                  placeholder="DD-MM-JJJJ"
-                  readOnly
-                  onClick={() => openCalendar("next_due_date")}
-                  style={{
-                    ...inputStyle,
-                    cursor: "pointer",
-                  }}
-                />
+                <div style={{ position: "relative", width: "100%" }}>
+                  <div
+                    style={{
+                      ...inputStyle,
+                      width: "100%",
+                      color: formData.next_due_date ? "#222" : "#777",
+                      pointerEvents: "none",
+                    }}
+                  >
+                    {formData.next_due_date
+                      ? new Date(formData.next_due_date + "T00:00:00").toLocaleDateString("nl-NL", {
+                          day: "2-digit",
+                          month: "2-digit",
+                          year: "numeric",
+                        })
+                      : "DD-MM-JJJJ"}
+                  </div>
+                  <input
+                    type="date"
+                    name="next_due_date"
+                    value={formData.next_due_date || ""}
+                    onChange={handleChange}
+                    onClick={(e) => e.currentTarget.showPicker?.()}
+                    onFocus={(e) => e.currentTarget.showPicker?.()}
+                    style={{
+                      position: "absolute",
+                      inset: 0,
+                      width: "100%",
+                      height: "100%",
+                      opacity: 0,
+                      cursor: "pointer",
+                    }}
+                  />
+                </div>
               </div>
 
               {/* ADMINISTERED BY */}

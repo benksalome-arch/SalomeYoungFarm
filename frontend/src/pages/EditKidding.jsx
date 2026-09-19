@@ -171,23 +171,42 @@ function EditKidding() {
             <label>{t("date")}</label>
 
             <div className="kidding-edit-calendar-wrap">
-              <input
-                type="text"
-                value={formatDateDisplay(formData.kidding_date)}
-                placeholder="DD-MM-JJJJ"
-                readOnly
-                onClick={() => {
-                  if (formData.kidding_date) {
-                    const [year, month] = formData.kidding_date
-                      .split("-")
-                      .map(Number);
+              <div style={{ position: "relative", width: "100%" }}>
+                <div
+                  style={{
+                    ...inputStyle,
+                    width: "100%",
+                    color: formData.kidding_date ? "#222" : "#777",
+                    pointerEvents: "none",
+                  }}
+                >
+                  {formData.kidding_date
+                    ? new Date(formData.kidding_date + "T00:00:00").toLocaleDateString("nl-NL", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                      })
+                    : "DD-MM-JJJJ"}
+                </div>
 
-                    setCalendarMonth(new Date(year, month - 1, 1));
-                  }
-                  setCalendarOpen(true);
-                }}
-                required
-              />
+                <input
+                  type="date"
+                  name="kidding_date"
+                  value={formData.kidding_date || ""}
+                  onChange={handleChange}
+                  onClick={(e) => e.currentTarget.showPicker?.()}
+                  onFocus={(e) => e.currentTarget.showPicker?.()}
+                  required
+                  style={{
+                    position: "absolute",
+                    inset: 0,
+                    width: "100%",
+                    height: "100%",
+                    opacity: 0,
+                    cursor: "pointer",
+                  }}
+                />
+              </div>
 
               {calendarOpen && (
                 <div className="kidding-edit-calendar">

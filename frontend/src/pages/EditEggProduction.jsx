@@ -372,24 +372,43 @@ function EditEggProduction() {
               {t("date")}
             </label>
 
-            <input
-              type="text"
-              name="production_date"
-              value={
-                formData.production_date
-                  ? formData.production_date
-                      .split("-")
-                      .reverse()
-                      .join("-")
-                  : ""
-              }
-              placeholder="DD-MM-JJJJ"
-              readOnly
-              required
-              onClick={openCalendar}
-              className="edit-egg-production-input"
-              style={{ cursor: "pointer" }}
-            />
+            <div style={{ position: "relative", width: "100%" }}>
+              <div
+                className="edit-egg-production-input"
+                style={{
+                  width: "100%",
+                  boxSizing: "border-box",
+                  color: formData.production_date ? "#222" : "#777",
+                  pointerEvents: "none",
+                }}
+              >
+                {formData.production_date
+                  ? new Date(formData.production_date + "T00:00:00").toLocaleDateString("nl-NL", {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                    })
+                  : "DD-MM-JJJJ"}
+              </div>
+
+              <input
+                type="date"
+                name="production_date"
+                value={formData.production_date || ""}
+                onChange={handleChange}
+                onClick={(e) => e.currentTarget.showPicker?.()}
+                onFocus={(e) => e.currentTarget.showPicker?.()}
+                required
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  width: "100%",
+                  height: "100%",
+                  opacity: 0,
+                  cursor: "pointer",
+                }}
+              />
+            </div>
           </div>
 
           <div className="edit-egg-production-field">

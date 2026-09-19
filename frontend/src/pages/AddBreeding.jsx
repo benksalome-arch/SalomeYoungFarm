@@ -178,27 +178,33 @@ function AddBreeding() {
 
           <p style={labelStyle}>{t("matingDate")}</p>
           <div style={{ position: "relative" }}>
-            <input
-              type="text"
-              name="mating_date"
-              value={
-                formData.mating_date
-                  ? formData.mating_date.split("-").reverse().join("-")
-                  : ""
-              }
-              placeholder="DD-MM-JJJJ"
-              readOnly
-              required
-              onClick={() => {
-                const selected = formData.mating_date
-                  ? new Date(formData.mating_date + "T00:00:00")
-                  : new Date();
-
-                setCalendarMonth(selected);
-                setCalendarOpen(true);
-              }}
-              style={{ ...inputStyle, cursor: "pointer" }}
-            />
+            <div style={{ position: "relative", width: "100%" }}>
+  <div style={{ width: "100%", color: formData.mating_date ? "#222" : "#777", pointerEvents: "none" }}>
+    {formData.mating_date
+      ? new Date(formData.mating_date + "T00:00:00").toLocaleDateString("nl-NL", {
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric",
+        })
+      : "DD-MM-JJJJ"}
+  </div>
+  <input
+    type="date"
+    name="mating_date"
+    value={formData.mating_date || ""}
+    onChange={handleChange}
+    onClick={(e) => e.currentTarget.showPicker?.()}
+    onFocus={(e) => e.currentTarget.showPicker?.()}
+    style={{
+      position: "absolute",
+      inset: 0,
+      width: "100%",
+      height: "100%",
+      opacity: 0,
+      cursor: "pointer",
+    }}
+  />
+</div>
 
             {calendarOpen && (
               <div

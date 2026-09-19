@@ -319,24 +319,42 @@ const year = calendarMonth.getFullYear();
               </label>
 
               <div style={{ position: "relative" }}>
-                <input
-                  style={{
-                    ...inputStyle,
-                    cursor: "pointer",
-                  }}
-                  type="text"
-                  value={formatDateDisplay(formData.birth_date)}
-                  placeholder="DD-MM-JJJJ"
-                  readOnly
-                  onClick={() => {
-                    setCalendarMonth(
-                      formData.birth_date
-                        ? new Date(`${formData.birth_date}T00:00:00`)
-                        : new Date()
-                    );
-                    setCalendarOpen(!calendarOpen);
-                  }}
-                />
+                <div style={{ position: "relative", width: "100%" }}>
+                  <div
+                    style={{
+                      ...inputStyle,
+                      width: "100%",
+                      color: formData.birth_date ? "#222" : "#777",
+                      pointerEvents: "none",
+                    }}
+                  >
+                    {formData.birth_date
+                      ? new Date(formData.birth_date + "T00:00:00").toLocaleDateString("nl-NL", {
+                          day: "2-digit",
+                          month: "2-digit",
+                          year: "numeric",
+                        })
+                      : "DD-MM-JJJJ"}
+                  </div>
+
+                  <input
+                    type="date"
+                    name="birth_date"
+                    value={formData.birth_date || ""}
+                    onChange={handleChange}
+                    onClick={(e) => e.currentTarget.showPicker?.()}
+                    onFocus={(e) => e.currentTarget.showPicker?.()}
+                    required
+                    style={{
+                      position: "absolute",
+                      inset: 0,
+                      width: "100%",
+                      height: "100%",
+                      opacity: 0,
+                      cursor: "pointer",
+                    }}
+                  />
+                </div>
 
                 {calendarOpen && (
                     <div

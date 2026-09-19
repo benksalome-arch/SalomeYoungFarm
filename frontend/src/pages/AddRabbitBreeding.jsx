@@ -370,29 +370,50 @@ function AddRabbitBreeding() {
           </label>
 
           <div style={{ position: "relative" }}>
-            <input
-              type="text"
-              name="breeding_date"
-              value={formatDateDisplay(formData.breeding_date)}
-              placeholder="DD-MM-JJJJ"
-              readOnly
-              required
-              onClick={() => {
-                setCalendarMonth(
-                  formData.breeding_date
-                    ? new Date(`${formData.breeding_date}T00:00:00`)
-                    : new Date()
-                );
-                setCalendarOpen(!calendarOpen);
-              }}
-              style={{
-                width: "100%",
-                boxSizing: "border-box",
-                cursor: "pointer",
-                color: "#222",
-                WebkitTextFillColor: "#222",
-              }}
-            />
+            <div style={{ position: "relative", width: "100%" }}>
+              <div
+                style={{
+                  width: "100%",
+                  boxSizing: "border-box",
+                  minHeight: "44px",
+                  padding: "10px 12px",
+                  border: "1px solid #cfd6cf",
+                  borderRadius: "7px",
+                  background: "#fff",
+                  color: formData.breeding_date ? "#222" : "#777",
+                  WebkitTextFillColor: formData.breeding_date ? "#222" : "#777",
+                  display: "flex",
+                  alignItems: "center",
+                  pointerEvents: "none",
+                }}
+              >
+                {formData.breeding_date
+                  ? new Date(formData.breeding_date + "T00:00:00").toLocaleDateString("nl-NL", {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                    })
+                  : "DD-MM-JJJJ"}
+              </div>
+
+              <input
+                type="date"
+                name="breeding_date"
+                value={formData.breeding_date || ""}
+                onChange={handleChange}
+                onClick={(e) => e.currentTarget.showPicker?.()}
+                onFocus={(e) => e.currentTarget.showPicker?.()}
+                required
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  width: "100%",
+                  height: "100%",
+                  opacity: 0,
+                  cursor: "pointer",
+                }}
+              />
+            </div>
 
             {calendarOpen && (
               <div

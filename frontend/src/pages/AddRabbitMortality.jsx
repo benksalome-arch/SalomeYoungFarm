@@ -683,34 +683,51 @@ function AddRabbitMortality() {
             <label>{t("mortalityDate")}</label>
 
             <div style={{ position: "relative" }}>
-              <input
-                type="text"
-                value={formatDisplayDate(formData.mortality_date)}
-                placeholder="DD-MM-JJJJ"
-                readOnly
-                required
-                onClick={() => {
-                  setCalendarMonth(
-                    formData.mortality_date
-                      ? new Date(formData.mortality_date + "T00:00:00")
-                      : new Date()
-                  );
-                  setCalendarOpen(true);
-                }}
-                style={{
-                  width: "100%",
-                  boxSizing: "border-box",
-                  padding: "10px 12px",
-                  minHeight: "44px",
-                  border: "1px solid #cfd6cf",
-                  borderRadius: "7px",
-                  background: "#fff",
-                  color: "#222",
-                  WebkitTextFillColor: "#222",
-                  fontSize: "15px",
-                  cursor: "pointer",
-                }}
-              />
+              <div style={{ position: "relative", width: "100%" }}>
+                <div
+                  style={{
+                    width: "100%",
+                    boxSizing: "border-box",
+                    padding: "10px 12px",
+                    minHeight: "44px",
+                    border: "1px solid #cfd6cf",
+                    borderRadius: "7px",
+                    background: "#fff",
+                    color: formData.mortality_date ? "#222" : "#777",
+                    WebkitTextFillColor: formData.mortality_date ? "#222" : "#777",
+                    fontSize: "15px",
+                    display: "flex",
+                    alignItems: "center",
+                    pointerEvents: "none",
+                  }}
+                >
+                  {formData.mortality_date
+                    ? new Date(formData.mortality_date + "T00:00:00").toLocaleDateString("nl-NL", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                      })
+                    : "DD-MM-JJJJ"}
+                </div>
+
+                <input
+                  type="date"
+                  name="mortality_date"
+                  value={formData.mortality_date || ""}
+                  onChange={handleChange}
+                  onClick={(e) => e.currentTarget.showPicker?.()}
+                  onFocus={(e) => e.currentTarget.showPicker?.()}
+                  required
+                  style={{
+                    position: "absolute",
+                    inset: 0,
+                    width: "100%",
+                    height: "100%",
+                    opacity: 0,
+                    cursor: "pointer",
+                  }}
+                />
+              </div>
 
               {calendarOpen && (
         <div

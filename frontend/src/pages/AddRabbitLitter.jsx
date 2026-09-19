@@ -586,33 +586,52 @@ function AddRabbitLitter() {
             </label>
 
             <div style={{ position: "relative" }}>
-              <input
-                type="text"
-                name="birth_date_display"
-                value={formatDateDisplay(form.birth_date)}
-                placeholder="DD-MM-JJJJ"
-                readOnly
-                disabled={saving}
-                onClick={() => {
-                  setCalendarMonth(
-                    form.birth_date
-                      ? new Date(`${form.birth_date}T00:00:00`)
-                      : new Date()
-                  );
-                  setCalendarOpen(!calendarOpen);
-                }}
-                style={{
-                  width: "100%",
-                  padding: "10px",
-                  marginTop: "6px",
-                  boxSizing: "border-box",
-                  cursor: "pointer",
-                  color: "#222",
-                  WebkitTextFillColor: "#222",
-                  opacity: 1,
-                  backgroundColor: "#fff",
-                }}
-              />
+              <div style={{ position: "relative", width: "100%" }}>
+                <div
+                  style={{
+                    width: "100%",
+                    padding: "10px",
+                    marginTop: "6px",
+                    boxSizing: "border-box",
+                    minHeight: "44px",
+                    border: "1px solid #cfd6cf",
+                    borderRadius: "7px",
+                    background: "#fff",
+                    color: form.birth_date ? "#222" : "#777",
+                    WebkitTextFillColor: form.birth_date ? "#222" : "#777",
+                    display: "flex",
+                    alignItems: "center",
+                    pointerEvents: "none",
+                  }}
+                >
+                  {form.birth_date
+                    ? new Date(form.birth_date + "T00:00:00").toLocaleDateString("nl-NL", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                      })
+                    : "DD-MM-JJJJ"}
+                </div>
+
+                <input
+                  type="date"
+                  name="birth_date"
+                  value={form.birth_date || ""}
+                  onChange={handleChange}
+                  onClick={(e) => e.currentTarget.showPicker?.()}
+                  onFocus={(e) => e.currentTarget.showPicker?.()}
+                  disabled={saving}
+                  required
+                  style={{
+                    position: "absolute",
+                    inset: 0,
+                    width: "100%",
+                    height: "100%",
+                    opacity: 0,
+                    cursor: "pointer",
+                  }}
+                />
+              </div>
 
               {calendarOpen && createPortal((
                 <div
