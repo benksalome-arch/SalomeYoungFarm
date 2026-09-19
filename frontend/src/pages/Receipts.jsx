@@ -61,6 +61,7 @@ function Receipts() {
   async function loadReceipts() {
     try {
       const response = await fetch(`${API_URL}/api/receipts`, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         credentials: "include",
       });
       const data = await response.json();
@@ -99,7 +100,9 @@ function Receipts() {
       data.append("receipt", file);
 
       const response = await fetch(`${API_URL}/api/receipts`, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         method: "POST",
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         credentials: "include",
         body: data,
       });
@@ -147,6 +150,7 @@ function Receipts() {
     try {
       const response = await fetch(`${API_URL}/api/receipts/${id}`, {
         method: "DELETE",
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         credentials: "include",
       });
 
@@ -233,8 +237,6 @@ function Receipts() {
                 name="receipt_date"
                 value={form.receipt_date}
                 onChange={handleChange}
-                onClick={(e) => e.currentTarget.showPicker?.()}
-                onFocus={(e) => e.currentTarget.showPicker?.()}
                 required
                 style={{
                   position: "absolute",
