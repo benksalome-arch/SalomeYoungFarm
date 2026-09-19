@@ -2543,3 +2543,17 @@ canvas {
     font-size: 14px !important;
   }
 }
+
+@media (max-width: 768px) {
+  .financial-transactions-table thead { display:none !important; }
+  .financial-transactions-table, .financial-transactions-table tbody, .financial-transactions-table tr, .financial-transactions-table td { display:block !important; width:100% !important; box-sizing:border-box !important; }
+  .financial-transactions-table tr { margin-bottom:12px !important; padding:10px !important; border:1px solid #ddd !important; border-radius:8px !important; background:#fff !important; }
+  .financial-transactions-table td { display:flex !important; justify-content:space-between !important; gap:12px !important; padding:7px 4px !important; text-align:right !important; white-space:normal !important; overflow:visible !important; font-size:13px !important; }
+  .financial-transactions-table td::before { font-weight:700 !important; color:#444 !important; text-align:left !important; flex:0 0 42% !important; }
+  .financial-transactions-table td:nth-child(1)::before { content:"Date"; }
+  .financial-transactions-table td:nth-child(2)::before { content:"Type"; }
+  .financial-transactions-table td:nth-child(3)::before { content:"Category"; }
+  .financial-transactions-table td:nth-child(4)::before { content:"Description"; }
+  .financial-transactions-table td:nth-child(5)::before { content:"Amount"; }
+  .financial-transactions-table td:nth-child(6)::before { content:"Payment Method"; }
+}

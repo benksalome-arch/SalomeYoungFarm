@@ -667,7 +667,7 @@ function Reports() {
           }}
         >
           <table
-            className="table"
+            className="table financial-transactions-table"
             style={{
               width: "100%",
               maxWidth: "none",
