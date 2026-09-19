@@ -6,7 +6,8 @@ function Sidebar() {
   const { t } = useLanguage();
 
   const menuItems = [
-    {
+
+{
       title: t("dashboard"),
       color: "#E8F5E9",
       textColor: "#1B5E20",
@@ -19,7 +20,7 @@ function Sidebar() {
       ],
     },
 
-    {
+{
       title: t("goats"),
       color: "#FFF3E0",
       textColor: "#E65100",
@@ -47,7 +48,7 @@ function Sidebar() {
       ],
     },
 
-    {
+{
       title: t("chickens"),
       color: "#FFF8E1",
       textColor: "#F57F17",
@@ -80,56 +81,7 @@ function Sidebar() {
       ],
     },
 
-    {
-      title: t("feedInventory"),
-      color: "#F3E5F5",
-      textColor: "#6A1B9A",
-      items: [
-        {
-          name: t("feed"),
-          path: "/feed",
-          icon: "🌾",
-        },
-        {
-          name: t("feedUsage"),
-          path: "/feed/usage",
-          icon: "🥣",
-        },
-        {
-          name: t("inventory"),
-          path: "/inventory",
-          icon: "📦",
-        },
-      ],
-    },
-
-    {
-      title: t("finance"),
-      color: "#E3F2FD",
-      textColor: "#1565C0",
-      items: [
-        {
-          name: t("finance"),
-          path: "/finance",
-          icon: "💵",
-        },
-      ],
-    },
-
-    {
-      title: t("staff"),
-      color: "#ECEFF1",
-      textColor: "#455A64",
-      items: [
-        {
-          name: t("workers"),
-          path: "/workers",
-          icon: "👷",
-        },
-      ],
-    },
-
-    {
+{
       title: t("rabbitFarm"),
       color: "#FCE4EC",
       textColor: "#AD1457",
@@ -157,16 +109,73 @@ function Sidebar() {
       ],
     },
 
-    {
-      title: t("system"),
-      color: "#E0F2F1",
-      textColor: "#00695C",
+{
+      title: t("feedInventory"),
+      color: "#F3E5F5",
+      textColor: "#6A1B9A",
+      items: [
+        {
+          name: t("feed"),
+          path: "/feed",
+          icon: "🌾",
+        },
+        {
+          name: t("feedUsage"),
+          path: "/feed/usage",
+          icon: "🥣",
+        },
+        {
+          name: t("inventory"),
+          path: "/inventory",
+          icon: "📦",
+        },
+      ],
+    },
+
+{
+      title: t("finance"),
+      color: "#E3F2FD",
+      textColor: "#1565C0",
+      items: [
+        {
+          name: t("finance"),
+          path: "/finance",
+          icon: "💵",
+        },
+      ],
+    },
+
+{
+      title: t("reports"),
+      color: "#E8EAF6",
+      textColor: "#283593",
       items: [
         {
           name: t("reports"),
           path: "/reports",
           icon: "📊",
         },
+      ],
+    },,
+
+{
+      title: t("staff"),
+      color: "#ECEFF1",
+      textColor: "#455A64",
+      items: [
+        {
+          name: t("workers"),
+          path: "/workers",
+          icon: "👷",
+        },
+      ],
+    },
+
+{
+      title: t("system"),
+      color: "#E0F2F1",
+      textColor: "#00695C",
+      items: [
         {
           name: t("settings"),
           path: "/settings",
