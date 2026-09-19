@@ -4,6 +4,19 @@ import { useNavigate, Link } from "react-router-dom";
 import { useLanguage } from "../context/LanguageContext";
 
 function AddRabbitMortality() {
+  const inputStyle = {
+    width: "100%",
+    boxSizing: "border-box",
+    padding: "10px 12px",
+    minHeight: "44px",
+    border: "1px solid #cfd6cf",
+    borderRadius: "7px",
+    background: "#fff",
+    color: "#222",
+    WebkitTextFillColor: "#222",
+    fontSize: "15px",
+  };
+
   const { t } = useLanguage();
   const navigate = useNavigate();
 
