@@ -142,6 +142,11 @@ function Sidebar() {
           path: "/finance",
           icon: "💵",
         },
+        {
+          name: t("receipts"),
+          path: "/receipts",
+          icon: "🧾",
+        },
       ],
     },
 

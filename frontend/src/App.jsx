@@ -58,6 +58,7 @@ import EditWorker from "./pages/EditWorker";
 import Finance from "./pages/Finance";
 import AddFinance from "./pages/AddFinance";
 import EditFinance from "./pages/EditFinance";
+import Receipts from "./pages/Receipts";
 
 // ======================
 // Inventory
@@ -323,6 +324,11 @@ function App() {
           <Route
             path="/finance/edit/:id"
             element={<EditFinance />}
+          />
+          
+          <Route
+            path="/receipts"
+            element={<Receipts />}
           />
 
           {/* ======================

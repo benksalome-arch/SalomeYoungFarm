@@ -238,6 +238,7 @@ const translations = {
     femaleKids: "Female Kids",
     femaleRabbit: "Female Rabbit",
     finance: "Finance",
+    receipts: "Receipts",
     financeConnected: "Finance connected",
     financeDelete: "Delete",
     financeDescription: 
@@ -763,6 +764,7 @@ const translations = {
     femaleKids: 'Watoto wa Kike',
     femaleRabbit: "Sungura Jike",
     finance: "Fedha",
+    receipts: "Risiti",
     financeConnected: "Fedha imeunganishwa",
     financeDelete: "Futa",
     financeDescription: 
@@ -1294,6 +1296,7 @@ const translations = {
     femaleKids: 'Vrouwelijke jongen',
     femaleRabbit: "Vrouwelijk Konijn",
     finance: "Financiën",
+    receipts: "Bonnen",
     financeConnected: "Financiën verbonden",
     financeDelete: "Verwijderen",
     financeDescription: 
