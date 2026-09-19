@@ -241,19 +241,43 @@ function AddRabbitVaccination() {
               <label style={labelStyle}>
                 {t("vaccinationDate")}
               </label>
-              <input
-                type="text"
-                value={
-                  formData.vaccination_date
-                    ? formData.vaccination_date.split("-").reverse().join("-")
-                    : ""
-                }
-                placeholder="DD-MM-JJJJ"
-                readOnly
-                onClick={() => openCalendar("vaccination_date")}
-                required
-                style={inputStyle}
-              />
+              <div style={{ position: "relative", width: "100%", minWidth: 0 }}>
+                <div
+                  style={{
+                    ...inputStyle,
+                    width: "100%",
+                    color: formData.vaccination_date ? "#222" : "#777",
+                    pointerEvents: "none",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
+                  {formData.vaccination_date
+                    ? new Date(formData.vaccination_date + "T00:00:00").toLocaleDateString("nl-NL", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                      })
+                    : "DD-MM-JJJJ"}
+                </div>
+                <input
+                  type="date"
+                  name="vaccination_date"
+                  value={formData.vaccination_date || ""}
+                  onChange={handleChange}
+                  onClick={(e) => e.currentTarget.showPicker?.()}
+                  onFocus={(e) => e.currentTarget.showPicker?.()}
+                  required
+                  style={{
+                    position: "absolute",
+                    inset: 0,
+                    width: "100%",
+                    height: "100%",
+                    opacity: 0,
+                    cursor: "pointer",
+                  }}
+                />
+              </div>
             </div>
 
             {calendarOpen && (
@@ -490,18 +514,42 @@ function AddRabbitVaccination() {
 
             <div style={rowStyle}>
               <label style={labelStyle}>{t("nextDueDate")}</label>
-              <input
-                type="text"
-                value={
-                  formData.next_due_date
-                    ? formData.next_due_date.split("-").reverse().join("-")
-                    : ""
-                }
-                placeholder="DD-MM-JJJJ"
-                readOnly
-                onClick={() => openCalendar("next_due_date")}
-                style={inputStyle}
-              />
+              <div style={{ position: "relative", width: "100%", minWidth: 0 }}>
+                <div
+                  style={{
+                    ...inputStyle,
+                    width: "100%",
+                    color: formData.next_due_date ? "#222" : "#777",
+                    pointerEvents: "none",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
+                  {formData.next_due_date
+                    ? new Date(formData.next_due_date + "T00:00:00").toLocaleDateString("nl-NL", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                      })
+                    : "DD-MM-JJJJ"}
+                </div>
+                <input
+                  type="date"
+                  name="next_due_date"
+                  value={formData.next_due_date || ""}
+                  onChange={handleChange}
+                  onClick={(e) => e.currentTarget.showPicker?.()}
+                  onFocus={(e) => e.currentTarget.showPicker?.()}
+                  style={{
+                    position: "absolute",
+                    inset: 0,
+                    width: "100%",
+                    height: "100%",
+                    opacity: 0,
+                    cursor: "pointer",
+                  }}
+                />
+              </div>
             </div>
 
             <div style={rowStyle}>
