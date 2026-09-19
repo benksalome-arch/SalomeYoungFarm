@@ -169,6 +169,7 @@ function AddInventory() {
     }
 
     @media (max-width: 700px) {
+      .page-header > .button { position: static !important; display: inline-block; margin-top: 12px; }
       .inventory-field,
       .inventory-notes {
         grid-template-columns: 105px minmax(0, 1fr);
