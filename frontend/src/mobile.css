@@ -1328,7 +1328,6 @@ canvas {
   width: 34px !important;
   height: 34px !important;
   padding: 0 !important;
-  border: none !important;
   background: transparent !important;
   color: #222 !important;
   font-size: 24px !important;
@@ -1367,7 +1366,6 @@ canvas {
   height: 34px !important;
   margin: 0 !important;
   padding: 0 !important;
-  border: none !important;
   border-radius: 6px !important;
   background: transparent;
   color: #222 !important;
@@ -1442,7 +1440,6 @@ canvas {
   width: 30px !important;
   height: 30px !important;
   padding: 0 !important;
-  border: none !important;
   background: transparent !important;
   color: #222 !important;
   font-size: 24px !important;
@@ -1477,7 +1474,6 @@ canvas {
   height: 30px !important;
   margin: 0 auto !important;
   padding: 0 !important;
-  border: none !important;
   border-radius: 6px !important;
   box-sizing: border-box !important;
   background: transparent;
@@ -1504,11 +1500,8 @@ canvas {
 
 
 /* Calendar today / selected date - always visible */
-.rabbit-litter-calendar .rabbit-litter-calendar-selected {
-  background: #1976d2 !important;
-  color: #fff !important;
-  font-weight: 700 !important;
-  opacity: 1 !important;
+.rabbit-litter-calendar .rabbit-litter-calendar-day[style*="2px solid rgb(46, 125, 50)"] {
+  border: 2px solid #2e7d32 !important;
 }
 
 
@@ -2385,7 +2378,6 @@ canvas {
 
 .kidding-edit-calendar-header button {
   height: 32px !important;
-  border: none !important;
   border-radius: 6px !important;
   background: transparent !important;
   color: #222 !important;
@@ -2448,7 +2440,6 @@ canvas {
   display: block !important;
   margin: 14px auto 0 !important;
   padding: 8px 18px !important;
-  border: none !important;
   border-radius: 7px !important;
   background: #2e7d32 !important;
   color: #fff !important;

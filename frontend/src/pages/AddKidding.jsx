@@ -386,8 +386,6 @@ function AddKidding() {
                             onClick={() => handleDateSelect(day)}
                             style={{
                               minHeight: "40px",
-                              appearance: "none",
-                              WebkitAppearance: "none",
                               border:
                                 isSelected || isToday
                                   ? "2px solid #2e7d32"

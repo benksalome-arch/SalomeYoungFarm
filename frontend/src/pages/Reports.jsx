@@ -164,9 +164,11 @@ function Reports() {
     <div
       style={{
         width: "100%",
-        maxWidth: "100%",
+        maxWidth: "1050px",
+        margin: "0 auto",
         minWidth: 0,
         boxSizing: "border-box",
+        padding: "0 20px 30px",
       }}
     >
       {/* PAGE HEADER */}
@@ -174,14 +176,14 @@ function Reports() {
       <div
         style={{
           width: "100%",
-          maxWidth: "100%",
+          maxWidth: "1050px",
           minWidth: 0,
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
           gap: "20px",
           flexWrap: "wrap",
-          marginBottom: "25px",
+          marginBottom: "18px",
           boxSizing: "border-box",
         }}
       >
@@ -189,7 +191,7 @@ function Reports() {
           <h1
             style={{
               margin: 0,
-              fontSize: "42px",
+              fontSize: "34px",
               lineHeight: 1.2,
             }}
           >
@@ -411,8 +413,8 @@ function Reports() {
             <div
               style={{
                 width: "100%",
-                height: "390px",
-                marginTop: "25px",
+                height: "260px",
+                marginTop: "15px",
                 position: "relative",
                 boxSizing: "border-box",
                 padding: "0 30px",
@@ -424,7 +426,7 @@ function Reports() {
                   position: "absolute",
                   left: "30px",
                   right: "30px",
-                  top: "190px",
+                  top: "125px",
                   borderTop: "2px solid #444",
                   zIndex: 1,
                 }}
@@ -435,7 +437,7 @@ function Reports() {
                 style={{
                   position: "absolute",
                   left: "0",
-                  top: "180px",
+                  top: "115px",
                   fontSize: "13px",
                   fontWeight: "bold",
                   color: "#555",
@@ -464,7 +466,7 @@ function Reports() {
                   <div
                     style={{
                       position: "absolute",
-                      bottom: "200px",
+                      bottom: "135px",
                       left: "50%",
                       transform: "translateX(-50%)",
                       width: "70%",
@@ -478,7 +480,7 @@ function Reports() {
                   <div
                     style={{
                       position: "absolute",
-                      bottom: `${205 + scale(income)}px`,
+                      bottom: `${140 + scale(income)}px`,
                       width: "100%",
                       textAlign: "center",
                       fontWeight: "bold",
@@ -491,7 +493,7 @@ function Reports() {
                   <div
                     style={{
                       position: "absolute",
-                      top: "202px",
+                      top: "157px",
                       width: "100%",
                       textAlign: "center",
                       fontWeight: "bold",
@@ -511,7 +513,7 @@ function Reports() {
                   <div
                     style={{
                       position: "absolute",
-                      bottom: "200px",
+                      bottom: "135px",
                       left: "50%",
                       transform: "translateX(-50%)",
                       width: "70%",
@@ -525,7 +527,7 @@ function Reports() {
                   <div
                     style={{
                       position: "absolute",
-                      bottom: `${205 + scale(expenses)}px`,
+                      bottom: `${140 + scale(expenses)}px`,
                       width: "100%",
                       textAlign: "center",
                       fontWeight: "bold",
@@ -538,7 +540,7 @@ function Reports() {
                   <div
                     style={{
                       position: "absolute",
-                      top: "202px",
+                      top: "157px",
                       width: "100%",
                       textAlign: "center",
                       fontWeight: "bold",
@@ -562,7 +564,7 @@ function Reports() {
                       <div
                         style={{
                           position: "absolute",
-                          bottom: "200px",
+                          bottom: "135px",
                           left: "50%",
                           transform: "translateX(-50%)",
                           width: "70%",
@@ -576,7 +578,7 @@ function Reports() {
                       <div
                         style={{
                           position: "absolute",
-                          bottom: `${205 + scale(result)}px`,
+                          bottom: `${140 + scale(result)}px`,
                           width: "100%",
                           textAlign: "center",
                           fontWeight: "bold",
@@ -589,7 +591,7 @@ function Reports() {
                       <div
                         style={{
                           position: "absolute",
-                          top: "202px",
+                          top: "157px",
                           width: "100%",
                           textAlign: "center",
                           fontWeight: "bold",
@@ -619,7 +621,7 @@ function Reports() {
                       <div
                         style={{
                           position: "absolute",
-                          top: `${205 + scale(result)}px`,
+                          top: `${160 + scale(result)}px`,
                           left: "50%",
                           transform: "translateX(-50%)",
                           width: "100%",
@@ -652,7 +654,7 @@ function Reports() {
           minWidth: 0,
           boxSizing: "border-box",
           overflow: "hidden",
-          marginBottom: "25px",
+          marginBottom: "18px",
         }}
       >
         <h2>💵 {t("financialTransactions")}</h2>
@@ -672,6 +674,7 @@ function Reports() {
               minWidth: 0,
               tableLayout: "fixed",
               boxSizing: "border-box",
+              borderCollapse: "collapse",
             }}
           >
             <thead>
@@ -679,8 +682,9 @@ function Reports() {
                 <th
                   style={{
                     width: "14%",
-                    fontSize: "10px",
-                    padding: "10px 4px",
+                    fontSize: "13px",
+                    padding: "12px 8px",
+                    textAlign: "center",
                     whiteSpace: "nowrap",
                   }}
                 >
@@ -689,9 +693,10 @@ function Reports() {
 
                 <th
                   style={{
-                    width: "11%",
-                    fontSize: "10px",
-                    padding: "10px 4px",
+                    width: "12%",
+                    fontSize: "13px",
+                    padding: "12px 8px",
+                    textAlign: "center",
                     whiteSpace: "nowrap",
                   }}
                 >
@@ -700,9 +705,10 @@ function Reports() {
 
                 <th
                   style={{
-                    width: "15%",
-                    fontSize: "10px",
-                    padding: "10px 4px",
+                    width: "16%",
+                    fontSize: "13px",
+                    padding: "12px 8px",
+                    textAlign: "left",
                     whiteSpace: "nowrap",
                   }}
                 >
@@ -711,9 +717,10 @@ function Reports() {
 
                 <th
                   style={{
-                    width: "24%",
-                    fontSize: "10px",
-                    padding: "10px 4px",
+                    width: "25%",
+                    fontSize: "13px",
+                    padding: "12px 8px",
+                    textAlign: "left",
                     whiteSpace: "nowrap",
                   }}
                 >
@@ -722,9 +729,10 @@ function Reports() {
 
                 <th
                   style={{
-                    width: "18%",
-                    fontSize: "10px",
-                    padding: "10px 4px",
+                    width: "16%",
+                    fontSize: "13px",
+                    padding: "12px 8px",
+                    textAlign: "right",
                     whiteSpace: "nowrap",
                   }}
                 >
@@ -733,9 +741,10 @@ function Reports() {
 
                 <th
                   style={{
-                    width: "18%",
-                    fontSize: "10px",
-                    padding: "10px 4px",
+                    width: "17%",
+                    fontSize: "13px",
+                    padding: "12px 8px",
+                    textAlign: "center",
                     whiteSpace: "nowrap",
                   }}
                 >
@@ -764,9 +773,9 @@ function Reports() {
                   >
                     <td
                       style={{
-                        padding: "10px 4px",
+                        padding: "12px 8px",
                         textAlign: "center",
-                        fontSize: "10px",
+                        fontSize: "13px",
                         whiteSpace:
                           "nowrap",
                       }}
@@ -778,9 +787,9 @@ function Reports() {
 
                     <td
                       style={{
-                        padding: "10px 4px",
+                        padding: "12px 8px",
                         textAlign: "center",
-                        fontSize: "10px",
+                        fontSize: "13px",
                         overflow: "hidden",
                         textOverflow:
                           "ellipsis",
@@ -797,8 +806,8 @@ function Reports() {
 
                     <td
                       style={{
-                        padding: "10px 4px",
-                        fontSize: "10px",
+                        padding: "12px 8px",
+                        fontSize: "13px",
                         overflow: "hidden",
                         textOverflow:
                           "ellipsis",
@@ -812,8 +821,8 @@ function Reports() {
 
                     <td
                       style={{
-                        padding: "10px 4px",
-                        fontSize: "10px",
+                        padding: "12px 8px",
+                        fontSize: "13px",
                         overflow: "hidden",
                         textOverflow:
                           "ellipsis",
@@ -831,9 +840,9 @@ function Reports() {
 
                     <td
                       style={{
-                        padding: "10px 4px",
+                        padding: "12px 8px",
                         textAlign: "center",
-                        fontSize: "10px",
+                        fontSize: "13px",
                         whiteSpace:
                           "nowrap",
                       }}
@@ -847,8 +856,8 @@ function Reports() {
 
                     <td
                       style={{
-                        padding: "10px 4px",
-                        fontSize: "10px",
+                        padding: "12px 8px",
+                        fontSize: "13px",
                         overflow: "hidden",
                         textOverflow:
                           "ellipsis",
@@ -893,16 +902,22 @@ function Reports() {
             maxWidth: "100%",
             minWidth: 0,
             tableLayout: "fixed",
+            borderCollapse: "collapse",
             boxSizing: "border-box",
           }}
         >
+          <colgroup>
+            <col style={{ width: "70%" }} />
+            <col style={{ width: "30%" }} />
+          </colgroup>
+
           <thead>
             <tr>
               <th
                 style={{
-                  width: "70%",
-                  fontSize: "11px",
-                  padding: "10px 5px",
+                  textAlign: "left",
+                  fontSize: "13px",
+                  padding: "12px 14px",
                   whiteSpace: "nowrap",
                 }}
               >
@@ -911,9 +926,9 @@ function Reports() {
 
               <th
                 style={{
-                  width: "30%",
-                  fontSize: "11px",
-                  padding: "10px 5px",
+                  textAlign: "center",
+                  fontSize: "13px",
+                  padding: "12px 14px",
                   whiteSpace: "nowrap",
                 }}
               >
@@ -924,36 +939,87 @@ function Reports() {
 
           <tbody>
             <tr>
-              <td>🐐 {t("goats")}</td>
-              <td>{goats.length}</td>
+              <td
+                style={{
+                  textAlign: "left",
+                  padding: "12px 14px",
+                }}
+              >
+                🐐 {t("goats")}
+              </td>
+              <td
+                style={{
+                  textAlign: "center",
+                  padding: "12px 14px",
+                }}
+              >
+                {goats.length}
+              </td>
             </tr>
 
             <tr>
-              <td>🐔 {t("chickens")}</td>
-              <td>{chickens.length}</td>
+              <td
+                style={{
+                  textAlign: "left",
+                  padding: "12px 14px",
+                }}
+              >
+                🐔 {t("chickens")}
+              </td>
+              <td
+                style={{
+                  textAlign: "center",
+                  padding: "12px 14px",
+                }}
+              >
+                {chickens.length}
+              </td>
             </tr>
 
             <tr>
-              <td>🐇 {t("rabbits")}</td>
-              <td>{rabbits.length}</td>
+              <td
+                style={{
+                  textAlign: "left",
+                  padding: "12px 14px",
+                }}
+              >
+                🐇 {t("rabbits")}
+              </td>
+              <td
+                style={{
+                  textAlign: "center",
+                  padding: "12px 14px",
+                }}
+              >
+                {rabbits.length}
+              </td>
             </tr>
 
             <tr>
-              <td>
-                <strong>
-                  {t("totalAnimals")}
-                </strong>
+              <td
+                style={{
+                  textAlign: "left",
+                  padding: "12px 14px",
+                  fontWeight: "700",
+                }}
+              >
+                {t("totalAnimals")}
               </td>
 
-              <td>
-                <strong>
-                  {totalAnimals}
-                </strong>
+              <td
+                style={{
+                  textAlign: "center",
+                  padding: "12px 14px",
+                  fontWeight: "700",
+                }}
+              >
+                {totalAnimals}
               </td>
             </tr>
           </tbody>
         </table>
       </div>
+
     </div>
   );
 }
