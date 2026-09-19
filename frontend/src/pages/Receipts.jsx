@@ -216,6 +216,7 @@ function Receipts() {
                   width: "100%",
                   color: form.receipt_date ? "#222" : "#777",
                   WebkitTextFillColor: form.receipt_date ? "#222" : "#777",
+                  textAlign: "left",
                   pointerEvents: "none",
                 }}
               >
