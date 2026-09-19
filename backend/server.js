@@ -36,6 +36,7 @@ const workersRoutes = require("./routes/workersRoutes");
 
 // Finance
 const financeRoutes = require("./routes/financeRoutes");
+const receiptsRoutes = require("./routes/receiptsRoutes");
 
 // Inventory
 const inventoryRoutes = require("./routes/inventoryRoutes");
@@ -91,6 +92,7 @@ app.use("/api/workers", workersRoutes);
 
 // Finance
 app.use("/api/finance", financeRoutes);
+app.use("/api/receipts", receiptsRoutes);
 
 // Inventory
 app.use("/api/inventory", inventoryRoutes);

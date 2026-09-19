@@ -390,3 +390,21 @@ CREATE TABLE IF NOT EXISTS goat_mortality (
     FOREIGN KEY (goat_id) REFERENCES goats(id)
     ON DELETE RESTRICT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS receipts (
+  id INT NOT NULL AUTO_INCREMENT,
+  finance_id INT DEFAULT NULL,
+  receipt_date DATE NOT NULL,
+  supplier VARCHAR(150) DEFAULT NULL,
+  amount DECIMAL(12,2) DEFAULT NULL,
+  description VARCHAR(255) DEFAULT NULL,
+  file_url TEXT NOT NULL,
+  file_name VARCHAR(255) NOT NULL,
+  file_type VARCHAR(100) DEFAULT NULL,
+  created_by INT DEFAULT NULL,
+  created_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  KEY finance_id (finance_id),
+  KEY created_by (created_by),
+  CONSTRAINT fk_receipts_finance FOREIGN KEY (finance_id) REFERENCES finance(id) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
