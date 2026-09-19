@@ -474,14 +474,22 @@ function AddRabbitLitter() {
                 name="birth_date"
                 value={form.birth_date || ""}
                 onChange={handleChange}
+                onClick={(e) => e.currentTarget.showPicker?.()}
                 disabled={saving}
                 required
                 style={{
                   position: "absolute",
+                  inset: 0,
                   width: "100%",
                   height: "100%",
                   opacity: 0,
-                  opacity: 0.01
+                  padding: 0,
+                  margin: 0,
+                  border: 0,
+                  background: "transparent",
+                  appearance: "none",
+                  WebkitAppearance: "none",
+                  cursor: "pointer"
                 }}
               />
             </div>
