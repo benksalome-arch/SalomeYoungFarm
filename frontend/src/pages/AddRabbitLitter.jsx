@@ -283,7 +283,7 @@ function AddRabbitLitter() {
 
         .rabbit-litter-form-card form > div {
           display: grid;
-          grid-template-columns: 150px minmax(0, 320px);
+          grid-template-columns: 150px minmax(0, 260px); justify-content: center;
           gap: 14px;
           align-items: center;
           width: 100%;
@@ -367,7 +367,7 @@ function AddRabbitLitter() {
           }
 
           .rabbit-litter-form-card form > div {
-            grid-template-columns: 105px minmax(0, 260px); justify-content: center; width: 100%;
+            grid-template-columns: 105px minmax(0, 1fr); width: min(100%, 375px); margin-left: auto; margin-right: auto;
             gap: 12px;
           }
 
@@ -437,7 +437,7 @@ function AddRabbitLitter() {
 
         .rabbit-litter-form-card form > div {
           display: grid;
-          grid-template-columns: 150px minmax(0, 320px);
+          grid-template-columns: 150px minmax(0, 260px); justify-content: center;
           gap: 14px;
           align-items: center;
           width: 100%;
@@ -516,7 +516,7 @@ function AddRabbitLitter() {
           }
 
           .rabbit-litter-form-card form > div {
-            grid-template-columns: 105px minmax(0, 260px); justify-content: center; width: 100%;
+            grid-template-columns: 105px minmax(0, 1fr); width: min(100%, 375px); margin-left: auto; margin-right: auto;
             gap: 12px;
           }
 
