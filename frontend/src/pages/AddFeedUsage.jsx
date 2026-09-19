@@ -17,6 +17,7 @@ function AddFeedUsage() {
     textAlign: "right",
     color: "#222",
     WebkitTextFillColor: "#222",
+            lineHeight: "1.05",
   };
 
   const inputStyle = {
@@ -29,6 +30,7 @@ function AddFeedUsage() {
     background: "#fff",
     color: "#222",
     WebkitTextFillColor: "#222",
+            lineHeight: "1.05",
     fontSize: "15px",
   };
 
@@ -217,6 +219,7 @@ function AddFeedUsage() {
             margin: "0 0 6px 0",
             color: "#222",
             WebkitTextFillColor: "#222",
+            lineHeight: "1.05",
           }}
         >
           🌾 Voergebruik registreren
