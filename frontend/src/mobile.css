@@ -2510,3 +2510,13 @@ canvas {
   }
 }
 
+
+/* Receipts calendar - match Add Goat Mortality */
+@media (max-width: 700px) {
+  .receipts-calendar {
+    left: 10px !important;
+    right: 10px !important;
+    width: auto !important;
+    max-width: none !important;
+  }
+}
