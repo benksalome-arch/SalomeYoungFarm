@@ -42,17 +42,14 @@ function AddWorker() {
     }
 
     try {
-      const response = await fetch(
-        `${API_URL}/api/workers`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(formData),
-        }
-      );
+      const response = await fetch(`${API_URL}/api/workers`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(formData),
+      });
 
       const data = await response.json();
 
@@ -62,114 +59,108 @@ function AddWorker() {
       }
 
       alert(data.message || "Worker created successfully!");
-
       navigate("/workers");
-
     } catch (error) {
       console.error(error);
       alert("Failed to connect to the server.");
     }
   }
 
+  const labelStyle = {
+    fontWeight: "600",
+    color: "#222",
+    fontSize: "15px",
+  };
+
+  const inputStyle = {
+    width: "100%",
+    boxSizing: "border-box",
+    padding: "11px 12px",
+    border: "1px solid #d5d5d5",
+    borderRadius: "7px",
+    background: "#fff",
+    color: "#222",
+    fontSize: "15px",
+    minHeight: "44px",
+  };
+
   return (
     <div className="page">
-
-      <div className="page-header">
-        <h1>➕ {t("addWorker")}</h1>
-        <p>{t("createAccountDescription")}</p>
+      <div
+        className="page-header"
+        style={{
+          textAlign: "center",
+          marginBottom: "24px",
+        }}
+      >
+        <h1
+          style={{
+            margin: "0 0 6px 0",
+            color: "#222",
+            WebkitTextFillColor: "#222",
+          }}
+        >
+          ➕ {t("addWorker")}
+        </h1>
+        <p style={{ margin: 0 }}>{t("createAccountDescription")}</p>
       </div>
 
-      <div className="card">
-
+      <div
+        className="card"
+        style={{
+          maxWidth: "800px",
+          margin: "0 auto",
+          padding: "28px",
+          borderRadius: "12px",
+          boxSizing: "border-box",
+        }}
+      >
         <form onSubmit={handleSubmit} autoComplete="off">
           <div
+            className="worker-form-grid"
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
-              gap: "20px 30px",
-              maxWidth: "800px",
-              margin: "0 auto",
+              gridTemplateColumns: "180px minmax(0, 1fr)",
+              gap: "18px 22px",
+              alignItems: "center",
             }}
           >
-            <div>
-              <label
-                style={{
-                  display: "block",
-                  marginBottom: "8px",
-                  fontWeight: "600",
-                }}
-              >
-                {t("fullName")}
-              </label>
+            <label style={labelStyle}>{t("fullName")}</label>
+            <input
+              type="text"
+              name="full_name"
+              autoComplete="off"
+              value={formData.full_name}
+              onChange={handleChange}
+              placeholder={t("fullName")}
+              required
+              style={inputStyle}
+            />
 
-              <input
-                type="text"
-                name="full_name"
-                autoComplete="off"
-                value={formData.full_name}
-                onChange={handleChange}
-                placeholder={t("fullName")}
-                required
-                style={{ width: "100%", boxSizing: "border-box" }}
-              />
+            <label style={labelStyle}>{t("email")}</label>
+            <input
+              type="email"
+              name="email"
+              autoComplete="off"
+              value={formData.email}
+              onChange={handleChange}
+              placeholder={t("email")}
+              style={inputStyle}
+            />
 
-            </div>
+            <label style={labelStyle}>{t("phone")}</label>
+            <input
+              type="tel"
+              name="phone"
+              autoComplete="off"
+              value={formData.phone}
+              onChange={handleChange}
+              placeholder={t("phoneNumber")}
+              style={inputStyle}
+            />
 
-            <div>
-              <label
-                style={{
-                  display: "block",
-                  marginBottom: "8px",
-                  fontWeight: "600",
-                }}
-              >
-                {t("email")}
-              </label>
-
-              <input
-                type="email"
-                name="email"
-                autoComplete="off"
-                value={formData.email}
-                onChange={handleChange}
-                placeholder={t("email")}
-                style={{ width: "100%", boxSizing: "border-box" }}
-              />
-            </div>
-
-            <div>
-              <label
-                style={{
-                  display: "block",
-                  marginBottom: "8px",
-                  fontWeight: "600",
-                }}
-              >
-                {t("phone")}
-              </label>
-
-              <input
-                type="tel"
-                name="phone"
-                autoComplete="off"
-                value={formData.phone || ""}
-                onChange={handleChange}
-                placeholder={t("phoneNumber")}
-                style={{ width: "100%", boxSizing: "border-box" }}
-              />
-            </div>
-
-            <div>
-              <label
-                style={{
-                  display: "block",
-                  marginBottom: "8px",
-                  fontWeight: "600",
-                }}
-              >
-                {t("password")}
-              </label>
-
+            <label style={labelStyle}>{t("password")}</label>
+            <div style={{ position: "relative", width: "100%" }}>
               <input
                 type={showPassword ? "text" : "password"}
                 name="password"
@@ -179,9 +170,8 @@ function AddWorker() {
                 placeholder={t("password")}
                 required
                 style={{
-                  width: "100%",
-                  boxSizing: "border-box",
-                  paddingRight: "45px",
+                  ...inputStyle,
+                  paddingRight: "46px",
                 }}
               />
 
@@ -190,41 +180,33 @@ function AddWorker() {
                 onClick={() => setShowPassword((prev) => !prev)}
                 aria-label={showPassword ? "Hide password" : "Show password"}
                 style={{
-                  marginLeft: "-45px",
-                  width: "40px",
+                  position: "absolute",
+                  right: "10px",
+                  top: "50%",
+                  transform: "translateY(-50%)",
                   border: "none",
                   background: "transparent",
                   cursor: "pointer",
                   fontSize: "18px",
-                  verticalAlign: "middle",
+                  padding: "4px",
+                  lineHeight: 1,
                 }}
               >
                 {showPassword ? "🙈" : "👁️"}
               </button>
             </div>
 
-            <div>
-              <label
-                style={{
-                  display: "block",
-                  marginBottom: "8px",
-                  fontWeight: "600",
-                }}
-              >
-                {t("role")}
-              </label>
-
-              <select
-                name="role"
-                value={formData.role}
-                onChange={handleChange}
-                style={{ width: "100%", boxSizing: "border-box" }}
-              >
-                <option value="worker">{t("worker")}</option>
-                <option value="manager">{t("manager")}</option>
-                <option value="admin">{t("administrator")}</option>
-              </select>
-            </div>
+            <label style={labelStyle}>{t("role")}</label>
+            <select
+              name="role"
+              value={formData.role}
+              onChange={handleChange}
+              style={inputStyle}
+            >
+              <option value="worker">{t("worker")}</option>
+              <option value="manager">{t("manager")}</option>
+              <option value="admin">{t("administrator")}</option>
+            </select>
           </div>
 
           <div
@@ -233,6 +215,7 @@ function AddWorker() {
               justifyContent: "center",
               gap: "12px",
               marginTop: "30px",
+              flexWrap: "wrap",
             }}
           >
             <button className="button" type="submit">
@@ -244,9 +227,28 @@ function AddWorker() {
             </Link>
           </div>
         </form>
-
       </div>
 
+      <style>{`
+        @media (max-width: 700px) {
+          .worker-form-grid {
+            grid-template-columns: 105px minmax(0, 1fr) !important;
+            gap: 16px 12px !important;
+          }
+
+          .worker-form-grid input,
+          .worker-form-grid select {
+            min-width: 0;
+          }
+        }
+
+        @media (max-width: 430px) {
+          .worker-form-grid {
+            grid-template-columns: 92px minmax(0, 1fr) !important;
+            gap: 15px 10px !important;
+          }
+        }
+      `}</style>
     </div>
   );
 }
