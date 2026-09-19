@@ -316,7 +316,6 @@ function AddRabbitLitter() {
           min-height: 96px;
         }
 
-        .rabbit-litter-form-card .rabbit-litter-date-field > div { height: 44px; min-height: 44px; max-height: 44px;
           width: 100%;
         }
 
@@ -470,7 +469,6 @@ function AddRabbitLitter() {
           min-height: 96px;
         }
 
-        .rabbit-litter-form-card .rabbit-litter-date-field > div { height: 44px; min-height: 44px; max-height: 44px;
           width: 100%;
         }
 
