@@ -1,5 +1,5 @@
 import API_URL from "../api";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { Link, useNavigate } from "react-router-dom";
 import { useLanguage } from "../context/LanguageContext";
@@ -7,6 +7,7 @@ import { useLanguage } from "../context/LanguageContext";
 function AddRabbitLitter() {
   const { t } = useLanguage();
   const navigate = useNavigate();
+  const birthDateRef = useRef(null);
 
   const [breedings, setBreedings] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -434,16 +435,9 @@ function AddRabbitLitter() {
               <strong>{t("birthDate")}</strong>
             </label>
             <div
-              role="button"
-              tabIndex={0}
-              onClick={(e) => {
-                const input = e.currentTarget.querySelector("input");
-                input?.showPicker?.();
-                input?.focus();
-              }}
-              style={{ position: "relative", width: "100%", cursor: "pointer" }}
-            >
-              <div style={{
+              onClick={() => birthDateRef.current?.showPicker?.()}
+              style={{
+                position: "relative",
                 width: "100%",
                 minHeight: "44px",
                 boxSizing: "border-box",
@@ -452,28 +446,28 @@ function AddRabbitLitter() {
                 borderRadius: "7px",
                 background: "#fff",
                 color: form.birth_date ? "#222" : "#777",
-                WebkitTextFillColor: form.birth_date ? "#222" : "#777",
                 display: "flex",
-                alignItems: "center"
-              }}>
-                {form.birth_date
-                  ? new Date(form.birth_date + "T00:00:00").toLocaleDateString("nl-NL", {
-                      day: "2-digit",
-                      month: "2-digit",
-                      year: "numeric"
-                    })
-                  : "DD-MM-JJJJ"}
-              </div>
+                alignItems: "center",
+                cursor: "pointer"
+              }}
+            >
+              {form.birth_date
+                ? new Date(form.birth_date + "T00:00:00").toLocaleDateString("nl-NL", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric"
+                  })
+                : "DD-MM-JJJJ"}
               <input
+                ref={birthDateRef}
                 type="date"
                 name="birth_date"
                 value={form.birth_date || ""}
                 onChange={handleChange}
                 disabled={saving}
                 required
-                tabIndex={-1}
                 style={{
-                  position: "absolute",
+                  position: "fixed",
                   width: "1px",
                   height: "1px",
                   opacity: 0,
