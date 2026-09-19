@@ -147,7 +147,7 @@ function AddRabbitVaccination() {
 
   const rowStyle = {
     display: "grid",
-    gridTemplateColumns: "180px 420px",
+    gridTemplateColumns: "clamp(105px, 30vw, 180px) minmax(0, 420px)",
     alignItems: "center",
     gap: "18px",
   };
@@ -180,7 +180,7 @@ function AddRabbitVaccination() {
             WebkitTextFillColor: "#222",
             fontSize: "34px",
             lineHeight: "1.2",
-            whiteSpace: "nowrap",
+            whiteSpace: "normal",
             overflow: "visible",
           }}
         >
@@ -191,10 +191,7 @@ function AddRabbitVaccination() {
           className="button"
           to="/rabbit-vaccinations"
           style={{
-            position: "absolute",
-            right: 0,
-            top: "50%",
-            transform: "translateY(-50%)",
+            position: "static",
           }}
         >
           ← {t("back")}
