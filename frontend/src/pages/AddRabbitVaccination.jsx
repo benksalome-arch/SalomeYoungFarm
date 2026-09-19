@@ -170,6 +170,8 @@ function AddRabbitVaccination() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
+          gap: "20px",
+          flexWrap: "wrap",
         }}
       >
         <h1
@@ -289,6 +291,8 @@ function AddRabbitVaccination() {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
+          gap: "20px",
+          flexWrap: "wrap",
                   zIndex: 99999,
                 }}
                 onClick={() => setCalendarOpen(false)}
@@ -459,6 +463,8 @@ function AddRabbitVaccination() {
                             display: "flex",
                             alignItems: "center",
                             justifyContent: "center",
+          gap: "20px",
+          flexWrap: "wrap",
                             cursor: "pointer",
                           }}
                         >
@@ -599,6 +605,8 @@ function AddRabbitVaccination() {
             style={{
               display: "flex",
               justifyContent: "center",
+          gap: "20px",
+          flexWrap: "wrap",
               gap: "12px",
               marginTop: "28px",
               flexWrap: "wrap",
