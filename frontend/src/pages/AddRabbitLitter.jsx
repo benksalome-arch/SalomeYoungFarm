@@ -323,6 +323,10 @@ function AddRabbitLitter() {
           width: 100%;
         }
 
+        .rabbit-litter-form-card .rabbit-litter-date-field > div { width: 100%; min-width: 0; }
+
+        .rabbit-litter-form-card .rabbit-litter-date-field > div > div { width: 100%; min-width: 0; }
+
         .rabbit-litter-form-card .rabbit-litter-date-field input {
           cursor: pointer;
         }
@@ -472,12 +476,12 @@ function AddRabbitLitter() {
                   disabled={saving}
                   required
                   style={{
-                    position: "absolute",
+                    position: "relative",
                     boxSizing: "border-box",
-                    inset: 0,
+                    inset: auto,
                     width: "100%",
-                    height: "100%",
-                    opacity: 0,
+                    height: "44px",
+                    opacity: 1,
                     cursor: "pointer",
                   }}
                 />
