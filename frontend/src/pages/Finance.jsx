@@ -18,7 +18,7 @@ function Finance() {
 
   async function loadTransactions() {
     try {
-      const response = await fetch(`${API_URL}/api/finance`);
+      const response = await fetch(`${API_URL}/api/finance`, { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } });
       const data = await response.json();
 
       if (!response.ok) {
@@ -80,7 +80,7 @@ function Finance() {
       const response = await fetch(
         `${API_URL}/api/finance/${id}`,
         {
-          method: "DELETE",
+          method: "DELETE", headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
       );
 
