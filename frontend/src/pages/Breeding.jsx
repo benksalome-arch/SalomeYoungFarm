@@ -25,7 +25,7 @@ function Breeding() {
   }
 
   async function deleteRecord(id) {
-    if (!window.confirm(t("deleteBreedingRecord"))) {
+    if (!window.confirm(t("deleteBreedingRecord", "Delete this breeding record?"))) {
       return;
     }
 
@@ -34,19 +34,43 @@ function Breeding() {
         `${API_URL}/api/breeding/${id}`,
         {
           method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         }
       );
 
       const data = await response.json();
 
-      alert(data.message || t("breedingRecordDeleted", "Breeding record deleted."));
-
-      if (response.ok) {
-        loadRecords();
+      if (!response.ok) {
+        alert(
+          data.message ||
+            t(
+              "failedToDeleteBreeding",
+              "Failed to delete breeding record."
+            )
+        );
+        return;
       }
+
+      alert(
+        data.message ||
+          t(
+            "breedingRecordDeleted",
+            "Breeding record deleted."
+          )
+      );
+
+      loadRecords();
     } catch (error) {
       console.error("Error deleting breeding record:", error);
-      alert(t("failedToDeleteBreeding"));
+
+      alert(
+        t(
+          "failedToDeleteBreeding",
+          "Failed to delete breeding record."
+        )
+      );
     }
   }
 
@@ -75,6 +99,8 @@ function Breeding() {
   }
 
   function getStatusStyle(status) {
+    const normalizedStatus = String(status || "").trim().toLowerCase();
+
     if (normalizedStatus === "kidded") {
       return {
         background: "#e3f2fd",
@@ -119,8 +145,8 @@ function Breeding() {
             <p className="breeding-count">
               {records.length}{" "}
               {records.length === 1
-                ? t("breedingRecord")
-                : t("breedingRecords")}
+                ? t("breedingRecordCount", "breeding record")
+                : t("breedingRecordsCount", "breeding records")}
             </p>
           </div>
 
