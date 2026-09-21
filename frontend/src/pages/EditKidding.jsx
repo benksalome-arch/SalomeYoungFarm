@@ -174,7 +174,7 @@ function EditKidding() {
               <div style={{ position: "relative", width: "100%" }}>
                 <div
                   style={{
-                    ...inputStyle,
+                    width: "100%", boxSizing: "border-box", padding: "10px 12px", minHeight: "44px", border: "1px solid #cfd6cf", borderRadius: "7px", background: "#fff",
                     width: "100%",
                     color: formData.kidding_date ? "#222" : "#777",
                     pointerEvents: "none",
