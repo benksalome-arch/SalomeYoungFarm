@@ -39,7 +39,7 @@ function Breeding() {
 
       const data = await response.json();
 
-      alert(data.message || "Breeding record deleted.");
+      alert(data.message || t("breedingRecordDeleted", "Breeding record deleted."));
 
       if (response.ok) {
         loadRecords();
@@ -75,14 +75,14 @@ function Breeding() {
   }
 
   function getStatusStyle(status) {
-    if (status === "Kidded") {
+    if (normalizedStatus === "kidded") {
       return {
         background: "#e3f2fd",
         color: "#1565c0",
       };
     }
 
-    if (status === "Aborted") {
+    if (normalizedStatus === "aborted") {
       return {
         background: "#ffebee",
         color: "#c62828",
@@ -119,8 +119,8 @@ function Breeding() {
             <p className="breeding-count">
               {records.length}{" "}
               {records.length === 1
-                ? "breeding record"
-                : "breeding records"}
+                ? t("breedingRecord")
+                : t("breedingRecords")}
             </p>
           </div>
 
@@ -166,17 +166,18 @@ function Breeding() {
             {records.map((record) => {
 
               const status =
-                record.pregnancy_status || "Pregnant";
+                (record.pregnancy_status || "Pregnant").trim();
+              const normalizedStatus = status.toLowerCase();
 
               const statusStyle =
                 getStatusStyle(status);
 
               const translatedStatus =
-                status === "Pregnant"
+                normalizedStatus === "pregnant"
                   ? t("pregnant")
-                  : status === "Kidded"
+                  : normalizedStatus === "kidded"
                   ? t("kidded")
-                  : status === "Aborted"
+                  : normalizedStatus === "aborted"
                   ? t("aborted")
                   : status;
 
