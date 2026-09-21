@@ -213,51 +213,6 @@ function AddKidding() {
       <div className="card">
         <form onSubmit={handleSubmit} className="add-kidding-form">
 
-          {/* Kidding date */}
-          <div className="add-kidding-field">
-            <label className="add-kidding-label">
-              {t("kiddingDate")}
-            </label>
-
-            <div style={{ position: "relative", width: "100%" }}>
-              <div
-                style={{
-                  ...inputStyle,
-                  width: "100%",
-                  color: formData.kidding_date ? "#222" : "#777",
-                  WebkitTextFillColor: formData.kidding_date ? "#222" : "#777",
-                  pointerEvents: "none",
-                }}
-              >
-                {formData.kidding_date
-                  ? new Date(formData.kidding_date + "T00:00:00").toLocaleDateString("nl-NL", {
-                      day: "2-digit",
-                      month: "2-digit",
-                      year: "numeric",
-                    })
-                  : "DD-MM-JJJJ"}
-              </div>
-
-              <input
-                type="date"
-                name="kidding_date"
-                value={formData.kidding_date || ""}
-                onChange={handleChange}
-                onClick={(e) => e.currentTarget.showPicker?.()}
-                onFocus={(e) => e.currentTarget.showPicker?.()}
-                required
-                style={{
-                  position: "absolute",
-                  inset: 0,
-                  width: "100%",
-                  height: "100%",
-                  opacity: 0,
-                  cursor: "pointer",
-                }}
-              />
-            </div>
-          </div>
-
           {/* PROFESSIONAL CALENDAR */}
           {calendarOpen && (
                 <div
@@ -527,6 +482,51 @@ function AddKidding() {
                 resize: "vertical",
               }}
             />
+          </div>
+
+          {/* Kidding date */}
+          <div className="add-kidding-field">
+            <label className="add-kidding-label">
+              {t("kiddingDate")}
+            </label>
+
+            <div style={{ position: "relative", width: "100%" }}>
+              <div
+                style={{
+                  ...inputStyle,
+                  width: "100%",
+                  color: formData.kidding_date ? "#222" : "#777",
+                  WebkitTextFillColor: formData.kidding_date ? "#222" : "#777",
+                  pointerEvents: "none",
+                }}
+              >
+                {formData.kidding_date
+                  ? new Date(formData.kidding_date + "T00:00:00").toLocaleDateString("nl-NL", {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                    })
+                  : "DD-MM-JJJJ"}
+              </div>
+
+              <input
+                type="date"
+                name="kidding_date"
+                value={formData.kidding_date || ""}
+                onChange={handleChange}
+                onClick={(e) => e.currentTarget.showPicker?.()}
+                onFocus={(e) => e.currentTarget.showPicker?.()}
+                required
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  width: "100%",
+                  height: "100%",
+                  opacity: 0,
+                  cursor: "pointer",
+                }}
+              />
+            </div>
           </div>
 
           {/* Buttons */}
