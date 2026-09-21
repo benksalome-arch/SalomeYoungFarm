@@ -465,25 +465,6 @@ function AddKidding() {
             />
           </div>
 
-          {/* Notes */}
-          <div className="add-kidding-notes">
-            <label className="add-kidding-label">
-              {t("notes")}
-            </label>
-
-            <textarea
-              name="notes"
-              rows="4"
-              value={formData.notes}
-              onChange={handleChange}
-              style={{
-                ...inputStyle,
-                minHeight: "100px",
-                resize: "vertical",
-              }}
-            />
-          </div>
-
           {/* Kidding date */}
           <div className="add-kidding-field">
             <label className="add-kidding-label">
@@ -527,6 +508,25 @@ function AddKidding() {
                 }}
               />
             </div>
+          </div>
+
+          {/* Notes */}
+          <div className="add-kidding-notes">
+            <label className="add-kidding-label">
+              {t("notes")}
+            </label>
+
+            <textarea
+              name="notes"
+              rows="4"
+              value={formData.notes}
+              onChange={handleChange}
+              style={{
+                ...inputStyle,
+                minHeight: "100px",
+                resize: "vertical",
+              }}
+            />
           </div>
 
           {/* Buttons */}
