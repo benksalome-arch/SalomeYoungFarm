@@ -293,9 +293,11 @@ function GoatTable({ goats }) {
                     }}
                   >
                     {goat.date_of_birth
-                      ? String(
-                          goat.date_of_birth
-                        ).split("T")[0]
+                      ? String(goat.date_of_birth)
+                          .split("T")[0]
+                          .split("-")
+                          .reverse()
+                          .join("-")
                       : "-"}
                   </td>
 
