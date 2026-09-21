@@ -323,6 +323,7 @@ function AddBreeding() {
           </Link>
         </form>
 
+        {/* PROFESSIONAL CALENDAR */}
         {calendarOpen && (
           <div
             style={{
@@ -333,8 +334,6 @@ function AddBreeding() {
               alignItems: "center",
               justifyContent: "center",
               zIndex: 99999,
-              padding: "16px",
-              boxSizing: "border-box",
             }}
             onClick={() => setCalendarOpen(false)}
           >
@@ -367,8 +366,6 @@ function AddBreeding() {
                     width: "38px",
                     height: "38px",
                     fontSize: "22px",
-                    color: "#222",
-                    WebkitTextFillColor: "#222",
                     cursor: "pointer",
                   }}
                 >
@@ -412,8 +409,6 @@ function AddBreeding() {
                     width: "38px",
                     height: "38px",
                     fontSize: "22px",
-                    color: "#222",
-                    WebkitTextFillColor: "#222",
                     cursor: "pointer",
                   }}
                 >
@@ -457,7 +452,7 @@ function AddBreeding() {
                     calendarMonth.getMonth()
                   ),
                 }).map((_, i) => (
-                  <div key={`empty-${i}`} />
+                  <div key={"empty-" + i} />
                 ))}
 
                 {Array.from({
@@ -475,6 +470,14 @@ function AddBreeding() {
                     calendarMonth.getFullYear() ===
                       today.getFullYear();
 
+                  const dateValue =
+                    `${calendarMonth.getFullYear()}-${String(
+                      calendarMonth.getMonth() + 1
+                    ).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+
+                  const isSelected =
+                    formData.mating_date === dateValue;
+
                   return (
                     <button
                       key={day}
@@ -482,15 +485,23 @@ function AddBreeding() {
                       onClick={() => handleDateSelect(day)}
                       style={{
                         minHeight: "40px",
-                        border: isToday
-                          ? "2px solid #2e7d32"
-                          : "1px solid #ddd",
+                        border:
+                          isSelected || isToday
+                            ? "2px solid #2e7d32"
+                            : "1px solid #ddd",
                         borderRadius: "8px",
-                        background: isToday ? "#e8f5e9" : "#fff",
-                        color: "#222",
-                        WebkitTextFillColor: "#222",
+                        background: isSelected
+                          ? "#2e7d32"
+                          : isToday
+                          ? "#e8f5e9"
+                          : "#fff",
+                        color: isSelected ? "#fff" : "#222",
+                        WebkitTextFillColor: isSelected
+                          ? "#fff"
+                          : "#222",
                         fontSize: "15px",
-                        fontWeight: isToday ? "700" : "500",
+                        fontWeight:
+                          isSelected || isToday ? "700" : "500",
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
