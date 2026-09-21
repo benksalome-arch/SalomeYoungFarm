@@ -117,43 +117,72 @@ function Kidding() {
         }
 
         .kidding-selection-text {
-          margin: 0 0 16px;
+          margin: 0 0 18px;
           color: #555;
         }
 
         .kidding-breeding-list {
           display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-          gap: 12px;
+          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+          gap: 16px;
         }
 
         .kidding-breeding-option {
           display: block;
-          padding: 14px 16px;
-          background: #2e7d32;
-          color: #fff !important;
-          -webkit-text-fill-color: #fff;
-          border-radius: 8px;
+          position: relative;
+          padding: 18px 20px;
+          background: #fff;
+          color: #222 !important;
+          -webkit-text-fill-color: #222;
+          border: 1px solid #dfe5df;
+          border-left: 5px solid #2e7d32;
+          border-radius: 10px;
           text-decoration: none;
-          border: 1px solid #256b29;
           box-sizing: border-box;
-          transition: background 0.15s ease;
+          box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+          transition:
+            transform 0.15s ease,
+            box-shadow 0.15s ease,
+            border-color 0.15s ease;
         }
 
         .kidding-breeding-option:hover {
-          background: #256b29;
+          transform: translateY(-2px);
+          border-color: #2e7d32;
+          box-shadow: 0 5px 14px rgba(0, 0, 0, 0.10);
+        }
+
+        .kidding-breeding-option::after {
+          content: "›";
+          position: absolute;
+          right: 18px;
+          top: 50%;
+          transform: translateY(-50%);
+          color: #2e7d32;
+          font-size: 26px;
+          font-weight: 400;
         }
 
         .kidding-breeding-parents {
           display: block;
+          padding-right: 30px;
+          color: #222;
+          font-size: 17px;
           font-weight: 700;
-          margin-bottom: 4px;
+          line-height: 1.3;
+          margin-bottom: 8px;
         }
 
         .kidding-breeding-date {
           display: block;
+          color: #666;
           font-size: 14px;
-          opacity: 0.95;
+          line-height: 1.4;
+        }
+
+        .kidding-breeding-date::before {
+          content: "Datum dekking: ";
+          color: #888;
         }
 
         .kidding-table-wrapper {
@@ -298,6 +327,11 @@ function Kidding() {
 
           .kidding-breeding-list {
             grid-template-columns: 1fr;
+            gap: 12px;
+          }
+
+          .kidding-breeding-option {
+            padding: 16px 18px;
           }
 
           .kidding-mobile-actions .button {
