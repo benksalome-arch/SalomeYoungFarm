@@ -1756,6 +1756,8 @@ canvas {
   }
 }
 
+.breeding-actions { display: flex !important; justify-content: center !important; align-items: center !important; gap: 8px !important; flex-wrap: wrap !important; width: 100% !important; box-sizing: border-box !important; margin-top: 12px !important; }
+
 /* Goat breeding action buttons */
 .breeding-edit-button {
   background: #2e7d32 !important;
