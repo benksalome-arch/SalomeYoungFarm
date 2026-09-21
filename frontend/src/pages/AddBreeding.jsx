@@ -8,9 +8,24 @@ function AddBreeding() {
   const navigate = useNavigate();
 
   const [goats, setGoats] = useState([]);
-
   const [calendarOpen, setCalendarOpen] = useState(false);
   const [calendarMonth, setCalendarMonth] = useState(new Date());
+
+  const [formData, setFormData] = useState({
+    doe_id: "",
+    buck_id: "",
+    mating_date: "",
+    expected_kidding: "",
+    veterinarian: "",
+    notes: "",
+  });
+
+  useEffect(() => {
+    fetch(`${API_URL}/api/goats`)
+      .then((res) => res.json())
+      .then((data) => setGoats(data))
+      .catch(console.error);
+  }, []);
 
   function getDaysInMonth(year, month) {
     return new Date(year, month + 1, 0).getDate();
@@ -58,33 +73,39 @@ function AddBreeding() {
     setCalendarOpen(false);
   }
 
-  const [formData, setFormData] = useState({
-    doe_id: "",
-    buck_id: "",
-    mating_date: "",
-    expected_kidding: "",
-    veterinarian: "",
-    notes: "",
-  });
+  function formatDateDisplay(date) {
+    if (!date) return "";
 
-  useEffect(() => {
-    fetch(`${API_URL}/api/goats`)
-      .then((res) => res.json())
-      .then((data) => setGoats(data))
-      .catch(console.error);
-  }, []);
+    const value = String(date).slice(0, 10);
+    const parts = value.split("-");
+
+    if (parts.length === 3) {
+      const [year, month, day] = parts;
+
+      if (
+        year.length === 4 &&
+        month.length === 2 &&
+        day.length === 2
+      ) {
+        return `${day}-${month}-${year}`;
+      }
+    }
+
+    return "";
+  }
 
   const inputStyle = {
     width: "100%",
+    height: "44px",
     boxSizing: "border-box",
     padding: "10px 12px",
-    minHeight: "44px",
     border: "1px solid #cfd6cf",
     borderRadius: "7px",
     background: "#fff",
     color: "#222",
     WebkitTextFillColor: "#222",
     fontSize: "15px",
+    lineHeight: "22px",
   };
 
   const labelStyle = {
@@ -105,7 +126,7 @@ function AddBreeding() {
     };
 
     if (name === "mating_date") {
-      const date = new Date(value);
+      const date = new Date(`${value}T00:00:00`);
       date.setDate(date.getDate() + 150);
 
       updated.expected_kidding = date.toISOString().split("T")[0];
@@ -195,48 +216,35 @@ function AddBreeding() {
 
           <p style={labelStyle}>{t("matingDate")}</p>
 
-          <div style={{ position: "relative" }}>
-            <div style={{ position: "relative", width: "100%" }}>
-              <div
+          <div
+            style={{
+              position: "relative",
+              width: "100%",
+              marginBottom: "0",
+            }}
+          >
+            <button
+              type="button"
+              onClick={() => setCalendarOpen(true)}
+              style={{
+                ...inputStyle,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "flex-start",
+                textAlign: "left",
+                cursor: "pointer",
+              }}
+            >
+              <span
                 style={{
-                  ...inputStyle,
-                  width: "100%",
                   color: formData.mating_date ? "#222" : "#777",
-                  WebkitTextFillColor: formData.mating_date
-                    ? "#222"
-                    : "#777",
-                  textAlign: "left",
-                  pointerEvents: "none",
                 }}
               >
                 {formData.mating_date
-                  ? new Date(
-                      formData.mating_date + "T00:00:00"
-                    ).toLocaleDateString("nl-NL", {
-                      day: "2-digit",
-                      month: "2-digit",
-                      year: "numeric",
-                    })
+                  ? formatDateDisplay(formData.mating_date)
                   : "DD-MM-JJJJ"}
-              </div>
-
-              <input
-                type="date"
-                name="mating_date"
-                value={formData.mating_date || ""}
-                onChange={handleChange}
-                onClick={(e) => e.currentTarget.showPicker?.()}
-                onFocus={(e) => e.currentTarget.showPicker?.()}
-                style={{
-                  position: "absolute",
-                  inset: 0,
-                  width: "100%",
-                  height: "100%",
-                  opacity: 0,
-                  cursor: "pointer",
-                }}
-              />
-            </div>
+              </span>
+            </button>
 
             {calendarOpen && (
               <div
@@ -248,12 +256,14 @@ function AddBreeding() {
                   alignItems: "center",
                   justifyContent: "center",
                   zIndex: 99999,
+                  padding: "16px",
+                  boxSizing: "border-box",
                 }}
                 onClick={() => setCalendarOpen(false)}
               >
                 <div
                   style={{
-                    width: "min(92vw,360px)",
+                    width: "min(92vw, 360px)",
                     background: "#fff",
                     borderRadius: "14px",
                     padding: "18px",
@@ -337,7 +347,7 @@ function AddBreeding() {
                   <div
                     style={{
                       display: "grid",
-                      gridTemplateColumns: "repeat(7,1fr)",
+                      gridTemplateColumns: "repeat(7, 1fr)",
                       gap: "6px",
                     }}
                   >
@@ -440,19 +450,19 @@ function AddBreeding() {
 
           <p style={labelStyle}>{t("expectedKidding")}</p>
 
-          <input
-            type="text"
-            value={
-              formData.expected_kidding
-                ? formData.expected_kidding
-                    .split("-")
-                    .reverse()
-                    .join("-")
-                : ""
-            }
-            readOnly
-            style={inputStyle}
-          />
+          <div
+            style={{
+              ...inputStyle,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "flex-start",
+              textAlign: "left",
+            }}
+          >
+            <span style={{ color: "#222" }}>
+              {formatDateDisplay(formData.expected_kidding) || "DD-MM-JJJJ"}
+            </span>
+          </div>
 
           <p style={labelStyle}>{t("veterinarian")}</p>
 
@@ -473,6 +483,7 @@ function AddBreeding() {
             onChange={handleChange}
             style={{
               ...inputStyle,
+              height: "auto",
               minHeight: "100px",
               resize: "vertical",
             }}
