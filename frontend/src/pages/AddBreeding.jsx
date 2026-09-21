@@ -134,11 +134,21 @@ function AddBreeding() {
   return (
     <div className="page">
       <div className="card">
-        <h1>🧬 {t("newBreedingRecord")}</h1>
+        <h1
+          style={{
+            color: "#222",
+            WebkitTextFillColor: "#222",
+            fontWeight: 700,
+            textAlign: "center",
+            marginBottom: "24px",
+          }}
+        >
+          🧬 {t("newBreedingRecord")}
+        </h1>
 
         <form onSubmit={handleSubmit} className="breeding-add-form">
-
           <p style={labelStyle}>{t("doe")}</p>
+
           <select
             name="doe_id"
             value={formData.doe_id}
@@ -149,7 +159,10 @@ function AddBreeding() {
             <option value="">{t("selectDoe")}</option>
 
             {goats
-              .filter((g) => String(g.sex || "").trim().toLowerCase() === "female")
+              .filter(
+                (g) =>
+                  String(g.sex || "").trim().toLowerCase() === "female"
+              )
               .map((g) => (
                 <option key={g.id} value={g.id}>
                   {g.tag} - {g.name}
@@ -158,6 +171,7 @@ function AddBreeding() {
           </select>
 
           <p style={labelStyle}>{t("buck")}</p>
+
           <select
             name="buck_id"
             value={formData.buck_id}
@@ -168,7 +182,10 @@ function AddBreeding() {
             <option value="">{t("selectBuck")}</option>
 
             {goats
-              .filter((g) => String(g.sex || "").trim().toLowerCase() === "male")
+              .filter(
+                (g) =>
+                  String(g.sex || "").trim().toLowerCase() === "male"
+              )
               .map((g) => (
                 <option key={g.id} value={g.id}>
                   {g.tag} - {g.name}
@@ -177,43 +194,49 @@ function AddBreeding() {
           </select>
 
           <p style={labelStyle}>{t("matingDate")}</p>
+
           <div style={{ position: "relative" }}>
             <div style={{ position: "relative", width: "100%" }}>
-  <div
-    style={{
-      ...inputStyle,
-      width: "100%",
-      color: formData.mating_date ? "#222" : "#777",
-      WebkitTextFillColor: formData.mating_date ? "#222" : "#777",
-      textAlign: "left",
-      pointerEvents: "none",
-    }}
-  >
-    {formData.mating_date
-      ? new Date(formData.mating_date + "T00:00:00").toLocaleDateString("nl-NL", {
-          day: "2-digit",
-          month: "2-digit",
-          year: "numeric",
-        })
-      : "DD-MM-JJJJ"}
-  </div>
-  <input
-    type="date"
-    name="mating_date"
-    value={formData.mating_date || ""}
-    onChange={handleChange}
-    onClick={(e) => e.currentTarget.showPicker?.()}
-    onFocus={(e) => e.currentTarget.showPicker?.()}
-    style={{
-      position: "absolute",
-      inset: 0,
-      width: "100%",
-      height: "100%",
-      opacity: 0,
-      cursor: "pointer",
-    }}
-  />
-</div>
+              <div
+                style={{
+                  ...inputStyle,
+                  width: "100%",
+                  color: formData.mating_date ? "#222" : "#777",
+                  WebkitTextFillColor: formData.mating_date
+                    ? "#222"
+                    : "#777",
+                  textAlign: "left",
+                  pointerEvents: "none",
+                }}
+              >
+                {formData.mating_date
+                  ? new Date(
+                      formData.mating_date + "T00:00:00"
+                    ).toLocaleDateString("nl-NL", {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                    })
+                  : "DD-MM-JJJJ"}
+              </div>
+
+              <input
+                type="date"
+                name="mating_date"
+                value={formData.mating_date || ""}
+                onChange={handleChange}
+                onClick={(e) => e.currentTarget.showPicker?.()}
+                onFocus={(e) => e.currentTarget.showPicker?.()}
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  width: "100%",
+                  height: "100%",
+                  opacity: 0,
+                  cursor: "pointer",
+                }}
+              />
+            </div>
 
             {calendarOpen && (
               <div
@@ -273,20 +296,22 @@ function AddBreeding() {
                         WebkitTextFillColor: "#222",
                       }}
                     >
-                      {t([
-                        "january",
-                        "february",
-                        "march",
-                        "april",
-                        "may",
-                        "june",
-                        "july",
-                        "august",
-                        "september",
-                        "october",
-                        "november",
-                        "december",
-                      ][calendarMonth.getMonth()])}{" "}
+                      {t(
+                        [
+                          "january",
+                          "february",
+                          "march",
+                          "april",
+                          "may",
+                          "june",
+                          "july",
+                          "august",
+                          "september",
+                          "october",
+                          "november",
+                          "december",
+                        ][calendarMonth.getMonth()]
+                      )}{" "}
                       {calendarMonth.getFullYear()}
                     </div>
 
@@ -316,22 +341,28 @@ function AddBreeding() {
                       gap: "6px",
                     }}
                   >
-                    {[t("sun"), t("mon"), t("tue"), t("wed"), t("thu"), t("fri"), t("sat")].map(
-                      (day) => (
-                        <div
-                          key={day}
-                          style={{
-                            textAlign: "center",
-                            fontWeight: "600",
-                            fontSize: "13px",
-                            padding: "6px 0",
-                            color: "#222",
-                          }}
-                        >
-                          {day}
-                        </div>
-                      )
-                    )}
+                    {[
+                      t("sun"),
+                      t("mon"),
+                      t("tue"),
+                      t("wed"),
+                      t("thu"),
+                      t("fri"),
+                      t("sat"),
+                    ].map((day) => (
+                      <div
+                        key={day}
+                        style={{
+                          textAlign: "center",
+                          fontWeight: "600",
+                          fontSize: "13px",
+                          padding: "6px 0",
+                          color: "#222",
+                        }}
+                      >
+                        {day}
+                      </div>
+                    ))}
 
                     {Array.from({
                       length: getFirstDayOfMonth(
@@ -354,7 +385,8 @@ function AddBreeding() {
                       const isToday =
                         day === today.getDate() &&
                         calendarMonth.getMonth() === today.getMonth() &&
-                        calendarMonth.getFullYear() === today.getFullYear();
+                        calendarMonth.getFullYear() ===
+                          today.getFullYear();
 
                       return (
                         <button
@@ -407,11 +439,15 @@ function AddBreeding() {
           </div>
 
           <p style={labelStyle}>{t("expectedKidding")}</p>
+
           <input
             type="text"
             value={
               formData.expected_kidding
-                ? formData.expected_kidding.split("-").reverse().join("-")
+                ? formData.expected_kidding
+                    .split("-")
+                    .reverse()
+                    .join("-")
                 : ""
             }
             readOnly
@@ -419,6 +455,7 @@ function AddBreeding() {
           />
 
           <p style={labelStyle}>{t("veterinarian")}</p>
+
           <input
             type="text"
             name="veterinarian"
@@ -428,12 +465,17 @@ function AddBreeding() {
           />
 
           <p style={labelStyle}>{t("notes")}</p>
+
           <textarea
             name="notes"
             rows="4"
             value={formData.notes}
             onChange={handleChange}
-            style={{ ...inputStyle, minHeight: "100px", resize: "vertical" }}
+            style={{
+              ...inputStyle,
+              minHeight: "100px",
+              resize: "vertical",
+            }}
           />
 
           <br />
@@ -448,7 +490,6 @@ function AddBreeding() {
           <Link className="button" to="/breeding">
             {t("cancel")}
           </Link>
-
         </form>
       </div>
     </div>
