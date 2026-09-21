@@ -136,9 +136,13 @@ function Kidding() {
             flexWrap: "wrap",
           }}
         >
-          <Link className="button" to="/kidding/add">
+          <button
+            type="button"
+            className="button"
+            onClick={openBirthRegistration}
+          >
             ➕ {t("newKidding")}
-          </Link>
+          </button>
         </div>
 
         {showBreedingSelection && (

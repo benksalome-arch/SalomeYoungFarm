@@ -56,7 +56,7 @@ function AddKidding() {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    breeding_id: id,
+    breeding_id: id ? Number(id) : "",
     kidding_date: "",
     male_kids: 0,
     female_kids: 0,
@@ -74,13 +74,31 @@ function AddKidding() {
   async function handleSubmit(e) {
     e.preventDefault();
 
+    if (!id || !Number.isInteger(Number(id))) {
+      alert("No breeding record was selected. Please select a breeding record first.");
+      return;
+    }
+
+    if (!formData.kidding_date) {
+      alert("Please select the kidding date.");
+      return;
+    }
+
+    const payload = {
+      ...formData,
+      breeding_id: Number(id),
+      male_kids: Number(formData.male_kids) || 0,
+      female_kids: Number(formData.female_kids) || 0,
+      stillborn: Number(formData.stillborn) || 0,
+    };
+
     try {
       const response = await fetch(`${API_URL}/api/kidding`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(payload),
       });
 
       const data = await response.json();

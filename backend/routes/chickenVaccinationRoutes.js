@@ -10,9 +10,16 @@ const {
 } = require("../middleware/authMiddleware");
 
 router.get("/", chickenVaccinationController.getVaccinations);
+router.get("/:id", chickenVaccinationController.getVaccinationById);
 
 // Record vaccination
 router.post("/", chickenVaccinationController.createVaccination);
+
+// Update vaccination
+router.put("/:id",
+  authenticateToken,
+  requireAdmin,
+  chickenVaccinationController.updateVaccination);
 
 // Delete vaccination
 router.delete("/:id",

@@ -329,6 +329,7 @@ function AddEggSale() {
                     ...inputStyle,
                     width: "100%",
                     color: formData.sale_date ? "#222" : "#777",
+                    textAlign: "left",
                     pointerEvents: "none",
                   }}
                 >

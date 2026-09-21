@@ -132,6 +132,11 @@ function EggProduction() {
                     <button
                       className="button"
                       onClick={() => deleteRecord(record.id)}
+                      style={{
+                        background: "#d32f2f",
+                        color: "#fff",
+                        borderColor: "#d32f2f",
+                      }}
                     >
                       🗑 {t("delete")}
                     </button>

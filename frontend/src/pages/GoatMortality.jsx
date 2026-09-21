@@ -263,19 +263,38 @@ export default function GoatMortality() {
                         </td>
 
                         <td>
-                          <button
-                            className="button"
-                            type="button"
-                            onClick={() =>
-                              handleDelete(record.id)
-                            }
-                            style={{
-                              padding: "8px 10px",
-                              fontSize: "13px",
-                            }}
-                          >
-                            🗑️ {t("delete")}
-                          </button>
+                          <div style={{ display: "flex", gap: "8px", justifyContent: "center", flexWrap: "wrap" }}>
+                        <Link
+                          className="button"
+                          to={`/goat-mortality/${record.id}/edit`}
+                          style={{
+                            padding: "8px 10px",
+                            fontSize: "13px",
+                            background: "#2e7d32",
+                            color: "#fff",
+                            textDecoration: "none",
+                            whiteSpace: "nowrap",
+                          }}
+                        >
+                          ✏️ {t("edit", "Edit")}
+                        </Link>
+
+                        <button
+                          className="button"
+                          type="button"
+                          onClick={() => handleDelete(record.id)}
+                          style={{
+                            padding: "8px 10px",
+                            fontSize: "13px",
+                            background: "#d32f2f",
+                            color: "#fff",
+                            border: "none",
+                            whiteSpace: "nowrap",
+                          }}
+                        >
+                          🗑️ {t("delete")}
+                        </button>
+                      </div>
                         </td>
                       </tr>
                     ))}
@@ -345,19 +364,38 @@ export default function GoatMortality() {
                         marginTop: "12px",
                       }}
                     >
-                      <button
-                        className="button"
-                        type="button"
-                        onClick={() =>
-                          handleDelete(record.id)
-                        }
-                        style={{
-                          padding: "8px 10px",
-                          fontSize: "13px",
-                        }}
-                      >
-                        🗑️ {t("delete")}
-                      </button>
+                      <div style={{ display: "flex", gap: "8px", justifyContent: "center", flexWrap: "wrap" }}>
+                        <Link
+                          className="button"
+                          to={`/goat-mortality/${record.id}/edit`}
+                          style={{
+                            padding: "8px 10px",
+                            fontSize: "13px",
+                            background: "#2e7d32",
+                            color: "#fff",
+                            textDecoration: "none",
+                            whiteSpace: "nowrap",
+                          }}
+                        >
+                          ✏️ {t("edit", "Edit")}
+                        </Link>
+
+                        <button
+                          className="button"
+                          type="button"
+                          onClick={() => handleDelete(record.id)}
+                          style={{
+                            padding: "8px 10px",
+                            fontSize: "13px",
+                            background: "#d32f2f",
+                            color: "#fff",
+                            border: "none",
+                            whiteSpace: "nowrap",
+                          }}
+                        >
+                          🗑️ {t("delete")}
+                        </button>
+                      </div>
                     </div>
                   </div>
                 ))}

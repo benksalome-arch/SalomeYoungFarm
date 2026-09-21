@@ -42,6 +42,7 @@ import EditKidding from "./pages/EditKidding";
 import AddKidding from "./pages/AddKidding";
 import GoatMortality from "./pages/GoatMortality";
 import AddGoatMortality from "./pages/AddGoatMortality";
+import EditGoatMortality from "./pages/EditGoatMortality";
 
 // ======================
 // Workers
@@ -94,6 +95,7 @@ import EditChickenMortality from "./pages/EditChickenMortality";
 
 import ChickenVaccinations from "./pages/ChickenVaccinations";
 import AddChickenVaccination from "./pages/AddChickenVaccination";
+import EditChickenVaccination from "./pages/EditChickenVaccination";
 
 import EggProduction from "./pages/EggProduction";
 import AddEggProduction from "./pages/AddEggProduction";
@@ -288,6 +290,11 @@ function App() {
             element={<AddGoatMortality />}
           />
 
+          <Route
+            path="/goat-mortality/:id/edit"
+            element={<EditGoatMortality />}
+          />
+
           {/* ======================
               WORKERS
           ====================== */}
@@ -435,6 +442,11 @@ function App() {
           <Route
             path="/chicken-vaccinations/add"
             element={<AddChickenVaccination />}
+          />
+
+          <Route
+            path="/chicken-vaccinations/:id/edit"
+            element={<EditChickenVaccination />}
           />
 
           {/* Egg Production */}

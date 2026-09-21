@@ -151,6 +151,113 @@ exports.createGoatMortality = (req, res) => {
 };
 
 // =====================================
+// Get one goat mortality record
+// =====================================
+
+exports.getGoatMortalityById = (req, res) => {
+  const { id } = req.params;
+
+  db.query(
+    `SELECT
+       gm.id,
+       gm.goat_id,
+       gm.mortality_date,
+       gm.cause,
+       gm.notes,
+       g.tag,
+       g.name,
+       g.breed,
+       g.sex
+     FROM goat_mortality gm
+     INNER JOIN goats g ON g.id = gm.goat_id
+     WHERE gm.id = ?`,
+    [id],
+    (err, results) => {
+      if (err) {
+        console.error("Get goat mortality by id error:", err);
+        return res.status(500).json({
+          message: "Database error while loading mortality record.",
+        });
+      }
+
+      if (results.length === 0) {
+        return res.status(404).json({
+          message: "Mortality record not found.",
+        });
+      }
+
+      res.json(results[0]);
+    }
+  );
+};
+
+
+// =====================================
+// Update goat mortality record
+// =====================================
+
+exports.updateGoatMortality = (req, res) => {
+  const { id } = req.params;
+  const { mortality_date, cause, notes } = req.body;
+
+  if (!mortality_date) {
+    return res.status(400).json({
+      message: "Mortality date is required.",
+    });
+  }
+
+  db.query(
+    "SELECT id FROM goat_mortality WHERE id = ?",
+    [id],
+    (findErr, records) => {
+      if (findErr) {
+        console.error("Find goat mortality for update error:", findErr);
+        return res.status(500).json({
+          message: "Database error while finding mortality record.",
+        });
+      }
+
+      if (records.length === 0) {
+        return res.status(404).json({
+          message: "Mortality record not found.",
+        });
+      }
+
+      db.query(
+        `UPDATE goat_mortality
+         SET mortality_date = ?,
+             cause = ?,
+             notes = ?
+         WHERE id = ?`,
+        [
+          mortality_date,
+          cause || null,
+          notes || null,
+          id,
+        ],
+        (updateErr) => {
+          if (updateErr) {
+            console.error(
+              "Update goat mortality error:",
+              updateErr
+            );
+
+            return res.status(500).json({
+              message: "Database error while updating goat mortality.",
+            });
+          }
+
+          res.json({
+            message: "Goat mortality updated successfully!",
+          });
+        }
+      );
+    }
+  );
+};
+
+
+// =====================================
 // Delete goat mortality record
 // =====================================
 

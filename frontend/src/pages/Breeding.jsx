@@ -75,28 +75,15 @@ function Breeding() {
   }
 
   function formatDate(date) {
-    if (!date) return "-";
+  if (!date) return "-";
 
-    const value = String(date).split("T")[0];
-    const parts = value.split("-");
+  const value = String(date).split("T")[0];
+  const parts = value.split("-");
 
-    if (parts.length !== 3) {
-      return value;
-    }
+  if (parts.length !== 3) return value;
 
-    const year = Number(parts[0]);
-    const month = Number(parts[1]);
-    const day = Number(parts[2]);
-
-    return new Date(year, month - 1, day).toLocaleDateString(
-      "en-GB",
-      {
-        day: "2-digit",
-        month: "short",
-        year: "numeric",
-      }
-    );
-  }
+  return `${parts[2]}-${parts[1]}-${parts[0]}`;
+}
 
   function getStatusStyle(status) {
     const normalizedStatus = String(status || "").trim().toLowerCase();

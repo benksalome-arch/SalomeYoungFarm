@@ -30,10 +30,15 @@ function ChickenVaccinations() {
     }
 
     try {
+      const token = localStorage.getItem("token");
+
       const response = await fetch(
         `${API_URL}/api/chicken-vaccinations/${id}`,
         {
           method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
 
@@ -123,15 +128,23 @@ function ChickenVaccinations() {
           style={{
             width: "100%",
             borderCollapse: "collapse",
-            tableLayout: "auto",
+            tableLayout: "fixed",
           }}
         >
+          <colgroup>
+            <col style={{ width: "16%" }} />
+            <col style={{ width: "13%" }} />
+            <col style={{ width: "19%" }} />
+            <col style={{ width: "17%" }} />
+            <col style={{ width: "23%" }} />
+            <col style={{ width: "12%" }} />
+          </colgroup>
           <thead>
             <tr>
-              <th style={{ ...cellStyle, textAlign: "left", whiteSpace: "nowrap" }}>
+              <th style={{ ...cellStyle, textAlign: "center", whiteSpace: "nowrap" }}>
                 {t("date")}
               </th>
-              <th style={{ ...cellStyle, textAlign: "left", whiteSpace: "nowrap" }}>
+              <th style={{ ...cellStyle, textAlign: "center", whiteSpace: "nowrap" }}>
                 {t("tag")}
               </th>
               <th style={{ ...cellStyle, textAlign: "left", whiteSpace: "nowrap" }}>
@@ -140,7 +153,7 @@ function ChickenVaccinations() {
               <th style={{ ...cellStyle, textAlign: "left", whiteSpace: "nowrap" }}>
                 {t("vaccine")}
               </th>
-              <th style={{ ...cellStyle, textAlign: "left", whiteSpace: "nowrap" }}>
+              <th style={{ ...cellStyle, textAlign: "center", whiteSpace: "nowrap" }}>
                 {t("nextDueDate")}
               </th>
               <th style={{ ...cellStyle, textAlign: "center", whiteSpace: "nowrap" }}>
@@ -159,28 +172,65 @@ function ChickenVaccinations() {
             ) : (
               records.map((record) => (
                 <tr key={record.id}>
-                  <td style={cellStyle}>
+                  <td style={{ ...cellStyle, textAlign: "center", whiteSpace: "nowrap" }}>
                     {record.vaccination_date
-                      ? record.vaccination_date.split("T")[0]
+                      ? new Date(record.vaccination_date + "T00:00:00").toLocaleDateString("nl-NL")
                       : "-"}
                   </td>
-                  <td style={cellStyle}>{record.tag_number || "-"}</td>
-                  <td style={cellStyle}>{record.name || "-"}</td>
-                  <td style={cellStyle}>{record.vaccine_name || "-"}</td>
-                  <td style={cellStyle}>
+                  <td style={{ ...cellStyle, textAlign: "center", whiteSpace: "nowrap" }}>
+                    {record.tag_number || "-"}
+                  </td>
+                  <td style={{ ...cellStyle, textAlign: "left" }}>
+                    {record.name || "-"}
+                  </td>
+                  <td style={{ ...cellStyle, textAlign: "left" }}>
+                    {record.vaccine_name || "-"}
+                  </td>
+                  <td style={{ ...cellStyle, textAlign: "center", whiteSpace: "nowrap" }}>
                     {record.next_due_date
-                      ? record.next_due_date.split("T")[0]
+                      ? new Date(record.next_due_date + "T00:00:00").toLocaleDateString("nl-NL")
                       : "-"}
                   </td>
-                  <td style={{ ...cellStyle, textAlign: "center" }}>
-                    <button
-                      className="button"
-                      type="button"
-                      onClick={() => deleteRecord(record.id)}
-                      style={{ whiteSpace: "nowrap" }}
+                  <td
+                    style={{
+                      ...cellStyle,
+                      textAlign: "center",
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        gap: "8px",
+                        flexWrap: "wrap",
+                      }}
                     >
-                      🗑 {t("delete")}
-                    </button>
+                      <Link
+                        className="button"
+                        to={`/chicken-vaccinations/${record.id}/edit`}
+                        style={{
+                          whiteSpace: "nowrap",
+                          textDecoration: "none",
+                        }}
+                      >
+                        ✏️ {t("edit")}
+                      </Link>
+
+                      <button
+                        className="button"
+                        type="button"
+                        onClick={() => deleteRecord(record.id)}
+                        style={{
+                          whiteSpace: "nowrap",
+                          background: "#d32f2f",
+                          color: "#fff",
+                          borderColor: "#d32f2f",
+                        }}
+                      >
+                        🗑 {t("delete")}
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))
@@ -202,7 +252,9 @@ function ChickenVaccinations() {
                 <strong>{t("date")}</strong>
                 <span>
                   {record.vaccination_date
-                    ? record.vaccination_date.split("T")[0]
+                    ? new Date(
+                        record.vaccination_date + "T00:00:00"
+                      ).toLocaleDateString("nl-NL")
                     : "-"}
                 </span>
               </div>
@@ -226,16 +278,41 @@ function ChickenVaccinations() {
                 <strong>{t("nextDueDate")}</strong>
                 <span>
                   {record.next_due_date
-                    ? record.next_due_date.split("T")[0]
+                    ? new Date(
+                        record.next_due_date + "T00:00:00"
+                      ).toLocaleDateString("nl-NL")
                     : "-"}
                 </span>
               </div>
 
-              <div className="vaccination-mobile-actions">
+              <div
+                className="vaccination-mobile-actions"
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  gap: "8px",
+                  flexWrap: "wrap",
+                }}
+              >
+                <Link
+                  className="button"
+                  to={`/chicken-vaccinations/${record.id}/edit`}
+                  style={{
+                    textDecoration: "none",
+                  }}
+                >
+                  ✏️ {t("edit")}
+                </Link>
+
                 <button
                   className="button"
                   type="button"
                   onClick={() => deleteRecord(record.id)}
+                  style={{
+                    background: "#d32f2f",
+                    color: "#fff",
+                    borderColor: "#d32f2f",
+                  }}
                 >
                   🗑 {t("delete")}
                 </button>
@@ -299,6 +376,9 @@ function ChickenVaccinations() {
           .vaccination-mobile-actions {
             display: flex;
             justify-content: center;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
             margin-top: 14px;
           }
 
