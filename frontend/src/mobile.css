@@ -1850,11 +1850,11 @@ canvas {
 
 .breeding-add-form {
   width: 100% !important;
-  max-width: 430px !important;
+  max-width: 560px !important;
   margin: 0 auto !important;
   display: grid !important;
-  grid-template-columns: 150px minmax(0, 260px) !important;
-  column-gap: 10px !important;
+  grid-template-columns: 170px minmax(0, 1fr) !important;
+  column-gap: 14px !important;
   row-gap: 0 !important;
   align-items: center !important;
   box-sizing: border-box !important;
@@ -1862,7 +1862,7 @@ canvas {
 
 .breeding-add-form > p {
   grid-column: 1 !important;
-  width: 150px !important;
+  width: 100% !important;
   min-height: 44px !important;
   margin: 0 0 14px 0 !important;
   padding: 0 !important;
@@ -1872,6 +1872,7 @@ canvas {
   box-sizing: border-box !important;
   font-weight: 600 !important;
   font-size: 15px !important;
+  line-height: 20px !important;
   color: #222 !important;
   -webkit-text-fill-color: #222 !important;
   text-align: right !important;
@@ -1879,25 +1880,42 @@ canvas {
 
 .breeding-add-form > select,
 .breeding-add-form > input,
-.breeding-add-form > textarea {
+.breeding-add-form > textarea,
+.breeding-add-form > div {
   grid-column: 2 !important;
-  width: 260px !important;
-  max-width: 260px !important;
-  min-height: 44px !important;
-  margin: 0 0 14px 0 !important;
-  padding: 10px 12px !important;
+  width: 100% !important;
+  max-width: none !important;
+  min-width: 0 !important;
   box-sizing: border-box !important;
+  margin: 0 0 14px 0 !important;
+}
+
+.breeding-add-form > select,
+.breeding-add-form > input,
+.breeding-add-form > textarea {
+  min-height: 44px !important;
+  padding: 10px 12px !important;
   border: 1px solid #cfd6cf !important;
   border-radius: 7px !important;
   background: #fff !important;
   color: #222 !important;
   -webkit-text-fill-color: #222 !important;
   font-size: 15px !important;
+  line-height: 22px !important;
 }
 
 .breeding-add-form > textarea {
   min-height: 100px !important;
   resize: vertical !important;
+}
+
+.breeding-add-form > div {
+  min-height: 44px !important;
+}
+
+.breeding-add-form > div > div:first-child {
+  width: 100% !important;
+  box-sizing: border-box !important;
 }
 
 .breeding-add-form > br {
@@ -1918,6 +1936,7 @@ canvas {
 
 @media (max-width: 768px) {
   .breeding-add-form {
+    width: 100% !important;
     max-width: 100% !important;
     grid-template-columns: 42% minmax(0, 58%) !important;
     column-gap: 8px !important;
@@ -1926,15 +1945,23 @@ canvas {
   .breeding-add-form > p {
     width: 100% !important;
     min-height: 44px !important;
+    margin-bottom: 14px !important;
     font-size: 14px !important;
+    line-height: 19px !important;
   }
 
   .breeding-add-form > select,
   .breeding-add-form > input,
-  .breeding-add-form > textarea {
+  .breeding-add-form > textarea,
+  .breeding-add-form > div {
     width: 100% !important;
     max-width: none !important;
+    min-width: 0 !important;
     font-size: 14px !important;
+  }
+
+  .breeding-add-form > div {
+    min-height: 44px !important;
   }
 }
 
