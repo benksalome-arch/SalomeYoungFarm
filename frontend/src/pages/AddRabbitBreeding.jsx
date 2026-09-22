@@ -14,15 +14,31 @@ function AddRabbitBreeding() {
   const [calendarMonth, setCalendarMonth] = useState(new Date());
 
   const monthNames = [
-    "Januari", "Februari", "Maart", "April", "Mei", "Juni",
-    "Juli", "Augustus", "September", "Oktober", "November", "December",
+    "Januari",
+    "Februari",
+    "Maart",
+    "April",
+    "Mei",
+    "Juni",
+    "Juli",
+    "Augustus",
+    "September",
+    "Oktober",
+    "November",
+    "December",
   ];
 
+  const weekDays = ["Zo", "Ma", "Di", "Wo", "Do", "Vr", "Za"];
+
   const currentYear = new Date().getFullYear();
+
   const calendarYears = Array.from(
     { length: 101 },
     (_, index) => currentYear - index
   );
+
+
+
 
   const [formData, setFormData] = useState({
     rabbit_id: id,
@@ -367,78 +383,67 @@ function AddRabbitBreeding() {
             Breeding Date
           </label>
 
-          <div style={{ position: "relative" }}>
-            <div style={{ position: "relative", width: "100%" }}>
-              <div
-                style={{
-                  width: "100%",
-                  boxSizing: "border-box",
-                  minHeight: "44px",
-                  padding: "10px 12px",
-                  border: "1px solid #cfd6cf",
-                  borderRadius: "7px",
-                  background: "#fff",
-                  color: formData.breeding_date ? "#222" : "#777",
-                  WebkitTextFillColor: formData.breeding_date ? "#222" : "#777",
-                  display: "flex",
-                  alignItems: "center",
-                  pointerEvents: "none",
-                }}
-              >
-                {formData.breeding_date
-                  ? new Date(formData.breeding_date + "T00:00:00").toLocaleDateString("nl-NL", {
-                      day: "2-digit",
-                      month: "2-digit",
-                      year: "numeric",
-                    })
-                  : "DD-MM-JJJJ"}
-              </div>
+          <div style={{ position: "relative", width: "100%" }}>
+            <div
+              onClick={() => {
+                const selected = formData.breeding_date
+                  ? new Date(formData.breeding_date + "T00:00:00")
+                  : new Date();
 
-              <input
-                type="date"
-                name="breeding_date"
-                value={formData.breeding_date || ""}
-                onChange={handleChange}
-                required
-                style={{
-                  position: "absolute",
-                  inset: 0,
-                  width: "100%",
-                  height: "100%",
-                  opacity: 0,
-                  cursor: "pointer",
-                }}
-              />
+                setCalendarMonth(
+                  new Date(
+                    selected.getFullYear(),
+                    selected.getMonth(),
+                    1
+                  )
+                );
+
+                setCalendarOpen(true);
+              }}
+              style={{
+                width: "100%",
+                boxSizing: "border-box",
+                minHeight: "44px",
+                padding: "10px 12px",
+                border: "1px solid #cfd6cf",
+                borderRadius: "7px",
+                background: "#fff",
+                color: formData.breeding_date ? "#222" : "#777",
+                WebkitTextFillColor: formData.breeding_date
+                  ? "#222"
+                  : "#777",
+                display: "flex",
+                alignItems: "center",
+                cursor: "pointer",
+              }}
+            >
+              {formData.breeding_date
+                ? formatDateDisplay(formData.breeding_date)
+                : "DD-MM-JJJJ"}
             </div>
 
             {calendarOpen && (
               <div
-                onClick={(e) => {
-                  if (e.target === e.currentTarget) {
-                    setCalendarOpen(false);
-                  }
-                }}
+                onClick={() => setCalendarOpen(false)}
                 style={{
                   position: "fixed",
                   inset: 0,
-                  background: "rgba(0, 0, 0, 0.35)",
+                  background: "rgba(0,0,0,0.35)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
                   zIndex: 99999,
-                  padding: "16px",
-                  boxSizing: "border-box",
                 }}
               >
                 <div
                   onClick={(e) => e.stopPropagation()}
                   style={{
-                    width: "min(92vw, 360px)",
+                    width: "min(92vw,360px)",
                     background: "#fff",
                     borderRadius: "14px",
                     padding: "18px",
                     boxSizing: "border-box",
-                    boxShadow: "0 8px 30px rgba(0, 0, 0, 0.25)",
+                    boxShadow: "0 8px 30px rgba(0,0,0,0.25)",
                   }}
                 >
                   <div
@@ -513,53 +518,43 @@ function AddRabbitBreeding() {
                     style={{
                       display: "flex",
                       justifyContent: "space-between",
-                      marginBottom: "10px",
+                      alignItems: "center",
+                      marginBottom: "12px",
                     }}
                   >
                     <button
                       type="button"
                       onClick={() => changeCalendarMonth(-1)}
                       style={{
-                        width: "38px",
-                        height: "38px",
-                        border: "1px solid #cfd6cf",
-                        borderRadius: "8px",
-                        background: "#fff",
-                        color: "#222",
-                        fontSize: "20px",
-                        fontWeight: 700,
+                        border: "none",
+                        background: "transparent",
+                        fontSize: "28px",
                         cursor: "pointer",
+                        color: "#222",
                       }}
                     >
                       ‹
                     </button>
 
-                    <div
+                    <strong
                       style={{
-                        flex: 1,
-                        textAlign: "center",
-                        fontSize: "19px",
-                        fontWeight: 700,
                         color: "#222",
+                        fontSize: "18px",
                       }}
                     >
                       {monthNames[calendarMonth.getMonth()]}{" "}
                       {calendarMonth.getFullYear()}
-                    </div>
+                    </strong>
 
                     <button
                       type="button"
                       onClick={() => changeCalendarMonth(1)}
                       style={{
-                        width: "38px",
-                        height: "38px",
-                        border: "1px solid #cfd6cf",
-                        borderRadius: "8px",
-                        background: "#fff",
-                        color: "#222",
-                        fontSize: "20px",
-                        fontWeight: 700,
+                        border: "none",
+                        background: "transparent",
+                        fontSize: "28px",
                         cursor: "pointer",
+                        color: "#222",
                       }}
                     >
                       ›
@@ -569,12 +564,12 @@ function AddRabbitBreeding() {
                   <div
                     style={{
                       display: "grid",
-                      gridTemplateColumns: "repeat(7, 1fr)",
-                      gap: "4px",
-                      marginBottom: "6px",
+                      gridTemplateColumns: "repeat(7,1fr)",
+                      gap: "5px",
+                      marginBottom: "5px",
                     }}
                   >
-                    {["Zo", "Ma", "Di", "Wo", "Do", "Vr", "Za"].map((day) => (
+                    {weekDays.map((day) => (
                       <div
                         key={day}
                         style={{
@@ -593,7 +588,7 @@ function AddRabbitBreeding() {
                   <div
                     style={{
                       display: "grid",
-                      gridTemplateColumns: "repeat(7, 1fr)",
+                      gridTemplateColumns: "repeat(7,1fr)",
                       gap: "5px",
                     }}
                   >
@@ -637,7 +632,8 @@ function AddRabbitBreeding() {
                               : isToday
                               ? "#4caf50"
                               : "#fff",
-                            color: selected || isToday ? "#fff" : "#222",
+                            color:
+                              selected || isToday ? "#fff" : "#222",
                             fontWeight:
                               selected || isToday ? 800 : 400,
                             cursor: "pointer",
@@ -652,15 +648,28 @@ function AddRabbitBreeding() {
                       );
                     })}
                   </div>
+
+                  <button
+                    type="button"
+                    onClick={() => setCalendarOpen(false)}
+                    style={{
+                      width: "100%",
+                      marginTop: "16px",
+                      padding: "10px",
+                      border: "1px solid #ddd",
+                      borderRadius: "8px",
+                      background: "#fff",
+                      color: "#222",
+                      fontWeight: 600,
+                      cursor: "pointer",
+                    }}
+                  >
+                    Annuleren
+                  </button>
                 </div>
               </div>
             )}
           </div>
-
-          <br />
-          <br />
-
-          {/* Male Rabbit */}
 
           <label>
             <strong>{t("maleRabbit")}</strong>
