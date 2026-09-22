@@ -424,24 +424,27 @@ function AddRabbitBreeding() {
 
             {calendarOpen && (
               <div
-                onClick={() => setCalendarOpen(false)}
+                onClick={(e) => {
+                  if (e.target === e.currentTarget) {
+                    setCalendarOpen(false);
+                  }
+                }}
                 style={{
                   position: "fixed",
                   inset: 0,
-                  background: "rgba(0,0,0,0.35)",
+                  background: "rgba(0, 0, 0, 0.35)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
                   zIndex: 99999,
-                  pointerEvents: "auto",
+                  padding: "16px",
+                  boxSizing: "border-box",
                 }}
               >
                 <div
                   onClick={(e) => e.stopPropagation()}
                   style={{
-                    width: "min(92vw,360px)",
-                    zIndex: 100000,
-                    pointerEvents: "auto",
+                    width: "min(92vw, 360px)",
                     background: "#fff",
                     borderRadius: "14px",
                     padding: "18px",
