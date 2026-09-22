@@ -230,3 +230,32 @@ exports.updateGoat = (req, res) => {
     }
   );
 };
+
+exports.deleteGoat = (req, res) => {
+  const { id } = req.params;
+
+  db.query(
+    "DELETE FROM goats WHERE id = ?",
+    [id],
+    (err, result) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).json({
+          message: "Database error",
+          error: err.message,
+          code: err.code,
+        });
+      }
+
+      if (!result.affectedRows) {
+        return res.status(404).json({
+          message: "Goat not found.",
+        });
+      }
+
+      res.json({
+        message: "Goat deleted successfully!",
+      });
+    }
+  );
+};
