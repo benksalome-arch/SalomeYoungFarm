@@ -58,6 +58,7 @@ function AddBreeding() {
   const today = getTodayLocalDate();
 
   const [goats, setGoats] = useState([]);
+
   const [formData, setFormData] = useState({
     doe_id: "",
     buck_id: "",
@@ -66,6 +67,34 @@ function AddBreeding() {
     veterinarian: "",
     notes: "",
   });
+
+  const [calendarOpen, setCalendarOpen] = useState(false);
+  const [calendarMonth, setCalendarMonth] = useState(() => {
+    const initialDate = new Date(`${today}T00:00:00`);
+
+    return new Date(
+      initialDate.getFullYear(),
+      initialDate.getMonth(),
+      1
+    );
+  });
+
+  const monthNames = [
+    "Januari",
+    "Februari",
+    "Maart",
+    "April",
+    "Mei",
+    "Juni",
+    "Juli",
+    "Augustus",
+    "September",
+    "Oktober",
+    "November",
+    "December",
+  ];
+
+  const weekdays = ["Zo", "Ma", "Di", "Wo", "Do", "Vr", "Za"];
 
   useEffect(() => {
     fetch(`${API_URL}/api/goats`)
@@ -87,6 +116,50 @@ function AddBreeding() {
     }
 
     setFormData(updated);
+  }
+
+  function selectCalendarDate(day) {
+    const year = calendarMonth.getFullYear();
+    const month = String(calendarMonth.getMonth() + 1).padStart(2, "0");
+    const date = String(day).padStart(2, "0");
+
+    const selectedDate = `${year}-${month}-${date}`;
+
+    setFormData((prev) => ({
+      ...prev,
+      mating_date: selectedDate,
+      expected_kidding: calculateExpectedKidding(selectedDate),
+    }));
+
+    setCalendarOpen(false);
+  }
+
+  function changeCalendarMonth(amount) {
+    setCalendarMonth(
+      new Date(
+        calendarMonth.getFullYear(),
+        calendarMonth.getMonth() + amount,
+        1
+      )
+    );
+  }
+
+  function openCalendar() {
+    if (formData.mating_date) {
+      const selectedDate = new Date(
+        `${formData.mating_date}T00:00:00`
+      );
+
+      setCalendarMonth(
+        new Date(
+          selectedDate.getFullYear(),
+          selectedDate.getMonth(),
+          1
+        )
+      );
+    }
+
+    setCalendarOpen(true);
   }
 
   async function handleSubmit(e) {
@@ -134,25 +207,12 @@ function AddBreeding() {
     textAlign: "right",
   };
 
-  const dateDisplayStyle = {
+  const calendarFieldStyle = {
     ...fieldStyle,
-    position: "absolute",
-    inset: 0,
     display: "flex",
     alignItems: "center",
-    pointerEvents: "none",
-    zIndex: 1,
-  };
-
-  const datePickerStyle = {
-    ...fieldStyle,
-    position: "absolute",
-    inset: 0,
-    width: "100%",
-    height: "100%",
-    opacity: 0,
     cursor: "pointer",
-    zIndex: 2,
+    textAlign: "left",
   };
 
   return (
@@ -223,24 +283,119 @@ function AddBreeding() {
           <p style={labelStyle}>{t("matingDate")}</p>
 
           <div
+            className="kidding-edit-calendar-wrap"
             style={{
               position: "relative",
               width: "100%",
-              height: "44px",
             }}
           >
-            <div style={dateDisplayStyle}>
+            <div
+              role="button"
+              tabIndex={0}
+              onClick={openCalendar}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  openCalendar();
+                }
+              }}
+              style={calendarFieldStyle}
+            >
               {formatDateDisplay(formData.mating_date)}
             </div>
 
-            <input
-              type="date"
-              name="mating_date"
-              value={formData.mating_date}
-              onChange={handleChange}
-              required
-              style={datePickerStyle}
-            />
+            {calendarOpen && (
+              <div className="kidding-edit-calendar">
+                <div className="kidding-edit-calendar-header">
+                  <button
+                    type="button"
+                    onClick={() => changeCalendarMonth(-1)}
+                  >
+                    ‹
+                  </button>
+
+                  <strong>
+                    {monthNames[calendarMonth.getMonth()]}{" "}
+                    {calendarMonth.getFullYear()}
+                  </strong>
+
+                  <button
+                    type="button"
+                    onClick={() => changeCalendarMonth(1)}
+                  >
+                    ›
+                  </button>
+                </div>
+
+                <div className="kidding-edit-calendar-weekdays">
+                  {weekdays.map((day) => (
+                    <div key={day}>{day}</div>
+                  ))}
+                </div>
+
+                <div className="kidding-edit-calendar-grid">
+                  {Array.from({
+                    length: new Date(
+                      calendarMonth.getFullYear(),
+                      calendarMonth.getMonth(),
+                      1
+                    ).getDay(),
+                  }).map((_, index) => (
+                    <div key={`empty-${index}`} />
+                  ))}
+
+                  {Array.from({
+                    length: new Date(
+                      calendarMonth.getFullYear(),
+                      calendarMonth.getMonth() + 1,
+                      0
+                    ).getDate(),
+                  }).map((_, index) => {
+                    const day = index + 1;
+
+                    const dateValue = `${calendarMonth.getFullYear()}-${String(
+                      calendarMonth.getMonth() + 1
+                    ).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+
+                    const selected =
+                      formData.mating_date === dateValue;
+
+                    const now = new Date();
+
+                    const today =
+                      now.getFullYear() ===
+                        calendarMonth.getFullYear() &&
+                      now.getMonth() === calendarMonth.getMonth() &&
+                      now.getDate() === day;
+
+                    return (
+                      <button
+                        key={day}
+                        type="button"
+                        className={
+                          selected
+                            ? "kidding-edit-calendar-day selected"
+                            : today
+                            ? "kidding-edit-calendar-day today"
+                            : "kidding-edit-calendar-day"
+                        }
+                        onClick={() => selectCalendarDate(day)}
+                      >
+                        {day}
+                      </button>
+                    );
+                  })}
+                </div>
+
+                <button
+                  type="button"
+                  className="kidding-edit-calendar-cancel"
+                  onClick={() => setCalendarOpen(false)}
+                >
+                  Annuleren
+                </button>
+              </div>
+            )}
           </div>
 
           <p style={labelStyle}>{t("expectedKidding")}</p>
