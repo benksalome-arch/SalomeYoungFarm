@@ -289,20 +289,19 @@ function AddBreeding() {
               width: "100%",
             }}
           >
-            <div
-              role="button"
-              tabIndex={0}
+            <button
+              type="button"
               onClick={openCalendar}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" || e.key === " ") {
-                  e.preventDefault();
-                  openCalendar();
-                }
+              style={{
+                ...calendarFieldStyle,
+                appearance: "none",
+                WebkitAppearance: "none",
+                border: "1px solid #cfd6cf",
+                textAlign: "left",
               }}
-              style={calendarFieldStyle}
             >
               {formatDateDisplay(formData.mating_date)}
-            </div>
+            </button>
 
             {calendarOpen && (
               <div className="kidding-edit-calendar">
