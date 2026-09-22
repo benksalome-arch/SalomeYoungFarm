@@ -2586,3 +2586,34 @@ canvas {
   .financial-transactions-table td:nth-child(5)::before { content:"Amount"; }
   .financial-transactions-table td:nth-child(6)::before { content:"Payment Method"; }
 }
+
+.breeding-add-actions {
+  grid-column: 1 / -1 !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 12px !important;
+  width: 100% !important;
+  margin-top: 8px !important;
+  padding-top: 6px !important;
+  box-sizing: border-box !important;
+}
+
+.breeding-add-actions .button {
+  min-width: 110px !important;
+  text-align: center !important;
+  box-sizing: border-box !important;
+}
+
+@media (max-width: 768px) {
+  .breeding-add-actions {
+    grid-column: 1 / -1 !important;
+    justify-content: center !important;
+    gap: 10px !important;
+    margin-top: 6px !important;
+  }
+
+  .breeding-add-actions .button {
+    min-width: 105px !important;
+  }
+}

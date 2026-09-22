@@ -28,13 +28,20 @@ exports.uploadPhoto = async (req, res) => {
 
   try {
     const results = await query(
-      "SELECT photo FROM goats WHERE id=?",
+      "SELECT photo, status FROM goats WHERE id=?",
       [id]
     );
 
     if (results.length === 0) {
       return res.status(404).json({
         message: "Goat not found.",
+      });
+    }
+
+    if (String(results[0].status).toLowerCase() === "dead") {
+      return res.status(409).json({
+        message:
+          "This goat is dead. No new records can be added or changed for this goat.",
       });
     }
 

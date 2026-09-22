@@ -187,45 +187,64 @@ function AddBreeding() {
 
           <p style={labelStyle}>{t("matingDate")}</p>
 
-          <div style={{ position: "relative", width: "100%", marginBottom: "14px" }}>
-            <div
-              style={{
-                ...dateFieldStyle,
-                width: "100%",
-                color: formData.mating_date ? "#222" : "#777",
-                WebkitTextFillColor: formData.mating_date ? "#222" : "#777",
-                display: "flex",
-                alignItems: "center",
-                pointerEvents: "none",
-              }}
-            >
-              {formData.mating_date
-                ? new Date(
-                    formData.mating_date + "T00:00:00"
-                  ).toLocaleDateString("nl-NL", {
-                    day: "2-digit",
-                    month: "2-digit",
-                    year: "numeric",
-                  })
-                : "DD-MM-JJJJ"}
-            </div>
+          <input
+            type="date"
+            name="mating_date"
+            value={formData.mating_date}
+            onChange={handleChange}
+            onClick={(e) => e.currentTarget.showPicker?.()}
+            onFocus={(e) => e.currentTarget.showPicker?.()}
+            style={{
+              ...fieldStyle,
+              cursor: "pointer",
+            }}
+          />
 
-            <input
-              type="date"
-              name="mating_date"
-              value={formData.mating_date}
-              onChange={handleChange}
-              onClick={(e) => e.currentTarget.showPicker?.()}
-              onFocus={(e) => e.currentTarget.showPicker?.()}
-              style={{
-                position: "absolute",
-                inset: 0,
-                width: "100%",
-                height: "100%",
-                opacity: 0,
-                cursor: "pointer",
-              }}
-            />
+          <p style={labelStyle}>{t("expectedKidding")}</p>
+
+          <input
+            type="text"
+            value={
+              formData.expected_kidding
+                ? formData.expected_kidding.split("-").reverse().join("-")
+                : ""
+            }
+            readOnly
+            style={fieldStyle}
+          />
+
+          <p style={labelStyle}>{t("veterinarian")}</p>
+
+          <input
+            type="text"
+            name="veterinarian"
+            value={formData.veterinarian}
+            onChange={handleChange}
+            style={fieldStyle}
+          />
+
+          <p style={labelStyle}>{t("notes")}</p>
+
+          <textarea
+            name="notes"
+            rows="4"
+            value={formData.notes}
+            onChange={handleChange}
+            style={{
+              ...fieldStyle,
+              minHeight: "100px",
+              resize: "vertical",
+            }}
+          />
+
+          <div className="breeding-add-actions">
+            <button className="button" type="submit">
+              💾 {t("save")}
+            </button>
+
+            <Link className="button" to="/breeding">
+              {t("cancel")}
+            </Link>
           </div>
         </form>
       </div>
