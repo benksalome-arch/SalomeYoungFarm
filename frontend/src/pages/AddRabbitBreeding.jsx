@@ -401,8 +401,6 @@ function AddRabbitBreeding() {
                 name="breeding_date"
                 value={formData.breeding_date || ""}
                 onChange={handleChange}
-                onClick={(e) => e.currentTarget.showPicker?.()}
-                onFocus={(e) => e.currentTarget.showPicker?.()}
                 required
                 style={{
                   position: "absolute",

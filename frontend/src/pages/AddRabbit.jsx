@@ -342,8 +342,6 @@ const year = calendarMonth.getFullYear();
                     name="birth_date"
                     value={formData.birth_date || ""}
                     onChange={handleChange}
-                    onClick={(e) => e.currentTarget.showPicker?.()}
-                    onFocus={(e) => e.currentTarget.showPicker?.()}
                     required
                     style={{
                       position: "absolute",

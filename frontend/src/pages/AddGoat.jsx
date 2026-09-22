@@ -384,8 +384,6 @@ function AddGoat() {
                 name="date_of_birth"
                 value={formData.date_of_birth}
                 onChange={handleChange}
-                onClick={(e) => e.currentTarget.showPicker?.()}
-                onFocus={(e) => e.currentTarget.showPicker?.()}
                 style={{
                   position: "absolute",
                   inset: 0,

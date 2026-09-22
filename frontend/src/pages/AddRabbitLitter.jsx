@@ -465,7 +465,6 @@ function AddRabbitLitter() {
               <strong>{t("birthDate")}</strong>
             </label>
             <div
-              onClick={() => birthDateRef.current?.showPicker?.()}
               style={{
                 position: "relative",
                 width: "100%",
@@ -494,7 +493,6 @@ function AddRabbitLitter() {
                 name="birth_date"
                 value={form.birth_date || ""}
                 onChange={handleChange}
-                onClick={(e) => e.currentTarget.showPicker?.()}
                 disabled={saving}
                 required
                 style={{

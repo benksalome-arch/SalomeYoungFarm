@@ -380,8 +380,6 @@ function AddInventory() {
                 name="purchase_date"
                 value={formData.purchase_date || ""}
                 onChange={handleChange}
-                onClick={(e) => e.currentTarget.showPicker?.()}
-                onFocus={(e) => e.currentTarget.showPicker?.()}
                 required
                 style={{
                   position: "absolute",

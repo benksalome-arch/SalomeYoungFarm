@@ -396,8 +396,6 @@ function EditEggProduction() {
                 name="production_date"
                 value={formData.production_date || ""}
                 onChange={handleChange}
-                onClick={(e) => e.currentTarget.showPicker?.()}
-                onFocus={(e) => e.currentTarget.showPicker?.()}
                 required
                 style={{
                   position: "absolute",

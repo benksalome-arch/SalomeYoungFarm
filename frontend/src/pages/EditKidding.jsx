@@ -194,8 +194,6 @@ function EditKidding() {
                   name="kidding_date"
                   value={formData.kidding_date || ""}
                   onChange={handleChange}
-                  onClick={(e) => e.currentTarget.showPicker?.()}
-                  onFocus={(e) => e.currentTarget.showPicker?.()}
                   required
                   style={{
                     position: "absolute",

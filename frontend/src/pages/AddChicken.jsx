@@ -489,8 +489,6 @@ function AddChicken() {
     name="hatch_date"
     value={formData.hatch_date || ""}
     onChange={handleChange}
-    onClick={(e) => e.currentTarget.showPicker?.()}
-    onFocus={(e) => e.currentTarget.showPicker?.()}
     style={{
       position: "absolute",
       inset: 0,

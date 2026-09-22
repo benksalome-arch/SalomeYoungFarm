@@ -177,7 +177,6 @@ function AddRabbitHealth() {
               {formData.treatment_date ? new Date(formData.treatment_date + "T00:00:00").toLocaleDateString("nl-NL", { day: "2-digit", month: "2-digit", year: "numeric" }) : "DD-MM-JJJJ"}
             </div>
             <input type="date" name="treatment_date" value={formData.treatment_date} onChange={handleChange} disabled={saving} required
-              onClick={(e) => e.currentTarget.showPicker?.()} onFocus={(e) => e.currentTarget.showPicker?.()}
               style={{ position: "absolute", inset: 0, width: "100%", height: "100%", opacity: 0, cursor: "pointer" }} />
           </div>
 

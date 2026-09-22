@@ -347,8 +347,6 @@ function AddEggSale() {
                   name="sale_date"
                   value={formData.sale_date || ""}
                   onChange={handleChange}
-                  onClick={(e) => e.currentTarget.showPicker?.()}
-                  onFocus={(e) => e.currentTarget.showPicker?.()}
                   required
                   style={{
                     position: "absolute",

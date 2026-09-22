@@ -729,8 +729,6 @@ function AddRabbitMortality() {
                   name="mortality_date"
                   value={formData.mortality_date || ""}
                   onChange={handleChange}
-                  onClick={(e) => e.currentTarget.showPicker?.()}
-                  onFocus={(e) => e.currentTarget.showPicker?.()}
                   required
                   style={{
                     position: "absolute",

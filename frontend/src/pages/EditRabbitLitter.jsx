@@ -325,8 +325,6 @@ function EditRabbitLitter() {
                   name="birth_date"
                   value={form.birth_date || ""}
                   onChange={handleChange}
-                  onClick={(e) => e.currentTarget.showPicker?.()}
-                  onFocus={(e) => e.currentTarget.showPicker?.()}
                   disabled={saving}
                   required
                   style={{

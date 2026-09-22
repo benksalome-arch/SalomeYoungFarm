@@ -253,7 +253,6 @@ function AddRabbitWeight() {
                 {formData.weight_date ? new Date(formData.weight_date + "T00:00:00").toLocaleDateString("nl-NL", { day: "2-digit", month: "2-digit", year: "numeric" }) : "DD-MM-JJJJ"}
               </div>
               <input type="date" name="weight_date" value={formData.weight_date} onChange={handleChange} required
-                onClick={(e) => e.currentTarget.showPicker?.()} onFocus={(e) => e.currentTarget.showPicker?.()}
                 style={{ position: "absolute", inset: 0, width: "100%", height: "100%", opacity: 0, cursor: "pointer" }} />
             </div>
           </div>

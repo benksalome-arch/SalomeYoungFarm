@@ -383,8 +383,6 @@ function AddChickenVaccination() {
                     name="vaccination_date"
                     value={formData.vaccination_date || ""}
                     onChange={handleChange}
-                    onClick={(e) => e.currentTarget.showPicker?.()}
-                    onFocus={(e) => e.currentTarget.showPicker?.()}
                     required
                     style={{
                       position: "absolute",
@@ -457,8 +455,6 @@ function AddChickenVaccination() {
                     name="next_due_date"
                     value={formData.next_due_date || ""}
                     onChange={handleChange}
-                    onClick={(e) => e.currentTarget.showPicker?.()}
-                    onFocus={(e) => e.currentTarget.showPicker?.()}
                     style={{
                       position: "absolute",
                       inset: 0,
