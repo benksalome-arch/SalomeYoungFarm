@@ -111,15 +111,6 @@ function AddBreeding() {
     textAlign: "right",
   };
 
-  const dateFieldStyle = {
-    ...fieldStyle,
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "flex-start",
-    textAlign: "left",
-    cursor: "pointer",
-  };
-
   return (
     <div className="page">
       <div className="card">
@@ -187,18 +178,36 @@ function AddBreeding() {
 
           <p style={labelStyle}>{t("matingDate")}</p>
 
-          <input
-            type="date"
-            name="mating_date"
-            value={formData.mating_date}
-            onChange={handleChange}
-            onClick={(e) => e.currentTarget.showPicker?.()}
-            onFocus={(e) => e.currentTarget.showPicker?.()}
-            style={{
-              ...fieldStyle,
-              cursor: "pointer",
-            }}
-          />
+          <div style={{ position: "relative", width: "100%" }}>
+            <input
+              type="text"
+              value={formatDateDisplay(formData.mating_date)}
+              readOnly
+              onClick={(e) => {
+                e.currentTarget.nextElementSibling?.showPicker?.();
+              }}
+              style={{
+                ...fieldStyle,
+                cursor: "pointer",
+              }}
+            />
+
+            <input
+              type="date"
+              name="mating_date"
+              value={formData.mating_date}
+              onChange={handleChange}
+              tabIndex="-1"
+              aria-hidden="true"
+              style={{
+                position: "absolute",
+                width: "1px",
+                height: "1px",
+                opacity: 0,
+                pointerEvents: "none",
+              }}
+            />
+          </div>
 
           <p style={labelStyle}>{t("expectedKidding")}</p>
 
