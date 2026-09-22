@@ -9,6 +9,8 @@ exports.getAllGoats = (req, res) => {
         console.error(err);
         return res.status(500).json({
           message: "Database error",
+          error: err.message,
+          code: err.code,
         });
       }
 
@@ -29,6 +31,8 @@ exports.getGoatById = (req, res) => {
         console.error(err);
         return res.status(500).json({
           message: "Database error",
+          error: err.message,
+          code: err.code,
         });
       }
 
@@ -46,47 +50,50 @@ exports.getGoatById = (req, res) => {
 // Add goat
 exports.createGoat = (req, res) => {
   const {
-    earTag,
+    tag,
     name,
     breed,
     sex,
-    birthDate,
+    date_of_birth,
     weight,
+    color,
     status,
     notes,
   } = req.body;
 
-  if (!earTag || !breed || !sex) {
+  if (!tag || !breed || !sex) {
     return res.status(400).json({
-      message: "Ear tag, breed and sex are required.",
+      message: "Tag, breed and sex are required.",
     });
   }
 
   const sql = `
     INSERT INTO goats
     (
-      earTag,
+      tag,
       name,
       breed,
       sex,
-      birthDate,
+      date_of_birth,
       weight,
+      color,
       status,
       notes
     )
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
   `;
 
   db.query(
     sql,
     [
-      earTag,
-      name,
+      tag,
+      name || null,
       breed,
       sex,
-      birthDate || null,
+      date_of_birth || null,
       weight || null,
-      status || "Active",
+      color || null,
+      status || "Healthy",
       notes || null,
     ],
     (err, result) => {
@@ -95,7 +102,7 @@ exports.createGoat = (req, res) => {
 
         if (err.code === "ER_DUP_ENTRY") {
           return res.status(409).json({
-            message: "This ear tag already exists.",
+            message: "This tag already exists.",
           });
         }
 
@@ -119,19 +126,20 @@ exports.updateGoat = (req, res) => {
   const { id } = req.params;
 
   const {
-    earTag,
+    tag,
     name,
     breed,
     sex,
-    birthDate,
+    date_of_birth,
     weight,
+    color,
     status,
     notes,
   } = req.body;
 
-  if (!earTag || !breed || !sex) {
+  if (!tag || !breed || !sex) {
     return res.status(400).json({
-      message: "Ear tag, breed and sex are required.",
+      message: "Tag, breed and sex are required.",
     });
   }
 
@@ -144,6 +152,8 @@ exports.updateGoat = (req, res) => {
         console.error(statusErr);
         return res.status(500).json({
           message: "Database error",
+          error: statusErr.message,
+          code: statusErr.code,
         });
       }
 
@@ -163,12 +173,13 @@ exports.updateGoat = (req, res) => {
       const sql = `
         UPDATE goats
         SET
-          earTag = ?,
+          tag = ?,
           name = ?,
           breed = ?,
           sex = ?,
-          birthDate = ?,
+          date_of_birth = ?,
           weight = ?,
+          color = ?,
           status = ?,
           notes = ?
         WHERE id = ?
@@ -177,13 +188,14 @@ exports.updateGoat = (req, res) => {
       db.query(
         sql,
         [
-          earTag,
-          name,
+          tag,
+          name || null,
           breed,
           sex,
-          birthDate || null,
+          date_of_birth || null,
           weight || null,
-          status || "Active",
+          color || null,
+          status || "Healthy",
           notes || null,
           id,
         ],
@@ -193,12 +205,14 @@ exports.updateGoat = (req, res) => {
 
             if (err.code === "ER_DUP_ENTRY") {
               return res.status(409).json({
-                message: "This ear tag already exists.",
+                message: "This tag already exists.",
               });
             }
 
             return res.status(500).json({
               message: "Database error",
+              error: err.message,
+              code: err.code,
             });
           }
 
@@ -213,34 +227,6 @@ exports.updateGoat = (req, res) => {
           });
         }
       );
-    }
-  );
-};
-
-// Delete goat
-exports.deleteGoat = (req, res) => {
-  const { id } = req.params;
-
-  db.query(
-    "DELETE FROM goats WHERE id = ?",
-    [id],
-    (err, result) => {
-      if (err) {
-        console.error(err);
-        return res.status(500).json({
-          message: "Database error",
-        });
-      }
-
-      if (!result.affectedRows) {
-        return res.status(404).json({
-          message: "Goat not found.",
-        });
-      }
-
-      res.json({
-        message: "Goat deleted successfully!",
-      });
     }
   );
 };
