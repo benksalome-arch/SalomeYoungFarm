@@ -673,19 +673,24 @@ function AddGoat() {
                             style={{
                               height: "38px",
                               border: selected
+                                ? "2px solid #1b5e20"
+                                : isToday
                                 ? "2px solid #2e7d32"
                                 : "1px solid #ddd",
-                              borderRadius: "7px",
+                              borderRadius: "50%",
                               background: selected
-                                ? "#e8f5e9"
+                                ? "#2e7d32"
                                 : isToday
-                                ? "#f1f8f2"
+                                ? "#4caf50"
                                 : "#fff",
-                              color: "#222",
+                              color: selected || isToday ? "#fff" : "#222",
                               fontWeight:
-                                selected || isToday ? 700 : 400,
+                                selected || isToday ? 800 : 400,
                               cursor: "pointer",
                               fontSize: "14px",
+                              boxShadow: isToday
+                                ? "0 0 0 2px #c8e6c9"
+                                : "none",
                             }}
                           >
                             {day}
