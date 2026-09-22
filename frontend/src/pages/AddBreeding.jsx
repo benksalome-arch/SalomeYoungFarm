@@ -289,19 +289,23 @@ function AddBreeding() {
               width: "100%",
             }}
           >
-            <button
-              type="button"
-              onClick={openCalendar}
-              style={{
-                ...calendarFieldStyle,
-                appearance: "none",
-                WebkitAppearance: "none",
-                border: "1px solid #cfd6cf",
-                textAlign: "left",
-              }}
-            >
-              {formatDateDisplay(formData.mating_date)}
-            </button>
+            <div style={{ position: "relative", width: "100%" }}>
+              <input
+                type="text"
+                name="mating_date_display"
+                value={formatDateDisplay(formData.mating_date)}
+                placeholder="DD-MM-JJJJ"
+                readOnly
+                onClick={openCalendar}
+                style={{
+                  ...fieldStyle,
+                  color: "#222",
+                  WebkitTextFillColor: "#222",
+                  backgroundColor: "#fff",
+                  cursor: "pointer",
+                }}
+              />
+            </div>
 
             {calendarOpen && (
               <div className="kidding-edit-calendar">
