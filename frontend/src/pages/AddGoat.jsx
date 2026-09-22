@@ -270,6 +270,7 @@ function AddGoat() {
           style={{
             marginTop: 0,
             fontSize: "20px",
+            color: "#222",
           }}
         >
           📷 {t("goatPhoto")}
