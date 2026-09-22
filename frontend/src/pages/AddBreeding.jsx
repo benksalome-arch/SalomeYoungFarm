@@ -1,6 +1,6 @@
 import { useLanguage } from "../context/LanguageContext";
 import API_URL from "../api";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
 function getTodayLocalDate() {
@@ -27,10 +27,33 @@ function calculateExpectedKidding(value) {
   return `${year}-${month}-${day}`;
 }
 
+function formatDateDisplay(value) {
+  if (!value) {
+    return "";
+  }
+
+  const parts = String(value).slice(0, 10).split("-");
+
+  if (parts.length !== 3) {
+    return "";
+  }
+
+  const [year, month, day] = parts;
+
+  if (
+    year.length !== 4 ||
+    month.length !== 2 ||
+    day.length !== 2
+  ) {
+    return "";
+  }
+
+  return `${day}-${month}-${year}`;
+}
+
 function AddBreeding() {
   const { t } = useLanguage();
   const navigate = useNavigate();
-  const datePickerRef = useRef(null);
 
   const today = getTodayLocalDate();
 
@@ -51,30 +74,6 @@ function AddBreeding() {
       .catch(console.error);
   }, []);
 
-  function formatDateDisplay(value) {
-    if (!value) {
-      return "";
-    }
-
-    const parts = String(value).slice(0, 10).split("-");
-
-    if (parts.length !== 3) {
-      return "";
-    }
-
-    const [year, month, day] = parts;
-
-    if (
-      year.length !== 4 ||
-      month.length !== 2 ||
-      day.length !== 2
-    ) {
-      return "";
-    }
-
-    return `${day}-${month}-${year}`;
-  }
-
   function handleChange(e) {
     const { name, value } = e.target;
 
@@ -88,13 +87,6 @@ function AddBreeding() {
     }
 
     setFormData(updated);
-  }
-
-  function openDatePicker() {
-    if (datePickerRef.current) {
-      datePickerRef.current.showPicker?.();
-      datePickerRef.current.focus();
-    }
   }
 
   async function handleSubmit(e) {
@@ -140,6 +132,27 @@ function AddBreeding() {
     color: "#222",
     WebkitTextFillColor: "#222",
     textAlign: "right",
+  };
+
+  const dateDisplayStyle = {
+    ...fieldStyle,
+    position: "absolute",
+    inset: 0,
+    display: "flex",
+    alignItems: "center",
+    pointerEvents: "none",
+    zIndex: 1,
+  };
+
+  const datePickerStyle = {
+    ...fieldStyle,
+    position: "absolute",
+    inset: 0,
+    width: "100%",
+    height: "100%",
+    opacity: 0,
+    cursor: "pointer",
+    zIndex: 2,
   };
 
   return (
@@ -216,36 +229,17 @@ function AddBreeding() {
               height: "44px",
             }}
           >
-            <input
-              type="text"
-              value={formatDateDisplay(formData.mating_date)}
-              readOnly
-              onClick={openDatePicker}
-              style={{
-                ...fieldStyle,
-                position: "absolute",
-                inset: 0,
-                cursor: "pointer",
-                zIndex: 1,
-              }}
-            />
+            <div style={dateDisplayStyle}>
+              {formatDateDisplay(formData.mating_date)}
+            </div>
 
             <input
-              ref={datePickerRef}
               type="date"
               name="mating_date"
               value={formData.mating_date}
               onChange={handleChange}
-              aria-label={t("matingDate")}
-              style={{
-                position: "absolute",
-                inset: 0,
-                width: "100%",
-                height: "100%",
-                opacity: 0,
-                cursor: "pointer",
-                zIndex: 2,
-              }}
+              required
+              style={datePickerStyle}
             />
           </div>
 
