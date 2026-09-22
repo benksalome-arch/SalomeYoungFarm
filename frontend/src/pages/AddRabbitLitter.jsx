@@ -501,6 +501,7 @@ function AddRabbitLitter() {
                   width: "100%",
                   height: "100%",
                   opacity: 0,
+                    pointerEvents: "none",
                   padding: 0,
                   margin: 0,
                   border: 0,
