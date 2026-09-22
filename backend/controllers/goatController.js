@@ -101,6 +101,8 @@ exports.createGoat = (req, res) => {
 
         return res.status(500).json({
           message: "Database error",
+          error: err.message,
+          code: err.code,
         });
       }
 
