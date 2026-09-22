@@ -362,8 +362,9 @@ function RegisterChickenFlock() {
                   fontSize: "15px",
                   display: "flex",
                   alignItems: "center",
-                  pointerEvents: "none",
+                  cursor: "pointer",
                 }}
+                onClick={openCalendar}
               >
                 {formData.hatch_date
                   ? new Date(formData.hatch_date + "T00:00:00").toLocaleDateString("nl-NL", {
@@ -385,7 +386,7 @@ function RegisterChickenFlock() {
                   width: "100%",
                   height: "100%",
                   opacity: 0,
-                    cursor: "pointer",
+                  pointerEvents: "none",
                 }}
               />
 
