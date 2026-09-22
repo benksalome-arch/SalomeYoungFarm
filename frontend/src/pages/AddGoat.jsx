@@ -118,11 +118,11 @@ function AddGoat() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          earTag: formData.tag,
+          tag: formData.tag,
           name: formData.name,
           breed: formData.breed,
           sex: formData.sex,
-          birthDate: formData.date_of_birth
+          date_of_birth: formData.date_of_birth
             ? String(formData.date_of_birth).split("T")[0]
             : null,
           weight: formData.weight,
