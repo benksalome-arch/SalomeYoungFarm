@@ -433,12 +433,15 @@ function AddRabbitBreeding() {
                   alignItems: "center",
                   justifyContent: "center",
                   zIndex: 99999,
+                  pointerEvents: "auto",
                 }}
               >
                 <div
                   onClick={(e) => e.stopPropagation()}
                   style={{
                     width: "min(92vw,360px)",
+                    zIndex: 100000,
+                    pointerEvents: "auto",
                     background: "#fff",
                     borderRadius: "14px",
                     padding: "18px",
