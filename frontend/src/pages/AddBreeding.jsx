@@ -1,18 +1,45 @@
 import { useLanguage } from "../context/LanguageContext";
 import API_URL from "../api";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate, Link } from "react-router-dom";
+
+function getTodayLocalDate() {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, "0");
+  const day = String(today.getDate()).padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
+}
+
+function calculateExpectedKidding(value) {
+  if (!value) {
+    return "";
+  }
+
+  const date = new Date(`${value}T00:00:00`);
+  date.setDate(date.getDate() + 150);
+
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
+}
 
 function AddBreeding() {
   const { t } = useLanguage();
   const navigate = useNavigate();
+  const datePickerRef = useRef(null);
+
+  const today = getTodayLocalDate();
 
   const [goats, setGoats] = useState([]);
   const [formData, setFormData] = useState({
     doe_id: "",
     buck_id: "",
-    mating_date: "",
-    expected_kidding: "",
+    mating_date: today,
+    expected_kidding: calculateExpectedKidding(today),
     veterinarian: "",
     notes: "",
   });
@@ -57,13 +84,17 @@ function AddBreeding() {
     };
 
     if (name === "mating_date" && value) {
-      const date = new Date(`${value}T00:00:00`);
-      date.setDate(date.getDate() + 150);
-
-      updated.expected_kidding = date.toISOString().split("T")[0];
+      updated.expected_kidding = calculateExpectedKidding(value);
     }
 
     setFormData(updated);
+  }
+
+  function openDatePicker() {
+    if (datePickerRef.current) {
+      datePickerRef.current.showPicker?.();
+      datePickerRef.current.focus();
+    }
   }
 
   async function handleSubmit(e) {
@@ -178,33 +209,42 @@ function AddBreeding() {
 
           <p style={labelStyle}>{t("matingDate")}</p>
 
-          <div style={{ position: "relative", width: "100%" }}>
+          <div
+            style={{
+              position: "relative",
+              width: "100%",
+              height: "44px",
+            }}
+          >
             <input
               type="text"
               value={formatDateDisplay(formData.mating_date)}
               readOnly
-              onClick={(e) => {
-                e.currentTarget.nextElementSibling?.showPicker?.();
-              }}
+              onClick={openDatePicker}
               style={{
                 ...fieldStyle,
+                position: "absolute",
+                inset: 0,
                 cursor: "pointer",
+                zIndex: 1,
               }}
             />
 
             <input
+              ref={datePickerRef}
               type="date"
               name="mating_date"
               value={formData.mating_date}
               onChange={handleChange}
-              tabIndex="-1"
-              aria-hidden="true"
+              aria-label={t("matingDate")}
               style={{
                 position: "absolute",
-                width: "1px",
-                height: "1px",
+                inset: 0,
+                width: "100%",
+                height: "100%",
                 opacity: 0,
-                pointerEvents: "none",
+                cursor: "pointer",
+                zIndex: 2,
               }}
             />
           </div>
@@ -213,11 +253,7 @@ function AddBreeding() {
 
           <input
             type="text"
-            value={
-              formData.expected_kidding
-                ? formData.expected_kidding.split("-").reverse().join("-")
-                : ""
-            }
+            value={formatDateDisplay(formData.expected_kidding)}
             readOnly
             style={fieldStyle}
           />
