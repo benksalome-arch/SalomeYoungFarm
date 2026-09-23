@@ -71,6 +71,13 @@ export default function AddGoatMortality() {
   const [calendarOpen, setCalendarOpen] = useState(false);
   const [calendarMonth, setCalendarMonth] = useState(new Date());
 
+  const currentYear = new Date().getFullYear();
+
+  const calendarYears = Array.from(
+    { length: 101 },
+    (_, index) => currentYear - index
+  );
+
   useEffect(() => {
     const loadGoats = async () => {
       try {
