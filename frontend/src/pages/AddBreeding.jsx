@@ -165,18 +165,29 @@ function AddBreeding() {
   async function handleSubmit(e) {
     e.preventDefault();
 
-    const response = await fetch(`${API_URL}/api/breeding`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    });
+    try {
+      const response = await fetch(`${API_URL}/api/breeding`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify(formData),
+      });
 
-    const data = await response.json();
+      const data = await response.json();
 
-    alert(data.message);
-    navigate("/breeding");
+      if (!response.ok) {
+        alert(data.message || "Fokregistratie opslaan mislukt.");
+        return;
+      }
+
+      alert(data.message || "Fokregistratie succesvol opgeslagen.");
+      navigate("/breeding");
+    } catch (error) {
+      console.error("Save breeding error:", error);
+      alert("Fokregistratie opslaan mislukt.");
+    }
   }
 
   const fieldStyle = {
