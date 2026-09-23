@@ -18,7 +18,7 @@ function Kidding() {
     try {
       const response = await fetch(`${API_URL}/api/kidding`);
       const data = await response.json();
-      setRecords(data);
+      setRecords(Array.isArray(data) ? data : []);
     } catch (error) {
       console.error(error);
     }
@@ -28,7 +28,7 @@ function Kidding() {
     try {
       const response = await fetch(`${API_URL}/api/breeding`);
       const data = await response.json();
-      setBreedingRecords(data);
+      setBreedingRecords(Array.isArray(data) ? data : []);
       setShowBreedingSelection(true);
     } catch (error) {
       console.error(error);
