@@ -204,6 +204,7 @@ function EditKidding() {
                   borderRadius: "7px",
                   background: "#fff",
                   color: "#222",
+                  WebkitTextFillColor: "#222",
                   cursor: "pointer",
                 }}
               />
@@ -235,33 +236,18 @@ function EditKidding() {
                       borderRadius: "14px",
                       padding: "18px",
                       boxSizing: "border-box",
-                      boxShadow: "0 10px 30px rgba(0,0,0,0.2)",
+                      boxShadow: "0 8px 30px rgba(0, 0, 0, 0.25)",
                     }}
                   >
                     <div
                       style={{
                         display: "flex",
                         alignItems: "center",
+                        justifyContent: "center",
                         gap: "8px",
                         marginBottom: "14px",
                       }}
                     >
-                      <button
-                        type="button"
-                        onClick={() => changeCalendarMonth(-1)}
-                        style={{
-                          width: "38px",
-                          height: "38px",
-                          border: "1px solid #ddd",
-                          borderRadius: "8px",
-                          background: "#fff",
-                          fontSize: "22px",
-                          cursor: "pointer",
-                        }}
-                      >
-                        ‹
-                      </button>
-
                       <select
                         value={calendarMonth.getMonth()}
                         onChange={(e) =>
@@ -274,12 +260,14 @@ function EditKidding() {
                           )
                         }
                         style={{
-                          flex: 1,
                           height: "38px",
-                          border: "1px solid #ddd",
+                          padding: "0 30px 0 10px",
+                          border: "1px solid #cfd6cf",
                           borderRadius: "8px",
                           background: "#fff",
-                          padding: "0 8px",
+                          color: "#222",
+                          fontSize: "14px",
+                          fontWeight: 600,
                         }}
                       >
                         {monthNames.map((month, index) => (
@@ -301,12 +289,14 @@ function EditKidding() {
                           )
                         }
                         style={{
-                          width: "92px",
                           height: "38px",
-                          border: "1px solid #ddd",
+                          padding: "0 30px 0 10px",
+                          border: "1px solid #cfd6cf",
                           borderRadius: "8px",
                           background: "#fff",
-                          padding: "0 8px",
+                          color: "#222",
+                          fontSize: "14px",
+                          fontWeight: 600,
                         }}
                       >
                         {calendarYears.map((year) => (
@@ -315,6 +305,46 @@ function EditKidding() {
                           </option>
                         ))}
                       </select>
+                    </div>
+
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        marginBottom: "10px",
+                      }}
+                    >
+                      <button
+                        type="button"
+                        onClick={() => changeCalendarMonth(-1)}
+                        style={{
+                          width: "38px",
+                          height: "38px",
+                          border: "1px solid #cfd6cf",
+                          borderRadius: "8px",
+                          background: "#fff",
+                          color: "#222",
+                          fontSize: "20px",
+                          fontWeight: 700,
+                          cursor: "pointer",
+                        }}
+                      >
+                        ‹
+                      </button>
+
+                      <div
+                        style={{
+                          flex: 1,
+                          textAlign: "center",
+                          fontSize: "19px",
+                          fontWeight: 700,
+                          color: "#222",
+                          lineHeight: "38px",
+                        }}
+                      >
+                        {monthNames[calendarMonth.getMonth()]}{" "}
+                        {calendarMonth.getFullYear()}
+                      </div>
 
                       <button
                         type="button"
@@ -322,10 +352,12 @@ function EditKidding() {
                         style={{
                           width: "38px",
                           height: "38px",
-                          border: "1px solid #ddd",
+                          border: "1px solid #cfd6cf",
                           borderRadius: "8px",
                           background: "#fff",
-                          fontSize: "22px",
+                          color: "#222",
+                          fontSize: "20px",
+                          fontWeight: 700,
                           cursor: "pointer",
                         }}
                       >
@@ -337,7 +369,7 @@ function EditKidding() {
                       style={{
                         display: "grid",
                         gridTemplateColumns: "repeat(7, 1fr)",
-                        gap: "6px",
+                        gap: "4px",
                         marginBottom: "6px",
                       }}
                     >
@@ -346,10 +378,10 @@ function EditKidding() {
                           key={day}
                           style={{
                             textAlign: "center",
-                            fontSize: "12px",
-                            fontWeight: "600",
-                            color: "#666",
-                            padding: "4px 0",
+                            fontWeight: 700,
+                            fontSize: "13px",
+                            color: "#555",
+                            padding: "5px 0",
                           }}
                         >
                           {day}
@@ -361,7 +393,7 @@ function EditKidding() {
                       style={{
                         display: "grid",
                         gridTemplateColumns: "repeat(7, 1fr)",
-                        gap: "6px",
+                        gap: "5px",
                       }}
                     >
                       {Array.from({
@@ -382,20 +414,21 @@ function EditKidding() {
                         ).getDate(),
                       }).map((_, index) => {
                         const day = index + 1;
-                        const selectedDate =
-                          `${calendarMonth.getFullYear()}-${String(
-                            calendarMonth.getMonth() + 1
-                          ).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+
+                        const dateValue =
+                          `${calendarMonth.getFullYear()}-` +
+                          `${String(calendarMonth.getMonth() + 1).padStart(2, "0")}-` +
+                          `${String(day).padStart(2, "0")}`;
+
+                        const selected =
+                          formData.kidding_date === dateValue;
 
                         const today = new Date();
-                        const isSelected =
-                          formData.kidding_date === selectedDate;
 
                         const isToday =
-                          today.getFullYear() ===
-                            calendarMonth.getFullYear() &&
-                          today.getMonth() === calendarMonth.getMonth() &&
-                          today.getDate() === day;
+                          day === today.getDate() &&
+                          calendarMonth.getMonth() === today.getMonth() &&
+                          calendarMonth.getFullYear() === today.getFullYear();
 
                         return (
                           <button
@@ -404,28 +437,28 @@ function EditKidding() {
                             onClick={() => {
                               setFormData((previous) => ({
                                 ...previous,
-                                kidding_date: selectedDate,
+                                kidding_date: dateValue,
                               }));
                               setCalendarOpen(false);
                             }}
                             style={{
-                              width: "38px",
                               height: "38px",
-                              justifySelf: "center",
-                              borderRadius: "50%",
-                              border: isSelected
+                              border: selected
                                 ? "2px solid #1b5e20"
-                                : "1px solid transparent",
-                              background: isSelected || isToday
+                                : isToday
+                                ? "2px solid #2e7d32"
+                                : "1px solid #ddd",
+                              borderRadius: "50%",
+                              background: selected
+                                ? "#2e7d32"
+                                : isToday
                                 ? "#4caf50"
                                 : "#fff",
-                              color:
-                                isSelected || isToday
-                                  ? "#fff"
-                                  : "#222",
+                              color: selected || isToday ? "#fff" : "#222",
                               fontWeight:
-                                isSelected || isToday ? "600" : "400",
+                                selected || isToday ? 800 : 400,
                               cursor: "pointer",
+                              fontSize: "14px",
                               boxShadow: isToday
                                 ? "0 0 0 2px #c8e6c9"
                                 : "none",
@@ -452,7 +485,7 @@ function EditKidding() {
                         cursor: "pointer",
                       }}
                     >
-                      Annuleren
+                      {t("cancel")}
                     </button>
                   </div>
                 </div>
