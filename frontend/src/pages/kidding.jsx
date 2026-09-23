@@ -343,6 +343,17 @@ function Kidding() {
       <div className="page-header">
         <h1>🍼 {t("kiddingRecords")}</h1>
         <p>{t("allGoatBirths")}</p>
+
+        <Link
+          to="/breeding"
+          className="button"
+          style={{
+            display: "inline-block",
+            marginTop: "10px",
+          }}
+        >
+          ← {t("backToBreeding")}
+        </Link>
       </div>
 
       <div className="card">

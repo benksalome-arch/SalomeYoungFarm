@@ -170,53 +170,106 @@ function EditKidding() {
           <div className="kidding-edit-field kidding-edit-date-field">
             <label>{t("date")}</label>
 
-            <div className="kidding-edit-calendar-wrap">
-              <div style={{ position: "relative", width: "100%" }}>
+            <button
+              type="button"
+              onClick={() => {
+                if (formData.kidding_date) {
+                  const selected = new Date(
+                    formData.kidding_date + "T00:00:00"
+                  );
+                  setCalendarMonth(
+                    new Date(
+                      selected.getFullYear(),
+                      selected.getMonth(),
+                      1
+                    )
+                  );
+                } else {
+                  setCalendarMonth(new Date());
+                }
+
+                setCalendarOpen(true);
+              }}
+              style={{
+                width: "100%",
+                boxSizing: "border-box",
+                padding: "10px 12px",
+                minHeight: "44px",
+                border: "1px solid #cfd6cf",
+                borderRadius: "7px",
+                background: "#fff",
+                color: formData.kidding_date ? "#222" : "#777",
+                fontSize: "15px",
+                textAlign: "left",
+                cursor: "pointer",
+              }}
+            >
+              {formatDateDisplay(formData.kidding_date) || "DD-MM-JJJJ"}
+            </button>
+
+            {calendarOpen && (
+              <div
+                onClick={(e) => {
+                  if (e.target === e.currentTarget) {
+                    setCalendarOpen(false);
+                  }
+                }}
+                style={{
+                  position: "fixed",
+                  inset: 0,
+                  background: "rgba(0,0,0,.35)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  zIndex: 99999,
+                  padding: "16px",
+                  boxSizing: "border-box",
+                }}
+              >
                 <div
+                  onClick={(e) => e.stopPropagation()}
                   style={{
-                    width: "100%", boxSizing: "border-box", padding: "10px 12px", minHeight: "44px", border: "1px solid #cfd6cf", borderRadius: "7px", background: "#fff",
-                    width: "100%",
-                    color: formData.kidding_date ? "#222" : "#777",
-                    pointerEvents: "none",
+                    width: "min(92vw, 360px)",
+                    background: "#fff",
+                    borderRadius: "14px",
+                    padding: "18px",
+                    boxSizing: "border-box",
+                    boxShadow: "0 8px 30px rgba(0,0,0,.25)",
                   }}
                 >
-                  {formData.kidding_date
-                    ? new Date(formData.kidding_date + "T00:00:00").toLocaleDateString("nl-NL", {
-                        day: "2-digit",
-                        month: "2-digit",
-                        year: "numeric",
-                      })
-                    : "DD-MM-JJJJ"}
-                </div>
-
-                <input
-                  type="date"
-                  name="kidding_date"
-                  value={formData.kidding_date || ""}
-                  onChange={handleChange}
-                  required
-                  style={{
-                    position: "absolute",
-                    inset: 0,
-                    width: "100%",
-                    height: "100%",
-                    opacity: 0,
-                    cursor: "pointer",
-                  }}
-                />
-              </div>
-
-              {calendarOpen && (
-                <div className="kidding-edit-calendar">
-                  <div className="kidding-edit-calendar-header">
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      gap: "8px",
+                      marginBottom: "14px",
+                    }}
+                  >
                     <button
                       type="button"
                       onClick={() => changeCalendarMonth(-1)}
+                      style={{
+                        width: "38px",
+                        height: "38px",
+                        border: "1px solid #cfd6cf",
+                        borderRadius: "8px",
+                        background: "#fff",
+                        fontSize: "22px",
+                        cursor: "pointer",
+                      }}
                     >
                       ‹
                     </button>
 
-                    <strong>
+                    <strong
+                      style={{
+                        flex: 1,
+                        textAlign: "center",
+                        color: "#222",
+                        fontSize: "17px",
+                      }}
+                    >
                       {monthNames[calendarMonth.getMonth()]}{" "}
                       {calendarMonth.getFullYear()}
                     </strong>
@@ -224,18 +277,42 @@ function EditKidding() {
                     <button
                       type="button"
                       onClick={() => changeCalendarMonth(1)}
+                      style={{
+                        width: "38px",
+                        height: "38px",
+                        border: "1px solid #cfd6cf",
+                        borderRadius: "8px",
+                        background: "#fff",
+                        fontSize: "22px",
+                        cursor: "pointer",
+                      }}
                     >
                       ›
                     </button>
                   </div>
 
-                  <div className="kidding-edit-calendar-weekdays">
+                  <div
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns: "repeat(7, 1fr)",
+                      gap: "6px",
+                    }}
+                  >
                     {weekdays.map((day) => (
-                      <div key={day}>{day}</div>
+                      <div
+                        key={day}
+                        style={{
+                          textAlign: "center",
+                          fontWeight: "600",
+                          fontSize: "13px",
+                          padding: "6px 0",
+                          color: "#222",
+                        }}
+                      >
+                        {day}
+                      </div>
                     ))}
-                  </div>
 
-                  <div className="kidding-edit-calendar-grid">
                     {Array.from({
                       length: new Date(
                         calendarMonth.getFullYear(),
@@ -255,11 +332,13 @@ function EditKidding() {
                     }).map((_, index) => {
                       const day = index + 1;
 
-                      const selected =
-                        formData.kidding_date ===
+                      const dateValue =
                         `${calendarMonth.getFullYear()}-${String(
                           calendarMonth.getMonth() + 1
                         ).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+
+                      const selected =
+                        formData.kidding_date === dateValue;
 
                       const now = new Date();
 
@@ -272,14 +351,35 @@ function EditKidding() {
                         <button
                           key={day}
                           type="button"
-                          className={
-                            selected
-                              ? "kidding-edit-calendar-day selected"
-                              : today
-                              ? "kidding-edit-calendar-day today"
-                              : "kidding-edit-calendar-day"
-                          }
                           onClick={() => selectCalendarDate(day)}
+                          style={{
+                            width: "40px",
+                            height: "40px",
+                            minWidth: "40px",
+                            minHeight: "40px",
+                            justifySelf: "center",
+                            border: selected
+                              ? "2px solid #1b5e20"
+                              : today
+                              ? "2px solid #4caf50"
+                              : "1px solid transparent",
+                            borderRadius: "50%",
+                            background: selected
+                              ? "#2e7d32"
+                              : today
+                              ? "#4caf50"
+                              : "#fff",
+                            color: selected || today ? "#fff" : "#222",
+                            fontSize: "15px",
+                            fontWeight: selected || today ? "700" : "500",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            cursor: "pointer",
+                            boxShadow: today
+                              ? "0 0 0 2px #c8e6c9"
+                              : "none",
+                          }}
                         >
                           {day}
                         </button>
@@ -289,14 +389,24 @@ function EditKidding() {
 
                   <button
                     type="button"
-                    className="kidding-edit-calendar-cancel"
                     onClick={() => setCalendarOpen(false)}
+                    style={{
+                      width: "100%",
+                      marginTop: "14px",
+                      padding: "10px",
+                      border: "none",
+                      borderRadius: "8px",
+                      background: "#fff",
+                      color: "#222",
+                      fontWeight: "600",
+                      cursor: "pointer",
+                    }}
                   >
                     Annuleren
                   </button>
                 </div>
-              )}
-            </div>
+              </div>
+            )}
           </div>
 
           <div className="kidding-edit-field">
