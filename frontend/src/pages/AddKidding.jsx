@@ -5,9 +5,43 @@ import { useLanguage } from "../context/LanguageContext";
 
 function AddKidding() {
   const { t } = useLanguage();
+  const { id } = useParams();
+  const navigate = useNavigate();
 
   const [calendarOpen, setCalendarOpen] = useState(false);
   const [calendarMonth, setCalendarMonth] = useState(new Date());
+
+  const [formData, setFormData] = useState({
+    breeding_id: id ? Number(id) : "",
+    kidding_date: "",
+    male_kids: 0,
+    female_kids: 0,
+    stillborn: 0,
+    notes: "",
+  });
+
+  const monthNames = [
+    "january",
+    "february",
+    "march",
+    "april",
+    "may",
+    "june",
+    "july",
+    "august",
+    "september",
+    "october",
+    "november",
+    "december",
+  ];
+
+  const currentYear = new Date().getFullYear();
+
+  const calendarYears = Array.from(
+    { length: 101 },
+    (_, index) => currentYear - index
+  );
+
   function getDaysInMonth(year, month) {
     return new Date(year, month + 1, 0).getDate();
   }
@@ -36,13 +70,31 @@ function AddKidding() {
     );
   }
 
+  function openCalendar() {
+    if (formData.kidding_date) {
+      const selected = new Date(
+        formData.kidding_date + "T00:00:00"
+      );
+
+      setCalendarMonth(
+        new Date(
+          selected.getFullYear(),
+          selected.getMonth(),
+          1
+        )
+      );
+    } else {
+      setCalendarMonth(new Date());
+    }
+
+    setCalendarOpen(true);
+  }
+
   function handleDateSelect(day) {
     const value =
-      calendarMonth.getFullYear() +
-      "-" +
-      String(calendarMonth.getMonth() + 1).padStart(2, "0") +
-      "-" +
-      String(day).padStart(2, "0");
+      `${calendarMonth.getFullYear()}-${String(
+        calendarMonth.getMonth() + 1
+      ).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
 
     setFormData((prev) => ({
       ...prev,
@@ -51,18 +103,6 @@ function AddKidding() {
 
     setCalendarOpen(false);
   }
-
-  const { id } = useParams();
-  const navigate = useNavigate();
-
-  const [formData, setFormData] = useState({
-    breeding_id: id ? Number(id) : "",
-    kidding_date: "",
-    male_kids: 0,
-    female_kids: 0,
-    stillborn: 0,
-    notes: "",
-  });
 
   function handleChange(e) {
     setFormData({
@@ -75,7 +115,9 @@ function AddKidding() {
     e.preventDefault();
 
     if (!id || !Number.isInteger(Number(id))) {
-      alert("No breeding record was selected. Please select a breeding record first.");
+      alert(
+        "No breeding record was selected. Please select a breeding record first."
+      );
       return;
     }
 
@@ -103,20 +145,18 @@ function AddKidding() {
 
       const data = await response.json();
 
-      alert(data.message);
+      if (!response.ok) {
+        alert(data.message || "Failed to save kidding record.");
+        return;
+      }
 
+      alert(data.message);
       navigate("/kidding");
     } catch (err) {
       console.error(err);
       alert("Failed to save kidding record.");
     }
   }
-
-  const formStyle = {
-    width: "100%",
-    maxWidth: "620px",
-    margin: "0 auto",
-  };
 
   const fieldStyle = {
     display: "grid",
@@ -213,210 +253,6 @@ function AddKidding() {
       <div className="card">
         <form onSubmit={handleSubmit} className="add-kidding-form">
 
-          {/* PROFESSIONAL CALENDAR */}
-          {calendarOpen && (
-                <div
-                  style={{
-                    position: "fixed",
-                    inset: 0,
-                    background: "rgba(0,0,0,.35)",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    zIndex: 99999,
-                  }}
-                  onClick={() => setCalendarOpen(false)}
-                >
-                  <div
-                    style={{
-                      width: "min(92vw, 360px)",
-                      background: "#fff",
-                      borderRadius: "14px",
-                      padding: "18px",
-                      boxSizing: "border-box",
-                      boxShadow: "0 8px 30px rgba(0,0,0,.25)",
-                    }}
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                        marginBottom: "14px",
-                      }}
-                    >
-                      <button
-                        type="button"
-                        onClick={goPreviousMonth}
-                        style={{
-                          border: "1px solid #ddd",
-                          background: "#fff",
-                          borderRadius: "8px",
-                          width: "38px",
-                          height: "38px",
-                          fontSize: "22px",
-                          cursor: "pointer",
-                        }}
-                      >
-                        ‹
-                      </button>
-
-                      <div
-                        style={{
-                          fontSize: "18px",
-                          fontWeight: "700",
-                          color: "#222",
-                          WebkitTextFillColor: "#222",
-                        }}
-                      >
-                        {t(
-                          [
-                            "january",
-                            "february",
-                            "march",
-                            "april",
-                            "may",
-                            "june",
-                            "july",
-                            "august",
-                            "september",
-                            "october",
-                            "november",
-                            "december",
-                          ][calendarMonth.getMonth()]
-                        )}{" "}
-                        {calendarMonth.getFullYear()}
-                      </div>
-
-                      <button
-                        type="button"
-                        onClick={goNextMonth}
-                        style={{
-                          border: "1px solid #ddd",
-                          background: "#fff",
-                          borderRadius: "8px",
-                          width: "38px",
-                          height: "38px",
-                          fontSize: "22px",
-                          cursor: "pointer",
-                        }}
-                      >
-                        ›
-                      </button>
-                    </div>
-
-                    <div
-                      style={{
-                        display: "grid",
-                        gridTemplateColumns: "repeat(7, 1fr)",
-                        gap: "6px",
-                      }}
-                    >
-                      {[t("sun"), t("mon"), t("tue"), t("wed"), t("thu"), t("fri"), t("sat")].map(
-                        (day) => (
-                          <div
-                            key={day}
-                            style={{
-                              textAlign: "center",
-                              fontWeight: "600",
-                              fontSize: "13px",
-                              padding: "6px 0",
-                              color: "#222",
-                            }}
-                          >
-                            {day}
-                          </div>
-                        )
-                      )}
-
-                      {Array.from({
-                        length: getFirstDayOfMonth(
-                          calendarMonth.getFullYear(),
-                          calendarMonth.getMonth()
-                        ),
-                      }).map((_, i) => (
-                        <div key={"empty-" + i} />
-                      ))}
-
-                      {Array.from({
-                        length: getDaysInMonth(
-                          calendarMonth.getFullYear(),
-                          calendarMonth.getMonth()
-                        ),
-                      }).map((_, i) => {
-                        const day = i + 1;
-                        const today = new Date();
-
-                        const isToday =
-                          day === today.getDate() &&
-                          calendarMonth.getMonth() === today.getMonth() &&
-                          calendarMonth.getFullYear() === today.getFullYear();
-
-                        const dateValue =
-                          `${calendarMonth.getFullYear()}-${String(
-                            calendarMonth.getMonth() + 1
-                          ).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
-
-                        const isSelected =
-                          formData.kidding_date === dateValue;
-
-                        return (
-                          <button
-                            key={day}
-                            type="button"
-                            onClick={() => handleDateSelect(day)}
-                            style={{
-                              minHeight: "40px",
-                              border:
-                                isSelected || isToday
-                                  ? "2px solid #2e7d32"
-                                  : "1px solid #ddd",
-                              borderRadius: "8px",
-                              background: isSelected
-                                ? "#2e7d32"
-                                : isToday
-                                ? "#e8f5e9"
-                                : "#fff",
-                              color: isSelected ? "#fff" : "#222",
-                              WebkitTextFillColor: isSelected ? "#fff" : "#222",
-                              fontSize: "15px",
-                              fontWeight:
-                                isSelected || isToday ? "700" : "500",
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              cursor: "pointer",
-                            }}
-                          >
-                            {day}
-                          </button>
-                        );
-                      })}
-                    </div>
-
-                    <button
-                      type="button"
-                      onClick={() => setCalendarOpen(false)}
-                      style={{
-                        width: "100%",
-                        marginTop: "14px",
-                        padding: "10px",
-                        border: "none",
-                        borderRadius: "8px",
-                        background: "#2e7d32",
-                        color: "#fff",
-                        fontWeight: "600",
-                        cursor: "pointer",
-                      }}
-                    >
-                      {t("cancel")}
-                    </button>
-                  </div>
-                </div>
-              )}
-
-
           {/* Male kids */}
           <div className="add-kidding-field">
             <label className="add-kidding-label">
@@ -471,40 +307,29 @@ function AddKidding() {
               {t("kiddingDate")}
             </label>
 
-            <div style={{ position: "relative", width: "100%" }}>
-              <div
-                style={{
-                  ...inputStyle,
-                  width: "100%",
-                  color: formData.kidding_date ? "#222" : "#777",
-                  WebkitTextFillColor: formData.kidding_date ? "#222" : "#777",
-                  pointerEvents: "none",
-                }}
-              >
-                {formData.kidding_date
-                  ? new Date(formData.kidding_date + "T00:00:00").toLocaleDateString("nl-NL", {
-                      day: "2-digit",
-                      month: "2-digit",
-                      year: "numeric",
-                    })
-                  : "DD-MM-JJJJ"}
-              </div>
-
-              <input
-                type="date"
-                name="kidding_date"
-                value={formData.kidding_date || ""}
-                onChange={handleChange}
-                required
-                style={{
-                  position: "absolute",
-                  inset: 0,
-                  width: "100%",
-                  height: "100%",
-                  opacity: 0,
-                    cursor: "pointer",
-                }}
-              />
+            <div
+              onClick={openCalendar}
+              style={{
+                ...inputStyle,
+                width: "100%",
+                cursor: "pointer",
+                color: formData.kidding_date ? "#222" : "#777",
+                WebkitTextFillColor: formData.kidding_date
+                  ? "#222"
+                  : "#777",
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              {formData.kidding_date
+                ? new Date(
+                    formData.kidding_date + "T00:00:00"
+                  ).toLocaleDateString("nl-NL", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                  })
+                : "DD-MM-JJJJ"}
             </div>
           </div>
 
@@ -537,9 +362,284 @@ function AddKidding() {
               {t("cancel")}
             </Link>
           </div>
-
         </form>
       </div>
+
+      {/* Calendar */}
+      {calendarOpen && (
+        <div
+          onClick={(e) => {
+            if (e.target === e.currentTarget) {
+              setCalendarOpen(false);
+            }
+          }}
+          style={{
+            position: "fixed",
+            inset: 0,
+            background: "rgba(0, 0, 0, 0.35)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: 99999,
+            padding: "16px",
+            boxSizing: "border-box",
+          }}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              width: "min(92vw, 360px)",
+              background: "#fff",
+              borderRadius: "14px",
+              padding: "18px",
+              boxSizing: "border-box",
+              boxShadow: "0 8px 30px rgba(0, 0, 0, 0.25)",
+            }}
+          >
+            {/* Month / year controls */}
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                gap: "8px",
+                marginBottom: "14px",
+              }}
+            >
+              <button
+                type="button"
+                onClick={goPreviousMonth}
+                style={{
+                  width: "38px",
+                  height: "38px",
+                  border: "1px solid #cfd6cf",
+                  borderRadius: "8px",
+                  background: "#fff",
+                  fontSize: "22px",
+                  cursor: "pointer",
+                }}
+              >
+                ‹
+              </button>
+
+              <select
+                value={calendarMonth.getMonth()}
+                onChange={(e) =>
+                  setCalendarMonth(
+                    new Date(
+                      calendarMonth.getFullYear(),
+                      Number(e.target.value),
+                      1
+                    )
+                  )
+                }
+                style={{
+                  flex: 1,
+                  minWidth: 0,
+                  height: "38px",
+                  border: "1px solid #cfd6cf",
+                  borderRadius: "8px",
+                  background: "#fff",
+                  color: "#222",
+                  fontSize: "15px",
+                  fontWeight: "600",
+                  padding: "0 8px",
+                  cursor: "pointer",
+                }}
+              >
+                {monthNames.map((month, index) => (
+                  <option key={month} value={index}>
+                    {t(month)}
+                  </option>
+                ))}
+              </select>
+
+              <select
+                value={calendarMonth.getFullYear()}
+                onChange={(e) =>
+                  setCalendarMonth(
+                    new Date(
+                      Number(e.target.value),
+                      calendarMonth.getMonth(),
+                      1
+                    )
+                  )
+                }
+                style={{
+                  width: "92px",
+                  height: "38px",
+                  border: "1px solid #cfd6cf",
+                  borderRadius: "8px",
+                  background: "#fff",
+                  color: "#222",
+                  fontSize: "15px",
+                  fontWeight: "600",
+                  padding: "0 6px",
+                  cursor: "pointer",
+                }}
+              >
+                {calendarYears.map((year) => (
+                  <option key={year} value={year}>
+                    {year}
+                  </option>
+                ))}
+              </select>
+
+              <button
+                type="button"
+                onClick={goNextMonth}
+                style={{
+                  width: "38px",
+                  height: "38px",
+                  border: "1px solid #cfd6cf",
+                  borderRadius: "8px",
+                  background: "#fff",
+                  fontSize: "22px",
+                  cursor: "pointer",
+                }}
+              >
+                ›
+              </button>
+            </div>
+
+            {/* Weekdays */}
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(7, 1fr)",
+                gap: "6px",
+              }}
+            >
+              {[
+                t("sun"),
+                t("mon"),
+                t("tue"),
+                t("wed"),
+                t("thu"),
+                t("fri"),
+                t("sat"),
+              ].map((day) => (
+                <div
+                  key={day}
+                  style={{
+                    textAlign: "center",
+                    fontWeight: "600",
+                    fontSize: "13px",
+                    padding: "6px 0",
+                    color: "#222",
+                  }}
+                >
+                  {day}
+                </div>
+              ))}
+
+              {/* Empty cells */}
+              {Array.from({
+                length: getFirstDayOfMonth(
+                  calendarMonth.getFullYear(),
+                  calendarMonth.getMonth()
+                ),
+              }).map((_, index) => (
+                <div key={`empty-${index}`} />
+              ))}
+
+              {/* Days */}
+              {Array.from({
+                length: getDaysInMonth(
+                  calendarMonth.getFullYear(),
+                  calendarMonth.getMonth()
+                ),
+              }).map((_, index) => {
+                const day = index + 1;
+
+                const today = new Date();
+
+                const isToday =
+                  day === today.getDate() &&
+                  calendarMonth.getMonth() === today.getMonth() &&
+                  calendarMonth.getFullYear() === today.getFullYear();
+
+                const dateValue =
+                  `${calendarMonth.getFullYear()}-${String(
+                    calendarMonth.getMonth() + 1
+                  ).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+
+                const isSelected =
+                  formData.kidding_date === dateValue;
+
+                return (
+                  <button
+                    key={day}
+                    type="button"
+                    onClick={() => handleDateSelect(day)}
+                    style={{
+                      width: "40px",
+                      height: "40px",
+                      minWidth: "40px",
+                      minHeight: "40px",
+                      justifySelf: "center",
+                      border:
+                        isSelected
+                          ? "2px solid #1b5e20"
+                          : isToday
+                          ? "2px solid #4caf50"
+                          : "1px solid transparent",
+                      borderRadius: "50%",
+                      background:
+                        isSelected
+                          ? "#2e7d32"
+                          : isToday
+                          ? "#4caf50"
+                          : "#fff",
+                      color:
+                        isSelected || isToday
+                          ? "#fff"
+                          : "#222",
+                      WebkitTextFillColor:
+                        isSelected || isToday
+                          ? "#fff"
+                          : "#222",
+                      fontSize: "15px",
+                      fontWeight:
+                        isSelected || isToday
+                          ? "700"
+                          : "500",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      cursor: "pointer",
+                      boxShadow:
+                        isToday
+                          ? "0 0 0 2px #c8e6c9"
+                          : "none",
+                    }}
+                  >
+                    {day}
+                  </button>
+                );
+              })}
+            </div>
+
+            <button
+              type="button"
+              onClick={() => setCalendarOpen(false)}
+              style={{
+                width: "100%",
+                marginTop: "14px",
+                padding: "10px",
+                border: "none",
+                borderRadius: "8px",
+                background: "#fff",
+                color: "#222",
+                fontWeight: "600",
+                cursor: "pointer",
+              }}
+            >
+              {t("cancel")}
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
