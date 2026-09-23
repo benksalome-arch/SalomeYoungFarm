@@ -188,10 +188,7 @@ export default function AddGoatMortality() {
         return;
       }
 
-      alert(
-        data.message ||
-          t("goatMortalitySaved")
-      );
+      alert(t("goatMortalitySaved"));
 
       navigate("/goat-mortality");
     } catch (error) {
