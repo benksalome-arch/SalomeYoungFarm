@@ -163,12 +163,7 @@ function Breeding() {
               {t("addFirstBreedingRecord")}
             </p>
 
-            <Link
-              className="button"
-              to="/breeding/add"
-            >
-              ➕ {t("newBreeding")}
-            </Link>
+
           </div>
 
         ) : (

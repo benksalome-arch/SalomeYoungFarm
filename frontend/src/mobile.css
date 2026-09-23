@@ -2617,3 +2617,63 @@ canvas {
     min-width: 105px !important;
   }
 }
+
+/* =========================================================
+   GOAT BREEDING MANAGEMENT - CLEAN EMPTY STATE
+   ========================================================= */
+
+.breeding-page .breeding-card {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.breeding-page .breeding-header {
+  align-items: center;
+}
+
+.breeding-page .breeding-empty {
+  min-height: 220px !important;
+  padding: 45px 20px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  box-sizing: border-box !important;
+}
+
+.breeding-page .breeding-empty-icon {
+  font-size: 42px !important;
+  line-height: 1 !important;
+  margin-bottom: 16px !important;
+}
+
+.breeding-page .breeding-empty h3 {
+  margin: 0 0 8px 0 !important;
+  color: #222 !important;
+  -webkit-text-fill-color: #222 !important;
+  font-size: 20px !important;
+  font-weight: 700 !important;
+}
+
+.breeding-page .breeding-empty p {
+  margin: 0 !important;
+  color: #666 !important;
+  -webkit-text-fill-color: #666 !important;
+  font-size: 15px !important;
+}
+
+@media (max-width: 700px) {
+  .breeding-page .breeding-empty {
+    min-height: 190px !important;
+    padding: 35px 15px !important;
+  }
+
+  .breeding-page .breeding-empty-icon {
+    font-size: 36px !important;
+  }
+
+  .breeding-page .breeding-empty h3 {
+    font-size: 18px !important;
+  }
+}
