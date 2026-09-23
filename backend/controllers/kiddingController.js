@@ -8,9 +8,9 @@ exports.getKidding = (req, res) => {
       b.doe_id,
       b.buck_id,
       doe.name AS doe_name,
-      doe.earTag AS doe_earTag,
+      doe.tag AS doe_earTag,
       buck.name AS buck_name,
-      buck.earTag AS buck_earTag
+      buck.tag AS buck_earTag
     FROM goat_kidding k
     LEFT JOIN goat_breeding b ON k.breeding_id = b.id
     LEFT JOIN goats doe ON b.doe_id = doe.id
@@ -20,7 +20,7 @@ exports.getKidding = (req, res) => {
 
   db.query(sql, (err, results) => {
     if (err) {
-      console.error(err);
+      console.error("Get kidding records error:", err.code, err.sqlMessage, err.sql);
       return res.status(500).json({
         message: "Database error",
       });
@@ -40,9 +40,9 @@ exports.getKiddingById = (req, res) => {
       b.doe_id,
       b.buck_id,
       doe.name AS doe_name,
-      doe.earTag AS doe_earTag,
+      doe.tag AS doe_earTag,
       buck.name AS buck_name,
-      buck.earTag AS buck_earTag
+      buck.tag AS buck_earTag
     FROM goat_kidding k
     LEFT JOIN goat_breeding b ON k.breeding_id = b.id
     LEFT JOIN goats doe ON b.doe_id = doe.id
