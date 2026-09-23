@@ -217,21 +217,36 @@ function AddBreeding() {
 
   return (
     <div className="page">
-      <div className="card">
+      <div
+        style={{
+          width: "100%",
+          maxWidth: "620px",
+          margin: "0 auto",
+        }}
+      >
         <h1
           style={{
             color: "#222",
             WebkitTextFillColor: "#222",
             opacity: 1,
             fontWeight: 700,
+            fontSize: "36px",
+            lineHeight: 1.2,
             textAlign: "center",
-            marginBottom: "24px",
+            margin: "0 0 24px 0",
           }}
         >
           🧬 {t("newBreedingRecord")}
         </h1>
 
-        <form onSubmit={handleSubmit} className="breeding-add-form">
+        <div
+          className="card"
+          style={{
+            width: "100%",
+            boxSizing: "border-box",
+          }}
+        >
+          <form onSubmit={handleSubmit} className="breeding-add-form">
           <p style={labelStyle}>{t("doe")}</p>
 
           <select
@@ -597,6 +612,7 @@ function AddBreeding() {
         </form>
       </div>
     </div>
+  </div>
   );
 }
 
