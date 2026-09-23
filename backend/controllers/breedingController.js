@@ -6,9 +6,9 @@ exports.getBreedingRecords = (req, res) => {
     SELECT
       gb.*,
       doe.name AS doe_name,
-      doe.earTag AS doe_earTag,
+      doe.tag AS doe_tag,
       buck.name AS buck_name,
-      buck.earTag AS buck_earTag,
+      buck.tag AS buck_tag,
       DATEDIFF(CURDATE(), gb.mating_date) AS pregnancy_days
     FROM goat_breeding gb
     JOIN goats doe ON gb.doe_id = doe.id
@@ -36,9 +36,9 @@ exports.getBreedingRecord = (req, res) => {
     SELECT
       gb.*,
       doe.name AS doe_name,
-      doe.earTag AS doe_earTag,
+      doe.tag AS doe_tag,
       buck.name AS buck_name,
-      buck.earTag AS buck_earTag
+      buck.tag AS buck_tag
     FROM goat_breeding gb
     JOIN goats doe ON gb.doe_id = doe.id
     JOIN goats buck ON gb.buck_id = buck.id
