@@ -18,7 +18,7 @@ exports.getBreedingRecords = (req, res) => {
 
   db.query(sql, (err, results) => {
     if (err) {
-      console.error("Get breeding records error:", err);
+      console.error("Get breeding records error:", err.code, err.sqlMessage, err.sql);
       return res.status(500).json({
         message: "Database error.",
       });
