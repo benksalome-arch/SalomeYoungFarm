@@ -112,12 +112,46 @@ function Breeding() {
     <div className="page breeding-page">
 
       {/* PAGE HEADER */}
-      <div className="page-header">
-        <h1>🧬 {t("breedingManagement")}</h1>
+      <div
+        className="page-header"
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "flex-start",
+          gap: "16px",
+          flexWrap: "wrap",
+        }}
+      >
+        <div>
+          <h1>🧬 {t("breedingManagement")}</h1>
 
-        <p>
-          {t("breedingManagementDescription")}
-        </p>
+          <p>
+            {t("breedingManagementDescription")}
+          </p>
+        </div>
+
+        <div
+          style={{
+            display: "flex",
+            gap: "10px",
+            alignItems: "center",
+            flexWrap: "wrap",
+          }}
+        >
+          <Link
+            className="button"
+            to="/"
+          >
+            ← {t("back")}
+          </Link>
+
+          <Link
+            className="button"
+            to="/breeding/add"
+          >
+            ➕ {t("newBreeding")}
+          </Link>
+        </div>
       </div>
 
       {/* MAIN CARD */}
@@ -137,16 +171,7 @@ function Breeding() {
             </p>
           </div>
 
-          <div className="breeding-header-buttons">
 
-            <Link
-              className="button"
-              to="/breeding/add"
-            >
-              ➕ {t("newBreeding")}
-            </Link>
-
-          </div>
         </div>
 
         {/* EMPTY STATE */}
