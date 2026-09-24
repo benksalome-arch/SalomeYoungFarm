@@ -1,21 +1,21 @@
-import API_URL from "../api";
-import { useEffect, useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import api from "../api";
 import { useLanguage } from "../context/LanguageContext";
 
-function AddChickenVaccination() {
-  const { t } = useLanguage();
+export default function AddChickenVaccination() {
   const navigate = useNavigate();
+  const { t } = useLanguage();
 
   const [chickens, setChickens] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
 
   const [formData, setFormData] = useState({
     chicken_id: "",
     vaccination_date: "",
     vaccine_name: "",
-    dosage: "",
     next_due_date: "",
-    administered_by: "",
     notes: "",
   });
 
@@ -23,77 +23,90 @@ function AddChickenVaccination() {
   const [calendarField, setCalendarField] = useState("");
   const [calendarMonth, setCalendarMonth] = useState(new Date());
 
+  const monthNames = [
+    "Januari",
+    "Februari",
+    "Maart",
+    "April",
+    "Mei",
+    "Juni",
+    "Juli",
+    "Augustus",
+    "September",
+    "Oktober",
+    "November",
+    "December",
+  ];
+
+  const weekDays = ["Zo", "Ma", "Di", "Wo", "Do", "Vr", "Za"];
+
+  const currentYear = new Date().getFullYear();
+
+  const calendarYears = Array.from(
+    { length: 101 },
+    (_, index) => currentYear - index
+  );
+
   useEffect(() => {
     loadChickens();
   }, []);
 
   async function loadChickens() {
     try {
-      const response = await fetch(`${API_URL}/api/chickens`);
-      const data = await response.json();
+      const response = await fetch(`${api}/chickens`);
 
-      setChickens(
-        data.filter(
-          (c) =>
-            c.status === "Active" &&
-            Number(c.quantity) > 0
-        )
-      );
-    } catch (err) {
-      console.error(err);
+      if (!response.ok) {
+        throw new Error("Failed to load chickens");
+      }
+
+      const data = await response.json();
+      setChickens(Array.isArray(data) ? data : []);
+    } catch (error) {
+      console.error("Error loading chickens:", error);
+      setChickens([]);
+    } finally {
+      setLoading(false);
     }
   }
 
-  function handleChange(e) {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  }
+  function handleChange(event) {
+    const { name, value } = event.target;
 
-  function getDaysInMonth(year, month) {
-    return new Date(year, month + 1, 0).getDate();
-  }
-
-  function getFirstDayOfMonth(year, month) {
-    return new Date(year, month, 1).getDay();
+    setFormData((previous) => ({
+      ...previous,
+      [name]: value,
+    }));
   }
 
   function openCalendar(field) {
-    const currentValue = formData[field];
-
-    const baseDate = currentValue
-      ? new Date(currentValue + "T00:00:00")
-      : new Date();
-
     setCalendarField(field);
 
-    setCalendarMonth(
-      new Date(
-        baseDate.getFullYear(),
-        baseDate.getMonth(),
-        1
-      )
-    );
+    const existingDate = formData[field];
+
+    if (existingDate) {
+      const parts = existingDate.split("-");
+
+      if (parts.length === 3) {
+        setCalendarMonth(
+          new Date(
+            Number(parts[0]),
+            Number(parts[1]) - 1,
+            1
+          )
+        );
+      }
+    } else {
+      setCalendarMonth(new Date());
+    }
 
     setCalendarOpen(true);
   }
 
-  function goPreviousMonth() {
+  function changeCalendarMonth(offset) {
     setCalendarMonth(
       new Date(
         calendarMonth.getFullYear(),
-        calendarMonth.getMonth() - 1,
-        1
-      )
-    );
-  }
-
-  function goNextMonth() {
-    setCalendarMonth(
-      new Date(
-        calendarMonth.getFullYear(),
-        calendarMonth.getMonth() + 1,
+        calendarMonth.getMonth() + offset,
         1
       )
     );
@@ -101,429 +114,413 @@ function AddChickenVaccination() {
 
   function handleDateSelect(day) {
     const year = calendarMonth.getFullYear();
-    const month = calendarMonth.getMonth();
+    const month = String(calendarMonth.getMonth() + 1).padStart(2, "0");
+    const selectedDay = String(day).padStart(2, "0");
 
-    const value =
-      year +
-      "-" +
-      String(month + 1).padStart(2, "0") +
-      "-" +
-      String(day).padStart(2, "0");
-
-    setFormData((prev) => ({
-      ...prev,
-      [calendarField]: value,
+    setFormData((previous) => ({
+      ...previous,
+      [calendarField]: `${year}-${month}-${selectedDay}`,
     }));
 
     setCalendarOpen(false);
-    setCalendarField("");
   }
 
   function formatDate(value) {
-    if (!value) return "";
+    if (!value) return "DD-MM-JJJJ";
 
-    const parts = value.split("-");
+    const valueString = String(value);
+    const match = valueString.match(/^(\d{4})-(\d{2})-(\d{2})/);
 
-    if (parts.length !== 3) return value;
+    if (match) {
+      return `${match[3]}-${match[2]}-${match[1]}`;
+    }
 
-    return `${parts[2]}-${parts[1]}-${parts[0]}`;
+    return valueString;
   }
 
-  const monthKeys = [
-    "january",
-    "february",
-    "march",
-    "april",
-    "may",
-    "june",
-    "july",
-    "august",
-    "september",
-    "october",
-    "november",
-    "december",
-  ];
+  function getCalendarDays() {
+    const year = calendarMonth.getFullYear();
+    const month = calendarMonth.getMonth();
 
-  const weekdayKeys = [
-    "sun",
-    "mon",
-    "tue",
-    "wed",
-    "thu",
-    "fri",
-    "sat",
-  ];
+    const firstDay = new Date(year, month, 1).getDay();
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
 
-  const year = calendarMonth.getFullYear();
-  const month = calendarMonth.getMonth();
-  const daysInMonth = getDaysInMonth(year, month);
-  const firstDay = getFirstDayOfMonth(year, month);
+    const days = [];
 
-  const today = new Date();
-  const todayValue =
-    today.getFullYear() +
-    "-" +
-    String(today.getMonth() + 1).padStart(2, "0") +
-    "-" +
-    String(today.getDate()).padStart(2, "0");
+    for (let index = 0; index < firstDay; index += 1) {
+      days.push(null);
+    }
 
-  const selectedValue = calendarField
-    ? formData[calendarField]
-    : "";
+    for (let day = 1; day <= daysInMonth; day += 1) {
+      days.push(day);
+    }
 
-  async function handleSubmit(e) {
-    e.preventDefault();
+    return days;
+  }
+
+  function isSelectedDay(day) {
+    if (!day || !formData[calendarField]) return false;
+
+    const parts = formData[calendarField].split("-");
+
+    if (parts.length !== 3) return false;
+
+    return (
+      Number(parts[0]) === calendarMonth.getFullYear() &&
+      Number(parts[1]) === calendarMonth.getMonth() + 1 &&
+      Number(parts[2]) === day
+    );
+  }
+
+  function isToday(day) {
+    if (!day) return false;
+
+    const today = new Date();
+
+    return (
+      today.getFullYear() === calendarMonth.getFullYear() &&
+      today.getMonth() === calendarMonth.getMonth() &&
+      today.getDate() === day
+    );
+  }
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+
+    if (!formData.chicken_id) {
+      alert(t("selectChicken") || "Selecteer een kip.");
+      return;
+    }
+
+    if (!formData.vaccination_date) {
+      alert(
+        t("vaccinationDateRequired") ||
+          "Vul de vaccinatiedatum in."
+      );
+      return;
+    }
+
+    if (!formData.vaccine_name.trim()) {
+      alert(
+        t("vaccineNameRequired") ||
+          "Vul de naam van het vaccin in."
+      );
+      return;
+    }
 
     try {
-      const response = await fetch(
-        `${API_URL}/api/chicken-vaccinations`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
-        }
+      setSaving(true);
+
+      const response = await fetch(`${api}/chicken-vaccinations`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(errorText || "Failed to save vaccination");
+      }
+
+      alert(
+        t("chickenVaccinationSaved") ||
+          "Kippenvaccinatie opgeslagen."
       );
 
-      const data = await response.json();
+      navigate("/chicken-vaccinations");
+    } catch (error) {
+      console.error("Error saving chicken vaccination:", error);
 
-      alert(data.message);
-
-      if (response.ok) {
-        navigate("/chicken-vaccinations");
-      }
-    } catch (err) {
-      console.error(err);
-      alert(t("failedSaveVaccination"));
+      alert(
+        t("saveError") ||
+          "Opslaan mislukt."
+      );
+    } finally {
+      setSaving(false);
     }
   }
 
-  const fieldStyle = {
-    display: "flex",
-    flexDirection: "column",
-    gap: "7px",
-    minWidth: 0,
+  const calendarDays = getCalendarDays();
+
+  const inputStyle = {
+    width: "100%",
+    height: "46px",
+    padding: "0 12px",
+    border: "1px solid #cfd6cf",
+    borderRadius: "8px",
+    fontSize: "15px",
+    boxSizing: "border-box",
+    background: "#fff",
+    color: "#222",
   };
 
   const labelStyle = {
     display: "block",
-    fontWeight: 600,
-    fontSize: "15px",
-    lineHeight: 1.3,
-    margin: 0,
-    color: "#222",
-    WebkitTextFillColor: "#222",
+    marginBottom: "7px",
+    fontWeight: "600",
+    fontSize: "14px",
+    color: "#333",
   };
 
-  const inputStyle = {
-    width: "100%",
-    minWidth: 0,
-    height: "44px",
-    padding: "9px 12px",
-    border: "1px solid #cfd6cf",
-    borderRadius: "7px",
-    background: "#fff",
-    color: "#222",
-    WebkitTextFillColor: "#222",
-    boxSizing: "border-box",
-    fontSize: "15px",
-  };
-
-  const textareaStyle = {
-    width: "100%",
-    minWidth: 0,
-    padding: "10px 12px",
-    border: "1px solid #cfd6cf",
-    borderRadius: "7px",
-    background: "#fff",
-    color: "#222",
-    WebkitTextFillColor: "#222",
-    boxSizing: "border-box",
-    fontSize: "15px",
-    resize: "vertical",
-    minHeight: "120px",
+  const fieldStyle = {
+    marginBottom: "18px",
   };
 
   return (
     <div
-      className="page"
       style={{
-        width: "100%",
-        maxWidth: "1200px",
+        maxWidth: "900px",
         margin: "0 auto",
         padding: "20px",
-        boxSizing: "border-box",
       }}
     >
-      {/* PAGE HEADER */}
       <div
         style={{
           display: "flex",
-          justifyContent: "space-between",
           alignItems: "center",
-          gap: "20px",
+          justifyContent: "space-between",
+          gap: "15px",
           marginBottom: "25px",
           flexWrap: "wrap",
         }}
       >
-        <div style={{ minWidth: 0 }}>
-          <h1
-            style={{
-              margin: 0,
-              fontSize: "clamp(30px, 4vw, 44px)",
-              lineHeight: 1.15,
-              color: "#222",
-              WebkitTextFillColor: "#222",
-            }}
-          >
-            💉 {t("recordChickenVaccination")}
-          </h1>
-        </div>
-
-        <Link
-          className="button"
-          to="/chicken-vaccinations"
+        <h1
           style={{
-            whiteSpace: "nowrap",
+            margin: 0,
+            fontSize: "26px",
+            fontWeight: "700",
           }}
         >
-          ← {t("back")}
-        </Link>
+          💉 Kippenvaccinatie registreren
+        </h1>
+
+        <button
+          type="button"
+          onClick={() => navigate("/chicken-vaccinations")}
+          style={{
+            height: "40px",
+            padding: "0 16px",
+            border: "1px solid #cfd6cf",
+            borderRadius: "8px",
+            background: "#fff",
+            cursor: "pointer",
+            fontWeight: "600",
+          }}
+        >
+          {t("back") || "Terug"}
+        </button>
       </div>
 
-      {/* FORM CARD */}
-      <div
-        className="card"
-        style={{
-          width: "100%",
-          maxWidth: "900px",
-          margin: "0 auto",
-          padding: "clamp(18px, 3vw, 32px)",
-          boxSizing: "border-box",
-        }}
-      >
-        <form onSubmit={handleSubmit}>
-          {/* VACCINATION DETAILS */}
-          <section>
-            <h2
-              style={{
-                margin: "0 0 20px",
-                fontSize: "22px",
-                lineHeight: 1.3,
-                color: "#222",
-                WebkitTextFillColor: "#222",
-              }}
-            >
-              💉 {t("recordChickenVaccination")}
-            </h2>
-
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns:
-                  "repeat(auto-fit, minmax(min(100%, 260px), 1fr))",
-                gap: "20px",
-                width: "100%",
-              }}
-            >
-              {/* CHICKEN */}
-              <div style={fieldStyle}>
-                <label style={labelStyle}>
-                  {t("chicken")}
-                </label>
-
-                <select
-                  name="chicken_id"
-                  value={formData.chicken_id}
-                  onChange={handleChange}
-                  required
-                  style={inputStyle}
-                >
-                  <option value="">
-                    {t("selectChicken")}
-                  </option>
-
-                  {chickens.map((chicken) => (
-                    <option
-                      key={chicken.id}
-                      value={chicken.id}
-                    >
-                      {chicken.tag_number} - {chicken.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              {/* VACCINATION DATE */}
-              <div style={fieldStyle}>
-                <label style={labelStyle}>
-                  {t("vaccinationDate")}
-                </label>
-
-                <button
-                  type="button"
-                  onClick={() => openCalendar("vaccination_date")}
-                  style={{
-                    ...inputStyle,
-                    textAlign: "left",
-                    cursor: "pointer",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <span>
-                    {formData.vaccination_date
-                      ? formatDate(formData.vaccination_date)
-                      : "DD-MM-JJJJ"}
-                  </span>
-                  <span>📅</span>
-                </button>
-              </div>
-
-              {/* VACCINE NAME */}
-              <div style={fieldStyle}>
-                <label style={labelStyle}>
-                  {t("vaccineName")}
-                </label>
-
-                <input
-                  type="text"
-                  name="vaccine_name"
-                  value={formData.vaccine_name}
-                  onChange={handleChange}
-                  required
-                  style={inputStyle}
-                />
-              </div>
-
-              {/* DOSAGE */}
-              <div style={fieldStyle}>
-                <label style={labelStyle}>
-                  {t("dosage")}
-                </label>
-
-                <input
-                  type="text"
-                  name="dosage"
-                  value={formData.dosage}
-                  onChange={handleChange}
-                  style={inputStyle}
-                />
-              </div>
-
-              {/* NEXT DUE DATE */}
-              <div style={fieldStyle}>
-                <label style={labelStyle}>
-                  {t("nextDueDate")}
-                </label>
-
-                <button
-                  type="button"
-                  onClick={() => openCalendar("next_due_date")}
-                  style={{
-                    ...inputStyle,
-                    textAlign: "left",
-                    cursor: "pointer",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <span>
-                    {formData.next_due_date
-                      ? formatDate(formData.next_due_date)
-                      : "DD-MM-JJJJ"}
-                  </span>
-                  <span>📅</span>
-                </button>
-              </div>
-
-              {/* ADMINISTERED BY */}
-              <div style={fieldStyle}>
-                <label style={labelStyle}>
-                  {t("administeredBy")}
-                </label>
-
-                <input
-                  type="text"
-                  name="administered_by"
-                  value={formData.administered_by}
-                  onChange={handleChange}
-                  style={inputStyle}
-                />
-              </div>
-            </div>
-          </section>
-
-          {/* NOTES */}
-          <div
-            style={{
-              marginTop: "24px",
-            }}
-          >
+      <form onSubmit={handleSubmit}>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
+            gap: "20px",
+          }}
+        >
+          <div style={fieldStyle}>
             <label style={labelStyle}>
-              {t("notes")}
+              {t("chicken") || "Kip"} *
             </label>
 
-            <textarea
-              rows="5"
-              name="notes"
-              value={formData.notes}
+            <select
+              name="chicken_id"
+              value={formData.chicken_id}
               onChange={handleChange}
-              style={{
-                ...textareaStyle,
-                marginTop: "7px",
-              }}
+              style={inputStyle}
+              disabled={loading}
+            >
+              <option value="">
+                {loading
+                  ? "Laden..."
+                  : t("selectChicken") || "Selecteer kip"}
+              </option>
+
+              {chickens.map((chicken) => (
+                <option
+                  key={chicken.id}
+                  value={chicken.id}
+                >
+                  {chicken.name ||
+                    chicken.earTag ||
+                    chicken.ear_tag ||
+                    `Kip ${chicken.id}`}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div style={fieldStyle}>
+            <label style={labelStyle}>
+              {t("vaccineName") || "Vaccin"} *
+            </label>
+
+            <input
+              type="text"
+              name="vaccine_name"
+              value={formData.vaccine_name}
+              onChange={handleChange}
+              style={inputStyle}
+              placeholder={
+                t("vaccineNamePlaceholder") ||
+                "Naam van vaccin"
+              }
             />
           </div>
 
-          {/* BUTTONS */}
+          <div style={fieldStyle}>
+            <label style={labelStyle}>
+              {t("vaccinationDate") || "Vaccinatiedatum"} *
+            </label>
+
+            <button
+              type="button"
+              onClick={() =>
+                openCalendar("vaccination_date")
+              }
+              style={{
+                ...inputStyle,
+                textAlign: "left",
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+            >
+              <span>
+                {formatDate(formData.vaccination_date)}
+              </span>
+
+              <span>📅</span>
+            </button>
+          </div>
+
+          <div style={fieldStyle}>
+            <label style={labelStyle}>
+              {t("nextVaccinationDate") ||
+                "Volgende vaccinatiedatum"}
+            </label>
+
+            <button
+              type="button"
+              onClick={() =>
+                openCalendar("next_due_date")
+              }
+              style={{
+                ...inputStyle,
+                textAlign: "left",
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+            >
+              <span>
+                {formatDate(formData.next_due_date)}
+              </span>
+
+              <span>📅</span>
+            </button>
+          </div>
+
           <div
             style={{
-              display: "flex",
-              gap: "12px",
-              flexWrap: "wrap",
-              marginTop: "25px",
+              ...fieldStyle,
+              gridColumn: "1 / -1",
             }}
           >
-            <button
-              className="button"
-              type="submit"
-            >
-              💾 {t("save")}
-            </button>
+            <label style={labelStyle}>
+              {t("notes") || "Notities"}
+            </label>
 
-            <Link
-              className="button"
-              to="/chicken-vaccinations"
-            >
-              {t("cancel")}
-            </Link>
+            <textarea
+              name="notes"
+              value={formData.notes}
+              onChange={handleChange}
+              rows={4}
+              style={{
+                ...inputStyle,
+                height: "auto",
+                padding: "12px",
+                resize: "vertical",
+              }}
+              placeholder={
+                t("notesPlaceholder") ||
+                "Eventuele opmerkingen"
+              }
+            />
           </div>
-        </form>
-      </div>
+        </div>
 
-      {/* PROFESSIONAL CALENDAR */}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            gap: "10px",
+            marginTop: "10px",
+          }}
+        >
+          <button
+            type="button"
+            onClick={() =>
+              navigate("/chicken-vaccinations")
+            }
+            style={{
+              height: "44px",
+              padding: "0 18px",
+              border: "1px solid #cfd6cf",
+              borderRadius: "8px",
+              background: "#fff",
+              cursor: "pointer",
+              fontWeight: "600",
+            }}
+          >
+            {t("cancel") || "Annuleren"}
+          </button>
+
+          <button
+            type="submit"
+            disabled={saving}
+            style={{
+              height: "44px",
+              padding: "0 22px",
+              border: "none",
+              borderRadius: "8px",
+              background: "#2e7d32",
+              color: "#fff",
+              cursor: saving
+                ? "not-allowed"
+                : "pointer",
+              fontWeight: "700",
+              opacity: saving ? 0.7 : 1,
+            }}
+          >
+            {saving
+              ? "Opslaan..."
+              : t("save") || "Opslaan"}
+          </button>
+        </div>
+      </form>
+
       {calendarOpen && (
         <div
-          onClick={(e) => {
-            if (e.target === e.currentTarget) {
-              setCalendarOpen(false);
-              setCalendarField("");
-            }
-          }}
           style={{
             position: "fixed",
             inset: 0,
-            background: "rgba(0, 0, 0, 0.35)",
+            background: "rgba(0,0,0,0.35)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
             zIndex: 99999,
             padding: "16px",
-            boxSizing: "border-box",
+          }}
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget) {
+              setCalendarOpen(false);
+            }
           }}
         >
           <div
@@ -532,37 +529,101 @@ function AddChickenVaccination() {
               background: "#fff",
               borderRadius: "14px",
               padding: "18px",
+              boxShadow:
+                "0 12px 35px rgba(0,0,0,0.25)",
               boxSizing: "border-box",
-              boxShadow: "0 8px 30px rgba(0, 0, 0, 0.25)",
             }}
           >
-            {/* CALENDAR HEADER */}
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                gap: "8px",
+                marginBottom: "14px",
+              }}
+            >
+              <select
+                value={calendarMonth.getMonth()}
+                onChange={(event) =>
+                  setCalendarMonth(
+                    new Date(
+                      calendarMonth.getFullYear(),
+                      Number(event.target.value),
+                      1
+                    )
+                  )
+                }
+                style={{
+                  height: "38px",
+                  padding: "0 30px 0 10px",
+                  border: "1px solid #cfd6cf",
+                  borderRadius: "8px",
+                  background: "#fff",
+                  color: "#222",
+                  fontSize: "14px",
+                  fontWeight: "600",
+                }}
+              >
+                {monthNames.map((month, index) => (
+                  <option key={month} value={index}>
+                    {month}
+                  </option>
+                ))}
+              </select>
+
+              <select
+                value={calendarMonth.getFullYear()}
+                onChange={(event) =>
+                  setCalendarMonth(
+                    new Date(
+                      Number(event.target.value),
+                      calendarMonth.getMonth(),
+                      1
+                    )
+                  )
+                }
+                style={{
+                  height: "38px",
+                  padding: "0 30px 0 10px",
+                  border: "1px solid #cfd6cf",
+                  borderRadius: "8px",
+                  background: "#fff",
+                  color: "#222",
+                  fontSize: "14px",
+                  fontWeight: "600",
+                }}
+              >
+                {calendarYears.map((year) => (
+                  <option key={year} value={year}>
+                    {year}
+                  </option>
+                ))}
+              </select>
+            </div>
+
             <div
               style={{
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "space-between",
-                gap: "10px",
-                marginBottom: "14px",
+                marginBottom: "10px",
               }}
             >
               <button
                 type="button"
-                onClick={goPreviousMonth}
-                aria-label="Previous month"
+                onClick={() =>
+                  changeCalendarMonth(-1)
+                }
                 style={{
                   width: "38px",
                   height: "38px",
                   border: "1px solid #cfd6cf",
                   borderRadius: "8px",
                   background: "#fff",
-                  color: "#222",
                   fontSize: "20px",
-                  fontWeight: 700,
+                  fontWeight: "700",
                   cursor: "pointer",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
                 }}
               >
                 ‹
@@ -570,154 +631,132 @@ function AddChickenVaccination() {
 
               <div
                 style={{
-                  flex: 1,
-                  textAlign: "center",
                   fontSize: "19px",
-                  fontWeight: 700,
-                  color: "#222",
-                  WebkitTextFillColor: "#222",
+                  fontWeight: "700",
                 }}
               >
-                {t(monthKeys[month])} {year}
+                {monthNames[calendarMonth.getMonth()]}{" "}
+                {calendarMonth.getFullYear()}
               </div>
 
               <button
                 type="button"
-                onClick={goNextMonth}
-                aria-label="Next month"
+                onClick={() =>
+                  changeCalendarMonth(1)
+                }
                 style={{
                   width: "38px",
                   height: "38px",
                   border: "1px solid #cfd6cf",
                   borderRadius: "8px",
                   background: "#fff",
-                  color: "#222",
                   fontSize: "20px",
-                  fontWeight: 700,
+                  fontWeight: "700",
                   cursor: "pointer",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
                 }}
               >
                 ›
               </button>
             </div>
 
-            {/* WEEKDAYS */}
             <div
               style={{
                 display: "grid",
-                gridTemplateColumns: "repeat(7, 1fr)",
-                gap: "6px",
-                marginBottom: "4px",
+                gridTemplateColumns:
+                  "repeat(7, 1fr)",
+                gap: "4px",
+                marginBottom: "6px",
               }}
             >
-              {weekdayKeys.map((key) => (
+              {weekDays.map((day) => (
                 <div
-                  key={key}
+                  key={day}
                   style={{
                     textAlign: "center",
-                    fontWeight: 600,
+                    fontWeight: "700",
                     fontSize: "13px",
-                    padding: "6px 0",
-                    color: "#222",
-                    WebkitTextFillColor: "#222",
+                    color: "#555",
+                    padding: "5px 0",
                   }}
                 >
-                  {t(key)}
+                  {day}
                 </div>
               ))}
             </div>
 
-            {/* DAYS */}
             <div
               style={{
                 display: "grid",
-                gridTemplateColumns: "repeat(7, 1fr)",
-                gap: "6px",
+                gridTemplateColumns:
+                  "repeat(7, 1fr)",
+                gap: "4px",
               }}
             >
-              {Array.from({ length: firstDay }).map((_, index) => (
-                <div key={`empty-${index}`} />
-              ))}
-
-              {Array.from(
-                { length: daysInMonth },
-                (_, index) => index + 1
-              ).map((day) => {
-                const dateValue =
-                  year +
-                  "-" +
-                  String(month + 1).padStart(2, "0") +
-                  "-" +
-                  String(day).padStart(2, "0");
-
-                const isToday = dateValue === todayValue;
-                const isSelected = dateValue === selectedValue;
+              {calendarDays.map((day, index) => {
+                const selected = isSelectedDay(day);
+                const today = isToday(day);
 
                 return (
                   <button
-                    key={day}
+                    key={`${day}-${index}`}
                     type="button"
-                    onClick={() => handleDateSelect(day)}
+                    disabled={!day}
+                    onClick={() =>
+                      day && handleDateSelect(day)
+                    }
                     style={{
-                      minHeight: "40px",
-                      border:
-                        isSelected || isToday
-                          ? "2px solid #2e7d32"
-                          : "1px solid #ddd",
-                      borderRadius: "8px",
+                      width: "100%",
+                      aspectRatio: "1",
+                      borderRadius: "50%",
+                      border: selected
+                        ? "2px solid #2e7d32"
+                        : "1px solid transparent",
                       background:
-                        isSelected
-                          ? "#2e7d32"
-                          : isToday
-                          ? "#e8f5e9"
+                        selected || today
+                          ? "#dff1df"
                           : "#fff",
                       color:
-                        isSelected
-                          ? "#fff"
+                        selected || today
+                          ? "#1b5e20"
                           : "#222",
-                      WebkitTextFillColor:
-                        isSelected
-                          ? "#fff"
-                          : "#222",
-                      fontSize: "15px",
-                      fontWeight: 600,
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      cursor: "pointer",
+                      fontWeight:
+                        selected || today
+                          ? "700"
+                          : "500",
+                      cursor: day
+                        ? "pointer"
+                        : "default",
+                      boxShadow: today
+                        ? "0 0 0 2px rgba(46,125,50,0.15)"
+                        : "none",
+                      opacity: day ? 1 : 0,
+                      padding: 0,
                     }}
                   >
-                    {day}
+                    {day || ""}
                   </button>
                 );
               })}
             </div>
 
-            {/* CANCEL */}
             <button
               type="button"
-              onClick={() => {
-                setCalendarOpen(false);
-                setCalendarField("");
-              }}
+              onClick={() =>
+                setCalendarOpen(false)
+              }
               style={{
                 width: "100%",
-                marginTop: "14px",
-                minHeight: "44px",
-                border: "1px solid #ccc",
+                height: "42px",
+                marginTop: "16px",
+                border: "1px solid #cfd6cf",
                 borderRadius: "8px",
                 background: "#fff",
-                color: "#222",
-                WebkitTextFillColor: "#222",
-                fontSize: "15px",
-                fontWeight: 600,
+                color: "#333",
+                fontWeight: "700",
                 cursor: "pointer",
               }}
             >
-              {t("cancel")}
+              Annuleren
             </button>
           </div>
         </div>
@@ -725,5 +764,3 @@ function AddChickenVaccination() {
     </div>
   );
 }
-
-export default AddChickenVaccination;
