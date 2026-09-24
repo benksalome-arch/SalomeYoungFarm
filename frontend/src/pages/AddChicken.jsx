@@ -337,19 +337,21 @@ function AddChicken() {
                     ))}
 
                     {Array.from({
-                      length: getFirstDayOfMonth(
+                      length: new Date(
                         calendarMonth.getFullYear(),
-                        calendarMonth.getMonth()
-                      ),
+                        calendarMonth.getMonth(),
+                        1
+                      ).getDay(),
                     }).map((_, index) => (
                       <div key={"empty-" + index} />
                     ))}
 
                     {Array.from({
-                      length: getDaysInMonth(
+                      length: new Date(
                         calendarMonth.getFullYear(),
-                        calendarMonth.getMonth()
-                      ),
+                        calendarMonth.getMonth() + 1,
+                        0
+                      ).getDate(),
                     }).map((_, index) => {
                       const day = index + 1;
                       const today = new Date();
