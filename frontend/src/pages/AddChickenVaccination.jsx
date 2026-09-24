@@ -392,7 +392,7 @@ function AddChickenVaccination() {
                       opacity: 0,
                     cursor: "pointer",
                     }}
-                  />
+              />
                 </div>
               </div>
 
@@ -463,7 +463,7 @@ function AddChickenVaccination() {
                       opacity: 0,
                     cursor: "pointer",
                     }}
-                  />
+              />
                 </div>
               </div>
 
