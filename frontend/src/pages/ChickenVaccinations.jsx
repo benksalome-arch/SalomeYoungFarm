@@ -55,8 +55,31 @@ function ChickenVaccinations() {
     }
   }
 
+  // Handles both MySQL DATE values (YYYY-MM-DD)
+  // and full ISO datetime values returned by the API.
+  function formatDate(value) {
+    if (!value) return "-";
+
+    const valueString = String(value);
+
+    // MySQL DATE or ISO date beginning with YYYY-MM-DD
+    const match = valueString.match(/^(\d{4})-(\d{2})-(\d{2})/);
+
+    if (match) {
+      return `${match[3]}-${match[2]}-${match[1]}`;
+    }
+
+    const date = new Date(value);
+
+    if (Number.isNaN(date.getTime())) {
+      return "-";
+    }
+
+    return date.toLocaleDateString("nl-NL");
+  }
+
   const cellStyle = {
-    padding: "14px 12px",
+    padding: "16px 14px",
     verticalAlign: "middle",
   };
 
@@ -127,36 +150,80 @@ function ChickenVaccinations() {
           className="table"
           style={{
             width: "100%",
-            borderCollapse: "collapse",
+            borderCollapse: "separate",
+            borderSpacing: 0,
             tableLayout: "fixed",
           }}
         >
           <colgroup>
-            <col style={{ width: "16%" }} />
-            <col style={{ width: "13%" }} />
-            <col style={{ width: "19%" }} />
+            <col style={{ width: "15%" }} />
+            <col style={{ width: "10%" }} />
+            <col style={{ width: "18%" }} />
             <col style={{ width: "17%" }} />
-            <col style={{ width: "23%" }} />
-            <col style={{ width: "12%" }} />
+            <col style={{ width: "20%" }} />
+            <col style={{ width: "20%" }} />
           </colgroup>
+
           <thead>
             <tr>
-              <th style={{ ...cellStyle, textAlign: "center", whiteSpace: "nowrap" }}>
+              <th
+                style={{
+                  ...cellStyle,
+                  textAlign: "center",
+                  whiteSpace: "nowrap",
+                }}
+              >
                 {t("date")}
               </th>
-              <th style={{ ...cellStyle, textAlign: "center", whiteSpace: "nowrap" }}>
+
+              <th
+                style={{
+                  ...cellStyle,
+                  textAlign: "center",
+                  whiteSpace: "nowrap",
+                }}
+              >
                 {t("tag")}
               </th>
-              <th style={{ ...cellStyle, textAlign: "left", whiteSpace: "nowrap" }}>
+
+              <th
+                style={{
+                  ...cellStyle,
+                  textAlign: "left",
+                  whiteSpace: "nowrap",
+                }}
+              >
                 {t("name")}
               </th>
-              <th style={{ ...cellStyle, textAlign: "left", whiteSpace: "nowrap" }}>
+
+              <th
+                style={{
+                  ...cellStyle,
+                  textAlign: "left",
+                  whiteSpace: "nowrap",
+                }}
+              >
                 {t("vaccine")}
               </th>
-              <th style={{ ...cellStyle, textAlign: "center", whiteSpace: "nowrap" }}>
+
+              <th
+                style={{
+                  ...cellStyle,
+                  textAlign: "center",
+                  whiteSpace: "normal",
+                  lineHeight: 1.3,
+                }}
+              >
                 {t("nextDueDate")}
               </th>
-              <th style={{ ...cellStyle, textAlign: "center", whiteSpace: "nowrap" }}>
+
+              <th
+                style={{
+                  ...cellStyle,
+                  textAlign: "center",
+                  whiteSpace: "nowrap",
+                }}
+              >
                 {t("actions")}
               </th>
             </tr>
@@ -165,32 +232,69 @@ function ChickenVaccinations() {
           <tbody>
             {records.length === 0 ? (
               <tr>
-                <td colSpan="6" style={{ padding: "40px 15px", textAlign: "center" }}>
+                <td
+                  colSpan="6"
+                  style={{
+                    padding: "40px 15px",
+                    textAlign: "center",
+                  }}
+                >
                   {t("noVaccinationRecords")}
                 </td>
               </tr>
             ) : (
               records.map((record) => (
                 <tr key={record.id}>
-                  <td style={{ ...cellStyle, textAlign: "center", whiteSpace: "nowrap" }}>
-                    {record.vaccination_date
-                      ? new Date(record.vaccination_date + "T00:00:00").toLocaleDateString("nl-NL")
-                      : "-"}
+                  <td
+                    style={{
+                      ...cellStyle,
+                      textAlign: "center",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {formatDate(record.vaccination_date)}
                   </td>
-                  <td style={{ ...cellStyle, textAlign: "center", whiteSpace: "nowrap" }}>
+
+                  <td
+                    style={{
+                      ...cellStyle,
+                      textAlign: "center",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
                     {record.tag_number || "-"}
                   </td>
-                  <td style={{ ...cellStyle, textAlign: "left" }}>
+
+                  <td
+                    style={{
+                      ...cellStyle,
+                      textAlign: "left",
+                      overflowWrap: "anywhere",
+                    }}
+                  >
                     {record.name || "-"}
                   </td>
-                  <td style={{ ...cellStyle, textAlign: "left" }}>
+
+                  <td
+                    style={{
+                      ...cellStyle,
+                      textAlign: "left",
+                      overflowWrap: "anywhere",
+                    }}
+                  >
                     {record.vaccine_name || "-"}
                   </td>
-                  <td style={{ ...cellStyle, textAlign: "center", whiteSpace: "nowrap" }}>
-                    {record.next_due_date
-                      ? new Date(record.next_due_date + "T00:00:00").toLocaleDateString("nl-NL")
-                      : "-"}
+
+                  <td
+                    style={{
+                      ...cellStyle,
+                      textAlign: "center",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {formatDate(record.next_due_date)}
                   </td>
+
                   <td
                     style={{
                       ...cellStyle,
@@ -247,16 +351,13 @@ function ChickenVaccinations() {
           </div>
         ) : (
           records.map((record) => (
-            <div className="card vaccination-mobile-card" key={record.id}>
+            <div
+              className="card vaccination-mobile-card"
+              key={record.id}
+            >
               <div className="vaccination-mobile-row">
                 <strong>{t("date")}</strong>
-                <span>
-                  {record.vaccination_date
-                    ? new Date(
-                        record.vaccination_date + "T00:00:00"
-                      ).toLocaleDateString("nl-NL")
-                    : "-"}
-                </span>
+                <span>{formatDate(record.vaccination_date)}</span>
               </div>
 
               <div className="vaccination-mobile-row">
@@ -276,28 +377,15 @@ function ChickenVaccinations() {
 
               <div className="vaccination-mobile-row">
                 <strong>{t("nextDueDate")}</strong>
-                <span>
-                  {record.next_due_date
-                    ? new Date(
-                        record.next_due_date + "T00:00:00"
-                      ).toLocaleDateString("nl-NL")
-                    : "-"}
-                </span>
+                <span>{formatDate(record.next_due_date)}</span>
               </div>
 
-              <div
-                className="vaccination-mobile-actions"
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  gap: "8px",
-                  flexWrap: "wrap",
-                }}
-              >
+              <div className="vaccination-mobile-actions">
                 <Link
                   className="button"
                   to={`/chicken-vaccinations/${record.id}/edit`}
                   style={{
+                    whiteSpace: "nowrap",
                     textDecoration: "none",
                   }}
                 >
@@ -312,6 +400,7 @@ function ChickenVaccinations() {
                     background: "#d32f2f",
                     color: "#fff",
                     borderColor: "#d32f2f",
+                    whiteSpace: "nowrap",
                   }}
                 >
                   🗑 {t("delete")}
@@ -330,7 +419,32 @@ function ChickenVaccinations() {
         .vaccination-desktop-table {
           width: 100%;
           padding: 0;
-          overflow: hidden;
+          overflow-x: auto;
+          box-sizing: border-box;
+          border-radius: 12px;
+        }
+
+        .vaccination-desktop-table table {
+          min-width: 900px;
+        }
+
+        .vaccination-desktop-table th {
+          background: #2e7d32;
+          color: white;
+          font-weight: 700;
+          border-bottom: none;
+        }
+
+        .vaccination-desktop-table td {
+          border-bottom: 1px solid #e5e5e5;
+        }
+
+        .vaccination-desktop-table tbody tr:last-child td {
+          border-bottom: none;
+        }
+
+        .vaccination-desktop-table .button {
+          min-width: 105px;
           box-sizing: border-box;
         }
 
@@ -354,7 +468,7 @@ function ChickenVaccinations() {
 
           .vaccination-mobile-row {
             display: grid;
-            grid-template-columns: 105px minmax(0, 1fr);
+            grid-template-columns: 125px minmax(0, 1fr);
             gap: 10px;
             align-items: start;
             margin-bottom: 11px;
@@ -379,7 +493,9 @@ function ChickenVaccinations() {
             align-items: center;
             gap: 10px;
             flex-wrap: wrap;
-            margin-top: 14px;
+            margin-top: 16px;
+            padding-top: 14px;
+            border-top: 1px solid #e5e5e5;
           }
 
           .vaccination-mobile-empty {
