@@ -38,40 +38,13 @@ function RegisterChickenFlock() {
   const [calendarOpen, setCalendarOpen] = useState(false);
   const [calendarMonth, setCalendarMonth] = useState(new Date());
 
-  function getDaysInMonth(year, month) {
-    return new Date(year, month + 1, 0).getDate();
-  }
+  const weekDays = ["Zo", "Ma", "Di", "Wo", "Do", "Vr", "Za"];
 
-  function getFirstDayOfMonth(year, month) {
-    return new Date(year, month, 1).getDay();
-  }
-
-  function openCalendar() {
-    const baseDate = formData.hatch_date
-      ? new Date(formData.hatch_date + "T00:00:00")
-      : new Date();
-
-    setCalendarMonth(
-      new Date(baseDate.getFullYear(), baseDate.getMonth(), 1)
-    );
-    setCalendarOpen(true);
-  }
-
-  function goPreviousMonth() {
+  function changeCalendarMonth(offset) {
     setCalendarMonth(
       new Date(
         calendarMonth.getFullYear(),
-        calendarMonth.getMonth() - 1,
-        1
-      )
-    );
-  }
-
-  function goNextMonth() {
-    setCalendarMonth(
-      new Date(
-        calendarMonth.getFullYear(),
-        calendarMonth.getMonth() + 1,
+        calendarMonth.getMonth() + offset,
         1
       )
     );
