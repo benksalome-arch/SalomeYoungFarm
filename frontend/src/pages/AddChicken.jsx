@@ -24,45 +24,53 @@ function AddChicken() {
   const [calendarOpen, setCalendarOpen] = useState(false);
   const [calendarMonth, setCalendarMonth] = useState(new Date());
 
-  function getDaysInMonth(year, month) {
-    return new Date(year, month + 1, 0).getDate();
-  }
+  const monthNames = [
+    "Januari", "Februari", "Maart", "April", "Mei", "Juni",
+    "Juli", "Augustus", "September", "Oktober", "November", "December"
+  ];
 
-  function getFirstDayOfMonth(year, month) {
-    return new Date(year, month, 1).getDay();
-  }
+  const weekDays = ["Zo", "Ma", "Di", "Wo", "Do", "Vr", "Za"];
 
-  function goPreviousMonth() {
+  const currentYear = new Date().getFullYear();
+  const calendarYears = Array.from(
+    { length: 101 },
+    (_, index) => currentYear - index
+  );
+
+  function openCalendar() {
     setCalendarMonth(
-      new Date(
-        calendarMonth.getFullYear(),
-        calendarMonth.getMonth() - 1,
-        1
-      )
+      formData.hatch_date
+        ? new Date(formData.hatch_date)
+        : new Date()
     );
+    setCalendarOpen(true);
   }
 
-  function goNextMonth() {
+  function changeCalendarMonth(offset) {
     setCalendarMonth(
       new Date(
         calendarMonth.getFullYear(),
-        calendarMonth.getMonth() + 1,
+        calendarMonth.getMonth() + offset,
         1
       )
     );
   }
 
   function handleDateSelect(day) {
-    const value =
-      calendarMonth.getFullYear() +
+    const year = calendarMonth.getFullYear();
+    const month = calendarMonth.getMonth();
+    const selectedDate = new Date(year, month, day);
+
+    const formattedDate =
+      selectedDate.getFullYear() +
       "-" +
-      String(calendarMonth.getMonth() + 1).padStart(2, "0") +
+      String(selectedDate.getMonth() + 1).padStart(2, "0") +
       "-" +
-      String(day).padStart(2, "0");
+      String(selectedDate.getDate()).padStart(2, "0");
 
     setFormData((prev) => ({
       ...prev,
-      hatch_date: value,
+      hatch_date: formattedDate,
     }));
 
     setCalendarOpen(false);
