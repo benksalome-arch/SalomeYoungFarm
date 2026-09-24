@@ -29,6 +29,12 @@ function RegisterChickenFlock() {
     "Juli", "Augustus", "September", "Oktober", "November", "December"
   ];
 
+  const currentYear = new Date().getFullYear();
+  const calendarYears = Array.from(
+    { length: 101 },
+    (_, index) => currentYear - index
+  );
+
   const [calendarOpen, setCalendarOpen] = useState(false);
   const [calendarMonth, setCalendarMonth] = useState(new Date());
 
