@@ -40,6 +40,18 @@ function RegisterChickenFlock() {
 
   const weekDays = ["Zo", "Ma", "Di", "Wo", "Do", "Vr", "Za"];
 
+  function openCalendar() {
+    const baseDate = formData.hatch_date
+      ? new Date(formData.hatch_date + "T00:00:00")
+      : new Date();
+
+    setCalendarMonth(
+      new Date(baseDate.getFullYear(), baseDate.getMonth(), 1)
+    );
+
+    setCalendarOpen(true);
+  }
+
   function changeCalendarMonth(offset) {
     setCalendarMonth(
       new Date(
