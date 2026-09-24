@@ -474,31 +474,35 @@ function AddChicken() {
             <label className="add-chicken-label">
               {t("hatchDate")}
             </label>
-            <div style={{ position: "relative", width: "100%" }}>
-  <div style={{ ...inputStyle, width: "100%", color: formData.hatch_date ? "#222" : "#777", WebkitTextFillColor: formData.hatch_date ? "#222" : "#777", pointerEvents: "none" }}>
-    {formData.hatch_date
-      ? new Date(formData.hatch_date + "T00:00:00").toLocaleDateString("nl-NL", {
-          day: "2-digit",
-          month: "2-digit",
-          year: "numeric",
-        })
-      : "DD-MM-JJJJ"}
-  </div>
-  <input
-    type="date"
-    name="hatch_date"
-    value={formData.hatch_date || ""}
-    onChange={handleChange}
-    style={{
-      position: "absolute",
-      inset: 0,
-      width: "100%",
-      height: "100%",
-      opacity: 0,
-                    cursor: "pointer",
-    }}
-              />
-</div>
+            <button
+              type="button"
+              onClick={openCalendar}
+              style={{
+                ...inputStyle,
+                textAlign: "left",
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                color: formData.hatch_date ? "#222" : "#777",
+                WebkitTextFillColor: formData.hatch_date
+                  ? "#222"
+                  : "#777",
+              }}
+            >
+              <span>
+                {formData.hatch_date
+                  ? new Date(
+                      formData.hatch_date + "T00:00:00"
+                    ).toLocaleDateString("nl-NL", {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                    })
+                  : "DD-MM-JJJJ"}
+              </span>
+              <span>📅</span>
+            </button>
           </div>
 
           <div className="add-chicken-field">
