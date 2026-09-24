@@ -245,7 +245,7 @@ function AddChicken() {
                   >
                     <button
                       type="button"
-                      onClick={goPreviousMonth}
+                      onClick={() => changeCalendarMonth(-1)}
                       style={{
                         width: "38px",
                         height: "38px",
@@ -290,7 +290,7 @@ function AddChicken() {
 
                     <button
                       type="button"
-                      onClick={goNextMonth}
+                      onClick={() => changeCalendarMonth(1)}
                       style={{
                         width: "38px",
                         height: "38px",
