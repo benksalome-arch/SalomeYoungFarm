@@ -613,19 +613,14 @@ function AddChickenMortality() {
               style={{
                 display: "grid",
                 gridTemplateColumns: "repeat(7, 1fr)",
-                gap: "6px",
+                gap: "5px",
               }}
             >
-              {Array.from({ length: firstDay }).map(
-                (_, index) => (
-                  <div key={`empty-${index}`} />
-                )
-              )}
+              {calendarDays.map((day, index) => {
+                if (day === null) {
+                  return <div key={`empty-${index}`} />;
+                }
 
-              {Array.from(
-                { length: daysInMonth },
-                (_, index) => index + 1
-              ).map((day) => {
                 const dateValue =
                   year +
                   "-" +
@@ -633,45 +628,34 @@ function AddChickenMortality() {
                   "-" +
                   String(day).padStart(2, "0");
 
-                const isToday =
-                  dateValue === todayValue;
-
-                const isSelected =
-                  dateValue ===
-                  formData.mortality_date;
+                const selected = isSelectedDay(day);
+                const today = isToday(day);
 
                 return (
                   <button
-                    key={day}
+                    key={dateValue}
                     type="button"
-                    onClick={() =>
-                      handleDateSelect(day)
-                    }
+                    onClick={() => handleDateSelect(day)}
                     style={{
-                      minHeight: "40px",
-                      border:
-                        isSelected || isToday
-                          ? "2px solid #2e7d32"
-                          : "1px solid #ddd",
-                      borderRadius: "8px",
-                      background: isSelected
+                      height: "38px",
+                      border: selected
+                        ? "2px solid #1b5e20"
+                        : today
+                        ? "2px solid #2e7d32"
+                        : "1px solid #ddd",
+                      borderRadius: "50%",
+                      background: selected
                         ? "#2e7d32"
-                        : isToday
-                        ? "#e8f5e9"
+                        : today
+                        ? "#4caf50"
                         : "#fff",
-                      color: isSelected
-                        ? "#fff"
-                        : "#222",
-                      WebkitTextFillColor:
-                        isSelected
-                          ? "#fff"
-                          : "#222",
-                      fontSize: "15px",
-                      fontWeight: 600,
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
+                      color: selected || today ? "#fff" : "#222",
+                      fontWeight: selected || today ? 800 : 400,
                       cursor: "pointer",
+                      fontSize: "14px",
+                      boxShadow: today
+                        ? "0 0 0 2px #c8e6c9"
+                        : "none",
                     }}
                   >
                     {day}
