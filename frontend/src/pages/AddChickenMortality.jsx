@@ -514,6 +514,66 @@ function AddChickenMortality() {
                 "0 8px 30px rgba(0, 0, 0, 0.25)",
             }}
           >
+            {/* MONTH / YEAR SELECTORS */}
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                gap: "8px",
+                marginBottom: "14px",
+              }}
+            >
+              <select
+                value={month}
+                onChange={(e) =>
+                  setCalendarMonth(
+                    new Date(year, Number(e.target.value), 1)
+                  )
+                }
+                style={{
+                  height: "38px",
+                  padding: "0 30px 0 10px",
+                  border: "1px solid #cfd6cf",
+                  borderRadius: "8px",
+                  background: "#fff",
+                  color: "#222",
+                  fontSize: "14px",
+                  fontWeight: 600,
+                }}
+              >
+                {monthNames.map((name, index) => (
+                  <option key={name} value={index}>
+                    {name}
+                  </option>
+                ))}
+              </select>
+
+              <select
+                value={year}
+                onChange={(e) =>
+                  setCalendarMonth(
+                    new Date(Number(e.target.value), month, 1)
+                  )
+                }
+                style={{
+                  height: "38px",
+                  padding: "0 30px 0 10px",
+                  border: "1px solid #cfd6cf",
+                  borderRadius: "8px",
+                  background: "#fff",
+                  color: "#222",
+                  fontSize: "14px",
+                  fontWeight: 600,
+                }}
+              >
+                {calendarYears.map((calendarYear) => (
+                  <option key={calendarYear} value={calendarYear}>
+                    {calendarYear}
+                  </option>
+                ))}
+              </select>
+            </div>
+
             {/* CALENDAR HEADER */}
             <div
               style={{
