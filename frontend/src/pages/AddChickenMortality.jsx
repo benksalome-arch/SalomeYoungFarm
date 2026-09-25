@@ -303,25 +303,30 @@ function AddChickenMortality() {
               {t("date")}
             </label>
 
-            <button
-              type="button"
-              onClick={openCalendar}
-              style={{
-                ...inputStyle,
-                textAlign: "left",
-                cursor: "pointer",
-                color: formData.mortality_date
-                  ? "#222"
-                  : "#777",
-                WebkitTextFillColor: formData.mortality_date
-                  ? "#222"
-                  : "#777",
-              }}
-            >
-              {formData.mortality_date
-                ? formatDate(formData.mortality_date)
-                : "DD-MM-JJJJ"}
-            </button>
+            <div style={{ position: "relative", width: "100%" }}>
+              <input
+                type="text"
+                value={
+                  formData.mortality_date
+                    ? formData.mortality_date
+                        .split("-")
+                        .reverse()
+                        .join("-")
+                    : ""
+                }
+                placeholder="DD-MM-JJJJ"
+                readOnly
+                onClick={openCalendar}
+                style={{
+                  ...inputStyle,
+                  width: "100%",
+                  cursor: "pointer",
+                  color: "#222",
+                  WebkitTextFillColor: "#222",
+                  backgroundColor: "#fff",
+                }}
+              />
+            </div>
           </div>
 
           {/* QUANTITY */}
