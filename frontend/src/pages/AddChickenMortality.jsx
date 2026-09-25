@@ -48,45 +48,61 @@ function AddChickenMortality() {
     });
   }
 
-  function getDaysInMonth(year, month) {
-    return new Date(year, month + 1, 0).getDate();
-  }
+  const [calendarField, setCalendarField] = useState("");
 
-  function getFirstDayOfMonth(year, month) {
-    return new Date(year, month, 1).getDay();
-  }
+  const monthNames = [
+    "Januari",
+    "Februari",
+    "Maart",
+    "April",
+    "Mei",
+    "Juni",
+    "Juli",
+    "Augustus",
+    "September",
+    "Oktober",
+    "November",
+    "December",
+  ];
 
-  function openCalendar() {
-    const baseDate = formData.mortality_date
-      ? new Date(formData.mortality_date + "T00:00:00")
-      : new Date();
+  const weekDays = ["Zo", "Ma", "Di", "Wo", "Do", "Vr", "Za"];
 
-    setCalendarMonth(
-      new Date(
-        baseDate.getFullYear(),
-        baseDate.getMonth(),
-        1
-      )
-    );
+  const currentYear = new Date().getFullYear();
+
+  const calendarYears = Array.from(
+    { length: 101 },
+    (_, index) => currentYear - index
+  );
+
+  function openCalendar(field) {
+    setCalendarField(field);
+
+    const existingDate = formData[field];
+
+    if (existingDate) {
+      const parts = existingDate.split("-");
+
+      if (parts.length === 3) {
+        setCalendarMonth(
+          new Date(
+            Number(parts[0]),
+            Number(parts[1]) - 1,
+            1
+          )
+        );
+      }
+    } else {
+      setCalendarMonth(new Date());
+    }
 
     setCalendarOpen(true);
   }
 
-  function goPreviousMonth() {
+  function changeCalendarMonth(offset) {
     setCalendarMonth(
       new Date(
         calendarMonth.getFullYear(),
-        calendarMonth.getMonth() - 1,
-        1
-      )
-    );
-  }
-
-  function goNextMonth() {
-    setCalendarMonth(
-      new Date(
-        calendarMonth.getFullYear(),
-        calendarMonth.getMonth() + 1,
+        calendarMonth.getMonth() + offset,
         1
       )
     );
@@ -94,31 +110,74 @@ function AddChickenMortality() {
 
   function handleDateSelect(day) {
     const year = calendarMonth.getFullYear();
-    const month = calendarMonth.getMonth();
+    const month = String(calendarMonth.getMonth() + 1).padStart(2, "0");
+    const selectedDay = String(day).padStart(2, "0");
 
-    const value =
-      year +
-      "-" +
-      String(month + 1).padStart(2, "0") +
-      "-" +
-      String(day).padStart(2, "0");
-
-    setFormData((prev) => ({
-      ...prev,
-      mortality_date: value,
+    setFormData((previous) => ({
+      ...previous,
+      [calendarField]: `${year}-${month}-${selectedDay}`,
     }));
 
     setCalendarOpen(false);
   }
 
   function formatDate(value) {
-    if (!value) return "";
+    if (!value) return "DD-MM-JJJJ";
 
-    const parts = value.split("-");
+    const valueString = String(value);
+    const match = valueString.match(/^(\d{4})-(\d{2})-(\d{2})/);
 
-    if (parts.length !== 3) return value;
+    if (match) {
+      return `${match[3]}-${match[2]}-${match[1]}`;
+    }
 
-    return `${parts[2]}-${parts[1]}-${parts[0]}`;
+    return valueString;
+  }
+
+  function getCalendarDays() {
+    const year = calendarMonth.getFullYear();
+    const month = calendarMonth.getMonth();
+
+    const firstDay = new Date(year, month, 1).getDay();
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+    const days = [];
+
+    for (let index = 0; index < firstDay; index += 1) {
+      days.push(null);
+    }
+
+    for (let day = 1; day <= daysInMonth; day += 1) {
+      days.push(day);
+    }
+
+    return days;
+  }
+
+  function isSelectedDay(day) {
+    if (!day || !formData[calendarField]) return false;
+
+    const parts = formData[calendarField].split("-");
+
+    if (parts.length !== 3) return false;
+
+    return (
+      Number(parts[0]) === calendarMonth.getFullYear() &&
+      Number(parts[1]) === calendarMonth.getMonth() + 1 &&
+      Number(parts[2]) === day
+    );
+  }
+
+  function isToday(day) {
+    if (!day) return false;
+
+    const today = new Date();
+
+    return (
+      today.getFullYear() === calendarMonth.getFullYear() &&
+      today.getMonth() === calendarMonth.getMonth() &&
+      today.getDate() === day
+    );
   }
 
   async function handleSubmit(e) {
@@ -303,28 +362,24 @@ function AddChickenMortality() {
               {t("date")}
             </label>
 
-            <input
-              type="text"
-              value={
-                formData.mortality_date
-                  ? formData.mortality_date
-                      .split("-")
-                      .reverse()
-                      .join("-")
-                  : ""
-              }
-              placeholder="DD-MM-JJJJ"
-              readOnly
-              onClick={openCalendar}
+            <button
+              type="button"
+              onClick={() => openCalendar("mortality_date")}
               style={{
                 ...inputStyle,
-                width: "100%",
+                textAlign: "left",
                 cursor: "pointer",
-                color: "#222",
-                WebkitTextFillColor: "#222",
-                backgroundColor: "#fff",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
               }}
-            />
+            >
+              <span>
+                {formatDate(formData.mortality_date)}
+              </span>
+
+              <span>📅</span>
+            </button>
           </div>
 
           {/* QUANTITY */}
