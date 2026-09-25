@@ -303,39 +303,25 @@ function AddChickenMortality() {
               {t("date")}
             </label>
 
-            <div style={{ position: "relative", width: "100%" }}>
-              <div
-                style={{
-                  ...inputStyle,
-                  width: "100%",
-                  color: formData.mortality_date ? "#222" : "#777",
-                  pointerEvents: "none",
-                }}
-              >
-                {formData.mortality_date
-                  ? new Date(formData.mortality_date + "T00:00:00").toLocaleDateString("nl-NL", {
-                      day: "2-digit",
-                      month: "2-digit",
-                      year: "numeric",
-                    })
-                  : "DD-MM-JJJJ"}
-              </div>
-              <input
-                type="date"
-                name="mortality_date"
-                value={formData.mortality_date || ""}
-                onChange={handleChange}
-                required
-                style={{
-                  position: "absolute",
-                  inset: 0,
-                  width: "100%",
-                  height: "100%",
-                  opacity: 0,
-                    cursor: "pointer",
-                }}
-              />
-            </div>
+            <button
+              type="button"
+              onClick={openCalendar}
+              style={{
+                ...inputStyle,
+                textAlign: "left",
+                cursor: "pointer",
+                color: formData.mortality_date
+                  ? "#222"
+                  : "#777",
+                WebkitTextFillColor: formData.mortality_date
+                  ? "#222"
+                  : "#777",
+              }}
+            >
+              {formData.mortality_date
+                ? formatDate(formData.mortality_date)
+                : "DD-MM-JJJJ"}
+            </button>
           </div>
 
           {/* QUANTITY */}
