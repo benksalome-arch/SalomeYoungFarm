@@ -235,8 +235,7 @@ function AddChickenMortality() {
 
   const year = calendarMonth.getFullYear();
   const month = calendarMonth.getMonth();
-  const daysInMonth = getDaysInMonth(year, month);
-  const firstDay = getFirstDayOfMonth(year, month);
+  const calendarDays = getCalendarDays();
 
   const today = new Date();
 
@@ -527,7 +526,7 @@ function AddChickenMortality() {
             >
               <button
                 type="button"
-                onClick={goPreviousMonth}
+                onClick={() => changeCalendarMonth(-1)}
                 aria-label="Previous month"
                 style={{
                   width: "38px",
@@ -562,7 +561,7 @@ function AddChickenMortality() {
 
               <button
                 type="button"
-                onClick={goNextMonth}
+                onClick={() => changeCalendarMonth(1)}
                 aria-label="Next month"
                 style={{
                   width: "38px",
