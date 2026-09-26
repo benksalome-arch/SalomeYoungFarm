@@ -292,11 +292,7 @@ function AddRabbitLitter() {
               value={form.breeding_id}
               onChange={handleChange}
               disabled={loading || saving}
-              style={{
-                width: "100%",
-                padding: "10px",
-                marginTop: "6px",
-              }}
+              style={inputStyle}
             >
               <option value="">
                 {loading
