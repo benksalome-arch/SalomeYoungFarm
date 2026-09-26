@@ -96,7 +96,7 @@ function AddRabbitLitter() {
     "Juli", "Augustus", "September", "Oktober", "November", "December"
   ];
 
-  const weekdays = ["Zo", "Ma", "Di", "Wo", "Do", "Vr", "Za"];
+  const weekDays = ["Zo", "Ma", "Di", "Wo", "Do", "Vr", "Za"];
 
   function formatDateDisplay(value) {
     if (!value) return "";
@@ -674,7 +674,7 @@ function AddRabbitLitter() {
                         marginBottom: "6px",
                       }}
                     >
-                      {weekdays.map((day) => (
+                      {weekDays.map((day) => (
                         <div
                           key={day}
                           style={{
