@@ -241,7 +241,7 @@ function AddRabbitLitter() {
         }}
       >
         <div>
-          <h1>🐇 {t("recordRabbitLitter")}</h1>
+          <h1 style={{ margin: 0, lineHeight: 1.15 }}>{`🐇 ${t("recordRabbitLitter")}`}</h1>
 
           <p>
             {t("litterDescription")}
