@@ -546,6 +546,7 @@ function EditChickenVaccination() {
             zIndex: 9999,
             padding: "16px",
             boxSizing: "border-box",
+            alignItems: "flex-start",
           }}
         >
           <div
