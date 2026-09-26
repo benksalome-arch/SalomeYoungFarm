@@ -340,6 +340,10 @@ function AddRabbitLitter() {
           margin: 0;
         }
 
+        .rabbit-litter-form-card {
+          color-scheme: light !important;
+        }
+
         .rabbit-litter-form-card input,
         .rabbit-litter-form-card select,
         .rabbit-litter-form-card textarea {
@@ -351,8 +355,10 @@ function AddRabbitLitter() {
           border: 1px solid #cfd6cf !important;
           border-radius: 7px;
           background: #fff !important;
+          background-color: #fff !important;
           color: #222 !important;
           -webkit-text-fill-color: #222 !important;
+          color-scheme: light !important;
         }
 
         .rabbit-litter-form-card textarea {
