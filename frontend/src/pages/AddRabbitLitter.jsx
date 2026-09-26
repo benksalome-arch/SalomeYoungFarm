@@ -27,21 +27,24 @@ function AddRabbitLitter() {
 
   const labelStyle = {
     display: "block",
-    marginBottom: "6px",
+    marginBottom: "7px",
     fontWeight: 600,
+    fontSize: "15px",
+    lineHeight: 1.3,
     color: "#222",
   };
 
   const inputStyle = {
     width: "100%",
     boxSizing: "border-box",
+    padding: "10px 12px",
     minHeight: "44px",
-    padding: "9px 11px",
     border: "1px solid #cfd6cf",
     borderRadius: "7px",
     background: "#fff",
     color: "#222",
     WebkitTextFillColor: "#222",
+    fontSize: "15px",
   };
 
 
