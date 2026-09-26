@@ -88,13 +88,7 @@ function AddRabbit() {
   }
 
   function selectDate(day) {
-    
-
-const weekdayKeys = [
-  "sun", "mon", "tue", "wed", "thu", "fri", "sat",
-];
-
-const year = calendarMonth.getFullYear();
+    const year = calendarMonth.getFullYear();
     const month = String(calendarMonth.getMonth() + 1).padStart(2, "0");
     const selectedDay = String(day).padStart(2, "0");
 
@@ -556,7 +550,6 @@ const year = calendarMonth.getFullYear();
                           type="button"
                           onClick={() => {
                             setCalendarOpen(false);
-                            setCalendarField("");
                           }}
                           style={{
                             width: "100%",
