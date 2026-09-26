@@ -25,6 +25,13 @@ function AddRabbitLitter() {
     notes: "",
   });
 
+  const labelStyle = {
+    display: "block",
+    marginBottom: "6px",
+    fontWeight: 600,
+    color: "#222",
+  };
+
   useEffect(() => {
     loadBreedings();
   }, []);
