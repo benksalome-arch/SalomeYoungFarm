@@ -651,11 +651,7 @@ function AddRabbitLitter() {
               onChange={handleChange}
               disabled={saving}
               placeholder={t("totalKitsExample")}
-              style={{
-                width: "100%",
-                padding: "10px",
-                marginTop: "6px",
-              }}
+              style={inputStyle}
             />
           </div>
 
@@ -674,11 +670,7 @@ function AddRabbitLitter() {
               onChange={handleChange}
               disabled={saving}
               placeholder={t("livingKitsExample")}
-              style={{
-                width: "100%",
-                padding: "10px",
-                marginTop: "6px",
-              }}
+              style={inputStyle}
             />
           </div>
 
@@ -697,11 +689,7 @@ function AddRabbitLitter() {
               onChange={handleChange}
               disabled={saving}
               placeholder={t("deadKitsExample")}
-              style={{
-                width: "100%",
-                padding: "10px",
-                marginTop: "6px",
-              }}
+              style={inputStyle}
             />
           </div>
 
@@ -720,9 +708,7 @@ function AddRabbitLitter() {
               rows="4"
               placeholder={t("litterNotesExample")}
               style={{
-                width: "100%",
-                padding: "10px",
-                marginTop: "6px",
+                ...inputStyle,
                 resize: "vertical",
               }}
             />
