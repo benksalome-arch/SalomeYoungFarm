@@ -312,50 +312,40 @@ function EditRabbit() {
                 {t("birthDate")}
               </label>
 
-              <div style={{ position: "relative" }}>
-                <div style={{ position: "relative", width: "100%" }}>
-                  <div
-                    style={{
-                      width: "100%",
-                      minWidth: 0,
-                      boxSizing: "border-box",
-                      minHeight: "44px",
-                      padding: "10px 12px",
-                      border: "1px solid #cfd6cf",
-                      borderRadius: "7px",
-                      background: "#fff",
-                      color: formData.birth_date ? "#222" : "#777",
-                      WebkitTextFillColor: formData.birth_date ? "#222" : "#777",
-                      display: "flex",
-                      alignItems: "center",
-                      pointerEvents: "none",
-                    }}
-                  >
-                    {formData.birth_date
-                      ? new Date(formData.birth_date + "T00:00:00").toLocaleDateString("nl-NL", {
-                          day: "2-digit",
-                          month: "2-digit",
-                          year: "numeric",
-                        })
-                      : "DD-MM-JJJJ"}
-                  </div>
+              <div style={{ position: "relative", width: "100%" }}>
+                <input
+                  type="text"
+                  value={
+                    formData.birth_date
+                      ? formData.birth_date.split("-").reverse().join("-")
+                      : ""
+                  }
+                  placeholder="DD-MM-JJJJ"
+                  readOnly
+                  onClick={() => {
+                    const selected = formData.birth_date
+                      ? new Date(formData.birth_date + "T00:00:00")
+                      : new Date();
 
-                  <input
-                    type="date"
-                    name="birth_date"
-                    value={formData.birth_date || ""}
-                    onChange={handleChange}
-                    required
-                    style={{
-                      position: "absolute",
-                      inset: 0,
-                      width: "100%",
-                      height: "100%",
-                      opacity: 0,
+                    setCalendarMonth(
+                      new Date(
+                        selected.getFullYear(),
+                        selected.getMonth(),
+                        1
+                      )
+                    );
+
+                    setCalendarOpen(true);
+                  }}
+                  style={{
+                    ...inputStyle,
+                    width: "100%",
                     cursor: "pointer",
-                    }}
-                  />
-                </div>
+                    color: "#222",
+                    WebkitTextFillColor: "#222",
+                    backgroundColor: "#fff",
+                  }}
+                />
 
                 {calendarOpen && (
                   <div
