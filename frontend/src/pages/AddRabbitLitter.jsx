@@ -32,6 +32,19 @@ function AddRabbitLitter() {
     color: "#222",
   };
 
+  const inputStyle = {
+    width: "100%",
+    boxSizing: "border-box",
+    minHeight: "44px",
+    padding: "9px 11px",
+    border: "1px solid #cfd6cf",
+    borderRadius: "7px",
+    background: "#fff",
+    color: "#222",
+    WebkitTextFillColor: "#222",
+  };
+
+
   useEffect(() => {
     loadBreedings();
   }, []);
