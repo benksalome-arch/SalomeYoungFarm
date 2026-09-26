@@ -584,27 +584,27 @@ function AddRabbitLitter() {
                             type="button"
                             onClick={() => selectCalendarDate(day)}
                             style={{
-                              height: "38px",
-                              border: selected
-                                ? "2px solid #1b5e20"
-                                : isToday
-                                ? "2px solid #2e7d32"
-                                : "1px solid #ddd",
+                              width: "40px",
+                              height: "40px",
+                              minWidth: "40px",
+                              border: "none",
                               borderRadius: "50%",
                               background: selected
                                 ? "#2e7d32"
                                 : isToday
-                                ? "#4caf50"
+                                ? "#e8f5e9"
                                 : "#fff",
-                              color: selected || isToday ? "#fff" : "#222",
+                              color: selected
+                                ? "#fff"
+                                : "#222",
                               fontWeight:
-                                selected || isToday ? 800 : 400,
+                                selected || isToday ? 700 : 400,
                               cursor: "pointer",
-                              fontSize: "14px",
-                              boxShadow: isToday
-                                ? "0 0 0 2px #c8e6c9"
-                                : "none",
+                              padding: 0,
+                              justifySelf: "center",
+                              boxSizing: "border-box",
                             }}
+                            onMouseDown={(e) => e.preventDefault()}
                           >
                             {day}
                           </button>
