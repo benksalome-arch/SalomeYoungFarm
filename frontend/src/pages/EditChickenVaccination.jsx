@@ -549,7 +549,8 @@ function EditChickenVaccination() {
           <div
             onClick={(e) => e.stopPropagation()}
             style={{
-              width: "min(360px, calc(100vw - 30px))",
+              width: "min(360px, calc(100vw - 24px))",
+              maxWidth: "360px",
               background: "#fff",
               borderRadius: "14px",
               padding: "20px",
@@ -631,18 +632,24 @@ function EditChickenVaccination() {
                     type="button"
                     onClick={() => handleDateSelect(day)}
                     style={{
-                      height: "38px",
-                      borderRadius: "8px",
-                      border: isSelected
-                        ? "2px solid #2e7d32"
-                        : "1px solid #ddd",
-                      background: isToday
+                      width: "40px",
+                      height: "40px",
+                      minWidth: "40px",
+                      borderRadius: "50%",
+                      border: "none",
+                      background: isSelected
+                        ? "#2e7d32"
+                        : isToday
                         ? "#e8f5e9"
                         : "#fff",
-                      color: "#222",
+                      color: isSelected
+                        ? "#fff"
+                        : "#222",
                       fontWeight:
                         isSelected || isToday ? 700 : 400,
                       cursor: "pointer",
+                      padding: 0,
+                      justifySelf: "center",
                     }}
                   >
                     {day}
