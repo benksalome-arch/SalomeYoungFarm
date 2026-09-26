@@ -406,47 +406,19 @@ function EditChickenVaccination() {
                 </label>
 
                 <div
+                  onClick={() => openCalendar("vaccination_date")}
                   style={{
-                    position: "relative",
+                    ...inputStyle,
                     width: "100%",
+                    cursor: "pointer",
+                    color: formData.vaccination_date
+                      ? "#222"
+                      : "#777",
                   }}
                 >
-                  <div
-                    style={{
-                      ...inputStyle,
-                      width: "100%",
-                      color: formData.vaccination_date
-                        ? "#222"
-                        : "#777",
-                      pointerEvents: "none",
-                    }}
-                  >
-                    {formData.vaccination_date
-                      ? new Date(
-                          formData.vaccination_date + "T00:00:00"
-                        ).toLocaleDateString("nl-NL", {
-                          day: "2-digit",
-                          month: "2-digit",
-                          year: "numeric",
-                        })
-                      : "DD-MM-JJJJ"}
-                  </div>
-
-                  <input
-                    type="date"
-                    name="vaccination_date"
-                    value={formData.vaccination_date || ""}
-                    onChange={handleChange}
-                    required
-                    style={{
-                      position: "absolute",
-                      inset: 0,
-                      width: "100%",
-                      height: "100%",
-                      opacity: 0,
-                    cursor: "pointer",
-                    }}
-                  />
+                  {formData.vaccination_date
+                    ? formatDate(formData.vaccination_date)
+                    : "DD-MM-JJJJ"}
                 </div>
               </div>
 
@@ -485,46 +457,19 @@ function EditChickenVaccination() {
                 </label>
 
                 <div
+                  onClick={() => openCalendar("next_due_date")}
                   style={{
-                    position: "relative",
+                    ...inputStyle,
                     width: "100%",
+                    cursor: "pointer",
+                    color: formData.next_due_date
+                      ? "#222"
+                      : "#777",
                   }}
                 >
-                  <div
-                    style={{
-                      ...inputStyle,
-                      width: "100%",
-                      color: formData.next_due_date
-                        ? "#222"
-                        : "#777",
-                      pointerEvents: "none",
-                    }}
-                  >
-                    {formData.next_due_date
-                      ? new Date(
-                          formData.next_due_date + "T00:00:00"
-                        ).toLocaleDateString("nl-NL", {
-                          day: "2-digit",
-                          month: "2-digit",
-                          year: "numeric",
-                        })
-                      : "DD-MM-JJJJ"}
-                  </div>
-
-                  <input
-                    type="date"
-                    name="next_due_date"
-                    value={formData.next_due_date || ""}
-                    onChange={handleChange}
-                    style={{
-                      position: "absolute",
-                      inset: 0,
-                      width: "100%",
-                      height: "100%",
-                      opacity: 0,
-                    cursor: "pointer",
-                    }}
-                  />
+                  {formData.next_due_date
+                    ? formatDate(formData.next_due_date)
+                    : "DD-MM-JJJJ"}
                 </div>
               </div>
 
