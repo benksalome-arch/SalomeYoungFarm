@@ -217,10 +217,18 @@ function AddRabbitLitter() {
   }
 
   return (
-    <div className="rabbit-litter-page">
+    <div
+      className="page add-rabbit-litter-page"
+      style={{
+        width: "100%",
+        maxWidth: "700px",
+        margin: "0 auto",
+        padding: "20px",
+      }}
+    >
       {/* Header */}
 
-      <div className="rabbit-litter-header"
+      <div
         style={{
           display: "flex",
           justifyContent: "space-between",
@@ -426,7 +434,7 @@ function AddRabbitLitter() {
 
       {/* Form */}
 
-      <div className="card rabbit-litter-form-card">
+      <div className="card">
         <form onSubmit={handleSubmit}>
 
           {/* Breeding */}
