@@ -544,44 +544,147 @@ function EditChickenVaccination() {
             alignItems: "center",
             justifyContent: "center",
             zIndex: 9999,
+            padding: "16px",
+            boxSizing: "border-box",
           }}
         >
           <div
             onClick={(e) => e.stopPropagation()}
             style={{
-              width: "min(360px, calc(100vw - 24px))",
-              maxWidth: "360px",
+              width: "min(92vw, 360px)",
               background: "#fff",
               borderRadius: "14px",
-              padding: "20px",
+              padding: "18px",
               boxSizing: "border-box",
-              boxShadow: "0 10px 35px rgba(0,0,0,0.25)",
+              boxShadow: "0 8px 30px rgba(0, 0, 0, 0.25)",
             }}
           >
             <div
               style={{
                 display: "flex",
-                justifyContent: "space-between",
                 alignItems: "center",
-                marginBottom: "18px",
+                justifyContent: "center",
+                gap: "8px",
+                marginBottom: "14px",
+              }}
+            >
+              <select
+                value={month}
+                onChange={(e) => {
+                  setCalendarMonth(
+                    new Date(
+                      year,
+                      Number(e.target.value),
+                      1
+                    )
+                  );
+                }}
+                style={{
+                  height: "38px",
+                  padding: "0 30px 0 10px",
+                  border: "1px solid #cfd6cf",
+                  borderRadius: "8px",
+                  background: "#fff",
+                  color: "#222",
+                  fontSize: "14px",
+                  fontWeight: 600,
+                }}
+              >
+                {monthKeys.map((key, index) => (
+                  <option key={key} value={index}>
+                    {t(key)}
+                  </option>
+                ))}
+              </select>
+
+              <select
+                value={year}
+                onChange={(e) => {
+                  setCalendarMonth(
+                    new Date(
+                      Number(e.target.value),
+                      month,
+                      1
+                    )
+                  );
+                }}
+                style={{
+                  height: "38px",
+                  padding: "0 30px 0 10px",
+                  border: "1px solid #cfd6cf",
+                  borderRadius: "8px",
+                  background: "#fff",
+                  color: "#222",
+                  fontSize: "14px",
+                  fontWeight: 600,
+                }}
+              >
+                {Array.from(
+                  { length: 101 },
+                  (_, index) =>
+                    new Date().getFullYear() - index
+                ).map((calendarYear) => (
+                  <option
+                    key={calendarYear}
+                    value={calendarYear}
+                  >
+                    {calendarYear}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                marginBottom: "10px",
               }}
             >
               <button
                 type="button"
-                className="button"
                 onClick={goPreviousMonth}
+                style={{
+                  width: "38px",
+                  height: "38px",
+                  border: "1px solid #cfd6cf",
+                  borderRadius: "8px",
+                  background: "#fff",
+                  color: "#222",
+                  fontSize: "20px",
+                  fontWeight: 700,
+                  cursor: "pointer",
+                }}
               >
                 ‹
               </button>
 
-              <strong style={{ fontSize: "18px" }}>
+              <div
+                style={{
+                  flex: 1,
+                  textAlign: "center",
+                  fontSize: "19px",
+                  fontWeight: 700,
+                  color: "#222",
+                }}
+              >
                 {t(monthKeys[month])} {year}
-              </strong>
+              </div>
 
               <button
                 type="button"
-                className="button"
                 onClick={goNextMonth}
+                style={{
+                  width: "38px",
+                  height: "38px",
+                  border: "1px solid #cfd6cf",
+                  borderRadius: "8px",
+                  background: "#fff",
+                  color: "#222",
+                  fontSize: "20px",
+                  fontWeight: 700,
+                  cursor: "pointer",
+                }}
               >
                 ›
               </button>
@@ -591,40 +694,55 @@ function EditChickenVaccination() {
               style={{
                 display: "grid",
                 gridTemplateColumns: "repeat(7, 1fr)",
-                gap: "5px",
-                textAlign: "center",
+                gap: "4px",
+                marginBottom: "6px",
               }}
             >
               {weekdayKeys.map((key) => (
                 <div
                   key={key}
                   style={{
+                    textAlign: "center",
                     fontWeight: 700,
                     fontSize: "13px",
-                    padding: "6px 0",
+                    color: "#555",
+                    padding: "5px 0",
                   }}
                 >
                   {t(key)}
                 </div>
               ))}
+            </div>
 
-              {Array.from({ length: firstDay }).map((_, index) => (
-                <div key={`empty-${index}`} />
-              ))}
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(7, 1fr)",
+                gap: "5px",
+              }}
+            >
+              {Array.from({ length: firstDay }).map(
+                (_, index) => (
+                  <div key={`empty-${index}`} />
+                )
+              )}
 
               {Array.from(
                 { length: daysInMonth },
                 (_, index) => index + 1
               ).map((day) => {
                 const value =
-                  year +
-                  "-" +
-                  String(month + 1).padStart(2, "0") +
-                  "-" +
-                  String(day).padStart(2, "0");
+                  `${year}-` +
+                  `${String(month + 1).padStart(2, "0")}-` +
+                  `${String(day).padStart(2, "0")}`;
 
-                const isSelected = value === selectedValue;
-                const isToday = value === todayValue;
+                const selected = value === selectedValue;
+                const todayDate = new Date();
+
+                const isToday =
+                  day === todayDate.getDate() &&
+                  month === todayDate.getMonth() &&
+                  year === todayDate.getFullYear();
 
                 return (
                   <button
@@ -632,24 +750,32 @@ function EditChickenVaccination() {
                     type="button"
                     onClick={() => handleDateSelect(day)}
                     style={{
-                      width: "40px",
-                      height: "40px",
-                      minWidth: "40px",
+                      height: "38px",
+                      border: selected
+                        ? "2px solid #1b5e20"
+                        : isToday
+                        ? "2px solid #2e7d32"
+                        : "1px solid #ddd",
                       borderRadius: "50%",
-                      border: "none",
-                      background: isSelected
+                      background: selected
                         ? "#2e7d32"
                         : isToday
-                        ? "#e8f5e9"
+                        ? "#4caf50"
                         : "#fff",
-                      color: isSelected
-                        ? "#fff"
-                        : "#222",
+                      color:
+                        selected || isToday
+                          ? "#fff"
+                          : "#222",
                       fontWeight:
-                        isSelected || isToday ? 700 : 400,
+                        selected || isToday ? 800 : 400,
                       cursor: "pointer",
+                      fontSize: "14px",
+                      boxShadow: isToday
+                        ? "0 0 0 2px #c8e6c9"
+                        : "none",
                       padding: 0,
                       justifySelf: "center",
+                      width: "38px",
                     }}
                   >
                     {day}
@@ -660,14 +786,19 @@ function EditChickenVaccination() {
 
             <button
               type="button"
-              className="button"
               onClick={() => {
                 setCalendarOpen(false);
                 setCalendarField("");
               }}
               style={{
                 width: "100%",
-                marginTop: "18px",
+                marginTop: "16px",
+                padding: "10px",
+                border: "1px solid #ccc",
+                borderRadius: "8px",
+                background: "#fff",
+                color: "#222",
+                cursor: "pointer",
               }}
             >
               {t("cancel")}
