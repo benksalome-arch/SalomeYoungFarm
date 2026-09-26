@@ -213,22 +213,18 @@ function EditChickenMortality() {
               type="text"
               value={
                 formData.mortality_date
-                  ? formData.mortality_date
-                      .split("-")
-                      .reverse()
-                      .join("-")
+                  ? formData.mortality_date.split("-").reverse().join("-")
                   : ""
               }
               placeholder="DD-MM-JJJJ"
               readOnly
               onClick={() => {
-                const current = formData.mortality_date
-                  ? new Date(`${formData.mortality_date}T00:00:00`)
+                let selected = formData.mortality_date
+                  ? new Date(formData.mortality_date + "T00:00:00")
                   : new Date();
 
-                const year = current.getFullYear();
-                const month = current.getMonth();
-                const today = new Date();
+                let viewYear = selected.getFullYear();
+                let viewMonth = selected.getMonth();
 
                 const overlay = document.createElement("div");
                 overlay.style.cssText =
@@ -236,110 +232,176 @@ function EditChickenMortality() {
 
                 const box = document.createElement("div");
                 box.style.cssText =
-                  "width:min(92vw,320px);background:#fff;border-radius:14px;padding:18px;box-sizing:border-box;box-shadow:0 8px 30px rgba(0,0,0,.25);";
+                  "width:min(92vw,340px);background:#fff;border-radius:14px;padding:18px;box-sizing:border-box;box-shadow:0 8px 30px rgba(0,0,0,.25);";
 
-                const title = document.createElement("div");
-                title.textContent = current
-                  .toLocaleDateString("en-GB", {
-                    day: "2-digit",
-                    month: "2-digit",
-                    year: "numeric",
-                  })
-                  .replaceAll("/", "-");
+                function renderCalendar() {
+                  box.innerHTML = "";
 
-                title.style.cssText =
-                  "text-align:center;font-size:20px;font-weight:700;margin-bottom:14px;color:#222;";
+                  const header = document.createElement("div");
+                  header.style.cssText =
+                    "display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;gap:6px;";
 
-                const grid = document.createElement("div");
-                grid.style.cssText =
-                  "display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;";
-
-                [
-                  t("sun"),
-                  t("mon"),
-                  t("tue"),
-                  t("wed"),
-                  t("thu"),
-                  t("fri"),
-                  t("sat"),
-                ].forEach((day) => {
-                  const el = document.createElement("div");
-                  el.textContent = day;
-                  el.style.cssText =
-                    "text-align:center;font-weight:600;font-size:13px;padding:6px 0;color:#222;";
-                  grid.appendChild(el);
-                });
-
-                const firstDay = new Date(year, month, 1).getDay();
-                const daysInMonth = new Date(
-                  year,
-                  month + 1,
-                  0
-                ).getDate();
-
-                for (let i = 0; i < firstDay; i++) {
-                  grid.appendChild(document.createElement("div"));
-                }
-
-                for (let day = 1; day <= daysInMonth; day++) {
-                  const button = document.createElement("button");
-                  button.type = "button";
-                  button.textContent = day;
-
-                  const selected =
-                    formData.mortality_date ===
-                    `${year}-${String(month + 1).padStart(
-                      2,
-                      "0"
-                    )}-${String(day).padStart(2, "0")}`;
-
-                  const isToday =
-                    day === today.getDate() &&
-                    month === today.getMonth() &&
-                    year === today.getFullYear();
-
-                  button.style.cssText =
-                    "height:36px;border-radius:7px;background:" +
-                    (selected ? "#1976d2" : "#fff") +
-                    ";color:" +
-                    (selected ? "#fff" : "#222") +
-                    ";font-weight:" +
-                    (selected ? "700" : "400") +
-                    ";border:" +
-                    (isToday && !selected ? "2px solid #1976d2" : "1px solid #ddd") +
-                    ";cursor:pointer;font-size:14px;";
-
-                  button.onclick = () => {
-                    setFormData((prev) => ({
-                      ...prev,
-                      mortality_date: `${year}-${String(
-                        month + 1
-                      ).padStart(2, "0")}-${String(day).padStart(
-                        2,
-                        "0"
-                      )}`,
-                    }));
-
-                    document.body.removeChild(overlay);
+                  const prev = document.createElement("button");
+                  prev.type = "button";
+                  prev.textContent = "‹";
+                  prev.style.cssText =
+                    "border:0;background:#f1f1f1;border-radius:7px;width:38px;height:36px;font-size:24px;cursor:pointer;";
+                  prev.onclick = () => {
+                    viewMonth--;
+                    if (viewMonth < 0) {
+                      viewMonth = 11;
+                      viewYear--;
+                    }
+                    renderCalendar();
                   };
 
-                  grid.appendChild(button);
+                  const monthYear = document.createElement("div");
+                  monthYear.style.cssText =
+                    "font-size:17px;font-weight:700;color:#222;display:flex;align-items:center;gap:6px;";
+
+                  const monthSelect = document.createElement("select");
+                  const months = [
+                    t("january"), t("february"), t("march"), t("april"),
+                    t("may"), t("june"), t("july"), t("august"),
+                    t("september"), t("october"), t("november"), t("december")
+                  ];
+
+                  months.forEach((m, i) => {
+                    const option = document.createElement("option");
+                    option.value = i;
+                    option.textContent = m;
+                    if (i === viewMonth) option.selected = true;
+                    monthSelect.appendChild(option);
+                  });
+
+                  monthSelect.style.cssText =
+                    "border:1px solid #ddd;border-radius:7px;padding:6px;font-size:15px;font-weight:700;background:#fff;color:#222;";
+
+                  monthSelect.onchange = () => {
+                    viewMonth = Number(monthSelect.value);
+                    renderCalendar();
+                  };
+
+                  const yearSelect = document.createElement("select");
+                  for (let y = viewYear - 10; y <= viewYear + 10; y++) {
+                    const option = document.createElement("option");
+                    option.value = y;
+                    option.textContent = y;
+                    if (y === viewYear) option.selected = true;
+                    yearSelect.appendChild(option);
+                  }
+
+                  yearSelect.style.cssText =
+                    "border:1px solid #ddd;border-radius:7px;padding:6px;font-size:15px;font-weight:700;background:#fff;color:#222;";
+
+                  yearSelect.onchange = () => {
+                    viewYear = Number(yearSelect.value);
+                    renderCalendar();
+                  };
+
+                  monthYear.appendChild(monthSelect);
+                  monthYear.appendChild(yearSelect);
+
+                  const next = document.createElement("button");
+                  next.type = "button";
+                  next.textContent = "›";
+                  next.style.cssText =
+                    "border:0;background:#f1f1f1;border-radius:7px;width:38px;height:36px;font-size:24px;cursor:pointer;";
+                  next.onclick = () => {
+                    viewMonth++;
+                    if (viewMonth > 11) {
+                      viewMonth = 0;
+                      viewYear++;
+                    }
+                    renderCalendar();
+                  };
+
+                  header.appendChild(prev);
+                  header.appendChild(monthYear);
+                  header.appendChild(next);
+
+                  const grid = document.createElement("div");
+                  grid.style.cssText =
+                    "display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;";
+
+                  [
+                    t("sun"), t("mon"), t("tue"), t("wed"),
+                    t("thu"), t("fri"), t("sat")
+                  ].forEach((day) => {
+                    const el = document.createElement("div");
+                    el.textContent = day;
+                    el.style.cssText =
+                      "text-align:center;font-weight:600;font-size:13px;padding:6px 0;color:#222;";
+                    grid.appendChild(el);
+                  });
+
+                  const firstDay = new Date(viewYear, viewMonth, 1).getDay();
+                  const daysInMonth = new Date(
+                    viewYear,
+                    viewMonth + 1,
+                    0
+                  ).getDate();
+
+                  for (let i = 0; i < firstDay; i++) {
+                    grid.appendChild(document.createElement("div"));
+                  }
+
+                  const today = new Date();
+
+                  for (let day = 1; day <= daysInMonth; day++) {
+                    const button = document.createElement("button");
+                    button.type = "button";
+                    button.textContent = day;
+
+                    const value =
+                      `${viewYear}-${String(viewMonth + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+
+                    const selected = formData.mortality_date === value;
+                    const isToday =
+                      day === today.getDate() &&
+                      viewMonth === today.getMonth() &&
+                      viewYear === today.getFullYear();
+
+                    button.style.cssText =
+                      "height:36px;border-radius:7px;background:" +
+                      (selected ? "#1976d2" : "#fff") +
+                      ";color:" +
+                      (selected ? "#fff" : "#222") +
+                      ";font-weight:" +
+                      (selected ? "700" : "400") +
+                      ";border:" +
+                      (isToday && !selected
+                        ? "2px solid #1976d2"
+                        : "1px solid #ddd") +
+                      ";cursor:pointer;font-size:14px;";
+
+                    button.onclick = () => {
+                      setFormData((prev) => ({
+                        ...prev,
+                        mortality_date: value,
+                      }));
+                      document.body.removeChild(overlay);
+                    };
+
+                    grid.appendChild(button);
+                  }
+
+                  const cancel = document.createElement("button");
+                  cancel.type = "button";
+                  cancel.textContent = t("cancel");
+                  cancel.style.cssText =
+                    "display:block;margin:16px auto 0;padding:9px 18px;border:0;border-radius:7px;background:#2e7d32;color:#fff;font-size:14px;cursor:pointer;";
+                  cancel.onclick = () =>
+                    document.body.removeChild(overlay);
+
+                  box.appendChild(header);
+                  box.appendChild(grid);
+                  box.appendChild(cancel);
                 }
 
-                const cancel = document.createElement("button");
-                cancel.type = "button";
-                cancel.textContent = t("cancel");
-                cancel.style.cssText =
-                  "display:block;margin:16px auto 0;padding:9px 18px;border:0;border-radius:7px;background:#2e7d32;color:#fff;font-size:14px;cursor:pointer;";
-
-                cancel.onclick = () =>
-                  document.body.removeChild(overlay);
-
-                box.appendChild(title);
-                box.appendChild(grid);
-                box.appendChild(cancel);
                 overlay.appendChild(box);
                 document.body.appendChild(overlay);
+                renderCalendar();
               }}
               style={{
                 ...inputStyle,

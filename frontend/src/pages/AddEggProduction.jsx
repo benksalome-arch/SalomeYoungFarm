@@ -134,49 +134,52 @@ function AddEggProduction() {
     setCalendarOpen(false);
   }
 
-  function goPreviousMonth() {
+  function changeCalendarMonth(offset) {
     setCalendarMonth(
-      (prev) =>
-        new Date(
-          prev.getFullYear(),
-          prev.getMonth() - 1,
-          1
-        )
+      new Date(
+        calendarMonth.getFullYear(),
+        calendarMonth.getMonth() + offset,
+        1
+      )
     );
   }
 
-  function goNextMonth() {
-    setCalendarMonth(
-      (prev) =>
-        new Date(
-          prev.getFullYear(),
-          prev.getMonth() + 1,
-          1
-        )
-    );
-  }
-
-  const monthNames = [
-    t("january"),
-    t("february"),
-    t("march"),
-    t("april"),
-    t("may"),
-    t("june"),
-    t("july"),
-    t("august"),
-    t("september"),
-    t("october"),
-    t("november"),
-    t("december"),
+  const monthKeys = [
+    "january",
+    "february",
+    "march",
+    "april",
+    "may",
+    "june",
+    "july",
+    "august",
+    "september",
+    "october",
+    "november",
+    "december",
   ];
+
+  const weekdayKeys = [
+    "sunday",
+    "monday",
+    "tuesday",
+    "wednesday",
+    "thursday",
+    "friday",
+    "saturday",
+  ];
+
+  const currentYear = new Date().getFullYear();
+
+  const calendarYears = Array.from(
+    { length: 101 },
+    (_, index) => currentYear - index
+  );
 
   const year = calendarMonth.getFullYear();
   const month = calendarMonth.getMonth();
-
-  const daysInMonth = getDaysInMonth(year, month);
-  const firstDay = getFirstDayOfMonth(year, month);
-
+  const firstDay = new Date(year, month, 1).getDay();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
   const today = new Date();
 
   const fieldStyle = {
@@ -342,36 +345,26 @@ function AddEggProduction() {
 
               <div style={{ position: "relative", width: "100%" }}>
                 <div
+                  onClick={openCalendar}
                   style={{
                     ...inputStyle,
                     width: "100%",
+                    display: "flex",
+                    alignItems: "center",
                     color: formData.production_date ? "#222" : "#777",
-                    pointerEvents: "none",
+                    cursor: "pointer",
                   }}
                 >
                   {formData.production_date
-                    ? new Date(formData.production_date + "T00:00:00").toLocaleDateString("nl-NL", {
+                    ? new Date(
+                        formData.production_date + "T00:00:00"
+                      ).toLocaleDateString("nl-NL", {
                         day: "2-digit",
                         month: "2-digit",
                         year: "numeric",
                       })
                     : "DD-MM-JJJJ"}
                 </div>
-                <input
-                  type="date"
-                  name="production_date"
-                  value={formData.production_date || ""}
-                  onChange={handleChange}
-                  required
-                  style={{
-                    position: "absolute",
-                    inset: 0,
-                    width: "100%",
-                    height: "100%",
-                    opacity: 0,
-                    cursor: "pointer",
-                  }}
-                />
               </div>
             </div>
 
@@ -450,10 +443,15 @@ function AddEggProduction() {
       {/* CALENDAR */}
       {calendarOpen && (
         <div
+          onClick={(e) => {
+            if (e.target === e.currentTarget) {
+              setCalendarOpen(false);
+            }
+          }}
           style={{
             position: "fixed",
             inset: 0,
-            background: "rgba(0,0,0,.35)",
+            background: "rgba(0, 0, 0, 0.35)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -461,91 +459,172 @@ function AddEggProduction() {
             padding: "16px",
             boxSizing: "border-box",
           }}
-          onClick={(e) => {
-            if (e.target === e.currentTarget) {
-              setCalendarOpen(false);
-            }
-          }}
         >
           <div
+            onClick={(e) => e.stopPropagation()}
             style={{
-              width: "min(92vw,320px)",
-              maxHeight: "90vh",
-              overflowY: "auto",
+              width: "min(92vw, 360px)",
               background: "#fff",
               borderRadius: "14px",
               padding: "18px",
               boxSizing: "border-box",
-              boxShadow: "0 8px 30px rgba(0,0,0,.25)",
-              color: "#222",
-              WebkitTextFillColor: "#222",
+              boxShadow: "0 8px 30px rgba(0, 0, 0, 0.25)",
             }}
           >
-            {/* MONTH NAVIGATION */}
+            {/* MONTH / YEAR SELECTORS */}
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                gap: "8px",
+                marginBottom: "14px",
+              }}
+            >
+              <select
+                value={month}
+                onChange={(e) =>
+                  setCalendarMonth(
+                    new Date(year, Number(e.target.value), 1)
+                  )
+                }
+                style={{
+                  height: "38px",
+                  padding: "0 30px 0 10px",
+                  border: "1px solid #cfd6cf",
+                  borderRadius: "8px",
+                  background: "#fff",
+                  color: "#222",
+                  fontSize: "14px",
+                  fontWeight: 600,
+                }}
+              >
+                {monthKeys.map((key, index) => (
+                  <option key={key} value={index}>
+                    {t(key)}
+                  </option>
+                ))}
+              </select>
+
+              <select
+                value={year}
+                onChange={(e) =>
+                  setCalendarMonth(
+                    new Date(Number(e.target.value), month, 1)
+                  )
+                }
+                style={{
+                  height: "38px",
+                  padding: "0 30px 0 10px",
+                  border: "1px solid #cfd6cf",
+                  borderRadius: "8px",
+                  background: "#fff",
+                  color: "#222",
+                  fontSize: "14px",
+                  fontWeight: 600,
+                }}
+              >
+                {calendarYears.map((calendarYear) => (
+                  <option key={calendarYear} value={calendarYear}>
+                    {calendarYear}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* CALENDAR HEADER */}
             <div
               style={{
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "space-between",
-                gap: "8px",
+                gap: "10px",
                 marginBottom: "14px",
               }}
             >
               <button
                 type="button"
-                onClick={goPreviousMonth}
+                onClick={() => changeCalendarMonth(-1)}
+                aria-label="Previous month"
                 style={{
-                  width: "42px",
-                  height: "40px",
-                  border: "1px solid #ddd",
+                  width: "38px",
+                  height: "38px",
+                  border: "1px solid #cfd6cf",
                   borderRadius: "8px",
                   background: "#fff",
                   color: "#222",
-                  WebkitTextFillColor: "#222",
                   fontSize: "20px",
                   fontWeight: 700,
                   cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
                 }}
-                aria-label="Previous month"
               >
                 ‹
               </button>
 
               <div
                 style={{
+                  flex: 1,
                   textAlign: "center",
-                  fontSize: "18px",
+                  fontSize: "19px",
                   fontWeight: 700,
                   color: "#222",
                   WebkitTextFillColor: "#222",
-                  flex: 1,
                 }}
               >
-                {monthNames[month]} {year}
+                {t(monthKeys[month])} {year}
               </div>
 
               <button
                 type="button"
-                onClick={goNextMonth}
+                onClick={() => changeCalendarMonth(1)}
+                aria-label="Next month"
                 style={{
-                  width: "42px",
-                  height: "40px",
-                  border: "1px solid #ddd",
+                  width: "38px",
+                  height: "38px",
+                  border: "1px solid #cfd6cf",
                   borderRadius: "8px",
                   background: "#fff",
                   color: "#222",
-                  WebkitTextFillColor: "#222",
                   fontSize: "20px",
                   fontWeight: 700,
                   cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
                 }}
-                aria-label="Next month"
               >
                 ›
               </button>
             </div>
 
-            {/* WEEKDAYS + DAYS */}
+            {/* WEEKDAYS */}
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(7, 1fr)",
+                gap: "6px",
+                marginBottom: "4px",
+              }}
+            >
+              {weekdayKeys.map((key) => (
+                <div
+                  key={key}
+                  style={{
+                    textAlign: "center",
+                    fontSize: "12px",
+                    fontWeight: 700,
+                    color: "#666",
+                    padding: "4px 0",
+                  }}
+                >
+                  {t(key)}
+                </div>
+              ))}
+            </div>
+
+            {/* DAYS */}
             <div
               style={{
                 display: "grid",
@@ -553,30 +632,6 @@ function AddEggProduction() {
                 gap: "6px",
               }}
             >
-              {[
-                t("sun"),
-                t("mon"),
-                t("tue"),
-                t("wed"),
-                t("thu"),
-                t("fri"),
-                t("sat"),
-              ].map((day) => (
-                <div
-                  key={day}
-                  style={{
-                    textAlign: "center",
-                    fontWeight: 600,
-                    fontSize: "13px",
-                    padding: "6px 0",
-                    color: "#222",
-                    WebkitTextFillColor: "#222",
-                  }}
-                >
-                  {day}
-                </div>
-              ))}
-
               {Array.from({ length: firstDay }).map((_, index) => (
                 <div key={`empty-${index}`} />
               ))}
@@ -608,25 +663,30 @@ function AddEggProduction() {
                     type="button"
                     onClick={() => handleDateSelect(day)}
                     style={{
+                      width: "40px",
+                      height: "40px",
                       minHeight: "40px",
-                      border: isSelected
-                        ? "2px solid #2e7d32"
-                        : isToday
-                        ? "2px solid #2e7d32"
-                        : "1px solid #ddd",
-                      borderRadius: "8px",
-                      background:
+                      padding: 0,
+                      border:
                         isSelected || isToday
-                          ? "#e8f5e9"
-                          : "#fff",
-                      color: "#222",
-                      WebkitTextFillColor: "#222",
+                          ? "2px solid #2e7d32"
+                          : "1px solid #ddd",
+                      borderRadius: "50%",
+                      background: isSelected
+                        ? "#2e7d32"
+                        : isToday
+                        ? "#e8f5e9"
+                        : "#fff",
+                      color: isSelected ? "#fff" : "#222",
+                      WebkitTextFillColor: isSelected ? "#fff" : "#222",
                       fontSize: "15px",
-                      fontWeight: 600,
+                      fontWeight:
+                        isSelected || isToday ? "700" : "500",
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
                       cursor: "pointer",
+                      justifySelf: "center",
                     }}
                   >
                     {day}
@@ -641,14 +701,13 @@ function AddEggProduction() {
               onClick={() => setCalendarOpen(false)}
               style={{
                 width: "100%",
-                marginTop: "14px",
-                minHeight: "44px",
+                marginTop: "16px",
+                height: "40px",
                 border: "1px solid #ccc",
                 borderRadius: "8px",
                 background: "#fff",
-                color: "#222",
-                WebkitTextFillColor: "#222",
-                fontSize: "15px",
+                color: "#333",
+                fontSize: "14px",
                 fontWeight: 600,
                 cursor: "pointer",
               }}
@@ -658,6 +717,7 @@ function AddEggProduction() {
           </div>
         </div>
       )}
+
     </div>
   );
 }

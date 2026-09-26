@@ -323,14 +323,25 @@ function AddEggSale() {
                 {t("saleDate")}
               </label>
 
-              <div style={{ position: "relative", width: "100%" }}>
+              <div
+                onMouseDown={(e) => {
+                  e.preventDefault();
+                  openCalendar();
+                }}
+                style={{
+                  ...inputStyle,
+                  width: "100%",
+                  color: formData.sale_date ? "#222" : "#777",
+                  textAlign: "left",
+                  cursor: "pointer",
+                  boxSizing: "border-box",
+                }}
+              >
                 <div
                   style={{
-                    ...inputStyle,
                     width: "100%",
-                    color: formData.sale_date ? "#222" : "#777",
                     textAlign: "left",
-                    pointerEvents: "none",
+                    cursor: "pointer",
                   }}
                 >
                   {formData.sale_date
@@ -348,13 +359,14 @@ function AddEggSale() {
                   value={formData.sale_date || ""}
                   onChange={handleChange}
                   required
+                  tabIndex={-1}
                   style={{
                     position: "absolute",
                     inset: 0,
                     width: "100%",
                     height: "100%",
                     opacity: 0,
-                    cursor: "pointer",
+                    pointerEvents: "none",
                   }}
                 />
               </div>
@@ -484,7 +496,11 @@ function AddEggSale() {
 
       {calendarOpen && (
         <div
-          onClick={() => setCalendarOpen(false)}
+          onClick={(e) => {
+            if (e.target === e.currentTarget) {
+              setCalendarOpen(false);
+            }
+          }}
           style={{
             position: "fixed",
             inset: 0,
@@ -505,31 +521,99 @@ function AddEggSale() {
               borderRadius: "14px",
               padding: "18px",
               boxSizing: "border-box",
-              boxShadow: "0 8px 30px rgba(0,0,0,.25)",
+              boxShadow: "0 8px 30px rgba(0, 0, 0, 0.25)",
             }}
           >
+            {/* MONTH / YEAR SELECTORS */}
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                gap: "8px",
+                marginBottom: "14px",
+              }}
+            >
+              <select
+                value={month}
+                onChange={(e) =>
+                  setCalendarMonth(
+                    new Date(year, Number(e.target.value), 1)
+                  )
+                }
+                style={{
+                  height: "38px",
+                  padding: "0 30px 0 10px",
+                  border: "1px solid #cfd6cf",
+                  borderRadius: "8px",
+                  background: "#fff",
+                  color: "#222",
+                  fontSize: "14px",
+                  fontWeight: 600,
+                }}
+              >
+                {monthKeys.map((key, index) => (
+                  <option key={key} value={index}>
+                    {t(key)}
+                  </option>
+                ))}
+              </select>
+
+              <select
+                value={year}
+                onChange={(e) =>
+                  setCalendarMonth(
+                    new Date(Number(e.target.value), month, 1)
+                  )
+                }
+                style={{
+                  height: "38px",
+                  padding: "0 30px 0 10px",
+                  border: "1px solid #cfd6cf",
+                  borderRadius: "8px",
+                  background: "#fff",
+                  color: "#222",
+                  fontSize: "14px",
+                  fontWeight: 600,
+                }}
+              >
+                {Array.from(
+                  { length: 101 },
+                  (_, index) => new Date().getFullYear() - index
+                ).map((calendarYear) => (
+                  <option key={calendarYear} value={calendarYear}>
+                    {calendarYear}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* CALENDAR HEADER */}
             <div
               style={{
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "space-between",
-                marginBottom: "16px",
+                gap: "10px",
+                marginBottom: "14px",
               }}
             >
               <button
                 type="button"
-                onClick={goPreviousMonth}
+                onClick={() => goPreviousMonth()}
                 aria-label="Previous month"
                 style={{
                   width: "38px",
                   height: "38px",
-                  border: "1px solid #ccc",
+                  border: "1px solid #cfd6cf",
                   borderRadius: "8px",
                   background: "#fff",
                   color: "#222",
                   fontSize: "20px",
                   fontWeight: 700,
                   cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
                 }}
               >
                 ‹
@@ -537,6 +621,7 @@ function AddEggSale() {
 
               <div
                 style={{
+                  flex: 1,
                   textAlign: "center",
                   fontSize: "19px",
                   fontWeight: 700,
@@ -549,29 +634,34 @@ function AddEggSale() {
 
               <button
                 type="button"
-                onClick={goNextMonth}
+                onClick={() => goNextMonth()}
                 aria-label="Next month"
                 style={{
                   width: "38px",
                   height: "38px",
-                  border: "1px solid #ccc",
+                  border: "1px solid #cfd6cf",
                   borderRadius: "8px",
                   background: "#fff",
                   color: "#222",
                   fontSize: "20px",
                   fontWeight: 700,
                   cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
                 }}
               >
                 ›
               </button>
             </div>
 
+            {/* WEEKDAYS */}
             <div
               style={{
                 display: "grid",
                 gridTemplateColumns: "repeat(7, 1fr)",
                 gap: "6px",
+                marginBottom: "4px",
               }}
             >
               {weekdayKeys.map((key) => (
@@ -589,7 +679,16 @@ function AddEggSale() {
                   {t(key)}
                 </div>
               ))}
+            </div>
 
+            {/* DAYS */}
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(7, 1fr)",
+                gap: "5px",
+              }}
+            >
               {Array.from({ length: firstDay }).map((_, index) => (
                 <div key={`empty-${index}`} />
               ))}
@@ -618,26 +717,25 @@ function AddEggSale() {
                     type="button"
                     onClick={() => handleDateSelect(day)}
                     style={{
-                      minHeight: "40px",
-                      border:
-                        isSelected || isToday
-                          ? "2px solid #2e7d32"
-                          : "1px solid #ddd",
-                      borderRadius: "8px",
-                      background:
-                        isSelected
-                          ? "#2e7d32"
-                          : isToday
-                          ? "#e8f5e9"
-                          : "#fff",
-                      color: isSelected ? "#fff" : "#222",
-                      WebkitTextFillColor: isSelected ? "#fff" : "#222",
-                      fontSize: "15px",
-                      fontWeight: 600,
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
+                      height: "38px",
+                      border: isSelected
+                        ? "2px solid #1b5e20"
+                        : isToday
+                        ? "2px solid #2e7d32"
+                        : "1px solid #ddd",
+                      borderRadius: "50%",
+                      background: isSelected
+                        ? "#2e7d32"
+                        : isToday
+                        ? "#4caf50"
+                        : "#fff",
+                      color: isSelected || isToday ? "#fff" : "#222",
+                      fontWeight: isSelected || isToday ? 800 : 400,
                       cursor: "pointer",
+                      fontSize: "14px",
+                      boxShadow: isToday
+                        ? "0 0 0 2px #c8e6c9"
+                        : "none",
                     }}
                   >
                     {day}
@@ -646,6 +744,7 @@ function AddEggSale() {
               })}
             </div>
 
+            {/* CANCEL */}
             <button
               type="button"
               onClick={() => setCalendarOpen(false)}
@@ -653,11 +752,11 @@ function AddEggSale() {
                 width: "100%",
                 marginTop: "14px",
                 minHeight: "44px",
-                border: "none",
+                border: "1px solid #ccc",
                 borderRadius: "8px",
-                background: "#2e7d32",
-                color: "#fff",
-                WebkitTextFillColor: "#fff",
+                background: "#fff",
+                color: "#222",
+                WebkitTextFillColor: "#222",
                 fontSize: "15px",
                 fontWeight: 600,
                 cursor: "pointer",
