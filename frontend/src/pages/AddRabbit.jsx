@@ -313,40 +313,49 @@ function AddRabbit() {
               </label>
 
               <div style={{ position: "relative" }}>
-                <div style={{ position: "relative", width: "100%" }}>
-                  <div
-                    style={{
-                      ...inputStyle,
-                      width: "100%",
-                      color: formData.birth_date ? "#222" : "#777",
-                      pointerEvents: "none",
-                    }}
-                  >
-                    {formData.birth_date
-                      ? new Date(formData.birth_date + "T00:00:00").toLocaleDateString("nl-NL", {
-                          day: "2-digit",
-                          month: "2-digit",
-                          year: "numeric",
-                        })
-                      : "DD-MM-JJJJ"}
-                  </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (formData.birth_date) {
+                      const [year, month] = formData.birth_date
+                        .split("-")
+                        .map(Number);
 
-                  <input
-                    type="date"
-                    name="birth_date"
-                    value={formData.birth_date || ""}
-                    onChange={handleChange}
-                    required
-                    style={{
-                      position: "absolute",
-                      inset: 0,
-                      width: "100%",
-                      height: "100%",
-                      opacity: 0,
+                      setCalendarMonth(new Date(year, month - 1, 1));
+                    } else {
+                      const today = new Date();
+
+                      setCalendarMonth(
+                        new Date(
+                          today.getFullYear(),
+                          today.getMonth(),
+                          1
+                        )
+                      );
+                    }
+
+                    setCalendarOpen(true);
+                  }}
+                  style={{
+                    ...inputStyle,
+                    textAlign: "left",
                     cursor: "pointer",
-                    }}
-                  />
-                </div>
+                    color: formData.birth_date ? "#222" : "#777",
+                    WebkitTextFillColor: formData.birth_date
+                      ? "#222"
+                      : "#777",
+                  }}
+                >
+                  {formData.birth_date
+                    ? new Date(
+                        formData.birth_date + "T00:00:00"
+                      ).toLocaleDateString("nl-NL", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                      })
+                    : "DD-MM-JJJJ"}
+                </button>
 
                 {calendarOpen && (
                     <div
