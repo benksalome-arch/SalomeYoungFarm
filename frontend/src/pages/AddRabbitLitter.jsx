@@ -531,30 +531,34 @@ function AddRabbitLitter() {
                   }}
                 >
                   <div
+                    onClick={(e) => e.stopPropagation()}
                     style={{
                       width: "min(92vw, 360px)",
                       background: "#fff",
                       borderRadius: "14px",
                       padding: "18px",
                       boxSizing: "border-box",
-                      boxShadow:
-                        "0 8px 30px rgba(0, 0, 0, 0.25)",
+                      boxShadow: "0 8px 30px rgba(0, 0, 0, 0.25)",
                     }}
                   >
-                    {/* MONTH / YEAR SELECTORS */}
                     <div
                       style={{
                         display: "flex",
+                        alignItems: "center",
                         justifyContent: "center",
                         gap: "8px",
                         marginBottom: "14px",
                       }}
                     >
                       <select
-                        value={month}
+                        value={calendarMonth.getMonth()}
                         onChange={(e) =>
                           setCalendarMonth(
-                            new Date(year, Number(e.target.value), 1)
+                            new Date(
+                              calendarMonth.getFullYear(),
+                              Number(e.target.value),
+                              1
+                            )
                           )
                         }
                         style={{
@@ -568,18 +572,22 @@ function AddRabbitLitter() {
                           fontWeight: 600,
                         }}
                       >
-                        {monthNames.map((name, index) => (
-                          <option key={name} value={index}>
-                            {name}
+                        {monthNames.map((month, index) => (
+                          <option key={month} value={index}>
+                            {month}
                           </option>
                         ))}
                       </select>
 
                       <select
-                        value={year}
+                        value={calendarMonth.getFullYear()}
                         onChange={(e) =>
                           setCalendarMonth(
-                            new Date(Number(e.target.value), month, 1)
+                            new Date(
+                              Number(e.target.value),
+                              calendarMonth.getMonth(),
+                              1
+                            )
                           )
                         }
                         style={{
@@ -593,28 +601,24 @@ function AddRabbitLitter() {
                           fontWeight: 600,
                         }}
                       >
-                        {calendarYears.map((calendarYear) => (
-                          <option key={calendarYear} value={calendarYear}>
-                            {calendarYear}
+                        {calendarYears.map((year) => (
+                          <option key={year} value={year}>
+                            {year}
                           </option>
                         ))}
                       </select>
                     </div>
 
-                    {/* CALENDAR HEADER */}
                     <div
                       style={{
                         display: "flex",
-                        alignItems: "center",
                         justifyContent: "space-between",
-                        gap: "10px",
-                        marginBottom: "14px",
+                        marginBottom: "10px",
                       }}
                     >
                       <button
                         type="button"
                         onClick={() => changeCalendarMonth(-1)}
-                        aria-label="Previous month"
                         style={{
                           width: "38px",
                           height: "38px",
@@ -625,9 +629,6 @@ function AddRabbitLitter() {
                           fontSize: "20px",
                           fontWeight: 700,
                           cursor: "pointer",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
                         }}
                       >
                         ‹
@@ -640,16 +641,15 @@ function AddRabbitLitter() {
                           fontSize: "19px",
                           fontWeight: 700,
                           color: "#222",
-                          WebkitTextFillColor: "#222",
                         }}
                       >
-                        {t(monthKeys[month])} {year}
+                        {monthNames[calendarMonth.getMonth()]}{" "}
+                        {calendarMonth.getFullYear()}
                       </div>
 
                       <button
                         type="button"
                         onClick={() => changeCalendarMonth(1)}
-                        aria-label="Next month"
                         style={{
                           width: "38px",
                           height: "38px",
@@ -660,42 +660,36 @@ function AddRabbitLitter() {
                           fontSize: "20px",
                           fontWeight: 700,
                           cursor: "pointer",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
                         }}
                       >
                         ›
                       </button>
                     </div>
 
-                    {/* WEEKDAYS */}
                     <div
                       style={{
                         display: "grid",
                         gridTemplateColumns: "repeat(7, 1fr)",
-                        gap: "6px",
-                        marginBottom: "4px",
+                        gap: "4px",
+                        marginBottom: "6px",
                       }}
                     >
-                      {weekdayKeys.map((key) => (
+                      {weekDays.map((day) => (
                         <div
-                          key={key}
+                          key={day}
                           style={{
                             textAlign: "center",
-                            fontWeight: 600,
+                            fontWeight: 700,
                             fontSize: "13px",
-                            padding: "6px 0",
-                            color: "#222",
-                            WebkitTextFillColor: "#222",
+                            color: "#555",
+                            padding: "5px 0",
                           }}
                         >
-                          {t(key)}
+                          {day}
                         </div>
                       ))}
                     </div>
 
-                    {/* DAYS */}
                     <div
                       style={{
                         display: "grid",
@@ -703,44 +697,64 @@ function AddRabbitLitter() {
                         gap: "5px",
                       }}
                     >
-                      {calendarDays.map((day, index) => {
-                        if (day === null) {
-                          return <div key={`empty-${index}`} />;
-                        }
+                      {Array.from({
+                        length: new Date(
+                          calendarMonth.getFullYear(),
+                          calendarMonth.getMonth(),
+                          1
+                        ).getDay(),
+                      }).map((_, index) => (
+                        <div key={`empty-${index}`} />
+                      ))}
+
+                      {Array.from({
+                        length: new Date(
+                          calendarMonth.getFullYear(),
+                          calendarMonth.getMonth() + 1,
+                          0
+                        ).getDate(),
+                      }).map((_, index) => {
+                        const day = index + 1;
 
                         const dateValue =
-                          year +
-                          "-" +
-                          String(month + 1).padStart(2, "0") +
-                          "-" +
-                          String(day).padStart(2, "0");
+                          `${calendarMonth.getFullYear()}-` +
+                          `${String(calendarMonth.getMonth() + 1).padStart(2, "0")}-` +
+                          `${String(day).padStart(2, "0")}`;
 
-                        const selected = isSelectedDay(day);
-                        const today = isToday(day);
+                        const selected =
+                          form.birth_date === dateValue;
+
+                        const today = new Date();
+
+                        const isToday =
+                          day === today.getDate() &&
+                          calendarMonth.getMonth() === today.getMonth() &&
+                          calendarMonth.getFullYear() === today.getFullYear();
 
                         return (
                           <button
-                            key={dateValue}
+                            key={day}
                             type="button"
                             onClick={() => selectCalendarDate(day)}
                             style={{
                               height: "38px",
                               border: selected
                                 ? "2px solid #1b5e20"
-                                : today
+                                : isToday
                                 ? "2px solid #2e7d32"
                                 : "1px solid #ddd",
                               borderRadius: "50%",
                               background: selected
                                 ? "#2e7d32"
-                                : today
+                                : isToday
                                 ? "#4caf50"
                                 : "#fff",
-                              color: selected || today ? "#fff" : "#222",
-                              fontWeight: selected || today ? 800 : 400,
+                              color: selected || isToday ? "#fff" : "#222",
+                              fontWeight:
+                                selected || isToday ? 800 : 400,
                               cursor: "pointer",
                               fontSize: "14px",
-                              boxShadow: today
+                              boxShadow: isToday
                                 ? "0 0 0 2px #c8e6c9"
                                 : "none",
                             }}
@@ -751,27 +765,22 @@ function AddRabbitLitter() {
                       })}
                     </div>
 
-                    {/* CANCEL */}
                     <button
                       type="button"
-                      onClick={() =>
-                        setCalendarOpen(false)
-                      }
+                      onClick={() => setCalendarOpen(false)}
                       style={{
                         width: "100%",
-                        marginTop: "14px",
-                        minHeight: "44px",
+                        marginTop: "16px",
+                        padding: "10px",
                         border: "1px solid #ccc",
                         borderRadius: "8px",
                         background: "#fff",
                         color: "#222",
-                        WebkitTextFillColor: "#222",
-                        fontSize: "15px",
-                        fontWeight: 600,
                         cursor: "pointer",
+                        fontWeight: 600,
                       }}
                     >
-                      {t("cancel")}
+                      Annuleren
                     </button>
                   </div>
                 </div>
