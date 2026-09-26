@@ -464,52 +464,288 @@ function AddRabbitLitter() {
             <label>
               <strong>{t("birthDate")}</strong>
             </label>
-            <div
-              style={{
-                position: "relative",
-                width: "100%",
-                minHeight: "44px",
-                boxSizing: "border-box",
-                padding: "9px 11px",
-                border: "1px solid #cfd6cf",
-                borderRadius: "7px",
-                background: "#fff",
-                color: form.birth_date ? "#222" : "#777",
-                display: "flex",
-                alignItems: "center",
-                cursor: "pointer"
-              }}
-            >
-              {form.birth_date
-                ? new Date(form.birth_date + "T00:00:00").toLocaleDateString("nl-NL", {
-                    day: "2-digit",
-                    month: "2-digit",
-                    year: "numeric"
-                  })
-                : "DD-MM-JJJJ"}
+
+            <div style={{ position: "relative", width: "100%" }}>
               <input
-                ref={birthDateRef}
-                type="date"
-                name="birth_date"
-                value={form.birth_date || ""}
-                onChange={handleChange}
+                type="text"
+                value={
+                  form.birth_date
+                    ? form.birth_date.split("-").reverse().join("-")
+                    : ""
+                }
+                placeholder="DD-MM-JJJJ"
+                readOnly
+                onClick={() => {
+                  const selected = form.birth_date
+                    ? new Date(form.birth_date + "T00:00:00")
+                    : new Date();
+
+                  setCalendarMonth(
+                    new Date(
+                      selected.getFullYear(),
+                      selected.getMonth(),
+                      1
+                    )
+                  );
+
+                  setCalendarOpen(true);
+                }}
                 disabled={saving}
-                required
                 style={{
-                  position: "absolute",
-                  inset: 0,
                   width: "100%",
-                  height: "100%",
-                  opacity: 0,
-                    padding: 0,
-                  margin: 0,
-                  border: 0,
-                  background: "transparent",
-                  appearance: "none",
-                  WebkitAppearance: "none",
-                  cursor: "pointer"
+                  minHeight: "44px",
+                  boxSizing: "border-box",
+                  padding: "10px 12px",
+                  border: "1px solid #cfd6cf",
+                  borderRadius: "7px",
+                  background: "#fff",
+                  color: "#222",
+                  WebkitTextFillColor: "#222",
+                  cursor: "pointer",
+                  fontSize: "15px",
                 }}
               />
+
+              {calendarOpen && (
+                <div
+                  onClick={(e) => {
+                    if (e.target === e.currentTarget) {
+                      setCalendarOpen(false);
+                    }
+                  }}
+                  style={{
+                    position: "fixed",
+                    inset: 0,
+                    background: "rgba(0, 0, 0, 0.35)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    zIndex: 99999,
+                    padding: "16px",
+                    boxSizing: "border-box",
+                  }}
+                >
+                  <div
+                    onClick={(e) => e.stopPropagation()}
+                    style={{
+                      width: "min(92vw, 360px)",
+                      background: "#fff",
+                      borderRadius: "14px",
+                      padding: "18px",
+                      boxSizing: "border-box",
+                      boxShadow: "0 8px 30px rgba(0, 0, 0, 0.25)",
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        gap: "8px",
+                        marginBottom: "14px",
+                      }}
+                    >
+                      <button
+                        type="button"
+                        onClick={() => changeCalendarMonth(-1)}
+                        style={{
+                          width: "38px",
+                          height: "38px",
+                          border: "1px solid #cfd6cf",
+                          borderRadius: "8px",
+                          background: "#fff",
+                          cursor: "pointer",
+                          fontSize: "18px",
+                        }}
+                      >
+                        ‹
+                      </button>
+
+                      <select
+                        value={calendarMonth.getMonth()}
+                        onChange={(e) =>
+                          setCalendarMonth(
+                            new Date(
+                              calendarMonth.getFullYear(),
+                              Number(e.target.value),
+                              1
+                            )
+                          )
+                        }
+                        style={{
+                          height: "38px",
+                          padding: "0 30px 0 10px",
+                          border: "1px solid #cfd6cf",
+                          borderRadius: "8px",
+                          background: "#fff",
+                          color: "#222",
+                          fontSize: "14px",
+                          fontWeight: 600,
+                        }}
+                      >
+                        {monthNames.map((month, index) => (
+                          <option key={month} value={index}>
+                            {month}
+                          </option>
+                        ))}
+                      </select>
+
+                      <select
+                        value={calendarMonth.getFullYear()}
+                        onChange={(e) =>
+                          setCalendarMonth(
+                            new Date(
+                              Number(e.target.value),
+                              calendarMonth.getMonth(),
+                              1
+                            )
+                          )
+                        }
+                        style={{
+                          height: "38px",
+                          padding: "0 24px 0 10px",
+                          border: "1px solid #cfd6cf",
+                          borderRadius: "8px",
+                          background: "#fff",
+                          color: "#222",
+                          fontSize: "14px",
+                          fontWeight: 600,
+                        }}
+                      >
+                        {Array.from(
+                          { length: 21 },
+                          (_, index) =>
+                            new Date().getFullYear() - 10 + index
+                        ).map((year) => (
+                          <option key={year} value={year}>
+                            {year}
+                          </option>
+                        ))}
+                      </select>
+
+                      <button
+                        type="button"
+                        onClick={() => changeCalendarMonth(1)}
+                        style={{
+                          width: "38px",
+                          height: "38px",
+                          border: "1px solid #cfd6cf",
+                          borderRadius: "8px",
+                          background: "#fff",
+                          cursor: "pointer",
+                          fontSize: "18px",
+                        }}
+                      >
+                        ›
+                      </button>
+                    </div>
+
+                    <div
+                      style={{
+                        display: "grid",
+                        gridTemplateColumns: "repeat(7, 1fr)",
+                        gap: "5px",
+                        marginBottom: "6px",
+                      }}
+                    >
+                      {weekdays.map((day) => (
+                        <div
+                          key={day}
+                          style={{
+                            textAlign: "center",
+                            fontSize: "12px",
+                            fontWeight: 700,
+                            color: "#666",
+                            paddingBottom: "4px",
+                          }}
+                        >
+                          {day}
+                        </div>
+                      ))}
+                    </div>
+
+                    <div
+                      style={{
+                        display: "grid",
+                        gridTemplateColumns: "repeat(7, 1fr)",
+                        gap: "5px",
+                      }}
+                    >
+                      {Array.from({ length: firstDay }).map((_, index) => (
+                        <div key={`empty-${index}`} />
+                      ))}
+
+                      {Array.from({ length: daysInMonth }).map((_, index) => {
+                        const day = index + 1;
+
+                        const dateValue =
+                          `${calendarMonth.getFullYear()}-` +
+                          `${String(calendarMonth.getMonth() + 1).padStart(2, "0")}-` +
+                          `${String(day).padStart(2, "0")}`;
+
+                        const isSelected =
+                          form.birth_date === dateValue;
+
+                        const isToday =
+                          day === today.getDate() &&
+                          calendarMonth.getMonth() === today.getMonth() &&
+                          calendarMonth.getFullYear() === today.getFullYear();
+
+                        return (
+                          <button
+                            key={day}
+                            type="button"
+                            onClick={() => selectCalendarDate(day)}
+                            style={{
+                              height: "38px",
+                              border: isSelected
+                                ? "2px solid #1b5e20"
+                                : isToday
+                                ? "2px solid #2e7d32"
+                                : "1px solid #ddd",
+                              borderRadius: "50%",
+                              background: isSelected
+                                ? "#2e7d32"
+                                : isToday
+                                ? "#4caf50"
+                                : "#fff",
+                              color:
+                                isSelected || isToday ? "#fff" : "#222",
+                              fontWeight:
+                                isSelected || isToday ? 800 : 400,
+                              cursor: "pointer",
+                              fontSize: "14px",
+                              boxShadow: isToday
+                                ? "0 0 0 2px #c8e6c9"
+                                : "none",
+                            }}
+                          >
+                            {day}
+                          </button>
+                        );
+                      })}
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => setCalendarOpen(false)}
+                      style={{
+                        width: "100%",
+                        marginTop: "16px",
+                        padding: "10px",
+                        border: "1px solid #ccc",
+                        borderRadius: "8px",
+                        background: "#fff",
+                        color: "#222",
+                        cursor: "pointer",
+                        fontWeight: 600,
+                      }}
+                    >
+                      Annuleren
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
 
