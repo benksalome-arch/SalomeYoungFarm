@@ -1235,6 +1235,14 @@ canvas {
   .rabbit-litter-form-card .rabbit-litter-date-field input {
     width: 100% !important;
     max-width: none !important;
+    min-height: 44px !important;
+    box-sizing: border-box !important;
+    background: #fff !important;
+    background-color: #fff !important;
+    color: #222 !important;
+    -webkit-text-fill-color: #222 !important;
+    border: 1px solid #cfd6cf !important;
+    border-radius: 7px !important;
   }
 
   .rabbit-litter-form-card form > div:not(.rabbit-litter-date-field) > label,
