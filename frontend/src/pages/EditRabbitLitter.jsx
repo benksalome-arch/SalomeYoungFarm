@@ -326,19 +326,26 @@ function EditRabbitLitter() {
                     : "DD-MM-JJJJ"}
                 </div>
 
-                <input
-                  type="date"
-                  name="birth_date"
-                  value={form.birth_date || ""}
-                  onChange={handleChange}
-                  disabled={saving}
-                  required
+                <div
+                  onClick={() => {
+                    const selected = form.birth_date
+                      ? new Date(form.birth_date + "T00:00:00")
+                      : new Date();
+
+                    setCalendarMonth(
+                      new Date(
+                        selected.getFullYear(),
+                        selected.getMonth(),
+                        1
+                      )
+                    );
+
+                    setCalendarOpen(true);
+                  }}
                   style={{
-                    position: "absolute",
-                    inset: 0,
                     width: "100%",
-                    height: "100%",
-                    opacity: 0,
+                    minHeight: "44px",
+                    boxSizing: "border-box",
                     cursor: "pointer",
                   }}
                 />
