@@ -302,31 +302,6 @@ function EditRabbitLitter() {
             <div style={{ position: "relative" }}>
               <div style={{ position: "relative", width: "100%" }}>
                 <div
-                  style={{
-                    width: "100%",
-                    boxSizing: "border-box",
-                    minHeight: "44px",
-                    padding: "10px 12px",
-                    border: "1px solid #cfd6cf",
-                    borderRadius: "7px",
-                    background: "#fff",
-                    color: form.birth_date ? "#222" : "#777",
-                    WebkitTextFillColor: form.birth_date ? "#222" : "#777",
-                    display: "flex",
-                    alignItems: "center",
-                    pointerEvents: "none",
-                  }}
-                >
-                  {form.birth_date
-                    ? new Date(form.birth_date + "T00:00:00").toLocaleDateString("nl-NL", {
-                        day: "2-digit",
-                        month: "2-digit",
-                        year: "numeric",
-                      })
-                    : "DD-MM-JJJJ"}
-                </div>
-
-                <div
                   onClick={() => {
                     const selected = form.birth_date
                       ? new Date(form.birth_date + "T00:00:00")
@@ -344,11 +319,29 @@ function EditRabbitLitter() {
                   }}
                   style={{
                     width: "100%",
-                    minHeight: "44px",
                     boxSizing: "border-box",
+                    minHeight: "44px",
+                    padding: "10px 12px",
+                    border: "1px solid #cfd6cf",
+                    borderRadius: "7px",
+                    background: "#fff",
+                    color: form.birth_date ? "#222" : "#777",
+                    WebkitTextFillColor: form.birth_date ? "#222" : "#777",
+                    display: "flex",
+                    alignItems: "center",
                     cursor: "pointer",
                   }}
-                />
+                >
+                  {form.birth_date
+                    ? new Date(form.birth_date + "T00:00:00").toLocaleDateString("nl-NL", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                      })
+                    : "DD-MM-JJJJ"}
+                </div>
+
+
               </div>
 
               {calendarOpen && (
