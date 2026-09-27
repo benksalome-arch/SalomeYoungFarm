@@ -143,7 +143,7 @@ function EditRabbitLitter() {
     "December",
   ];
 
-  const weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
   const currentYear = new Date().getFullYear();
   const calendarYears = Array.from(
@@ -507,7 +507,7 @@ function EditRabbitLitter() {
                         marginBottom: "6px",
                       }}
                     >
-                      {weekdays.map((day) => (
+                      {weekDays.map((day) => (
                         <div
                           key={day}
                           style={{
