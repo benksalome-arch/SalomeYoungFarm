@@ -124,15 +124,8 @@ function EditRabbitLitter() {
         left = viewportPadding;
       }
 
-      // If there is not enough room below the date field,
-      // place the calendar above it.
-      if (
-        top + calendarRect.height >
-        window.innerHeight - viewportPadding
-      ) {
-        top = fieldRect.top - calendarRect.height - gap;
-      }
-
+      // Keep the calendar below the date field.
+      // The user prefers the calendar to open underneath the field.
       if (top < viewportPadding) {
         top = viewportPadding;
       }
@@ -545,10 +538,20 @@ function EditRabbitLitter() {
                     }
 
                     #syl-rabbit-clean-calendar .calendar-empty {
-                      width: 100% !important;
-                      height: 40px !important;
-                      margin: 0 !important;
+                      width: 34px !important;
+                      height: 34px !important;
+                      min-width: 34px !important;
+                      min-height: 34px !important;
+                      max-width: 34px !important;
+                      max-height: 34px !important;
+                      margin: 0 auto !important;
                       padding: 0 !important;
+                      border: 0 !important;
+                      border-radius: 0 !important;
+                      background: transparent !important;
+                      box-shadow: none !important;
+                      visibility: hidden !important;
+                      pointer-events: none !important;
                     }
 
                     #syl-rabbit-clean-calendar .calendar-day {
@@ -569,9 +572,14 @@ function EditRabbitLitter() {
                       border-radius: 50% !important;
                       background: #fff !important;
                       color: #222 !important;
+                      -webkit-text-fill-color: #222 !important;
+                      text-indent: 0 !important;
+                      text-align: center !important;
                       font-size: 15px !important;
                       font-weight: 500 !important;
                       line-height: 1 !important;
+                      opacity: 1 !important;
+                      visibility: visible !important;
                       box-sizing: border-box !important;
                       cursor: pointer !important;
                     }
@@ -585,6 +593,9 @@ function EditRabbitLitter() {
                       background: #2e7d32 !important;
                       border-color: #2e7d32 !important;
                       color: #fff !important;
+                      -webkit-text-fill-color: #fff !important;
+                      opacity: 1 !important;
+                      visibility: visible !important;
                       font-weight: 800 !important;
                     }
 
@@ -743,8 +754,30 @@ function EditRabbitLitter() {
                           type="button"
                           className="calendar-nav"
                           onClick={() => changeCalendarMonth(-1)}
+                          style={{
+                            color: "#222",
+                            WebkitTextFillColor: "#222",
+                            fontSize: "28px",
+                            fontWeight: "700",
+                            lineHeight: "1",
+                            opacity: 1,
+                            visibility: "visible",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                          }}
                         >
-                          ‹
+                          <span
+                            style={{
+                              display: "block",
+                              color: "#222",
+                              WebkitTextFillColor: "#222",
+                              opacity: 1,
+                              visibility: "visible",
+                            }}
+                          >
+                            ‹
+                          </span>
                         </button>
 
                         <div className="calendar-title">
@@ -756,8 +789,30 @@ function EditRabbitLitter() {
                           type="button"
                           className="calendar-nav"
                           onClick={() => changeCalendarMonth(1)}
+                          style={{
+                            color: "#222",
+                            WebkitTextFillColor: "#222",
+                            fontSize: "28px",
+                            fontWeight: "700",
+                            lineHeight: "1",
+                            opacity: 1,
+                            visibility: "visible",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                          }}
                         >
-                          ›
+                          <span
+                            style={{
+                              display: "block",
+                              color: "#222",
+                              WebkitTextFillColor: "#222",
+                              opacity: 1,
+                              visibility: "visible",
+                            }}
+                          >
+                            ›
+                          </span>
                         </button>
                       </div>
 
@@ -815,7 +870,21 @@ function EditRabbitLitter() {
                               }${isToday ? " today" : ""}`}
                               onClick={() => selectCalendarDate(day)}
                             >
-                              {day}
+                              <span
+                                style={{
+                                  display: "block",
+                                  color: selected ? "#fff" : "#222",
+                                  WebkitTextFillColor: selected ? "#fff" : "#222",
+                                  opacity: 1,
+                                  visibility: "visible",
+                                  fontSize: "15px",
+                                  fontWeight: selected ? 800 : 500,
+                                  lineHeight: "1",
+                                  textAlign: "center",
+                                }}
+                              >
+                                {day}
+                              </span>
                             </button>
                           );
                         })}
@@ -825,8 +894,27 @@ function EditRabbitLitter() {
                         type="button"
                         className="calendar-cancel"
                         onClick={() => setCalendarOpen(false)}
+                        style={{
+                          color: "#222",
+                          WebkitTextFillColor: "#222",
+                          opacity: 1,
+                          visibility: "visible",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                        }}
                       >
-                        Annuleren
+                        <span
+                          style={{
+                            display: "block",
+                            color: "#222",
+                            WebkitTextFillColor: "#222",
+                            opacity: 1,
+                            visibility: "visible",
+                          }}
+                        >
+                          Annuleren
+                        </span>
                       </button>
                     </div>
                   </div>
