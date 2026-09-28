@@ -1,5 +1,5 @@
 import API_URL from "../api";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useLanguage } from "../context/LanguageContext";
 
@@ -20,6 +20,13 @@ function EditRabbitLitter() {
 
   const [calendarOpen, setCalendarOpen] = useState(false);
   const [calendarMonth, setCalendarMonth] = useState(new Date());
+  const [calendarPosition, setCalendarPosition] = useState({
+    top: 0,
+    left: 0,
+  });
+
+  const birthDateFieldRef = useRef(null);
+  const calendarRef = useRef(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
@@ -79,6 +86,74 @@ function EditRabbitLitter() {
       setLoading(false);
     }
   }
+
+  useEffect(() => {
+    if (!calendarOpen) return;
+
+    const positionCalendar = () => {
+      const field = birthDateFieldRef.current;
+      const calendar = calendarRef.current;
+
+      if (!field || !calendar) return;
+
+      const fieldRect = field.getBoundingClientRect();
+      const calendarRect = calendar.getBoundingClientRect();
+
+      const gap = 8;
+      const viewportPadding = 12;
+
+      let left = fieldRect.left;
+      let top = fieldRect.bottom + gap;
+
+      if (window.innerWidth <= 500) {
+        left = Math.max(
+          viewportPadding,
+          Math.min(
+            left,
+            window.innerWidth - calendarRect.width - viewportPadding
+          )
+        );
+      }
+
+      // Keep the calendar inside the horizontal viewport.
+      if (left + calendarRect.width > window.innerWidth - viewportPadding) {
+        left = window.innerWidth - calendarRect.width - viewportPadding;
+      }
+
+      if (left < viewportPadding) {
+        left = viewportPadding;
+      }
+
+      // If there is not enough room below the date field,
+      // place the calendar above it.
+      if (
+        top + calendarRect.height >
+        window.innerHeight - viewportPadding
+      ) {
+        top = fieldRect.top - calendarRect.height - gap;
+      }
+
+      if (top < viewportPadding) {
+        top = viewportPadding;
+      }
+
+      setCalendarPosition({
+        top: Math.round(top),
+        left: Math.round(left),
+      });
+    };
+
+    const frame = requestAnimationFrame(positionCalendar);
+
+    window.addEventListener("resize", positionCalendar);
+    window.addEventListener("scroll", positionCalendar, true);
+
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("resize", positionCalendar);
+      window.removeEventListener("scroll", positionCalendar, true);
+    };
+  }, [calendarOpen, calendarMonth]);
 
   function handleChange(e) {
     setForm((previous) => ({
@@ -226,7 +301,7 @@ function EditRabbitLitter() {
     <div>
       <div className="rabbit-litters-header">
         <div>
-          <h1>🐇 {t("rabbitLitters")}</h1>
+          <h1>🐇 {t("editRabbitLitter") || "Edit Rabbit Litters"}</h1>
           <p>{t("rabbitLitterDescription")}</p>
         </div>
 
@@ -235,12 +310,12 @@ function EditRabbitLitter() {
           className="button"
           onClick={() => navigate("/rabbit-litters")}
         >
-          ← {t("cancel")}
+          ← {t("back") || "Terug"}
         </button>
       </div>
 
       <div className="card rabbit-litter-form-card">
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="rabbit-litter-edit-form">
 
           {error && (
             <div
@@ -302,7 +377,8 @@ function EditRabbitLitter() {
             <div style={{ position: "relative" }}>
               <div style={{ position: "relative", width: "100%" }}>
                 <div
-                  onClick={() => {
+                  ref={birthDateFieldRef}
+                  onClick={(e) => {
                     const selected = form.birth_date
                       ? new Date(form.birth_date + "T00:00:00")
                       : new Date();
@@ -345,278 +421,416 @@ function EditRabbitLitter() {
               </div>
 
               {calendarOpen && (
-                <div
-                  onClick={(e) => {
-                    if (e.target === e.currentTarget) {
-                      setCalendarOpen(false);
+                <>
+                  <style>{`
+                    #syl-rabbit-clean-calendar-overlay {
+                      position: fixed !important;
+                      inset: 0 !important;
+                      z-index: 99999 !important;
+                      display: block !important;
+                      padding: 0 !important;
+                      background: transparent !important;
+                      box-sizing: border-box !important;
+                      pointer-events: none !important;
                     }
-                  }}
-                  style={{
-                    position: "fixed",
-                    inset: 0,
-                    background: "rgba(0, 0, 0, 0.35)",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    zIndex: 99999,
-                    padding: "16px",
-                    boxSizing: "border-box",
-                  }}
-                >
+
+                    #syl-rabbit-clean-calendar {
+                      position: fixed !important;
+                      width: 320px !important;
+                      max-width: calc(100vw - 24px) !important;
+                      min-height: 0 !important;
+                      margin: 0 !important;
+                      padding: 16px !important;
+                      display: block !important;
+                      box-sizing: border-box !important;
+                      background: #fff !important;
+                      border: 0 !important;
+                      border-radius: 20px !important;
+                      box-shadow: 0 12px 40px rgba(0,0,0,0.25) !important;
+                      overflow: visible !important;
+                    }
+
+                    #syl-rabbit-clean-calendar .calendar-pickers {
+                      display: grid !important;
+                      grid-template-columns: 1fr 1fr !important;
+                      gap: 12px !important;
+                      width: 100% !important;
+                      margin: 0 0 16px 0 !important;
+                    }
+
+                    #syl-rabbit-clean-calendar select {
+                      width: 100% !important;
+                      min-width: 0 !important;
+                      height: 48px !important;
+                      padding: 0 14px !important;
+                      margin: 0 !important;
+                      box-sizing: border-box !important;
+                      border: 1px solid #d5d5d5 !important;
+                      border-radius: 12px !important;
+                      background: #fff !important;
+                      color: #222 !important;
+                      font-size: 16px !important;
+                      font-weight: 500 !important;
+                      appearance: auto !important;
+                    }
+
+                    #syl-rabbit-clean-calendar .calendar-navigation {
+                      display: grid !important;
+                      grid-template-columns: 42px 1fr 42px !important;
+                      align-items: center !important;
+                      gap: 6px !important;
+                      width: 100% !important;
+                      margin: 0 0 12px 0 !important;
+                    }
+
+                    #syl-rabbit-clean-calendar .calendar-nav {
+                      width: 42px !important;
+                      height: 40px !important;
+                      min-width: 42px !important;
+                      min-height: 40px !important;
+                      padding: 0 !important;
+                      margin: 0 !important;
+                      display: flex !important;
+                      align-items: center !important;
+                      justify-content: center !important;
+                      border: 1px solid #d5d5d5 !important;
+                      border-radius: 10px !important;
+                      background: #fff !important;
+                      color: #222 !important;
+                      font-size: 22px !important;
+                      line-height: 1 !important;
+                      box-sizing: border-box !important;
+                      cursor: pointer !important;
+                    }
+
+                    #syl-rabbit-clean-calendar .calendar-title {
+                      text-align: center !important;
+                      font-size: 18px !important;
+                      font-weight: 600 !important;
+                      color: #222 !important;
+                      line-height: 1.2 !important;
+                      margin: 0 !important;
+                      padding: 0 !important;
+                    }
+
+                    #syl-rabbit-clean-calendar .calendar-weekdays {
+                      display: grid !important;
+                      grid-template-columns: repeat(7, minmax(0, 1fr)) !important;
+                      gap: 6px !important;
+                      width: 100% !important;
+                      margin: 0 0 8px 0 !important;
+                    }
+
+                    #syl-rabbit-clean-calendar .calendar-weekday {
+                      height: 30px !important;
+                      display: flex !important;
+                      align-items: center !important;
+                      justify-content: center !important;
+                      margin: 0 !important;
+                      padding: 0 !important;
+                      color: #444 !important;
+                      font-size: 13px !important;
+                      font-weight: 700 !important;
+                      box-sizing: border-box !important;
+                    }
+
+                    #syl-rabbit-clean-calendar .calendar-days {
+                      display: grid !important;
+                      grid-template-columns: repeat(7, minmax(0, 1fr)) !important;
+                      gap: 5px !important;
+                      width: 100% !important;
+                      margin: 0 !important;
+                      padding: 0 !important;
+                      box-sizing: border-box !important;
+                    }
+
+                    #syl-rabbit-clean-calendar .calendar-empty {
+                      width: 100% !important;
+                      height: 40px !important;
+                      margin: 0 !important;
+                      padding: 0 !important;
+                    }
+
+                    #syl-rabbit-clean-calendar .calendar-day {
+                      width: 34px !important;
+                      height: 34px !important;
+                      min-width: 34px !important;
+                      min-height: 34px !important;
+                      max-width: 34px !important;
+                      max-height: 34px !important;
+                      justify-self: center !important;
+                      align-self: center !important;
+                      padding: 0 !important;
+                      margin: 0 !important;
+                      display: flex !important;
+                      align-items: center !important;
+                      justify-content: center !important;
+                      border: 1px solid #ddd !important;
+                      border-radius: 50% !important;
+                      background: #fff !important;
+                      color: #222 !important;
+                      font-size: 15px !important;
+                      font-weight: 500 !important;
+                      line-height: 1 !important;
+                      box-sizing: border-box !important;
+                      cursor: pointer !important;
+                    }
+
+                    #syl-rabbit-clean-calendar .calendar-day.today {
+                      background: #e8f5e9 !important;
+                      border-color: #a5d6a7 !important;
+                    }
+
+                    #syl-rabbit-clean-calendar .calendar-day.selected {
+                      background: #2e7d32 !important;
+                      border-color: #2e7d32 !important;
+                      color: #fff !important;
+                      font-weight: 800 !important;
+                    }
+
+                    #syl-rabbit-clean-calendar .calendar-cancel {
+                      display: flex !important;
+                      align-items: center !important;
+                      justify-content: center !important;
+                      width: 130px !important;
+                      height: 40px !important;
+                      margin: 16px auto 0 auto !important;
+                      padding: 0 !important;
+                      border: 1px solid #ccc !important;
+                      border-radius: 10px !important;
+                      background: #fff !important;
+                      color: #222 !important;
+                      font-size: 16px !important;
+                      font-weight: 500 !important;
+                      box-sizing: border-box !important;
+                      cursor: pointer !important;
+                    }
+
+                    @media (max-width: 500px) {
+                      #syl-rabbit-clean-calendar {
+                        width: 300px !important;
+                        max-width: calc(100vw - 24px) !important;
+                        padding: 12px !important;
+                        border-radius: 16px !important;
+                      }
+
+                      #syl-rabbit-clean-calendar .calendar-pickers {
+                        gap: 8px !important;
+                        margin-bottom: 10px !important;
+                      }
+
+                      #syl-rabbit-clean-calendar select {
+                        height: 40px !important;
+                        padding: 0 8px !important;
+                        font-size: 14px !important;
+                      }
+
+                      #syl-rabbit-clean-calendar .calendar-navigation {
+                        grid-template-columns: 36px 1fr 36px !important;
+                        gap: 4px !important;
+                        margin-bottom: 8px !important;
+                      }
+
+                      #syl-rabbit-clean-calendar .calendar-nav {
+                        width: 36px !important;
+                        height: 36px !important;
+                        min-width: 36px !important;
+                        min-height: 36px !important;
+                        font-size: 20px !important;
+                      }
+
+                      #syl-rabbit-clean-calendar .calendar-title {
+                        font-size: 16px !important;
+                      }
+
+                      #syl-rabbit-clean-calendar .calendar-weekdays {
+                        gap: 3px !important;
+                        margin-bottom: 5px !important;
+                      }
+
+                      #syl-rabbit-clean-calendar .calendar-weekday {
+                        height: 24px !important;
+                        font-size: 11px !important;
+                      }
+
+                      #syl-rabbit-clean-calendar .calendar-days {
+                        gap: 3px !important;
+                      }
+
+                      #syl-rabbit-clean-calendar .calendar-day {
+                        width: 30px !important;
+                        height: 30px !important;
+                        min-width: 30px !important;
+                        min-height: 30px !important;
+                        max-width: 30px !important;
+                        max-height: 30px !important;
+                        font-size: 13px !important;
+                      }
+
+                      #syl-rabbit-clean-calendar .calendar-cancel {
+                        width: 100px !important;
+                        height: 34px !important;
+                        margin-top: 10px !important;
+                        font-size: 14px !important;
+                      }
+                    }
+
+                  `}</style>
+
                   <div
-                    onClick={(e) => e.stopPropagation()}
+                    id="syl-rabbit-clean-calendar-overlay"
+                    onClick={(e) => {
+                      if (e.target === e.currentTarget) {
+                        setCalendarOpen(false);
+                      }
+                    }}
                     style={{
-                      width: "min(92vw, 360px)",
-                      background: "#fff",
-                      borderRadius: "14px",
-                      padding: "18px",
-                      boxSizing: "border-box",
-                      boxShadow: "0 8px 30px rgba(0, 0, 0, 0.25)",
+                      pointerEvents: "none",
                     }}
                   >
                     <div
+                      ref={calendarRef}
+                      id="syl-rabbit-clean-calendar"
+                      onClick={(e) => e.stopPropagation()}
                       style={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        gap: "8px",
-                        marginBottom: "14px",
+                        pointerEvents: "auto",
+                        top: calendarPosition.top,
+                        left: calendarPosition.left,
                       }}
                     >
-                      <select
-                        value={calendarMonth.getMonth()}
-                        onChange={(e) =>
-                          setCalendarMonth(
-                            new Date(
-                              calendarMonth.getFullYear(),
-                              Number(e.target.value),
-                              1
+                      <div className="calendar-pickers">
+                        <select
+                          value={calendarMonth.getMonth()}
+                          onChange={(e) =>
+                            setCalendarMonth(
+                              new Date(
+                                calendarMonth.getFullYear(),
+                                Number(e.target.value),
+                                1
+                              )
                             )
-                          )
-                        }
-                        style={{
-                          height: "38px",
-                          padding: "0 30px 0 10px",
-                          border: "1px solid #cfd6cf",
-                          borderRadius: "8px",
-                          background: "#fff",
-                          color: "#222",
-                          fontSize: "14px",
-                          fontWeight: 600,
-                        }}
-                      >
-                        {monthNames.map((month, index) => (
-                          <option key={month} value={index}>
-                            {month}
-                          </option>
-                        ))}
-                      </select>
+                          }
+                        >
+                          {monthNames.map((month, index) => (
+                            <option key={month} value={index}>
+                              {month}
+                            </option>
+                          ))}
+                        </select>
 
-                      <select
-                        value={calendarMonth.getFullYear()}
-                        onChange={(e) =>
-                          setCalendarMonth(
-                            new Date(
-                              Number(e.target.value),
-                              calendarMonth.getMonth(),
-                              1
+                        <select
+                          value={calendarMonth.getFullYear()}
+                          onChange={(e) =>
+                            setCalendarMonth(
+                              new Date(
+                                Number(e.target.value),
+                                calendarMonth.getMonth(),
+                                1
+                              )
                             )
-                          )
-                        }
-                        style={{
-                          height: "38px",
-                          padding: "0 30px 0 10px",
-                          border: "1px solid #cfd6cf",
-                          borderRadius: "8px",
-                          background: "#fff",
-                          color: "#222",
-                          fontSize: "14px",
-                          fontWeight: 600,
-                        }}
-                      >
-                        {calendarYears.map((year) => (
-                          <option key={year} value={year}>
-                            {year}
-                          </option>
+                          }
+                        >
+                          {calendarYears.map((year) => (
+                            <option key={year} value={year}>
+                              {year}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+
+                      <div className="calendar-navigation">
+                        <button
+                          type="button"
+                          className="calendar-nav"
+                          onClick={() => changeCalendarMonth(-1)}
+                        >
+                          ‹
+                        </button>
+
+                        <div className="calendar-title">
+                          {monthNames[calendarMonth.getMonth()]}{" "}
+                          {calendarMonth.getFullYear()}
+                        </div>
+
+                        <button
+                          type="button"
+                          className="calendar-nav"
+                          onClick={() => changeCalendarMonth(1)}
+                        >
+                          ›
+                        </button>
+                      </div>
+
+                      <div className="calendar-weekdays">
+                        {weekDays.map((day) => (
+                          <div key={day} className="calendar-weekday">
+                            {day}
+                          </div>
                         ))}
-                      </select>
-                    </div>
+                      </div>
 
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        marginBottom: "10px",
-                      }}
-                    >
-                      <button
-                        type="button"
-                        onClick={() => changeCalendarMonth(-1)}
-                        style={{
-                          width: "38px",
-                          height: "38px",
-                          border: "1px solid #cfd6cf",
-                          borderRadius: "8px",
-                          background: "#fff",
-                          color: "#222",
-                          fontSize: "20px",
-                          fontWeight: 700,
-                          cursor: "pointer",
-                        }}
-                      >
-                        ‹
-                      </button>
+                      <div className="calendar-days">
+                        {Array.from({
+                          length: new Date(
+                            calendarMonth.getFullYear(),
+                            calendarMonth.getMonth(),
+                            1
+                          ).getDay(),
+                        }).map((_, index) => (
+                          <div
+                            key={`empty-${index}`}
+                            className="calendar-empty"
+                          />
+                        ))}
 
-                      <div
-                        style={{
-                          flex: 1,
-                          textAlign: "center",
-                          fontSize: "19px",
-                          fontWeight: 700,
-                          color: "#222",
-                        }}
-                      >
-                        {monthNames[calendarMonth.getMonth()]}{" "}
-                        {calendarMonth.getFullYear()}
+                        {Array.from({
+                          length: new Date(
+                            calendarMonth.getFullYear(),
+                            calendarMonth.getMonth() + 1,
+                            0
+                          ).getDate(),
+                        }).map((_, index) => {
+                          const day = index + 1;
+
+                          const dateValue =
+                            `${calendarMonth.getFullYear()}-` +
+                            `${String(calendarMonth.getMonth() + 1).padStart(2, "0")}-` +
+                            `${String(day).padStart(2, "0")}`;
+
+                          const selected = form.birth_date === dateValue;
+
+                          const today = new Date();
+
+                          const isToday =
+                            day === today.getDate() &&
+                            calendarMonth.getMonth() === today.getMonth() &&
+                            calendarMonth.getFullYear() === today.getFullYear();
+
+                          return (
+                            <button
+                              key={day}
+                              type="button"
+                              className={`calendar-day${
+                                selected ? " selected" : ""
+                              }${isToday ? " today" : ""}`}
+                              onClick={() => selectCalendarDate(day)}
+                            >
+                              {day}
+                            </button>
+                          );
+                        })}
                       </div>
 
                       <button
                         type="button"
-                        onClick={() => changeCalendarMonth(1)}
-                        style={{
-                          width: "38px",
-                          height: "38px",
-                          border: "1px solid #cfd6cf",
-                          borderRadius: "8px",
-                          background: "#fff",
-                          color: "#222",
-                          fontSize: "20px",
-                          fontWeight: 700,
-                          cursor: "pointer",
-                        }}
+                        className="calendar-cancel"
+                        onClick={() => setCalendarOpen(false)}
                       >
-                        ›
+                        Annuleren
                       </button>
                     </div>
-
-                    <div
-                      style={{
-                        display: "grid",
-                        gridTemplateColumns: "repeat(7, 1fr)",
-                        gap: "4px",
-                        marginBottom: "6px",
-                      }}
-                    >
-                      {weekDays.map((day) => (
-                        <div
-                          key={day}
-                          style={{
-                            textAlign: "center",
-                            fontWeight: 700,
-                            fontSize: "13px",
-                            color: "#555",
-                            padding: "5px 0",
-                          }}
-                        >
-                          {day}
-                        </div>
-                      ))}
-                    </div>
-
-                    <div
-                      style={{
-                        display: "grid",
-                        gridTemplateColumns: "repeat(7, 1fr)",
-                        gap: "5px",
-                      }}
-                    >
-                      {Array.from({
-                        length: new Date(
-                          calendarMonth.getFullYear(),
-                          calendarMonth.getMonth(),
-                          1
-                        ).getDay(),
-                      }).map((_, index) => (
-                        <div key={`empty-${index}`} />
-                      ))}
-
-                      {Array.from({
-                        length: new Date(
-                          calendarMonth.getFullYear(),
-                          calendarMonth.getMonth() + 1,
-                          0
-                        ).getDate(),
-                      }).map((_, index) => {
-                        const day = index + 1;
-
-                        const dateValue =
-                          `${calendarMonth.getFullYear()}-` +
-                          `${String(calendarMonth.getMonth() + 1).padStart(2, "0")}-` +
-                          `${String(day).padStart(2, "0")}`;
-
-                        const selected =
-                          form.birth_date === dateValue;
-
-                        const today = new Date();
-
-                        const isToday =
-                          day === today.getDate() &&
-                          calendarMonth.getMonth() === today.getMonth() &&
-                          calendarMonth.getFullYear() === today.getFullYear();
-
-                        return (
-                          <button
-                            key={day}
-                            type="button"
-                            onClick={() => selectCalendarDate(day)}
-                            style={{
-                              height: "38px",
-                              border: selected
-                                ? "2px solid #1b5e20"
-                                : isToday
-                                ? "2px solid #2e7d32"
-                                : "1px solid #ddd",
-                              borderRadius: "50%",
-                              background: selected
-                                ? "#2e7d32"
-                                : isToday
-                                ? "#4caf50"
-                                : "#fff",
-                              color: selected || isToday ? "#fff" : "#222",
-                              fontWeight:
-                                selected || isToday ? 800 : 400,
-                              cursor: "pointer",
-                              fontSize: "14px",
-                              boxShadow: isToday
-                                ? "0 0 0 2px #c8e6c9"
-                                : "none",
-                            }}
-                          >
-                            {day}
-                          </button>
-                        );
-                      })}
-                    </div>
-
-                    <button
-                      type="button"
-                      onClick={() => setCalendarOpen(false)}
-                      style={{
-                        width: "100%",
-                        marginTop: "16px",
-                        padding: "10px",
-                        border: "1px solid #ccc",
-                        borderRadius: "8px",
-                        background: "#fff",
-                        color: "#222",
-                        cursor: "pointer",
-                        fontWeight: 600,
-                      }}
-                    >
-                      Annuleren
-                    </button>
                   </div>
-                </div>
+                </>
               )}
             </div>
           </div>

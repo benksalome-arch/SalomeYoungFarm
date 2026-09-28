@@ -1311,205 +1311,13 @@ canvas {
   }
 }
 
-
-/* =========================================
-   CLEAN RABBIT LITTER CALENDAR
-   ========================================= */
-
-.rabbit-litter-calendar {
-  width: 300px !important;
-  max-width: calc(100vw - 20px) !important;
-  padding: 12px !important;
-  background: #fff !important;
-  border: 1px solid #d0d0d0 !important;
-  border-radius: 10px !important;
-  box-shadow: 0 5px 18px rgba(0,0,0,0.16) !important;
-  box-sizing: border-box !important;
-}
-
-.rabbit-litter-calendar-header {
-  height: 38px !important;
-  margin-bottom: 8px !important;
-}
-
-.rabbit-litter-calendar-header button {
-  width: 34px !important;
-  height: 34px !important;
-  padding: 0 !important;
-  background: transparent !important;
-  color: #222 !important;
-  font-size: 24px !important;
-  line-height: 34px !important;
-  cursor: pointer !important;
-}
-
-.rabbit-litter-calendar-header strong {
-  color: #222 !important;
-  font-size: 15px !important;
-  text-align: center !important;
-}
-
-.rabbit-litter-calendar-grid {
-  width: 100% !important;
-  grid-template-columns: repeat(7, minmax(0, 1fr)) !important;
-  gap: 3px !important;
-}
-
-.rabbit-litter-calendar-grid > div {
-  min-width: 0 !important;
-  width: 100% !important;
-  box-sizing: border-box !important;
-}
-
-.rabbit-litter-calendar-grid > div:not(:empty) {
-  color: #555 !important;
-  font-size: 11px !important;
-  font-weight: 700 !important;
-  padding: 4px 0 !important;
-}
-
-.rabbit-litter-calendar-day {
-  width: 100% !important;
-  min-width: 0 !important;
-  height: 34px !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  border-radius: 6px !important;
-  background: transparent;
-  color: #222 !important;
-  font-size: 13px !important;
-  font-weight: 400 !important;
-  cursor: pointer !important;
-  box-sizing: border-box !important;
-}
-
-.rabbit-litter-calendar-day:hover {
-  background: #e8f0fe !important;
+@media (max-width: 768px) {
 }
 
 @media (max-width: 768px) {
-  .rabbit-litter-calendar {
-    width: min(300px, calc(100vw - 20px)) !important;
-    max-width: calc(100vw - 20px) !important;
-  }
-
-  .rabbit-litter-calendar-day {
-    height: 32px !important;
-    font-size: 12px !important;
-  }
-}
-
-
-/* FIX CALENDAR DAY CELL SIZE */
-.rabbit-litter-calendar .rabbit-litter-calendar-day {
-  width: 34px !important;
-  min-width: 34px !important;
-  max-width: 34px !important;
-  height: 34px !important;
-  margin: 0 auto !important;
-  padding: 0 !important;
-  box-sizing: border-box !important;
 }
 
 @media (max-width: 768px) {
-  .rabbit-litter-calendar .rabbit-litter-calendar-day {
-    width: 32px !important;
-    min-width: 32px !important;
-    max-width: 32px !important;
-    height: 32px !important;
-  }
-}
-
-/* =========================================
-   EDIT LITTER CALENDAR - MATCH REFERENCE
-   ========================================= */
-
-.rabbit-litter-calendar {
-  width: 300px !important;
-  max-width: 300px !important;
-  padding: 12px !important;
-  box-sizing: border-box !important;
-  background: #fff !important;
-  border: 1px solid #ccc !important;
-  border-radius: 10px !important;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.18) !important;
-}
-
-.rabbit-litter-calendar-header {
-  display: flex !important;
-  justify-content: space-between !important;
-  align-items: center !important;
-  width: 100% !important;
-  height: 36px !important;
-  margin-bottom: 8px !important;
-}
-
-.rabbit-litter-calendar-header button {
-  width: 30px !important;
-  height: 30px !important;
-  padding: 0 !important;
-  background: transparent !important;
-  color: #222 !important;
-  font-size: 24px !important;
-  line-height: 30px !important;
-}
-
-.rabbit-litter-calendar-header strong {
-  color: #222 !important;
-  font-size: 15px !important;
-  white-space: nowrap !important;
-}
-
-.rabbit-litter-calendar-grid {
-  display: grid !important;
-  grid-template-columns: repeat(7, 1fr) !important;
-  gap: 2px !important;
-  width: 100% !important;
-  box-sizing: border-box !important;
-}
-
-.rabbit-litter-calendar-grid > div {
-  width: 100% !important;
-  min-width: 0 !important;
-  text-align: center !important;
-  box-sizing: border-box !important;
-}
-
-.rabbit-litter-calendar-day {
-  width: 30px !important;
-  min-width: 30px !important;
-  max-width: 30px !important;
-  height: 30px !important;
-  margin: 0 auto !important;
-  padding: 0 !important;
-  border-radius: 6px !important;
-  box-sizing: border-box !important;
-  background: transparent;
-  color: #222;
-  font-size: 13px !important;
-  line-height: 30px !important;
-  text-align: center !important;
-}
-
-@media (max-width: 768px) {
-  .rabbit-litter-calendar {
-    width: 300px !important;
-    max-width: calc(100vw - 20px) !important;
-  }
-
-  .rabbit-litter-calendar-day {
-    width: 30px !important;
-    min-width: 30px !important;
-    max-width: 30px !important;
-    height: 30px !important;
-    line-height: 30px !important;
-  }
-}
-
-
-/* Calendar today / selected date - always visible */
-.rabbit-litter-calendar .rabbit-litter-calendar-day[style*="2px solid rgb(46, 125, 50)"] {
-  border: 2px solid #2e7d32 !important;
 }
 
 
@@ -1524,123 +1332,21 @@ canvas {
     position: static !important;
     overflow: visible !important;
   }
-
-  .rabbit-litter-calendar {
-    position: fixed !important;
-    left: 50vw !important;
-    right: auto !important;
-    transform: translateX(-50%) !important;
-    width: 300px !important;
-    max-width: calc(100vw - 20px) !important;
-    box-sizing: border-box !important;
-    z-index: 99999 !important;
-  }
-
-  .rabbit-litter-calendar-grid {
-    display: grid !important;
-    grid-template-columns: repeat(7, minmax(0, 1fr)) !important;
-    width: 100% !important;
-  }
-
-  .rabbit-litter-calendar-grid > div {
-    width: auto !important;
-    min-width: 0 !important;
-  }
 }
 
 
 /* FIX MOBILE RABBIT LITTER CALENDAR MONTH HEADER */
 @media (max-width: 768px) {
-  .rabbit-litter-calendar-header {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    width: 100% !important;
-    box-sizing: border-box !important;
-  }
-
-  .rabbit-litter-calendar-header button {
-    flex: 0 0 30px !important;
-    width: 30px !important;
-    min-width: 30px !important;
-    max-width: 30px !important;
-  }
-
-  .rabbit-litter-calendar-header strong {
-    flex: 1 1 auto !important;
-    width: auto !important;
-    min-width: 0 !important;
-    max-width: none !important;
-    text-align: center !important;
-    overflow: visible !important;
-    white-space: nowrap !important;
-    color: #222 !important;
-    font-size: 15px !important;
-  }
 }
 
 
 /* FINAL FIX - MOBILE RABBIT LITTER CALENDAR HEADER */
 @media (max-width: 768px) {
-  .rabbit-litter-calendar {
-    width: 320px !important;
-    max-width: calc(100vw - 16px) !important;
-    padding: 14px !important;
-    overflow: visible !important;
-  }
-
-  .rabbit-litter-calendar .rabbit-litter-calendar-header {
-    display: flex !important;
-    flex-direction: row !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    width: 100% !important;
-    min-width: 0 !important;
-    overflow: visible !important;
-    margin-bottom: 12px !important;
-  }
-
-  .rabbit-litter-calendar .rabbit-litter-calendar-header button {
-    flex: 0 0 30px !important;
-    width: 30px !important;
-    min-width: 30px !important;
-    max-width: 30px !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    text-align: center !important;
-  }
-
-  .rabbit-litter-calendar .rabbit-litter-calendar-header strong {
-    display: block !important;
-    flex: 1 1 auto !important;
-    width: auto !important;
-    min-width: 0 !important;
-    max-width: none !important;
-    margin: 0 6px !important;
-    padding: 0 !important;
-    text-align: center !important;
-    white-space: nowrap !important;
-    overflow: visible !important;
-    color: #222 !important;
-    -webkit-text-fill-color: #222 !important;
-    font-size: 15px !important;
-    line-height: 30px !important;
-  }
 }
 
 
 /* FIX: MOBILE RABBIT LITTER CALENDAR WAS POSITIONED BELOW VIEWPORT */
 @media (max-width: 768px) {
-  .rabbit-litter-calendar {
-    position: absolute !important;
-    top: calc(100% + 6px) !important;
-    left: 50% !important;
-    right: auto !important;
-    transform: translateX(-50%) !important;
-    width: 320px !important;
-    max-width: calc(100vw - 16px) !important;
-    z-index: 99999 !important;
-  }
 
   .rabbit-litter-date-field,
   .rabbit-litter-date-field > div {
@@ -2684,4 +2390,230 @@ canvas {
   .breeding-page .breeding-empty h3 {
     font-size: 18px !important;
   }
+}
+
+/* =========================================================
+   FINAL FIX — RABBIT LITTER DATE FIELD + CALENDAR
+   Keep calendar controls isolated from Rabbit form CSS.
+   ========================================================= */
+
+/* Remove the fake/double input styling from the date wrapper */
+.rabbit-litter-form-card .rabbit-litter-date-field > div {
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
+/* The actual date field remains a single clean control */
+.rabbit-litter-date-field > div > div {
+  box-sizing: border-box !important;
+  width: 100% !important;
+  min-width: 0 !important;
+}
+
+/* Calendar popup */
+.rabbit-litter-calendar {
+  box-sizing: border-box !important;
+}
+
+/* Calendar grid — force exactly 7 columns */
+.rabbit-litter-calendar .rabbit-litter-calendar-grid {
+  display: grid !important;
+  grid-template-columns: repeat(7, 40px) !important;
+  grid-auto-rows: 40px !important;
+  gap: 8px !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+/* Calendar day buttons — NEVER stretch */
+.rabbit-litter-calendar .rabbit-litter-calendar-day {
+  box-sizing: border-box !important;
+  width: 40px !important;
+  min-width: 40px !important;
+  max-width: 40px !important;
+  height: 40px !important;
+  min-height: 40px !important;
+  max-height: 40px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex: none !important;
+}
+
+/* Calendar header controls must not inherit form button sizing */
+.rabbit-litter-calendar .rabbit-litter-calendar-header,
+.rabbit-litter-calendar .rabbit-litter-calendar-header > div {
+  box-sizing: border-box !important;
+}
+
+.rabbit-litter-calendar .rabbit-litter-calendar-header select {
+  box-sizing: border-box !important;
+  width: 100% !important;
+  min-width: 0 !important;
+}
+
+/* Navigation buttons */
+.rabbit-litter-calendar .rabbit-litter-calendar-header button {
+  box-sizing: border-box !important;
+  flex: none !important;
+}
+
+/* Mobile calendar */
+@media (max-width: 768px) {
+  .rabbit-litter-calendar .rabbit-litter-calendar-grid {
+    grid-template-columns: repeat(7, 40px) !important;
+    gap: 6px !important;
+  }
+
+  .rabbit-litter-calendar .rabbit-litter-calendar-day {
+    width: 40px !important;
+    min-width: 40px !important;
+    max-width: 40px !important;
+    height: 40px !important;
+    min-height: 40px !important;
+    max-height: 40px !important;
+  }
+}
+
+
+/* =========================================================
+   FINAL FIX - RABBIT LITTER CALENDAR INSIDE FORM
+   Prevent form button/field CSS from affecting calendar
+   ========================================================= */
+
+.rabbit-litter-form-card .rabbit-litter-calendar-overlay {
+  width: auto !important;
+  max-width: none !important;
+  min-height: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: rgba(0, 0, 0, 0.35) !important;
+  box-shadow: none !important;
+  box-sizing: border-box !important;
+}
+
+.rabbit-litter-form-card .rabbit-litter-calendar-popup {
+  width: min(92vw, 360px) !important;
+  max-width: 360px !important;
+  min-height: 0 !important;
+  border: 0 !important;
+  border-radius: 14px !important;
+  background: #fff !important;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25) !important;
+  box-sizing: border-box !important;
+}
+
+/* Calendar day buttons must NOT inherit form button sizing */
+.rabbit-litter-form-card .rabbit-litter-calendar-popup button.rabbit-litter-calendar-day {
+  width: 40px !important;
+  min-width: 40px !important;
+  max-width: 40px !important;
+  height: 40px !important;
+  min-height: 40px !important;
+  max-height: 40px !important;
+  padding: 0 !important;
+  margin: 0 auto !important;
+  border-radius: 50% !important;
+  box-sizing: border-box !important;
+}
+
+/* Calendar navigation buttons */
+.rabbit-litter-form-card .rabbit-litter-calendar-popup button:not(.rabbit-litter-calendar-day) {
+  box-sizing: border-box !important;
+}
+
+/* Calendar month/year selectors */
+.rabbit-litter-form-card .rabbit-litter-calendar-popup select {
+  min-height: 38px !important;
+  width: auto !important;
+  max-width: none !important;
+  box-sizing: border-box !important;
+}
+
+/* Keep the calendar's internal grid independent from form grids */
+.rabbit-litter-form-card .rabbit-litter-calendar-popup > div {
+  box-sizing: border-box !important;
+}
+
+
+/* =========================================================
+   EDIT RABBIT LITTER - CLEAN FORM FIELDS
+   Desktop + mobile field consistency
+   ========================================================= */
+
+.rabbit-litter-edit-form {
+  width: 100%;
+}
+
+.rabbit-litter-edit-form > div {
+  box-sizing: border-box;
+}
+
+.rabbit-litter-edit-form input:not([type="checkbox"]):not([type="radio"]),
+.rabbit-litter-edit-form select {
+  width: 100% !important;
+  height: 44px !important;
+  min-height: 44px !important;
+  max-height: 44px !important;
+  box-sizing: border-box !important;
+  padding: 9px 12px !important;
+  border: 1px solid #cfd6cf !important;
+  border-radius: 7px !important;
+  background: #fff !important;
+  font-size: 15px !important;
+}
+
+.rabbit-litter-edit-form textarea {
+  width: 100% !important;
+  box-sizing: border-box !important;
+  min-height: 90px !important;
+  padding: 10px 12px !important;
+  border: 1px solid #cfd6cf !important;
+  border-radius: 7px !important;
+  background: #fff !important;
+  font-size: 15px !important;
+  resize: vertical !important;
+}
+
+/* Custom birth-date field must match the normal inputs */
+.rabbit-litter-edit-form .rabbit-litter-date-field > div > div {
+  min-height: 44px;
+  height: 44px;
+  box-sizing: border-box;
+}
+
+/* Bottom action buttons */
+.rabbit-litter-edit-form button[type="submit"],
+.rabbit-litter-edit-form button[type="button"] {
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  font-weight: 600 !important;
+}
+
+/* Keep the action buttons clearly visible */
+.rabbit-litter-edit-form button[type="submit"] {
+  background: #198754 !important;
+  border: 1px solid #198754 !important;
+}
+
+.rabbit-litter-edit-form button[type="button"] {
+  background: #198754 !important;
+  border: 1px solid #198754 !important;
+}
+
+/* =========================================================
+   TOP BACK BUTTON
+   ========================================================= */
+
+.rabbit-litters-header > button {
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  background: #198754 !important;
+  border-color: #198754 !important;
+  font-weight: 600 !important;
 }
