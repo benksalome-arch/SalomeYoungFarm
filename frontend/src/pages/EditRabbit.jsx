@@ -350,20 +350,32 @@ function EditRabbit() {
                 {calendarOpen && (
                   <div
                     style={{
-                      position: "absolute",
-                      top: "calc(100% + 6px)",
-                      left: "50%",
-                      transform: "translateX(-50%)",
-                      zIndex: 9999,
-                      width: "min(92vw, 320px)",
-                      padding: "14px",
-                      background: "#fff",
-                      border: "1px solid #ccc",
-                      borderRadius: "10px",
-                      boxShadow: "0 6px 20px rgba(0,0,0,0.18)",
-                      boxSizing: "border-box",
+                      position: "fixed",
+                      inset: 0,
+                      background: "rgba(0,0,0,0.35)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      zIndex: 99999,
+                      padding: "16px",
+                    }}
+                    onMouseDown={(event) => {
+                      if (event.target === event.currentTarget) {
+                        setCalendarOpen(false);
+                      }
                     }}
                   >
+                    <div
+                      style={{
+                        width: "min(92vw, 360px)",
+                        background: "#fff",
+                        borderRadius: "14px",
+                        padding: "18px",
+                        boxShadow:
+                          "0 12px 35px rgba(0,0,0,0.25)",
+                        boxSizing: "border-box",
+                      }}
+                    >
                     <div
                       style={{
                         display: "flex",
@@ -558,26 +570,31 @@ function EditRabbit() {
                             type="button"
                             onClick={() => selectCalendarDate(day)}
                             style={{
-                              height: "38px",
-                              border: selected
-                                ? "2px solid #1b5e20"
-                                : isToday
-                                ? "2px solid #2e7d32"
-                                : "1px solid #ddd",
+                              width: "40px",
+                              height: "40px",
+                              minWidth: "40px",
+                              maxWidth: "40px",
+                              minHeight: "40px",
+                              maxHeight: "40px",
+                              padding: 0,
+                              margin: "0 auto",
+                              border: "none",
                               borderRadius: "50%",
                               background: selected
                                 ? "#2e7d32"
                                 : isToday
-                                ? "#4caf50"
+                                ? "#e8f5e9"
                                 : "#fff",
-                              color: selected || isToday ? "#fff" : "#222",
+                              color: selected ? "#fff" : "#222",
                               fontWeight:
-                                selected || isToday ? 800 : 400,
-                              cursor: "pointer",
+                                selected || isToday ? 700 : 400,
                               fontSize: "14px",
-                              boxShadow: isToday
-                                ? "0 0 0 2px #c8e6c9"
-                                : "none",
+                              lineHeight: "40px",
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              cursor: "pointer",
+                              boxSizing: "border-box",
                             }}
                           >
                             {day}
@@ -604,7 +621,8 @@ function EditRabbit() {
                       Annuleren
                     </button>
                   </div>
-                )}
+                </div>
+              )}
               </div>
             </div>
 

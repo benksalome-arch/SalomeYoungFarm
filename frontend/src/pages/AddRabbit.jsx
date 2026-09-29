@@ -306,6 +306,7 @@ function AddRabbit() {
                 value={formData.sex}
                 onChange={handleChange}
               >
+                <option value="Unknown">{t("unknown")}</option>
                 <option value="Female">{t("female")}</option>
                 <option value="Male">{t("male")}</option>
               </select>

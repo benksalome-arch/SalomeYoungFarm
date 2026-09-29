@@ -232,8 +232,19 @@ function EditRabbitLitter() {
       return;
     }
 
+    if (total <= 0) {
+      setError(
+        t("rabbitLitterMustHaveKits") ||
+          "Total kits must be greater than 0."
+      );
+      return;
+    }
+
     if (live + dead !== total) {
-      setError("Live kits plus dead kits must equal total kits.");
+      setError(
+        t("rabbitLitterLiveDeadMustEqualTotal") ||
+          "Live kits plus dead kits must equal total kits."
+      );
       return;
     }
 
@@ -270,6 +281,7 @@ function EditRabbitLitter() {
 
       alert(
         data.message ||
+          t("rabbitLitterUpdatedSuccessfully") ||
           "Rabbit litter record updated successfully!"
       );
 

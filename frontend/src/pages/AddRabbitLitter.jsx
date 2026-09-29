@@ -385,7 +385,8 @@ function AddRabbitLitter() {
                       borderRadius: "14px",
                       padding: "18px",
                       boxSizing: "border-box",
-                      boxShadow: "0 8px 30px rgba(0, 0, 0, 0.25)",
+                      boxShadow:
+                        "0 12px 35px rgba(0,0,0,0.25)",
                     }}
                   >
                     <div
@@ -459,6 +460,7 @@ function AddRabbitLitter() {
                     <div
                       style={{
                         display: "flex",
+                        alignItems: "center",
                         justifyContent: "space-between",
                         marginBottom: "10px",
                       }}
@@ -472,9 +474,8 @@ function AddRabbitLitter() {
                           border: "1px solid #cfd6cf",
                           borderRadius: "8px",
                           background: "#fff",
-                          color: "#222",
                           fontSize: "20px",
-                          fontWeight: 700,
+                          fontWeight: "700",
                           cursor: "pointer",
                         }}
                       >
@@ -483,11 +484,8 @@ function AddRabbitLitter() {
 
                       <div
                         style={{
-                          flex: 1,
-                          textAlign: "center",
                           fontSize: "19px",
-                          fontWeight: 700,
-                          color: "#222",
+                          fontWeight: "700",
                         }}
                       >
                         {monthNames[calendarMonth.getMonth()]}{" "}
@@ -503,9 +501,8 @@ function AddRabbitLitter() {
                           border: "1px solid #cfd6cf",
                           borderRadius: "8px",
                           background: "#fff",
-                          color: "#222",
                           fontSize: "20px",
-                          fontWeight: 700,
+                          fontWeight: "700",
                           cursor: "pointer",
                         }}
                       >
@@ -541,7 +538,7 @@ function AddRabbitLitter() {
                       style={{
                         display: "grid",
                         gridTemplateColumns: "repeat(7, 1fr)",
-                        gap: "5px",
+                        gap: "4px",
                       }}
                     >
                       {Array.from({

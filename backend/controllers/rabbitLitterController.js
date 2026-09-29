@@ -120,7 +120,13 @@ exports.createLitter = (req, res) => {
       const live = Number(live_kits || 0);
       const dead = Number(dead_kits || 0);
 
-      if (total < 0 || live < 0 || dead < 0) {
+      if (total <= 0) {
+        return res.status(400).json({
+          message: "Total kits must be greater than 0.",
+        });
+      }
+
+      if (live < 0 || dead < 0) {
         return res.status(400).json({
           message: "Kit quantities cannot be negative.",
         });
@@ -241,7 +247,13 @@ exports.updateLitter = (req, res) => {
   const live = Number(live_kits || 0);
   const dead = Number(dead_kits || 0);
 
-  if (total < 0 || live < 0 || dead < 0) {
+  if (total <= 0) {
+    return res.status(400).json({
+      message: "Total kits must be greater than 0.",
+    });
+  }
+
+  if (live < 0 || dead < 0) {
     return res.status(400).json({
       message: "Kit quantities cannot be negative.",
     });
