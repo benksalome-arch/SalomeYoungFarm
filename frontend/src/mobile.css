@@ -2849,3 +2849,106 @@ canvas {
     width: 100% !important;
   }
 }
+
+/* =========================================================
+   RABBIT MORTALITY EDIT FORM - FINAL LAYOUT OVERRIDE
+   Desktop: two equal columns
+   Phone: one full-width column
+   ========================================================= */
+
+.rabbit-mortality-edit-grid {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+  gap: 22px 20px !important;
+  width: 100% !important;
+  max-width: 760px !important;
+  margin: 0 auto !important;
+  box-sizing: border-box !important;
+}
+
+.rabbit-mortality-edit-grid > div,
+.rabbit-mortality-edit-date {
+  width: 100% !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+}
+
+.rabbit-mortality-edit-grid > div > label,
+.rabbit-mortality-edit-date > label {
+  display: block !important;
+  width: 100% !important;
+  margin: 0 0 7px 0 !important;
+  text-align: left !important;
+  font-size: 15px !important;
+  font-weight: 600 !important;
+  color: #555 !important;
+  box-sizing: border-box !important;
+}
+
+.rabbit-mortality-edit-grid input,
+.rabbit-mortality-edit-grid select,
+.rabbit-mortality-edit-grid textarea,
+.rabbit-mortality-edit-date input {
+  width: 100% !important;
+  max-width: none !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+}
+
+.rabbit-mortality-edit-date {
+  grid-column: auto !important;
+}
+
+.rabbit-mortality-edit-grid > div:has(textarea) {
+  grid-column: 1 / -1 !important;
+}
+
+.rabbit-mortality-edit-grid > div:has(button),
+.rabbit-mortality-edit-grid > div:has(a.button) {
+  grid-column: 1 / -1 !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 12px !important;
+  width: 100% !important;
+}
+
+@media (max-width: 700px) {
+
+  .rabbit-mortality-edit-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 18px !important;
+    max-width: 100% !important;
+  }
+
+  .rabbit-mortality-edit-grid > div,
+  .rabbit-mortality-edit-date {
+    grid-column: 1 / -1 !important;
+    width: 100% !important;
+  }
+
+  .rabbit-mortality-edit-grid > div > label,
+  .rabbit-mortality-edit-date > label {
+    text-align: left !important;
+    font-size: 14px !important;
+    margin-bottom: 7px !important;
+  }
+
+  .rabbit-mortality-edit-grid input,
+  .rabbit-mortality-edit-grid select,
+  .rabbit-mortality-edit-grid textarea,
+  .rabbit-mortality-edit-date input {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .rabbit-mortality-edit-grid > div:has(textarea) {
+    grid-column: 1 / -1 !important;
+  }
+
+  .rabbit-mortality-edit-grid > div:has(button),
+  .rabbit-mortality-edit-grid > div:has(a.button) {
+    grid-column: 1 / -1 !important;
+    justify-content: center !important;
+  }
+}
