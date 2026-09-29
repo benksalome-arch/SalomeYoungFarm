@@ -256,7 +256,9 @@ function EditRabbitLitter() {
       return;
     }
 
-    if (live + dead !== total) {
+    const adjustedLive = live === 0 && dead === 0 ? total : live;
+
+    if (adjustedLive + dead !== total) {
       setError(
         t("rabbitLitterLiveDeadMustEqualTotal") ||
           "Live kits plus dead kits must equal total kits."
@@ -279,7 +281,7 @@ function EditRabbitLitter() {
             breeding_id: Number(form.breeding_id),
             birth_date: form.birth_date,
             total_kits: total,
-            live_kits: live,
+            live_kits: adjustedLive,
             dead_kits: dead,
             notes: form.notes,
           }),

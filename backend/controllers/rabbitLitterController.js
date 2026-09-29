@@ -259,7 +259,9 @@ exports.updateLitter = (req, res) => {
     });
   }
 
-  if (live + dead !== total) {
+  const adjustedLive = live === 0 && dead === 0 ? total : live;
+
+  if (adjustedLive + dead !== total) {
     return res.status(400).json({
       message: "Live kits plus dead kits must equal total kits.",
     });
@@ -278,7 +280,7 @@ exports.updateLitter = (req, res) => {
       breeding_id,
       birth_date,
       total,
-      live,
+      adjustedLive,
       dead,
       notes || null,
       req.params.id,
