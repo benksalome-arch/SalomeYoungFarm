@@ -10,6 +10,14 @@ function EditRabbitMortality() {
   const { id } = useParams();
   const mortalityDateRef = useRef(null);
 
+  const labelStyle = {
+    display: "block",
+    marginBottom: "6px",
+    fontWeight: 600,
+    color: "#333",
+    WebkitTextFillColor: "#333",
+  };
+
   const inputStyle = {
     width: "100%",
     boxSizing: "border-box",
