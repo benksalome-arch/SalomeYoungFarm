@@ -2972,3 +2972,32 @@ canvas {
     box-sizing: border-box !important;
   }
 }
+
+/* =========================================================
+   RABBIT MORTALITY EDIT - DESKTOP DATE FIELD WIDTH
+   Make Geboortedatum use the full available second column.
+   ========================================================= */
+
+@media (min-width: 701px) {
+  .rabbit-mortality-edit-grid > .rabbit-mortality-edit-date {
+    grid-column: 2 !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    box-sizing: border-box !important;
+  }
+
+  .rabbit-mortality-edit-grid > .rabbit-mortality-edit-date > div {
+    width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .rabbit-mortality-edit-grid > .rabbit-mortality-edit-date input {
+    display: block !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    box-sizing: border-box !important;
+  }
+}
