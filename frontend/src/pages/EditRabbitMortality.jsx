@@ -278,7 +278,7 @@ function EditRabbitMortality() {
         return;
       }
 
-      alert(data.message);
+      alert(t("rabbitMortalityUpdatedSuccessfully"));
       navigate("/rabbit-mortality");
     } catch (err) {
       console.error(err);
@@ -406,36 +406,6 @@ function EditRabbitMortality() {
       `}</style>
 
       <div>
-        <div className="rabbit-mortality-edit-header">
-          <div>
-            <h1
-              style={{
-                margin: 0,
-                color: "#222",
-                WebkitTextFillColor: "#222",
-              }}
-            >
-              ✏️ {t("edit")} {t("rabbitMortality")}
-            </h1>
-
-            <p
-              style={{
-                color: "#222",
-                WebkitTextFillColor: "#222",
-              }}
-            >
-              {t("rabbitMortalityDescription")}
-            </p>
-          </div>
-
-          <Link
-            className="button"
-            to="/rabbit-mortality"
-          >
-            ← {t("back")}
-          </Link>
-        </div>
-
         <div
           className="card"
           style={{
@@ -444,6 +414,46 @@ function EditRabbitMortality() {
             margin: "0 auto",
           }}
         >
+          <div
+            className="rabbit-mortality-edit-header"
+            style={{
+              marginBottom: "24px",
+              paddingBottom: "16px",
+              borderBottom: "1px solid #e5e7eb",
+            }}
+          >
+            <div>
+              <h1
+                style={{
+                  margin: 0,
+                  color: "#222",
+                  WebkitTextFillColor: "#222",
+                  fontSize: "30px",
+                  lineHeight: 1.2,
+                }}
+              >
+                ✏️ {t("editRabbitMortality")}
+              </h1>
+
+              <p
+                style={{
+                  margin: "8px 0 0",
+                  color: "#555",
+                  WebkitTextFillColor: "#555",
+                }}
+              >
+                {t("rabbitMortalityDescription")}
+              </p>
+            </div>
+
+            <Link
+              className="button"
+              to="/rabbit-mortality"
+            >
+              ← {t("back")}
+            </Link>
+          </div>
+
           <form onSubmit={handleSubmit}>
             <div className="rabbit-mortality-edit-grid">
 

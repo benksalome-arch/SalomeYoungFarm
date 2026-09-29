@@ -311,6 +311,8 @@ const translations = {
     litterDescription: "Record the kits produced from a rabbit breeding.",
     selectBreedingRecord: "Select breeding record",
     rabbitMortalityDescription: "Track rabbit deaths and flock losses.",
+    editRabbitMortality: "Edit Rabbit Mortality",
+    rabbitMortalityUpdatedSuccessfully: "Rabbit mortality record updated successfully!",
     mortalityReasonExample: "Example: Illness, injury, unknown cause",
     additionalNotes: "Additional Notes",
 
@@ -856,6 +858,8 @@ const translations = {
     litterDescription: "Sajili watoto waliozaliwa kutokana na uzalishaji wa sungura.",
     selectBreedingRecord: "Chagua rekodi ya uzalishaji",
     rabbitMortalityDescription: "Fuatilia vifo vya sungura na hasara za kundi.",
+    editRabbitMortality: "Hariri Vifo vya Sungura",
+    rabbitMortalityUpdatedSuccessfully: "Rekodi ya vifo vya sungura imesasishwa kikamilifu!",
     mortalityReasonExample: "Mfano: Ugonjwa, jeraha, sababu isiyojulikana",
     additionalNotes: "Maelezo ya Ziada",
 
@@ -1411,6 +1415,8 @@ const translations = {
     deadKitsExample: "Voorbeeld: 1",
     litterNotesExample: "Voorbeeld: Opmerkingen over het nest",
     rabbitMortalityDescription: "Houd konijnensterfte en verliezen van de groep bij.",
+    editRabbitMortality: "Konijnensterfte bewerken",
+    rabbitMortalityUpdatedSuccessfully: "Konijnensterfterecord succesvol bijgewerkt!",
     mortalityReasonExample: "Voorbeeld: Ziekte, verwonding, onbekende oorzaak",
     additionalNotes: "Extra notities",
 
