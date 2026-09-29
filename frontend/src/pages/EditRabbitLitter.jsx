@@ -132,10 +132,18 @@ function EditRabbitLitter() {
         left = viewportPadding;
       }
 
-      // Keep the calendar below the date field.
-      // The user prefers the calendar to open underneath the field.
+      // Keep the calendar close to the date field.
+      // Prefer above; if there is not enough room, place it directly below.
       if (top < viewportPadding) {
-        top = viewportPadding;
+        top = fieldRect.bottom + gap;
+      }
+
+      // Final viewport protection.
+      if (top + calendarRect.height > window.innerHeight - viewportPadding) {
+        top = Math.max(
+          viewportPadding,
+          window.innerHeight - calendarRect.height - viewportPadding
+        );
       }
 
       setCalendarPosition({
