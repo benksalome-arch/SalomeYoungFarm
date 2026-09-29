@@ -134,30 +134,17 @@ function EditRabbitMortality() {
     (_, index) => currentYear - index
   );
 
-  const monthKeys = [
-    "january",
-    "february",
-    "march",
-    "april",
-    "may",
-    "june",
-    "july",
-    "august",
-    "september",
-    "october",
-    "november",
-    "december",
+  const monthNames = [
+    "Januari", "Februari", "Maart", "April", "Mei", "Juni",
+    "Juli", "Augustus", "September", "Oktober", "November", "December"
   ];
 
-  const weekdayKeys = [
-    "sun",
-    "mon",
-    "tue",
-    "wed",
-    "thu",
-    "fri",
-    "sat",
-  ];
+  const weekDays = ["Zo", "Ma", "Di", "Wo", "Do", "Vr", "Za"];
+
+
+
+
+
 
   function formatDateDisplay(value) {
     if (!value) return "";
