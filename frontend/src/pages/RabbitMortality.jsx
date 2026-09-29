@@ -111,9 +111,8 @@ function RabbitMortality() {
       </div>
 
       {/* Records */}
-      <div className="card rabbit-mortality-table-card">
-        <div className="rabbit-mortality-table-wrapper">
-          <table className="table rabbit-mortality-table">
+      <div className="card">
+        <table className="table rabbit-mortality-table">
 
           <thead>
             <tr>
@@ -179,10 +178,10 @@ function RabbitMortality() {
 
                   <td>
                     <div
-                      className="rabbit-mortality-actions"
                       style={{
                         display: "flex",
                         gap: "8px",
+                        flexWrap: "wrap",
                       }}
                     >
                       <Link
@@ -215,8 +214,7 @@ function RabbitMortality() {
 
           </tbody>
 
-          </table>
-        </div>
+        </table>
       </div>
     </div>
   );
