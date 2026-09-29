@@ -3001,3 +3001,43 @@ canvas {
     box-sizing: border-box !important;
   }
 }
+
+/* =========================================================
+   RABBIT MORTALITY EDIT - DESKTOP DATE FIELD FINAL FIX
+   Label above, date input fills the entire second column.
+   Phone layout remains unchanged.
+   ========================================================= */
+
+@media (min-width: 701px) {
+  .rabbit-mortality-edit-date {
+    display: block !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    box-sizing: border-box !important;
+  }
+
+  .rabbit-mortality-edit-date > label {
+    display: block !important;
+    width: 100% !important;
+    margin: 0 0 8px 0 !important;
+    text-align: left !important;
+    box-sizing: border-box !important;
+  }
+
+  .rabbit-mortality-edit-date > div {
+    display: block !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    box-sizing: border-box !important;
+  }
+
+  .rabbit-mortality-edit-date input {
+    display: block !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    box-sizing: border-box !important;
+  }
+}
