@@ -95,7 +95,11 @@ function EditChickenMortality() {
 
       const data = await response.json();
 
-      alert(data.message);
+      if (response.ok) {
+        alert(t("chickenMortalityUpdatedSuccessfully"));
+      } else {
+        alert(data.message);
+      }
 
       if (response.ok) {
         navigate("/chicken-mortality");
