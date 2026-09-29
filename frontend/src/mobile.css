@@ -2617,3 +2617,28 @@ canvas {
   border-color: #198754 !important;
   font-weight: 600 !important;
 }
+
+/* Edit Rabbit Mortality - professional phone layout */
+@media (max-width: 700px) {
+  .rabbit-mortality-edit-grid {
+    grid-template-columns: 105px minmax(0, 1fr) !important;
+    gap: 10px !important;
+  }
+
+  .rabbit-mortality-edit-grid label {
+    font-size: 14px !important;
+    font-weight: 600 !important;
+  }
+
+  .rabbit-mortality-edit-grid input,
+  .rabbit-mortality-edit-grid select,
+  .rabbit-mortality-edit-grid textarea {
+    width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .rabbit-mortality-edit-grid textarea {
+    min-height: 90px !important;
+  }
+}
