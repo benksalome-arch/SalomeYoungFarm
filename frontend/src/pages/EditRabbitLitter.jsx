@@ -297,11 +297,7 @@ function EditRabbitLitter() {
         return;
       }
 
-      alert(
-        data.message ||
-          t("rabbitLitterUpdatedSuccessfully") ||
-          "Rabbit litter record updated successfully!"
-      );
+      alert(t("rabbitLitterUpdatedSuccessfully"));
 
       navigate("/rabbit-litters");
     } catch (err) {
