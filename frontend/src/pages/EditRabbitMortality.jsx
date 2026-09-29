@@ -1,5 +1,6 @@
 import API_URL from "../api";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { useLanguage } from "../context/LanguageContext";
 
@@ -7,6 +8,7 @@ function EditRabbitMortality() {
   const { t } = useLanguage();
   const navigate = useNavigate();
   const { id } = useParams();
+  const mortalityDateRef = useRef(null);
 
   const inputStyle = {
     width: "100%",
@@ -113,36 +115,16 @@ function EditRabbitMortality() {
 
   function formatDisplayDate(value) {
     if (!value) return "";
-
     const [year, month, day] = value.split("-");
-
-    return `${day}-${month}-${year}`;
+    return year && month && day ? `${day}-${month}-${year}` : "";
   }
 
-  function selectCalendarDate(day) {
-    const year = calendarMonth.getFullYear();
-    const month = String(
-      calendarMonth.getMonth() + 1
-    ).padStart(2, "0");
-    const date = String(day).padStart(2, "0");
+  const currentYear = new Date().getFullYear();
 
-    setFormData((previous) => ({
-      ...previous,
-      mortality_date: `${year}-${month}-${date}`,
-    }));
-
-    setCalendarOpen(false);
-  }
-
-  function changeCalendarMonth(offset) {
-    setCalendarMonth(
-      new Date(
-        calendarMonth.getFullYear(),
-        calendarMonth.getMonth() + offset,
-        1
-      )
-    );
-  }
+  const calendarYears = Array.from(
+    { length: 101 },
+    (_, index) => currentYear - index
+  );
 
   const monthKeys = [
     "january",
@@ -169,20 +151,40 @@ function EditRabbitMortality() {
     "sat",
   ];
 
+  function formatDateDisplay(value) {
+    if (!value) return "";
+    const [year, month, day] = value.split("-");
+    return year && month && day ? `${day}-${month}-${year}` : "";
+  }
+
+  function selectCalendarDate(day) {
+    const year = calendarMonth.getFullYear();
+    const month = String(calendarMonth.getMonth() + 1).padStart(2, "0");
+    const date = String(day).padStart(2, "0");
+
+    setFormData((previous) => ({
+      ...previous,
+      mortality_date: `${year}-${month}-${date}`,
+    }));
+
+    setCalendarOpen(false);
+  }
+
+  function changeCalendarMonth(offset) {
+    setCalendarMonth(
+      new Date(
+        calendarMonth.getFullYear(),
+        calendarMonth.getMonth() + offset,
+        1
+      )
+    );
+  }
+
   const year = calendarMonth.getFullYear();
   const month = calendarMonth.getMonth();
 
-  const firstDay = new Date(
-    year,
-    month,
-    1
-  ).getDay();
-
-  const daysInMonth = new Date(
-    year,
-    month + 1,
-    0
-  ).getDate();
+  const firstDay = new Date(year, month, 1).getDay();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
 
   const calendarDays = [];
 
@@ -486,109 +488,318 @@ function EditRabbitMortality() {
                 </select>
               </div>
 
-              {/* Date */}
-              <div className="rabbit-mortality-edit-calendar">
-                <label>{t("date")}</label>
+              {/* Birth Date */}
+          <p style={{ margin: "0 0 16px" }}>
+            <label style={labelStyle}>{t("birthDate")}</label>
 
-                <button
-                  type="button"
-                  className="button"
-                  style={{
-                    width: "100%",
-                    textAlign: "left",
-                    background: "#fff",
-                    color: "#222",
-                    border: "1px solid #cfd6cf",
+            <div style={{ position: "relative", width: "100%" }}>
+              <input
+                type="text"
+                value={
+                  formData.mortality_date
+                    ? formData.mortality_date.split("-").reverse().join("-")
+                    : ""
+                }
+                placeholder="DD-MM-JJJJ"
+                readOnly
+                onClick={() => {
+                  const selected = formData.mortality_date
+                    ? new Date(formData.mortality_date + "T00:00:00")
+                    : new Date();
+
+                  setCalendarMonth(
+                    new Date(
+                      selected.getFullYear(),
+                      selected.getMonth(),
+                      1
+                    )
+                  );
+
+                  setCalendarOpen(true);
+                }}
+                style={{
+                  ...inputStyle,
+                  width: "100%",
+                  cursor: "pointer",
+                  color: "#222",
+                  WebkitTextFillColor: "#222",
+                  backgroundColor: "#fff",
+                }}
+              />
+
+              {calendarOpen && (
+                <div
+                  onClick={(e) => {
+                    if (e.target === e.currentTarget) {
+                      setCalendarOpen(false);
+                    }
                   }}
-                  onClick={() =>
-                    setCalendarOpen(!calendarOpen)
-                  }
+                  style={{
+                    position: "fixed",
+                    inset: 0,
+                    background: "rgba(0, 0, 0, 0.35)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    zIndex: 99999,
+                    padding: "16px",
+                    boxSizing: "border-box",
+                  }}
                 >
-                  {formData.mortality_date
-                    ? formatDisplayDate(
-                        formData.mortality_date
-                      )
-                    : t("selectDate")}
-                </button>
+                  <div
+                    onClick={(e) => e.stopPropagation()}
+                    style={{
+                      width: "min(92vw, 360px)",
+                      background: "#fff",
+                      borderRadius: "14px",
+                      padding: "18px",
+                      boxSizing: "border-box",
+                      boxShadow:
+                        "0 12px 35px rgba(0,0,0,0.25)",
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        gap: "8px",
+                        marginBottom: "14px",
+                      }}
+                    >
+                      <select
+                        value={calendarMonth.getMonth()}
+                        onChange={(e) =>
+                          setCalendarMonth(
+                            new Date(
+                              calendarMonth.getFullYear(),
+                              Number(e.target.value),
+                              1
+                            )
+                          )
+                        }
+                        style={{
+                          height: "38px",
+                          padding: "0 30px 0 10px",
+                          border: "1px solid #cfd6cf",
+                          borderRadius: "8px",
+                          background: "#fff",
+                          color: "#222",
+                          fontSize: "14px",
+                          fontWeight: 600,
+                        }}
+                      >
+                        {monthNames.map((month, index) => (
+                          <option key={month} value={index}>
+                            {month}
+                          </option>
+                        ))}
+                      </select>
 
-                {calendarOpen && (
-                  <div className="rabbit-mortality-calendar-popup">
-                    <div className="rabbit-mortality-calendar-header">
+                      <select
+                        value={calendarMonth.getFullYear()}
+                        onChange={(e) =>
+                          setCalendarMonth(
+                            new Date(
+                              Number(e.target.value),
+                              calendarMonth.getMonth(),
+                              1
+                            )
+                          )
+                        }
+                        style={{
+                          height: "38px",
+                          padding: "0 30px 0 10px",
+                          border: "1px solid #cfd6cf",
+                          borderRadius: "8px",
+                          background: "#fff",
+                          color: "#222",
+                          fontSize: "14px",
+                          fontWeight: 600,
+                        }}
+                      >
+                        {calendarYears.map((year) => (
+                          <option key={year} value={year}>
+                            {year}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        marginBottom: "10px",
+                      }}
+                    >
                       <button
                         type="button"
-                        onClick={() =>
-                          changeCalendarMonth(-1)
-                        }
+                        onClick={() => changeCalendarMonth(-1)}
+                        style={{
+                          width: "38px",
+                          height: "38px",
+                          border: "1px solid #cfd6cf",
+                          borderRadius: "8px",
+                          background: "#fff",
+                          fontSize: "20px",
+                          fontWeight: "700",
+                          cursor: "pointer",
+                        }}
                       >
                         ‹
                       </button>
 
-                      <strong>
-                        {t(monthKeys[month])} {year}
-                      </strong>
+                      <div
+                        style={{
+                          fontSize: "19px",
+                          fontWeight: "700",
+                        }}
+                      >
+                        {monthNames[calendarMonth.getMonth()]}{" "}
+                        {calendarMonth.getFullYear()}
+                      </div>
 
                       <button
                         type="button"
-                        onClick={() =>
-                          changeCalendarMonth(1)
-                        }
+                        onClick={() => changeCalendarMonth(1)}
+                        style={{
+                          width: "38px",
+                          height: "38px",
+                          border: "1px solid #cfd6cf",
+                          borderRadius: "8px",
+                          background: "#fff",
+                          fontSize: "20px",
+                          fontWeight: "700",
+                          cursor: "pointer",
+                        }}
                       >
                         ›
                       </button>
                     </div>
 
-                    <div className="rabbit-mortality-calendar-weekdays">
-                      {weekdayKeys.map((key) => (
-                        <div key={key}>
-                          {t(key)}
+                    <div
+                      style={{
+                        display: "grid",
+                        gridTemplateColumns: "repeat(7, 1fr)",
+                        gap: "4px",
+                        marginBottom: "6px",
+                      }}
+                    >
+                      {weekDays.map((day) => (
+                        <div
+                          key={day}
+                          style={{
+                            textAlign: "center",
+                            fontWeight: 700,
+                            fontSize: "13px",
+                            color: "#555",
+                            padding: "5px 0",
+                          }}
+                        >
+                          {day}
                         </div>
                       ))}
                     </div>
 
-                    <div className="rabbit-mortality-calendar-days">
-                      {calendarDays.map((day, index) =>
-                        day ? (
+                    <div
+                      style={{
+                        display: "grid",
+                        gridTemplateColumns: "repeat(7, 1fr)",
+                        gap: "4px",
+                      }}
+                    >
+                      {Array.from({
+                        length: new Date(
+                          calendarMonth.getFullYear(),
+                          calendarMonth.getMonth(),
+                          1
+                        ).getDay(),
+                      }).map((_, index) => (
+                        <div key={`empty-${index}`} />
+                      ))}
+
+                      {Array.from({
+                        length: new Date(
+                          calendarMonth.getFullYear(),
+                          calendarMonth.getMonth() + 1,
+                          0
+                        ).getDate(),
+                      }).map((_, index) => {
+                        const day = index + 1;
+
+                        const dateValue =
+                          `${calendarMonth.getFullYear()}-` +
+                          `${String(calendarMonth.getMonth() + 1).padStart(2, "0")}-` +
+                          `${String(day).padStart(2, "0")}`;
+
+                        const selected =
+                          formData.mortality_date === dateValue;
+
+                        const today = new Date();
+
+                        const isToday =
+                          day === today.getDate() &&
+                          calendarMonth.getMonth() === today.getMonth() &&
+                          calendarMonth.getFullYear() === today.getFullYear();
+
+                        return (
                           <button
-                            key={index}
+                            key={day}
                             type="button"
-                            className={
-                              formData.mortality_date ===
-                              `${year}-${String(
-                                month + 1
-                              ).padStart(2, "0")}-${String(
-                                day
-                              ).padStart(2, "0")}`
-                                ? "selected"
-                                : ""
-                            }
-                            onClick={() =>
-                              selectCalendarDate(day)
-                            }
+                            onClick={() => selectCalendarDate(day)}
+                            style={{
+                              width: "40px",
+                              height: "40px",
+                              minWidth: "40px",
+                              border: "none",
+                              borderRadius: "50%",
+                              background: selected
+                                ? "#2e7d32"
+                                : isToday
+                                ? "#e8f5e9"
+                                : "#fff",
+                              color: selected
+                                ? "#fff"
+                                : "#222",
+                              fontWeight:
+                                selected || isToday ? 700 : 400,
+                              cursor: "pointer",
+                              padding: 0,
+                              justifySelf: "center",
+                              boxSizing: "border-box",
+                            }}
+                            onMouseDown={(e) => e.preventDefault()}
                           >
                             {day}
                           </button>
-                        ) : (
-                          <div key={index} />
-                        )
-                      )}
+                        );
+                      })}
                     </div>
 
                     <button
                       type="button"
-                      className="button"
+                      onClick={() => setCalendarOpen(false)}
                       style={{
                         width: "100%",
-                        marginTop: "12px",
+                        marginTop: "16px",
+                        padding: "10px",
+                        border: "1px solid #ccc",
+                        borderRadius: "8px",
+                        background: "#fff",
+                        color: "#222",
+                        cursor: "pointer",
+                        fontWeight: 600,
                       }}
-                      onClick={() =>
-                        setCalendarOpen(false)
-                      }
                     >
-                      {t("cancel")}
+                      Annuleren
                     </button>
                   </div>
-                )}
-              </div>
+                </div>
+              )}
+            </div>
+          </p>
 
               {/* Quantity */}
               <div>
