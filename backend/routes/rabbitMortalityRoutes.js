@@ -24,6 +24,14 @@ router.post(
   rabbitMortalityController.createMortality
 );
 
+// Edit mortality record
+router.put(
+  "/:id",
+  authenticateToken,
+  requireAdmin,
+  rabbitMortalityController.updateMortality
+);
+
 // Delete mortality record
 router.delete(
   "/:id",

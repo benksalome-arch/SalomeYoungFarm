@@ -87,6 +87,13 @@ function RabbitMortality() {
 
         <Link
           className="button"
+          to="/rabbits"
+        >
+          ← {t("back")}
+        </Link>
+
+        <Link
+          className="button"
           to="/rabbit-mortality/add"
         >
           ➕ {t("recordMortality")}
@@ -170,15 +177,35 @@ function RabbitMortality() {
                   </td>
 
                   <td>
-                    <button
-                      className="button"
-                      type="button"
-                      onClick={() =>
-                        deleteRecord(record.id)
-                      }
+                    <div
+                      style={{
+                        display: "flex",
+                        gap: "8px",
+                        flexWrap: "wrap",
+                      }}
                     >
-                      🗑 {t("delete")}
-                    </button>
+                      <Link
+                        className="button"
+                        to={`/rabbit-mortality/${record.id}/edit`}
+                      >
+                        ✏️ {t("edit")}
+                      </Link>
+
+                      <button
+                        className="button"
+                        type="button"
+                        onClick={() =>
+                          deleteRecord(record.id)
+                        }
+                        style={{
+                          backgroundColor: "#dc2626",
+                          color: "#fff",
+                          border: "none",
+                        }}
+                      >
+                        🗑 {t("delete")}
+                      </button>
+                    </div>
                   </td>
 
                 </tr>

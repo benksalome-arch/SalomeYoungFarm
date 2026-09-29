@@ -132,6 +132,7 @@ import EditRabbitLitter from "./pages/EditRabbitLitter";
 
 import RabbitMortality from "./pages/RabbitMortality";
 import AddRabbitMortality from "./pages/AddRabbitMortality";
+import EditRabbitMortality from "./pages/EditRabbitMortality";
 
 // ======================
 // Other
@@ -569,6 +570,11 @@ function App() {
           <Route
             path="/rabbit-mortality/add"
             element={<AddRabbitMortality />}
+          />
+
+          <Route
+            path="/rabbit-mortality/:id/edit"
+            element={<EditRabbitMortality />}
           />
 
           {/* Rabbit Vaccinations */}
