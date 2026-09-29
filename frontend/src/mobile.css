@@ -2793,3 +2793,59 @@ canvas {
     padding-right: 8px !important;
   }
 }
+
+/* =========================================================
+   EDIT RABBIT MORTALITY - DATE FIELD
+   Matches the other form fields
+   ========================================================= */
+
+.rabbit-mortality-edit-date {
+  display: grid !important;
+  grid-template-columns: 150px minmax(0, 1fr) !important;
+  align-items: center !important;
+  gap: 12px !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+  box-sizing: border-box !important;
+}
+
+.rabbit-mortality-edit-date > label {
+  display: block !important;
+  width: 100% !important;
+  margin: 0 !important;
+  text-align: left !important;
+  font-size: 15px !important;
+  font-weight: 600 !important;
+  color: #555 !important;
+}
+
+.rabbit-mortality-edit-date > div {
+  width: 100% !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+}
+
+.rabbit-mortality-edit-date input {
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+@media (max-width: 700px) {
+  .rabbit-mortality-edit-date {
+    display: block !important;
+    width: 100% !important;
+  }
+
+  .rabbit-mortality-edit-date > label {
+    display: block !important;
+    margin: 0 0 7px 0 !important;
+    font-size: 14px !important;
+  }
+
+  .rabbit-mortality-edit-date > div {
+    width: 100% !important;
+  }
+}

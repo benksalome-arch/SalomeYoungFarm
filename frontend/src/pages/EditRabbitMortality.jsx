@@ -484,8 +484,8 @@ function EditRabbitMortality() {
               </div>
 
               {/* Birth Date */}
-          <p style={{ margin: "0 0 16px" }}>
-            <label style={labelStyle}>{t("birthDate")}</label>
+          <div className="rabbit-mortality-edit-date">
+            <label>{t("birthDate")}</label>
 
             <div style={{ position: "relative", width: "100%" }}>
               <input
@@ -794,7 +794,7 @@ function EditRabbitMortality() {
                 </div>
               )}
             </div>
-          </p>
+          </div>
 
               {/* Quantity */}
               <div>
