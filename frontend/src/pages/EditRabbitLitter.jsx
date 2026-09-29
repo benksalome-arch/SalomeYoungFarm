@@ -103,7 +103,15 @@ function EditRabbitLitter() {
       const viewportPadding = 12;
 
       let left = fieldRect.left;
-      let top = fieldRect.bottom + gap;
+
+      // Open the calendar above the date field when there is enough space.
+      // This keeps it from pushing the fields below it off-screen.
+      let top = fieldRect.top - calendarRect.height - gap;
+
+      // If there is not enough room above, open it below the field.
+      if (top < viewportPadding) {
+        top = fieldRect.bottom + gap;
+      }
 
       if (window.innerWidth <= 500) {
         left = Math.max(
@@ -400,9 +408,10 @@ function EditRabbitLitter() {
                   }}
                   style={{
                     width: "100%",
+                    height: "42px",
+                    minHeight: "42px",
                     boxSizing: "border-box",
-                    minHeight: "44px",
-                    padding: "10px 12px",
+                    padding: "0 12px",
                     border: "1px solid #cfd6cf",
                     borderRadius: "7px",
                     background: "#fff",
