@@ -2952,3 +2952,23 @@ canvas {
     justify-content: center !important;
   }
 }
+
+/* Desktop: keep Rabbit and Geboortedatum fields equal width */
+@media (min-width: 701px) {
+  .rabbit-mortality-edit-grid > div:first-child,
+  .rabbit-mortality-edit-date {
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .rabbit-mortality-edit-date > div {
+    width: 100% !important;
+  }
+
+  .rabbit-mortality-edit-date input {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    box-sizing: border-box !important;
+  }
+}
