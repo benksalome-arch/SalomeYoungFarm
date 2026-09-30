@@ -17,6 +17,17 @@ function EditFeed() {
     fontSize: "14px",
   };
 
+  const inputStyle = {
+    width: "100%",
+    padding: "10px 12px",
+    border: "1px solid #ccc",
+    borderRadius: "6px",
+    fontSize: "15px",
+    boxSizing: "border-box",
+    background: "#fff",
+  };
+
+
   const [calendarMonth, setCalendarMonth] = useState(new Date());
 
   const monthNames = [
