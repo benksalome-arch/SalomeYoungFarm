@@ -224,84 +224,6 @@ function EditFeed() {
           </div>
 
           <div className="edit-feed-field">
-            <label className="edit-feed-label">{t("category")}</label>
-            <select
-              className="edit-feed-input"
-              name="category"
-              value={formData.category}
-              onChange={handleChange}
-            >
-              <option value="Goat">{t("goat")}</option>
-              <option value="Chicken">{t("chicken")}</option>
-              <option value="Rabbit">{t("rabbit")}</option>
-              <option value="General">{t("general")}</option>
-            </select>
-          </div>
-
-          <div className="edit-feed-field">
-            <label className="edit-feed-label">{t("quantity")}</label>
-            <input
-              className="edit-feed-input"
-              type="number"
-              step="0.01"
-              name="quantity"
-              value={formData.quantity}
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          <div className="edit-feed-field">
-            <label className="edit-feed-label">{t("unit")}</label>
-            <select
-              className="edit-feed-input"
-              name="unit"
-              value={formData.unit}
-              onChange={handleChange}
-            >
-              <option value="kg">{t("kg")}</option>
-              <option value="bags">{t("bags")}</option>
-              <option value="litres">{t("litres")}</option>
-              <option value="pieces">{t("pieces")}</option>
-            </select>
-          </div>
-
-          <div className="edit-feed-field">
-            <label className="edit-feed-label">{t("minimumStock")}</label>
-            <input
-              className="edit-feed-input"
-              type="number"
-              step="0.01"
-              name="minimum_stock"
-              value={formData.minimum_stock}
-              onChange={handleChange}
-            />
-          </div>
-
-          <div className="edit-feed-field">
-            <label className="edit-feed-label">{t("costPerUnitKES")}</label>
-            <input
-              className="edit-feed-input"
-              type="number"
-              step="0.01"
-              name="cost_per_unit"
-              value={formData.cost_per_unit}
-              onChange={handleChange}
-            />
-          </div>
-
-          <div className="edit-feed-field">
-            <label className="edit-feed-label">{t("supplier")}</label>
-            <input
-              className="edit-feed-input"
-              type="text"
-              name="supplier"
-              value={formData.supplier}
-              onChange={handleChange}
-            />
-          </div>
-
-          <div className="edit-feed-field">
             <label
               htmlFor="purchase_date"
               style={labelStyle}
@@ -505,6 +427,84 @@ function EditFeed() {
                 </div>
               )}
             </div>
+
+          <div className="edit-feed-field">
+            <label className="edit-feed-label">{t("quantity")}</label>
+            <input
+              className="edit-feed-input"
+              type="number"
+              step="0.01"
+              name="quantity"
+              value={formData.quantity}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <div className="edit-feed-field">
+            <label className="edit-feed-label">{t("unit")}</label>
+            <select
+              className="edit-feed-input"
+              name="unit"
+              value={formData.unit}
+              onChange={handleChange}
+            >
+              <option value="kg">{t("kg")}</option>
+              <option value="bags">{t("bags")}</option>
+              <option value="litres">{t("litres")}</option>
+              <option value="pieces">{t("pieces")}</option>
+            </select>
+          </div>
+
+          <div className="edit-feed-field">
+            <label className="edit-feed-label">{t("minimumStock")}</label>
+            <input
+              className="edit-feed-input"
+              type="number"
+              step="0.01"
+              name="minimum_stock"
+              value={formData.minimum_stock}
+              onChange={handleChange}
+            />
+          </div>
+
+          <div className="edit-feed-field">
+            <label className="edit-feed-label">{t("costPerUnitKES")}</label>
+            <input
+              className="edit-feed-input"
+              type="number"
+              step="0.01"
+              name="cost_per_unit"
+              value={formData.cost_per_unit}
+              onChange={handleChange}
+            />
+          </div>
+
+          <div className="edit-feed-field">
+            <label className="edit-feed-label">{t("supplier")}</label>
+            <input
+              className="edit-feed-input"
+              type="text"
+              name="supplier"
+              value={formData.supplier}
+              onChange={handleChange}
+            />
+          </div>
+
+          <div className="edit-feed-field">
+            <label className="edit-feed-label">{t("category")}</label>
+            <select
+              className="edit-feed-input"
+              name="category"
+              value={formData.category}
+              onChange={handleChange}
+            >
+              <option value="Goat">{t("goat")}</option>
+              <option value="Chicken">{t("chicken")}</option>
+              <option value="Rabbit">{t("rabbit")}</option>
+              <option value="General">{t("general")}</option>
+            </select>
+          </div>
 
             <label className="edit-feed-label">{t("notes")}</label>
             <textarea
