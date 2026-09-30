@@ -127,10 +127,11 @@ function EditFeed() {
 
         .edit-feed-field {
           display: grid;
-          grid-template-columns: 150px minmax(0, 260px);
+          grid-template-columns: 150px minmax(0, 1fr);
           align-items: center;
           gap: 14px;
           margin-bottom: 16px;
+          width: 100%;
         }
 
         .edit-feed-label {
@@ -138,12 +139,12 @@ function EditFeed() {
           font-size: 15px;
           text-align: right;
           color: #222;
-          overflow-wrap: anywhere;
           line-height: 1.25;
         }
 
         .edit-feed-input {
           width: 100%;
+          min-width: 0;
           box-sizing: border-box;
           padding: 10px 12px;
           min-height: 44px;
@@ -157,10 +158,11 @@ function EditFeed() {
 
         .edit-feed-notes {
           display: grid;
-          grid-template-columns: 150px minmax(0, 260px);
+          grid-template-columns: 150px minmax(0, 1fr);
           align-items: start;
           gap: 14px;
           margin-bottom: 20px;
+          width: 100%;
         }
 
         .edit-feed-buttons {
@@ -173,8 +175,12 @@ function EditFeed() {
         @media (max-width: 700px) {
           .edit-feed-field,
           .edit-feed-notes {
-            grid-template-columns: 105px minmax(0, 1fr);
-            gap: 10px;
+            grid-template-columns: 1fr;
+            gap: 6px;
+          }
+
+          .edit-feed-label {
+            text-align: left;
           }
         }
       `}</style>
