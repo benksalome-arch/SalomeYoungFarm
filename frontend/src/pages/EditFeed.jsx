@@ -9,6 +9,14 @@ function EditFeed() {
   const navigate = useNavigate();
 
   const [calendarOpen, setCalendarOpen] = useState(false);
+
+  const labelStyle = {
+    display: "block",
+    marginBottom: "6px",
+    fontWeight: 600,
+    fontSize: "14px",
+  };
+
   const [calendarMonth, setCalendarMonth] = useState(new Date());
 
   const monthNames = [
