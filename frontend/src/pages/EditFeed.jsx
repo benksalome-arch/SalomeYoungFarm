@@ -119,71 +119,134 @@ function EditFeed() {
   return (
     <div className="page">
       <style>{`
-        .edit-feed-form {
-          width: 100%;
-          max-width: 620px;
-          margin: 0 auto;
-        }
+  .edit-feed-form {
+    width: 100%;
+    max-width: 760px;
+    margin: 0 auto;
+  }
 
-        .edit-feed-field {
-          display: grid;
-          grid-template-columns: 150px minmax(0, 1fr);
-          align-items: center;
-          gap: 14px;
-          margin-bottom: 16px;
-          width: 100%;
-        }
+  .edit-feed-field {
+    display: grid;
+    grid-template-columns: 190px minmax(0, 1fr);
+    align-items: center;
+    gap: 18px;
+    margin-bottom: 16px;
+  }
 
-        .edit-feed-label {
-          font-weight: 600;
-          font-size: 15px;
-          text-align: right;
-          color: #222;
-          line-height: 1.25;
-        }
+  .edit-feed-label {
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 1.25;
+    text-align: right;
+    color: #222;
+    overflow-wrap: anywhere;
+  }
 
-        .edit-feed-input {
-          width: 100%;
-          min-width: 0;
-          box-sizing: border-box;
-          padding: 10px 12px;
-          min-height: 44px;
-          border: 1px solid #cfd6cf;
-          border-radius: 7px;
-          background: #fff;
-          color: #222;
-          -webkit-text-fill-color: #222;
-          font-size: 15px;
-        }
+  .edit-feed-input {
+    display: block !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    height: 48px !important;
+    min-height: 48px !important;
+    box-sizing: border-box !important;
+    padding: 11px 14px !important;
+    margin: 0 !important;
+    border: 1px solid #bfc7c0 !important;
+    border-radius: 8px !important;
+    background: #fff !important;
+    color: #222 !important;
+    -webkit-text-fill-color: #222 !important;
+    font-size: 16px !important;
+    font-family: inherit !important;
+    line-height: 1.3 !important;
+    outline: none;
+    cursor: text;
+  }
 
-        .edit-feed-notes {
-          display: grid;
-          grid-template-columns: 150px minmax(0, 1fr);
-          align-items: start;
-          gap: 14px;
-          margin-bottom: 20px;
-          width: 100%;
-        }
+  .edit-feed-input:hover {
+    border-color: #8d998f !important;
+  }
 
-        .edit-feed-buttons {
-          display: flex;
-          gap: 10px;
-          justify-content: center;
-          flex-wrap: wrap;
-        }
+  .edit-feed-input:focus {
+    border-color: #2e7d32 !important;
+    box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.14) !important;
+    outline: none !important;
+  }
 
-        @media (max-width: 700px) {
-          .edit-feed-field,
-          .edit-feed-notes {
-            grid-template-columns: 1fr;
-            gap: 6px;
-          }
+  .edit-feed-input[type="number"] {
+    cursor: text !important;
+    text-align: left;
+  }
 
-          .edit-feed-label {
-            text-align: left;
-          }
-        }
-      `}</style>
+  select.edit-feed-input {
+    cursor: pointer !important;
+  }
+
+  .edit-feed-notes {
+    display: grid;
+    grid-template-columns: 190px minmax(0, 1fr);
+    align-items: start;
+    gap: 18px;
+    margin-bottom: 22px;
+  }
+
+  .edit-feed-notes .edit-feed-label {
+    padding-top: 10px;
+  }
+
+  .edit-feed-notes .edit-feed-input {
+    min-height: 110px;
+    resize: vertical;
+  }
+
+  .edit-feed-category {
+    order: 1;
+  }
+
+  .edit-feed-date {
+    order: 2;
+  }
+
+  @media (max-width: 700px) {
+    .edit-feed-form {
+      max-width: 100%;
+    }
+
+    .edit-feed-field,
+    .edit-feed-notes {
+      grid-template-columns: 1fr;
+      gap: 6px;
+      margin-bottom: 15px;
+    }
+
+    .edit-feed-label,
+    .edit-feed-notes .edit-feed-label {
+      text-align: left;
+      padding-top: 0;
+      font-size: 14px;
+    }
+
+    .edit-feed-input {
+      width: 100% !important;
+      height: 48px !important;
+      min-height: 48px !important;
+      font-size: 16px !important;
+    }
+
+    .edit-feed-buttons {
+      width: 100%;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .edit-feed-buttons .button {
+      flex: 1 1 140px;
+      min-height: 44px;
+    }
+  }
+`}</style>
 
       <div className="page-header">
         <h1
@@ -201,7 +264,7 @@ function EditFeed() {
         className="card"
         style={{
           width: "100%",
-          maxWidth: "620px",
+          maxWidth: "820px",
           margin: "0 auto",
         }}
       >
@@ -229,7 +292,7 @@ function EditFeed() {
             />
           </div>
 
-          <div className="edit-feed-field">
+          <div className="edit-feed-field edit-feed-date">
             <label
               htmlFor="purchase_date"
               style={labelStyle}
@@ -497,7 +560,7 @@ function EditFeed() {
             />
           </div>
 
-          <div className="edit-feed-field">
+          <div className="edit-feed-field edit-feed-category">
             <label className="edit-feed-label">{t("category")}</label>
             <select
               className="edit-feed-input"
