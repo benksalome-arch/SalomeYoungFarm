@@ -3041,3 +3041,81 @@ canvas {
     box-sizing: border-box !important;
   }
 }
+
+
+/* Rabbit Vaccinations — final mobile layout */
+@media (max-width: 700px) {
+  table.rabbit-vaccination-table {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    table-layout: fixed !important;
+  }
+
+  table.rabbit-vaccination-table th,
+  table.rabbit-vaccination-table td {
+    box-sizing: border-box !important;
+    padding: 8px 5px !important;
+    font-size: 12px !important;
+    vertical-align: middle !important;
+    overflow-wrap: break-word !important;
+  }
+
+  table.rabbit-vaccination-table th:nth-child(1),
+  table.rabbit-vaccination-table td:nth-child(1) {
+    width: 14% !important;
+  }
+
+  table.rabbit-vaccination-table th:nth-child(2),
+  table.rabbit-vaccination-table td:nth-child(2) {
+    width: 11% !important;
+  }
+
+  table.rabbit-vaccination-table th:nth-child(3),
+  table.rabbit-vaccination-table td:nth-child(3) {
+    width: 16% !important;
+  }
+
+  table.rabbit-vaccination-table th:nth-child(4),
+  table.rabbit-vaccination-table td:nth-child(4) {
+    width: 15% !important;
+  }
+
+  table.rabbit-vaccination-table th:nth-child(5),
+  table.rabbit-vaccination-table td:nth-child(5) {
+    width: 22% !important;
+  }
+
+  table.rabbit-vaccination-table th:nth-child(6),
+  table.rabbit-vaccination-table td:nth-child(6) {
+    width: 22% !important;
+    text-align: center !important;
+  }
+
+  /* Actions column */
+  table.rabbit-vaccination-table td:last-child > div {
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    justify-content: center !important;
+    gap: 6px !important;
+  }
+
+  table.rabbit-vaccination-table td:last-child a,
+  table.rabbit-vaccination-table td:last-child button {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+    padding: 7px 4px !important;
+    margin: 0 !important;
+    font-size: 11px !important;
+    line-height: 1.2 !important;
+    text-align: center !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+}

@@ -8,6 +8,19 @@ function EditFeed() {
   const { id } = useParams();
   const navigate = useNavigate();
 
+  const [calendarOpen, setCalendarOpen] = useState(false);
+  const [calendarMonth, setCalendarMonth] = useState(new Date());
+
+  const monthNames = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December",
+  ];
+
+  const calendarYears = Array.from(
+    { length: 21 },
+    (_, i) => new Date().getFullYear() - 10 + i
+  );
+
   const [formData, setFormData] = useState({
     feed_name: "",
     category: "Goat",
@@ -272,152 +285,208 @@ function EditFeed() {
           <div className="edit-feed-field">
             <label
               htmlFor="purchase_date"
-              className="edit-feed-label"
+              style={labelStyle}
             >
-              {t("purchaseDate")}
+              Aankoopdatum
             </label>
 
-            <input
-              id="purchase_date"
-              className="edit-feed-input"
-              type="text"
-              name="purchase_date"
-              value={
-                formData.purchase_date
+            <div style={{ position: "relative" }}>
+              <button
+                type="button"
+                onClick={() => {
+                  const selected = formData.purchase_date
+                    ? new Date(formData.purchase_date + "T00:00:00")
+                    : new Date();
+
+                  setCalendarMonth(selected);
+                  setCalendarOpen(true);
+                }}
+                style={{
+                  ...inputStyle,
+                  width: "100%",
+                  textAlign: "left",
+                  background: "#fff",
+                  cursor: "pointer",
+                }}
+              >
+                {formData.purchase_date
                   ? formData.purchase_date.split("-").reverse().join("-")
-                  : ""
-              }
-              placeholder="DD-MM-JJJJ"
-              readOnly
-              required
-              onClick={() => {
-                const today = new Date();
+                  : "Select date"}
+              </button>
 
-                const selected = formData.purchase_date
-                  ? new Date(formData.purchase_date + "T00:00:00")
-                  : today;
+              {calendarOpen && (
+                <div
+                  style={{
+                    position: "absolute",
+                    top: "calc(100% + 8px)",
+                    left: 0,
+                    zIndex: 1000,
+                    width: "320px",
+                    maxWidth: "calc(100vw - 40px)",
+                    background: "#fff",
+                    borderRadius: "16px",
+                    boxShadow: "0 8px 30px rgba(0,0,0,0.18)",
+                    padding: "18px",
+                    boxSizing: "border-box",
+                  }}
+                >
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      gap: "8px",
+                      marginBottom: "15px",
+                    }}
+                  >
+                    <select
+                      value={calendarMonth.getMonth()}
+                      onChange={(e) =>
+                        setCalendarMonth(
+                          new Date(
+                            calendarMonth.getFullYear(),
+                            Number(e.target.value),
+                            1
+                          )
+                        )
+                      }
+                      style={{ flex: 1, padding: "8px" }}
+                    >
+                      {monthNames.map((month, index) => (
+                        <option key={month} value={index}>
+                          {month}
+                        </option>
+                      ))}
+                    </select>
 
-                const year = selected.getFullYear();
-                const month = selected.getMonth();
-                const firstDay = new Date(year, month, 1).getDay();
-                const daysInMonth = new Date(
-                  year,
-                  month + 1,
-                  0
-                ).getDate();
+                    <select
+                      value={calendarMonth.getFullYear()}
+                      onChange={(e) =>
+                        setCalendarMonth(
+                          new Date(
+                            Number(e.target.value),
+                            calendarMonth.getMonth(),
+                            1
+                          )
+                        )
+                      }
+                      style={{ flex: 1, padding: "8px" }}
+                    >
+                      {calendarYears.map((year) => (
+                        <option key={year} value={year}>
+                          {year}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
 
-                const overlay = document.createElement("div");
+                  <div
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns: "repeat(7, 1fr)",
+                      gap: "6px",
+                      textAlign: "center",
+                      marginBottom: "8px",
+                      fontWeight: 700,
+                      fontSize: "12px",
+                    }}
+                  >
+                    {["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"].map((day) => (
+                      <div key={day}>{day}</div>
+                    ))}
+                  </div>
 
-                overlay.style.cssText =
-                  "position:fixed;inset:0;background:rgba(0,0,0,.35);display:flex;align-items:center;justify-content:center;z-index:99999;";
+                  <div
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns: "repeat(7, 1fr)",
+                      gap: "6px",
+                      justifyItems: "center",
+                    }}
+                  >
+                    {(() => {
+                      const year = calendarMonth.getFullYear();
+                      const month = calendarMonth.getMonth();
+                      const firstDay = new Date(year, month, 1);
+                      const daysInMonth = new Date(year, month + 1, 0).getDate();
+                      const startDay = (firstDay.getDay() + 6) % 7;
+                      const today = new Date();
+                      const cells = [];
 
-                const box = document.createElement("div");
+                      for (let i = 0; i < startDay; i++) {
+                        cells.push(
+                          <div
+                            key={"empty-" + i}
+                            style={{ width: 40, height: 40 }}
+                          />
+                        );
+                      }
 
-                box.style.cssText =
-                  "width:min(92vw,320px);background:#fff;border-radius:14px;padding:18px;box-sizing:border-box;box-shadow:0 8px 30px rgba(0,0,0,.25);";
+                      for (let day = 1; day <= daysInMonth; day++) {
+                        const value =
+                          `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
 
-                const title = document.createElement("div");
+                        const selected =
+                          formData.purchase_date === value;
 
-                title.textContent = selected
-                  .toLocaleDateString("en-GB", {
-                    day: "2-digit",
-                    month: "2-digit",
-                    year: "numeric",
-                  })
-                  .replaceAll("/", "-");
+                        const isToday =
+                          today.getDate() === day &&
+                          today.getMonth() === month &&
+                          today.getFullYear() === year;
 
-                title.style.cssText =
-                  "text-align:center;font-size:20px;font-weight:700;margin-bottom:14px;color:#222;-webkit-text-fill-color:#222;";
+                        cells.push(
+                          <button
+                            key={day}
+                            type="button"
+                            onClick={() => {
+                              setFormData((prev) => ({
+                                ...prev,
+                                purchase_date: value,
+                              }));
+                              setCalendarOpen(false);
+                            }}
+                            style={{
+                              width: 40,
+                              height: 40,
+                              borderRadius: "50%",
+                              border: "none",
+                              cursor: "pointer",
+                              background: selected
+                                ? "#2e7d32"
+                                : isToday
+                                ? "#e8f5e9"
+                                : "transparent",
+                              color: selected ? "#fff" : "#222",
+                              fontWeight: selected || isToday ? 700 : 400,
+                            }}
+                          >
+                            {day}
+                          </button>
+                        );
+                      }
 
-                const grid = document.createElement("div");
+                      return cells;
+                    })()}
+                  </div>
 
-                grid.style.cssText =
-                  "display:grid;grid-template-columns:repeat(7,1fr);gap:6px;";
+                  <button
+                    type="button"
+                    onClick={() => setCalendarOpen(false)}
+                    style={{
+                      marginTop: "15px",
+                      width: "100%",
+                      padding: "10px",
+                      border: "1px solid #ccc",
+                      borderRadius: "8px",
+                      background: "#fff",
+                      cursor: "pointer",
+                    }}
+                  >
+                    Annuleren
+                  </button>
+                </div>
+              )}
+            </div>
 
-                [
-                  t("sun"),
-                  t("mon"),
-                  t("tue"),
-                  t("wed"),
-                  t("thu"),
-                  t("fri"),
-                  t("sat"),
-                ].forEach((day) => {
-                  const el = document.createElement("div");
-
-                  el.textContent = day;
-
-                  el.style.cssText =
-                    "text-align:center;font-weight:600;font-size:13px;padding:6px 0;color:#222;-webkit-text-fill-color:#222;";
-
-                  grid.appendChild(el);
-                });
-
-                for (let i = 0; i < firstDay; i++) {
-                  grid.appendChild(document.createElement("div"));
-                }
-
-                for (let day = 1; day <= daysInMonth; day++) {
-                  const el = document.createElement("button");
-
-                  el.type = "button";
-                  el.textContent = day;
-
-                  const isToday =
-                    day === today.getDate() &&
-                    month === today.getMonth() &&
-                    year === today.getFullYear();
-
-                  el.style.cssText = `min-height:40px;border:${
-                    isToday ? "2px solid #2e7d32" : "1px solid #ddd"
-                  };border-radius:8px;background:${
-                    isToday ? "#e8f5e9" : "#fff"
-                  };color:#222;-webkit-text-fill-color:#222;font-size:15px;font-weight:600;display:flex;align-items:center;justify-content:center;`;
-
-                  el.onclick = () => {
-                    const value =
-                      year +
-                      "-" +
-                      String(month + 1).padStart(2, "0") +
-                      "-" +
-                      String(day).padStart(2, "0");
-
-                    setFormData((prev) => ({
-                      ...prev,
-                      purchase_date: value,
-                    }));
-
-                    document.body.removeChild(overlay);
-                  };
-
-                  grid.appendChild(el);
-                }
-
-                const cancel = document.createElement("button");
-
-                cancel.type = "button";
-                cancel.textContent = t("cancel");
-
-                cancel.style.cssText =
-                  "width:100%;margin-top:14px;min-height:44px;border:1px solid #ccc;border-radius:8px;background:#fff;color:#222;-webkit-text-fill-color:#222;font-size:15px;font-weight:600;";
-
-                cancel.onclick = () =>
-                  document.body.removeChild(overlay);
-
-                box.appendChild(title);
-                box.appendChild(grid);
-                box.appendChild(cancel);
-
-                overlay.appendChild(box);
-                document.body.appendChild(overlay);
-              }}
-              style={{
-                cursor: "pointer",
-              }}
-            />
-          </div>
-
-          <div className="edit-feed-notes">
             <label className="edit-feed-label">{t("notes")}</label>
             <textarea
               className="edit-feed-input"
