@@ -330,16 +330,6 @@ function AddRabbit() {
                         .map(Number);
 
                       setCalendarMonth(new Date(year, month - 1, 1));
-                    } else {
-                      const today = new Date();
-
-                      setCalendarMonth(
-                        new Date(
-                          today.getFullYear(),
-                          today.getMonth(),
-                          1
-                        )
-                      );
                     }
 
                     setCalendarOpen(true);
