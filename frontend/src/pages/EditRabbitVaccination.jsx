@@ -23,6 +23,75 @@ function EditRabbitVaccination() {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
 
+  const [calendarOpen, setCalendarOpen] = useState(false);
+  const [calendarField, setCalendarField] = useState(null);
+  const [calendarMonth, setCalendarMonth] = useState(new Date());
+
+  const monthNames = [
+    "Januari",
+    "Februari",
+    "Maart",
+    "April",
+    "Mei",
+    "Juni",
+    "Juli",
+    "Augustus",
+    "September",
+    "Oktober",
+    "November",
+    "December",
+  ];
+
+  const weekDays = ["Zo", "Ma", "Di", "Wo", "Do", "Vr", "Za"];
+
+  function openCalendar(field) {
+    const value = form[field];
+
+    if (value) {
+      const parts = value.split("-");
+      if (parts.length === 3) {
+        setCalendarMonth(
+          new Date(
+            Number(parts[0]),
+            Number(parts[1]) - 1,
+            Number(parts[2])
+          )
+        );
+      }
+    } else {
+      setCalendarMonth(new Date());
+    }
+
+    setCalendarField(field);
+    setCalendarOpen(true);
+  }
+
+  function selectCalendarDate(day) {
+    const year = calendarMonth.getFullYear();
+    const month = String(
+      calendarMonth.getMonth() + 1
+    ).padStart(2, "0");
+    const date = String(day).padStart(2, "0");
+
+    setForm((previous) => ({
+      ...previous,
+      [calendarField]: `${year}-${month}-${date}`,
+    }));
+
+    setCalendarOpen(false);
+    setCalendarField(null);
+  }
+
+  function changeCalendarMonth(offset) {
+    setCalendarMonth(
+      new Date(
+        calendarMonth.getFullYear(),
+        calendarMonth.getMonth() + offset,
+        1
+      )
+    );
+  }
+
   useEffect(() => {
     loadData();
   }, [id]);
@@ -242,14 +311,195 @@ function EditRabbitVaccination() {
             <label style={labelStyle}>
               {t("date")}
             </label>
-            <input
-              type="date"
-              name="vaccination_date"
-              value={form.vaccination_date}
-              onChange={handleChange}
-              style={inputStyle}
-              required
-            />
+            <div style={{ position: "relative" }}>
+              <button
+                type="button"
+                onClick={() => openCalendar("vaccination_date")}
+                style={{
+                  ...inputStyle,
+                  textAlign: "left",
+                  cursor: "pointer",
+                  color: form.vaccination_date ? "#222" : "#777",
+                }}
+              >
+                {form.vaccination_date
+                  ? form.vaccination_date.split("-").reverse().join("-")
+                  : "Selecteer datum"}
+              </button>
+
+              {calendarOpen &&
+                calendarField === "vaccination_date" && (
+                  <div
+                    style={{
+                      position: "absolute",
+                      zIndex: 1000,
+                      top: "calc(100% + 6px)",
+                      left: 0,
+                      width: "320px",
+                      maxWidth: "100%",
+                      background: "#fff",
+                      border: "1px solid #ddd",
+                      borderRadius: "10px",
+                      boxShadow: "0 8px 25px rgba(0,0,0,0.15)",
+                      padding: "16px",
+                      boxSizing: "border-box",
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        marginBottom: "12px",
+                      }}
+                    >
+                      <button
+                        type="button"
+                        onClick={() => changeCalendarMonth(-1)}
+                        style={{
+                          border: "none",
+                          background: "transparent",
+                          fontSize: "22px",
+                          cursor: "pointer",
+                        }}
+                      >
+                        ‹
+                      </button>
+
+                      <strong>
+                        {monthNames[calendarMonth.getMonth()]}{" "}
+                        {calendarMonth.getFullYear()}
+                      </strong>
+
+                      <button
+                        type="button"
+                        onClick={() => changeCalendarMonth(1)}
+                        style={{
+                          border: "none",
+                          background: "transparent",
+                          fontSize: "22px",
+                          cursor: "pointer",
+                        }}
+                      >
+                        ›
+                      </button>
+                    </div>
+
+                    <div
+                      style={{
+                        display: "grid",
+                        gridTemplateColumns: "repeat(7, 1fr)",
+                        gap: "4px",
+                        marginBottom: "6px",
+                      }}
+                    >
+                      {weekDays.map((day) => (
+                        <div
+                          key={day}
+                          style={{
+                            textAlign: "center",
+                            fontWeight: 700,
+                            fontSize: "13px",
+                            color: "#555",
+                            padding: "5px 0",
+                          }}
+                        >
+                          {day}
+                        </div>
+                      ))}
+                    </div>
+
+                    <div
+                      style={{
+                        display: "grid",
+                        gridTemplateColumns: "repeat(7, 1fr)",
+                        gap: "4px",
+                      }}
+                    >
+                      {Array.from({
+                        length: new Date(
+                          calendarMonth.getFullYear(),
+                          calendarMonth.getMonth(),
+                          1
+                        ).getDay(),
+                      }).map((_, index) => (
+                        <div key={`empty-${index}`} />
+                      ))}
+
+                      {Array.from({
+                        length: new Date(
+                          calendarMonth.getFullYear(),
+                          calendarMonth.getMonth() + 1,
+                          0
+                        ).getDate(),
+                      }).map((_, index) => {
+                        const day = index + 1;
+                        const dateValue =
+                          `${calendarMonth.getFullYear()}-` +
+                          `${String(calendarMonth.getMonth() + 1).padStart(2, "0")}-` +
+                          `${String(day).padStart(2, "0")}`;
+
+                        const selected =
+                          form.vaccination_date === dateValue;
+
+                        const today = new Date();
+
+                        const isToday =
+                          day === today.getDate() &&
+                          calendarMonth.getMonth() === today.getMonth() &&
+                          calendarMonth.getFullYear() === today.getFullYear();
+
+                        return (
+                          <button
+                            key={day}
+                            type="button"
+                            onClick={() => selectCalendarDate(day)}
+                            onMouseDown={(e) => e.preventDefault()}
+                            style={{
+                              width: "40px",
+                              height: "40px",
+                              minWidth: "40px",
+                              border: "none",
+                              borderRadius: "50%",
+                              background: selected
+                                ? "#2e7d32"
+                                : isToday
+                                ? "#e8f5e9"
+                                : "#fff",
+                              color: selected ? "#fff" : "#222",
+                              fontWeight:
+                                selected || isToday ? 700 : 400,
+                              cursor: "pointer",
+                              padding: 0,
+                              justifySelf: "center",
+                            }}
+                          >
+                            {day}
+                          </button>
+                        );
+                      })}
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => setCalendarOpen(false)}
+                      style={{
+                        width: "100%",
+                        marginTop: "16px",
+                        padding: "10px",
+                        border: "1px solid #ccc",
+                        borderRadius: "8px",
+                        background: "#fff",
+                        color: "#222",
+                        cursor: "pointer",
+                        fontWeight: 600,
+                      }}
+                    >
+                      Annuleren
+                    </button>
+                  </div>
+                )}
+            </div>
           </div>
 
           <div>
@@ -283,13 +533,195 @@ function EditRabbitVaccination() {
             <label style={labelStyle}>
               {t("nextDueDate")}
             </label>
-            <input
-              type="date"
-              name="next_due_date"
-              value={form.next_due_date}
-              onChange={handleChange}
-              style={inputStyle}
-            />
+            <div style={{ position: "relative" }}>
+              <button
+                type="button"
+                onClick={() => openCalendar("next_due_date")}
+                style={{
+                  ...inputStyle,
+                  textAlign: "left",
+                  cursor: "pointer",
+                  color: form.next_due_date ? "#222" : "#777",
+                }}
+              >
+                {form.next_due_date
+                  ? form.next_due_date.split("-").reverse().join("-")
+                  : "Selecteer datum"}
+              </button>
+
+              {calendarOpen &&
+                calendarField === "next_due_date" && (
+                  <div
+                    style={{
+                      position: "absolute",
+                      zIndex: 1000,
+                      top: "calc(100% + 6px)",
+                      left: 0,
+                      width: "320px",
+                      maxWidth: "100%",
+                      background: "#fff",
+                      border: "1px solid #ddd",
+                      borderRadius: "10px",
+                      boxShadow: "0 8px 25px rgba(0,0,0,0.15)",
+                      padding: "16px",
+                      boxSizing: "border-box",
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        marginBottom: "12px",
+                      }}
+                    >
+                      <button
+                        type="button"
+                        onClick={() => changeCalendarMonth(-1)}
+                        style={{
+                          border: "none",
+                          background: "transparent",
+                          fontSize: "22px",
+                          cursor: "pointer",
+                        }}
+                      >
+                        ‹
+                      </button>
+
+                      <strong>
+                        {monthNames[calendarMonth.getMonth()]}{" "}
+                        {calendarMonth.getFullYear()}
+                      </strong>
+
+                      <button
+                        type="button"
+                        onClick={() => changeCalendarMonth(1)}
+                        style={{
+                          border: "none",
+                          background: "transparent",
+                          fontSize: "22px",
+                          cursor: "pointer",
+                        }}
+                      >
+                        ›
+                      </button>
+                    </div>
+
+                    <div
+                      style={{
+                        display: "grid",
+                        gridTemplateColumns: "repeat(7, 1fr)",
+                        gap: "4px",
+                        marginBottom: "6px",
+                      }}
+                    >
+                      {weekDays.map((day) => (
+                        <div
+                          key={day}
+                          style={{
+                            textAlign: "center",
+                            fontWeight: 700,
+                            fontSize: "13px",
+                            color: "#555",
+                            padding: "5px 0",
+                          }}
+                        >
+                          {day}
+                        </div>
+                      ))}
+                    </div>
+
+                    <div
+                      style={{
+                        display: "grid",
+                        gridTemplateColumns: "repeat(7, 1fr)",
+                        gap: "4px",
+                      }}
+                    >
+                      {Array.from({
+                        length: new Date(
+                          calendarMonth.getFullYear(),
+                          calendarMonth.getMonth(),
+                          1
+                        ).getDay(),
+                      }).map((_, index) => (
+                        <div key={`empty-next-${index}`} />
+                      ))}
+
+                      {Array.from({
+                        length: new Date(
+                          calendarMonth.getFullYear(),
+                          calendarMonth.getMonth() + 1,
+                          0
+                        ).getDate(),
+                      }).map((_, index) => {
+                        const day = index + 1;
+                        const dateValue =
+                          `${calendarMonth.getFullYear()}-` +
+                          `${String(calendarMonth.getMonth() + 1).padStart(2, "0")}-` +
+                          `${String(day).padStart(2, "0")}`;
+
+                        const selected =
+                          form.next_due_date === dateValue;
+
+                        const today = new Date();
+
+                        const isToday =
+                          day === today.getDate() &&
+                          calendarMonth.getMonth() === today.getMonth() &&
+                          calendarMonth.getFullYear() === today.getFullYear();
+
+                        return (
+                          <button
+                            key={day}
+                            type="button"
+                            onClick={() => selectCalendarDate(day)}
+                            onMouseDown={(e) => e.preventDefault()}
+                            style={{
+                              width: "40px",
+                              height: "40px",
+                              minWidth: "40px",
+                              border: "none",
+                              borderRadius: "50%",
+                              background: selected
+                                ? "#2e7d32"
+                                : isToday
+                                ? "#e8f5e9"
+                                : "#fff",
+                              color: selected ? "#fff" : "#222",
+                              fontWeight:
+                                selected || isToday ? 700 : 400,
+                              cursor: "pointer",
+                              padding: 0,
+                              justifySelf: "center",
+                            }}
+                          >
+                            {day}
+                          </button>
+                        );
+                      })}
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => setCalendarOpen(false)}
+                      style={{
+                        width: "100%",
+                        marginTop: "16px",
+                        padding: "10px",
+                        border: "1px solid #ccc",
+                        borderRadius: "8px",
+                        background: "#fff",
+                        color: "#222",
+                        cursor: "pointer",
+                        fontWeight: 600,
+                      }}
+                    >
+                      Annuleren
+                    </button>
+                  </div>
+                )}
+            </div>
           </div>
 
           <div>
