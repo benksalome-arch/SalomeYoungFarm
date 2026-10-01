@@ -591,11 +591,6 @@ function App() {
           />
 
           <Route
-            path="/rabbit-vaccinations/:id/edit"
-            element={<EditRabbitVaccination />}
-          />
-
-          <Route
             path="/rabbit-vaccinations/add"
             element={<AddRabbitVaccination />}
           />
