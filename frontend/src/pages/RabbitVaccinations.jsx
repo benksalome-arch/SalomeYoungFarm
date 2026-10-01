@@ -354,7 +354,7 @@ function RabbitVaccinations() {
                       </Link>
 
                       <Link
-                        to={`/rabbit-vaccinations/${record.id}/edit`}
+                        to={`/rabbit-vaccinations/${record.id}`}
                         style={{
                           display: "inline-block",
                           background: "#2e7d32",
