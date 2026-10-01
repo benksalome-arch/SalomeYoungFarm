@@ -326,24 +326,53 @@ function RabbitVaccinations() {
                       verticalAlign: "middle",
                     }}
                   >
-                    <button
-                      type="button"
-                      onClick={() =>
-                        deleteRecord(record.id)
-                      }
+                    <div
                       style={{
-                        background: "#d32f2f",
-                        color: "white",
-                        border: "none",
-                        padding: "7px 9px",
-                        borderRadius: "6px",
-                        cursor: "pointer",
-                        whiteSpace: "nowrap",
-                        fontSize: "12px",
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        gap: "6px",
                       }}
                     >
-                      🗑 {t("delete")}
-                    </button>
+                      <Link
+                        to={`/rabbit-vaccinations/${record.id}/edit`}
+                        style={{
+                          display: "inline-block",
+                          background: "#2e7d32",
+                          color: "white",
+                          textDecoration: "none",
+                          border: "none",
+                          padding: "7px 9px",
+                          borderRadius: "6px",
+                          cursor: "pointer",
+                          whiteSpace: "nowrap",
+                          fontSize: "12px",
+                          boxSizing: "border-box",
+                        }}
+                      >
+                        ✏️ {t("edit")}
+                      </Link>
+
+                      <button
+                        type="button"
+                        onClick={() =>
+                          deleteRecord(record.id)
+                        }
+                        style={{
+                          background: "#d32f2f",
+                          color: "white",
+                          border: "none",
+                          padding: "7px 9px",
+                          borderRadius: "6px",
+                          cursor: "pointer",
+                          whiteSpace: "nowrap",
+                          fontSize: "12px",
+                          boxSizing: "border-box",
+                        }}
+                      >
+                        🗑 {t("delete")}
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))
