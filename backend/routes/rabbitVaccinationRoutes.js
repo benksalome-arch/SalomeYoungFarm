@@ -15,6 +15,13 @@ router.get("/", rabbitVaccinationController.getVaccinations);
 router.post("/", rabbitVaccinationController.createVaccination);
 
 // Delete rabbit vaccination
+router.put(
+  "/:id",
+  authenticateToken,
+  requireAdmin,
+  rabbitVaccinationController.updateVaccination
+);
+
 router.delete("/:id",
   authenticateToken,
   requireAdmin, rabbitVaccinationController.deleteVaccination);

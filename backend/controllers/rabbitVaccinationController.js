@@ -113,6 +113,84 @@ exports.createVaccination = (req, res) => {
 };
 
 // ======================================
+// Update rabbit vaccination
+// ======================================
+
+exports.updateVaccination = (req, res) => {
+  const {
+    rabbit_id,
+    vaccination_date,
+    vaccine_name,
+    dosage,
+    next_due_date,
+    administered_by,
+    notes,
+  } = req.body;
+
+  db.query(
+    "SELECT id FROM rabbits WHERE id=?",
+    [rabbit_id],
+    (checkErr, rabbits) => {
+      if (checkErr) {
+        console.error(checkErr);
+
+        return res.status(500).json({
+          message: "Database error",
+        });
+      }
+
+      if (rabbits.length === 0) {
+        return res.status(404).json({
+          message: "Rabbit not found.",
+        });
+      }
+
+      db.query(
+        `UPDATE rabbit_vaccinations
+         SET
+           rabbit_id=?,
+           vaccination_date=?,
+           vaccine_name=?,
+           dosage=?,
+           next_due_date=?,
+           administered_by=?,
+           notes=?
+         WHERE id=?`,
+        [
+          rabbit_id,
+          vaccination_date,
+          vaccine_name,
+          dosage,
+          next_due_date,
+          administered_by,
+          notes,
+          req.params.id,
+        ],
+        (err, result) => {
+          if (err) {
+            console.error(err);
+
+            return res.status(500).json({
+              message: "Database error",
+            });
+          }
+
+          if (result.affectedRows === 0) {
+            return res.status(404).json({
+              message: "Vaccination record not found.",
+            });
+          }
+
+          res.json({
+            message: "Rabbit vaccination updated successfully!",
+          });
+        }
+      );
+    }
+  );
+};
+
+// ======================================
 // Delete rabbit vaccination
 // ======================================
 
