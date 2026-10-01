@@ -335,6 +335,25 @@ function RabbitVaccinations() {
                       }}
                     >
                       <Link
+                        to={`/rabbits/${record.rabbit_id}`}
+                        style={{
+                          display: "inline-block",
+                          background: "#1976d2",
+                          color: "white",
+                          textDecoration: "none",
+                          border: "none",
+                          padding: "7px 9px",
+                          borderRadius: "6px",
+                          cursor: "pointer",
+                          whiteSpace: "nowrap",
+                          fontSize: "12px",
+                          boxSizing: "border-box",
+                        }}
+                      >
+                        👁 {t("view")}
+                      </Link>
+
+                      <Link
                         to={`/rabbit-vaccinations/${record.id}/edit`}
                         style={{
                           display: "inline-block",

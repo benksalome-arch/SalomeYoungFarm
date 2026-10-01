@@ -118,6 +118,7 @@ import RabbitHealth from "./pages/RabbitHealth";
 import AddRabbitHealth from "./pages/AddRabbitHealth";
 
 import RabbitVaccinations from "./pages/RabbitVaccinations";
+import RabbitVaccinationProfile from "./pages/RabbitVaccinationProfile";
 import AddRabbitVaccination from "./pages/AddRabbitVaccination";
 
 import RabbitWeight from "./pages/RabbitWeight";
@@ -582,6 +583,16 @@ function App() {
           <Route
             path="/rabbit-vaccinations"
             element={<RabbitVaccinations />}
+          />
+
+          <Route
+            path="/rabbit-vaccinations/:id"
+            element={<RabbitVaccinationProfile />}
+          />
+
+          <Route
+            path="/rabbit-vaccinations/:id/edit"
+            element={<EditRabbitVaccination />}
           />
 
           <Route
