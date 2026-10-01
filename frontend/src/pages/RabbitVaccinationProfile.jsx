@@ -58,7 +58,12 @@ function RabbitVaccinationProfile() {
   if (loading) {
     return (
       <div className="card">
-        <p style={{ textAlign: "center", padding: "30px" }}>
+        <p
+          style={{
+            textAlign: "center",
+            padding: "30px",
+          }}
+        >
           {t("loadingVaccinationRecords")}
         </p>
       </div>
@@ -70,9 +75,7 @@ function RabbitVaccinationProfile() {
       <div className="card">
         <h2>💉 {t("rabbitVaccinations")}</h2>
 
-        <p>
-          Vaccination record not found.
-        </p>
+        <p>Vaccination record not found.</p>
 
         <Link
           className="button"
@@ -84,14 +87,40 @@ function RabbitVaccinationProfile() {
     );
   }
 
+  const labelStyle = {
+    display: "block",
+    fontSize: "12px",
+    fontWeight: "600",
+    color: "#666",
+    marginBottom: "6px",
+  };
+
+  const valueStyle = {
+    fontSize: "15px",
+    color: "#222",
+    minHeight: "20px",
+    overflowWrap: "break-word",
+  };
+
+  const fieldStyle = {
+    padding: "12px 14px",
+    background: "#fff",
+    border: "1px solid #e5e5e5",
+    borderRadius: "8px",
+    boxSizing: "border-box",
+  };
+
   return (
     <div
       style={{
         width: "100%",
         maxWidth: "900px",
         margin: "0 auto",
+        boxSizing: "border-box",
       }}
     >
+      {/* Header */}
+
       <div
         style={{
           display: "flex",
@@ -103,10 +132,27 @@ function RabbitVaccinationProfile() {
         }}
       >
         <div>
-          <h1>👁 {t("view")} {t("rabbitVaccinations")}</h1>
-          <p>
-            {record.name || "-"}{" "}
-            {record.tag ? `(${record.tag})` : ""}
+          <h1
+            style={{
+              margin: "0 0 6px 0",
+              fontSize: "26px",
+            }}
+          >
+            👁 {t("view")} {t("rabbitVaccinations")}
+          </h1>
+
+          <p
+            style={{
+              margin: 0,
+              color: "#666",
+            }}
+          >
+            {record.name || "-"}
+            {record.tag
+              ? ` (${record.tag})`
+              : record.tag_number
+                ? ` (${record.tag_number})`
+                : ""}
           </p>
         </div>
 
@@ -120,6 +166,11 @@ function RabbitVaccinationProfile() {
           <Link
             className="button"
             to={`/rabbit-vaccinations/${record.id}/edit`}
+            style={{
+              background: "#2e7d32",
+              color: "#fff",
+              textDecoration: "none",
+            }}
           >
             ✏️ {t("edit")}
           </Link>
@@ -133,67 +184,132 @@ function RabbitVaccinationProfile() {
         </div>
       </div>
 
-      <div className="card">
+      {/* Details */}
+
+      <div
+        className="card"
+        style={{
+          width: "100%",
+          boxSizing: "border-box",
+          padding: "22px",
+        }}
+      >
+        <h2
+          style={{
+            margin: "0 0 18px 0",
+            fontSize: "19px",
+          }}
+        >
+          💉 {t("rabbitVaccinations")}
+        </h2>
+
         <div
           style={{
             display: "grid",
             gridTemplateColumns:
-              "repeat(auto-fit, minmax(240px, 1fr))",
-            gap: "18px",
+              "repeat(2, minmax(0, 1fr))",
+            gap: "14px",
+            width: "100%",
           }}
         >
-          <div>
-            <strong>{t("date")}</strong>
-            <div>{formatDate(record.vaccination_date)}</div>
+          <div style={fieldStyle}>
+            <span style={labelStyle}>
+              {t("date")}
+            </span>
+            <div style={valueStyle}>
+              {formatDate(record.vaccination_date)}
+            </div>
           </div>
 
-          <div>
-            <strong>{t("tag")}</strong>
-            <div>{record.tag || record.tag_number || "-"}</div>
+          <div style={fieldStyle}>
+            <span style={labelStyle}>
+              {t("tag")}
+            </span>
+            <div style={valueStyle}>
+              {record.tag ||
+                record.tag_number ||
+                "-"}
+            </div>
           </div>
 
-          <div>
-            <strong>{t("name")}</strong>
-            <div>{record.name || "-"}</div>
+          <div style={fieldStyle}>
+            <span style={labelStyle}>
+              {t("name")}
+            </span>
+            <div style={valueStyle}>
+              {record.name || "-"}
+            </div>
           </div>
 
-          <div>
-            <strong>{t("breed")}</strong>
-            <div>{record.breed || "-"}</div>
+          <div style={fieldStyle}>
+            <span style={labelStyle}>
+              {t("breed")}
+            </span>
+            <div style={valueStyle}>
+              {record.breed || "-"}
+            </div>
           </div>
 
-          <div>
-            <strong>{t("vaccine")}</strong>
-            <div>{record.vaccine_name || "-"}</div>
+          <div style={fieldStyle}>
+            <span style={labelStyle}>
+              {t("vaccine")}
+            </span>
+            <div style={valueStyle}>
+              {record.vaccine_name || "-"}
+            </div>
           </div>
 
-          <div>
-            <strong>{t("dosage")}</strong>
-            <div>{record.dosage || "-"}</div>
+          <div style={fieldStyle}>
+            <span style={labelStyle}>
+              {t("dosage")}
+            </span>
+            <div style={valueStyle}>
+              {record.dosage || "-"}
+            </div>
           </div>
 
-          <div>
-            <strong>{t("nextDueDate")}</strong>
-            <div>{formatDate(record.next_due_date)}</div>
+          <div style={fieldStyle}>
+            <span style={labelStyle}>
+              {t("nextDueDate")}
+            </span>
+            <div style={valueStyle}>
+              {formatDate(record.next_due_date)}
+            </div>
           </div>
 
-          <div>
-            <strong>{t("administeredBy")}</strong>
-            <div>{record.administered_by || "-"}</div>
+          <div style={fieldStyle}>
+            <span style={labelStyle}>
+              {t("administeredBy")}
+            </span>
+            <div style={valueStyle}>
+              {record.administered_by || "-"}
+            </div>
           </div>
         </div>
 
-        <div style={{ marginTop: "22px" }}>
-          <strong>{t("notes")}</strong>
+        {/* Notes */}
+
+        <div
+          style={{
+            marginTop: "18px",
+            padding: "16px",
+            background: "#fafafa",
+            border: "1px solid #e5e5e5",
+            borderRadius: "8px",
+            boxSizing: "border-box",
+          }}
+        >
+          <span style={labelStyle}>
+            {t("notes")}
+          </span>
 
           <div
             style={{
-              marginTop: "8px",
-              padding: "12px",
-              background: "#f5f5f5",
-              borderRadius: "6px",
+              fontSize: "15px",
+              lineHeight: "1.6",
+              color: "#333",
               whiteSpace: "pre-wrap",
-              minHeight: "50px",
+              overflowWrap: "break-word",
             }}
           >
             {record.notes || "-"}
