@@ -11,12 +11,8 @@ const {
 
 router.get("/", rabbitVaccinationController.getVaccinations);
 
-router.get("/:id", rabbitVaccinationController.getVaccinationById);
-
 // Record rabbit vaccination
 router.post("/", rabbitVaccinationController.createVaccination);
-
-router.put("/:id", authenticateToken, requireAdmin, rabbitVaccinationController.updateVaccination);
 
 // Delete rabbit vaccination
 router.delete("/:id",

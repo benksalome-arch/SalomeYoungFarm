@@ -37,26 +37,21 @@ function RabbitVaccinations() {
     }
   }
 
-  function formatDate(value) {
-    if (!value) return "-";
-
-    const valueString = String(value);
-
-    const match = valueString.match(
-      /^(\d{4})-(\d{2})-(\d{2})/
-    );
-
-    if (match) {
-      return `${match[3]}-${match[2]}-${match[1]}`;
-    }
-
-    const date = new Date(value);
-
-    if (Number.isNaN(date.getTime())) {
+  function formatDate(dateValue) {
+    if (!dateValue) {
       return "-";
     }
 
-    return date.toLocaleDateString("nl-NL");
+    const dateOnly = String(dateValue).split("T")[0];
+    const parts = dateOnly.split("-");
+
+    if (parts.length !== 3) {
+      return dateValue;
+    }
+
+    const [year, month, day] = parts;
+
+    return `${day}-${month}-${year}`;
   }
 
   async function deleteRecord(id) {
@@ -95,14 +90,11 @@ function RabbitVaccinations() {
     } catch (err) {
       console.error(err);
 
-      alert("Failed to delete vaccination.");
+      alert(
+        "Failed to delete vaccination."
+      );
     }
   }
-
-  const cellStyle = {
-    padding: "16px 14px",
-    verticalAlign: "middle",
-  };
 
   return (
     <div
@@ -112,7 +104,7 @@ function RabbitVaccinations() {
         boxSizing: "border-box",
       }}
     >
-      {/* HEADER */}
+      {/* Header */}
 
       <div
         style={{
@@ -127,9 +119,7 @@ function RabbitVaccinations() {
         }}
       >
         <div>
-          <h1>
-            💉 {t("rabbitVaccinations")}
-          </h1>
+          <h1>💉 {t("rabbitVaccinations")}</h1>
 
           <p>
             {t("rabbitVaccinationDescription")}
@@ -159,34 +149,41 @@ function RabbitVaccinations() {
         </div>
       </div>
 
-      {/* DESKTOP TABLE */}
+      {/* Vaccination Records */}
 
-      <div className="vaccination-desktop-table card">
+      <div
+        className="card"
+        style={{
+          width: "100%",
+          maxWidth: "100%",
+          boxSizing: "border-box",
+          overflow: "hidden",
+        }}
+      >
         <table
           className="table"
           style={{
             width: "100%",
-            borderCollapse: "separate",
-            borderSpacing: 0,
+            maxWidth: "100%",
             tableLayout: "fixed",
+            fontSize: "13px",
           }}
         >
           <colgroup>
-            <col style={{ width: "15%" }} />
-            <col style={{ width: "10%" }} />
-            <col style={{ width: "18%" }} />
-            <col style={{ width: "17%" }} />
-            <col style={{ width: "20%" }} />
-            <col style={{ width: "20%" }} />
+            <col style={{ width: "16%" }} />
+            <col style={{ width: "12%" }} />
+            <col style={{ width: "19%" }} />
+            <col style={{ width: "21%" }} />
+            <col style={{ width: "16%" }} />
+            <col style={{ width: "16%" }} />
           </colgroup>
 
           <thead>
             <tr>
               <th
                 style={{
-                  ...cellStyle,
-                  textAlign: "center",
-                  whiteSpace: "nowrap",
+                  padding: "10px 7px",
+                  fontSize: "13px",
                 }}
               >
                 {t("date")}
@@ -194,9 +191,8 @@ function RabbitVaccinations() {
 
               <th
                 style={{
-                  ...cellStyle,
-                  textAlign: "center",
-                  whiteSpace: "nowrap",
+                  padding: "10px 7px",
+                  fontSize: "13px",
                 }}
               >
                 {t("tag")}
@@ -204,9 +200,8 @@ function RabbitVaccinations() {
 
               <th
                 style={{
-                  ...cellStyle,
-                  textAlign: "left",
-                  whiteSpace: "nowrap",
+                  padding: "10px 7px",
+                  fontSize: "13px",
                 }}
               >
                 {t("name")}
@@ -214,9 +209,8 @@ function RabbitVaccinations() {
 
               <th
                 style={{
-                  ...cellStyle,
-                  textAlign: "left",
-                  whiteSpace: "nowrap",
+                  padding: "10px 7px",
+                  fontSize: "13px",
                 }}
               >
                 {t("vaccine")}
@@ -224,10 +218,8 @@ function RabbitVaccinations() {
 
               <th
                 style={{
-                  ...cellStyle,
-                  textAlign: "center",
-                  whiteSpace: "normal",
-                  lineHeight: 1.3,
+                  padding: "10px 7px",
+                  fontSize: "13px",
                 }}
               >
                 {t("nextDueDate")}
@@ -235,9 +227,9 @@ function RabbitVaccinations() {
 
               <th
                 style={{
-                  ...cellStyle,
+                  padding: "10px 7px",
+                  fontSize: "13px",
                   textAlign: "center",
-                  whiteSpace: "nowrap",
                 }}
               >
                 {t("actions")}
@@ -251,8 +243,8 @@ function RabbitVaccinations() {
                 <td
                   colSpan="6"
                   style={{
-                    padding: "40px 15px",
                     textAlign: "center",
+                    padding: "30px",
                   }}
                 >
                   {t("loadingVaccinationRecords")}
@@ -263,8 +255,8 @@ function RabbitVaccinations() {
                 <td
                   colSpan="6"
                   style={{
-                    padding: "40px 15px",
                     textAlign: "center",
+                    padding: "30px",
                   }}
                 >
                   {t("noVaccinationRecords")}
@@ -275,9 +267,9 @@ function RabbitVaccinations() {
                 <tr key={record.id}>
                   <td
                     style={{
-                      ...cellStyle,
-                      textAlign: "center",
-                      whiteSpace: "nowrap",
+                      padding: "10px 7px",
+                      fontSize: "12px",
+                      verticalAlign: "middle",
                     }}
                   >
                     {formatDate(
@@ -287,9 +279,9 @@ function RabbitVaccinations() {
 
                   <td
                     style={{
-                      ...cellStyle,
-                      textAlign: "center",
-                      whiteSpace: "nowrap",
+                      padding: "10px 7px",
+                      verticalAlign: "middle",
+                      overflowWrap: "break-word",
                     }}
                   >
                     {record.tag_number || "-"}
@@ -297,9 +289,9 @@ function RabbitVaccinations() {
 
                   <td
                     style={{
-                      ...cellStyle,
-                      textAlign: "left",
-                      overflowWrap: "anywhere",
+                      padding: "10px 7px",
+                      verticalAlign: "middle",
+                      overflowWrap: "break-word",
                     }}
                   >
                     {record.name || "-"}
@@ -307,9 +299,9 @@ function RabbitVaccinations() {
 
                   <td
                     style={{
-                      ...cellStyle,
-                      textAlign: "left",
-                      overflowWrap: "anywhere",
+                      padding: "10px 7px",
+                      verticalAlign: "middle",
+                      overflowWrap: "break-word",
                     }}
                   >
                     {record.vaccine_name || "-"}
@@ -317,9 +309,9 @@ function RabbitVaccinations() {
 
                   <td
                     style={{
-                      ...cellStyle,
-                      textAlign: "center",
-                      whiteSpace: "nowrap",
+                      padding: "10px 7px",
+                      fontSize: "12px",
+                      verticalAlign: "middle",
                     }}
                   >
                     {formatDate(
@@ -329,46 +321,29 @@ function RabbitVaccinations() {
 
                   <td
                     style={{
-                      ...cellStyle,
+                      padding: "8px 5px",
                       textAlign: "center",
+                      verticalAlign: "middle",
                     }}
                   >
-                    <div
+                    <button
+                      type="button"
+                      onClick={() =>
+                        deleteRecord(record.id)
+                      }
                       style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        gap: "8px",
-                        flexWrap: "wrap",
+                        background: "#d32f2f",
+                        color: "white",
+                        border: "none",
+                        padding: "7px 9px",
+                        borderRadius: "6px",
+                        cursor: "pointer",
+                        whiteSpace: "nowrap",
+                        fontSize: "12px",
                       }}
                     >
-                      <Link
-                        className="button"
-                        to={`/rabbit-vaccinations/${record.id}/edit`}
-                        style={{
-                          whiteSpace: "nowrap",
-                          textDecoration: "none",
-                        }}
-                      >
-                        ✏️ {t("edit")}
-                      </Link>
-
-                      <button
-                        className="button"
-                        type="button"
-                        onClick={() =>
-                          deleteRecord(record.id)
-                        }
-                        style={{
-                          whiteSpace: "nowrap",
-                          background: "#d32f2f",
-                          color: "#fff",
-                          borderColor: "#d32f2f",
-                        }}
-                      >
-                        🗑 {t("delete")}
-                      </button>
-                    </div>
+                      🗑 {t("delete")}
+                    </button>
                   </td>
                 </tr>
               ))
@@ -376,193 +351,6 @@ function RabbitVaccinations() {
           </tbody>
         </table>
       </div>
-
-      {/* MOBILE RECORD CARDS */}
-
-      <div className="vaccination-mobile-list">
-        {loading ? (
-          <div className="card vaccination-mobile-empty">
-            {t("loadingVaccinationRecords")}
-          </div>
-        ) : records.length === 0 ? (
-          <div className="card vaccination-mobile-empty">
-            {t("noVaccinationRecords")}
-          </div>
-        ) : (
-          records.map((record) => (
-            <div
-              className="card vaccination-mobile-card"
-              key={record.id}
-            >
-              <div className="vaccination-mobile-row">
-                <strong>{t("date")}</strong>
-                <span>
-                  {formatDate(
-                    record.vaccination_date
-                  )}
-                </span>
-              </div>
-
-              <div className="vaccination-mobile-row">
-                <strong>{t("tag")}</strong>
-                <span>
-                  {record.tag_number || "-"}
-                </span>
-              </div>
-
-              <div className="vaccination-mobile-row">
-                <strong>{t("name")}</strong>
-                <span>
-                  {record.name || "-"}
-                </span>
-              </div>
-
-              <div className="vaccination-mobile-row">
-                <strong>{t("vaccine")}</strong>
-                <span>
-                  {record.vaccine_name || "-"}
-                </span>
-              </div>
-
-              <div className="vaccination-mobile-row">
-                <strong>{t("nextDueDate")}</strong>
-                <span>
-                  {formatDate(
-                    record.next_due_date
-                  )}
-                </span>
-              </div>
-
-              <div className="vaccination-mobile-actions">
-                <Link
-                  className="button"
-                  to={`/rabbit-vaccinations/${record.id}/edit`}
-                  style={{
-                    whiteSpace: "nowrap",
-                    textDecoration: "none",
-                  }}
-                >
-                  ✏️ {t("edit")}
-                </Link>
-
-                <button
-                  className="button"
-                  type="button"
-                  onClick={() =>
-                    deleteRecord(record.id)
-                  }
-                  style={{
-                    background: "#d32f2f",
-                    color: "#fff",
-                    borderColor: "#d32f2f",
-                    whiteSpace: "nowrap",
-                  }}
-                >
-                  🗑 {t("delete")}
-                </button>
-              </div>
-            </div>
-          ))
-        )}
-      </div>
-
-      <style>{`
-        .vaccination-mobile-list {
-          display: none;
-        }
-
-        .vaccination-desktop-table {
-          width: 100%;
-          padding: 0;
-          overflow-x: auto;
-          box-sizing: border-box;
-          border-radius: 12px;
-        }
-
-        .vaccination-desktop-table table {
-          min-width: 900px;
-        }
-
-        .vaccination-desktop-table th {
-          background: #2e7d32;
-          color: white;
-          font-weight: 700;
-          border-bottom: none;
-        }
-
-        .vaccination-desktop-table td {
-          border-bottom: 1px solid #e5e5e5;
-        }
-
-        .vaccination-desktop-table tbody tr:last-child td {
-          border-bottom: none;
-        }
-
-        .vaccination-desktop-table .button {
-          min-width: 105px;
-          box-sizing: border-box;
-        }
-
-        @media (max-width: 700px) {
-          .vaccination-desktop-table {
-            display: none;
-          }
-
-          .vaccination-mobile-list {
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-            width: 100%;
-          }
-
-          .vaccination-mobile-card {
-            width: 100%;
-            padding: 16px;
-            box-sizing: border-box;
-          }
-
-          .vaccination-mobile-row {
-            display: grid;
-            grid-template-columns: minmax(145px, 1fr) minmax(0, 1.2fr);
-            gap: 14px;
-            align-items: start;
-            margin-bottom: 13px;
-            min-width: 0;
-          }
-
-          .vaccination-mobile-row strong {
-            font-size: 14px;
-            color: #222;
-            text-align: left;
-            line-height: 1.35;
-          }
-
-          .vaccination-mobile-row span {
-            min-width: 0;
-            overflow-wrap: anywhere;
-            font-size: 15px;
-            color: #555;
-            text-align: left;
-            line-height: 1.35;
-          }
-
-          .vaccination-mobile-actions {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin-top: 16px;
-            padding-top: 14px;
-            border-top: 1px solid #e5e5e5;
-          }
-
-          .vaccination-mobile-empty {
-            padding: 30px 15px;
-            text-align: center;
-          }
-        }
-      `}</style>
     </div>
   );
 }

@@ -119,201 +119,136 @@ function EditFeed() {
   return (
     <div className="page">
       <style>{`
-        .edit-feed-form {
-          width: 100%;
-          max-width: 760px;
-          margin: 0 auto;
-          display: grid;
-          grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-          gap: 20px 24px;
-        }
+  .edit-feed-form {
+    width: 100%;
+    max-width: 760px;
+    margin: 0 auto;
+  }
 
-        .edit-feed-field {
-          display: flex;
-          flex-direction: column;
-          width: 100%;
-          min-width: 0;
-          margin: 0;
-        }
+  .edit-feed-field {
+    display: grid;
+    grid-template-columns: 190px minmax(0, 1fr);
+    align-items: center;
+    gap: 18px;
+    margin-bottom: 16px;
+  }
 
-        .edit-feed-label {
-          display: block;
-          width: 100%;
-          margin: 0 0 7px;
-          padding: 0;
-          font-weight: 600;
-          font-size: 14px;
-          line-height: 1.3;
-          text-align: left;
-          color: #222;
-        }
+  .edit-feed-label {
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 1.25;
+    text-align: right;
+    color: #222;
+    overflow-wrap: anywhere;
+  }
 
-        .edit-feed-input {
-          display: block !important;
-          width: 100% !important;
-          max-width: none !important;
-          min-width: 0 !important;
-          height: 48px !important;
-          min-height: 48px !important;
-          box-sizing: border-box !important;
-          margin: 0 !important;
-          padding: 11px 14px !important;
-          border: 1px solid #c5cdc6 !important;
-          border-radius: 9px !important;
-          background: #fff !important;
-          color: #222 !important;
-          -webkit-text-fill-color: #222 !important;
-          font-family: inherit !important;
-          font-size: 16px !important;
-          line-height: 1.3 !important;
-          outline: none !important;
-          cursor: text !important;
-        }
+  .edit-feed-input {
+    display: block !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    height: 48px !important;
+    min-height: 48px !important;
+    box-sizing: border-box !important;
+    padding: 11px 14px !important;
+    margin: 0 !important;
+    border: 1px solid #bfc7c0 !important;
+    border-radius: 8px !important;
+    background: #fff !important;
+    color: #222 !important;
+    -webkit-text-fill-color: #222 !important;
+    font-size: 16px !important;
+    font-family: inherit !important;
+    line-height: 1.3 !important;
+    outline: none;
+    cursor: text;
+  }
 
-        .edit-feed-input:hover {
-          border-color: #8d998f !important;
-        }
+  .edit-feed-input:hover {
+    border-color: #8d998f !important;
+  }
 
-        .edit-feed-input:focus {
-          border-color: #2e7d32 !important;
-          box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.14) !important;
-          outline: none !important;
-        }
+  .edit-feed-input:focus {
+    border-color: #2e7d32 !important;
+    box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.14) !important;
+    outline: none !important;
+  }
 
-        .edit-feed-input[type="number"] {
-          cursor: text !important;
-          text-align: left !important;
-        }
+  .edit-feed-input[type="number"] {
+    cursor: text !important;
+    text-align: left;
+  }
 
-        select.edit-feed-input {
-          cursor: pointer !important;
-        }
+  select.edit-feed-input {
+    cursor: pointer !important;
+  }
 
-        /* Feed name and purchase date use the complete form width */
-        .edit-feed-field:first-child,
-        .edit-feed-date {
-          grid-column: 1 / -1;
-        }
+  .edit-feed-notes {
+    display: grid;
+    grid-template-columns: 190px minmax(0, 1fr);
+    align-items: start;
+    gap: 18px;
+    margin-bottom: 22px;
+  }
 
-        /* Category sits beside Supplier */
-        .edit-feed-category {
-          grid-column: 2;
-        }
+  .edit-feed-notes .edit-feed-label {
+    padding-top: 10px;
+  }
 
-        .edit-feed-date > div {
-          width: 100% !important;
-          min-width: 0 !important;
-        }
+  .edit-feed-notes .edit-feed-input {
+    min-height: 110px;
+    resize: vertical;
+  }
 
-        .edit-feed-date button {
-          display: block !important;
-          width: 100% !important;
-          min-height: 48px !important;
-          box-sizing: border-box !important;
-        }
+  .edit-feed-category {
+    order: 1;
+  }
 
-        .edit-feed-notes {
-          grid-column: 1 / -1;
-          display: flex;
-          flex-direction: column;
-          width: 100%;
-          min-width: 0;
-          margin: 0;
-        }
+  .edit-feed-date {
+    order: 2;
+  }
 
-        .edit-feed-notes .edit-feed-label {
-          margin-bottom: 7px;
-        }
+  @media (max-width: 700px) {
+    .edit-feed-form {
+      max-width: 100%;
+    }
 
-        .edit-feed-notes .edit-feed-input {
-          width: 100% !important;
-          height: 120px !important;
-          min-height: 120px !important;
-          resize: vertical;
-        }
+    .edit-feed-field,
+    .edit-feed-notes {
+      grid-template-columns: 1fr;
+      gap: 6px;
+      margin-bottom: 15px;
+    }
 
-        .edit-feed-buttons {
-          grid-column: 1 / -1;
-          width: 100%;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          gap: 12px;
-          margin-top: 2px;
-        }
+    .edit-feed-label,
+    .edit-feed-notes .edit-feed-label {
+      text-align: left;
+      padding-top: 0;
+      font-size: 14px;
+    }
 
-        .edit-feed-buttons .button {
-          min-height: 48px;
-          padding: 10px 24px;
-          cursor: pointer;
-        }
+    .edit-feed-input {
+      width: 100% !important;
+      height: 48px !important;
+      min-height: 48px !important;
+      font-size: 16px !important;
+    }
 
-        @media (max-width: 700px) {
-          .edit-feed-form {
-            width: 100%;
-            max-width: 100%;
-            grid-template-columns: 1fr;
-            gap: 16px;
-          }
+    .edit-feed-buttons {
+      width: 100%;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
 
-          .edit-feed-field,
-          .edit-feed-field:first-child,
-          .edit-feed-date,
-          .edit-feed-category,
-          .edit-feed-notes,
-          .edit-feed-buttons {
-            grid-column: 1;
-          }
+    .edit-feed-buttons .button {
+      flex: 1 1 140px;
+      min-height: 44px;
+    }
+  }
+`}</style>
 
-          .edit-feed-label {
-            font-size: 14px;
-            margin-bottom: 6px;
-          }
-
-          .edit-feed-input {
-            display: block !important;
-            width: 100% !important;
-            max-width: none !important;
-            height: 50px !important;
-            min-height: 50px !important;
-            padding: 12px 14px !important;
-            font-size: 16px !important;
-          }
-
-          .edit-feed-date button {
-            width: 100% !important;
-            height: 50px !important;
-            min-height: 50px !important;
-          }
-
-          .edit-feed-notes .edit-feed-input {
-            height: 120px !important;
-            min-height: 120px !important;
-          }
-
-          .edit-feed-buttons {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 10px;
-            margin-top: 4px;
-          }
-
-          .edit-feed-buttons .button {
-            width: 100%;
-            min-height: 50px;
-          }
-        }
-      `}</style>
-
-      <div
-        className="page-header"
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          gap: "16px",
-        }}
-      >
+      <div className="page-header">
         <h1
           style={{
             margin: 0,
@@ -323,19 +258,6 @@ function EditFeed() {
         >
           ✏ {t("updateFeed")}
         </h1>
-
-        <button
-          type="button"
-          className="button"
-          onClick={() => navigate("/feed")}
-          style={{
-            marginLeft: "auto",
-            whiteSpace: "nowrap",
-            minHeight: "44px",
-          }}
-        >
-          ← Terug
-        </button>
       </div>
 
       <div
@@ -346,7 +268,15 @@ function EditFeed() {
           margin: "0 auto",
         }}
       >
-
+        <h2
+          style={{
+            marginTop: 0,
+            color: "#222",
+            WebkitTextFillColor: "#222",
+          }}
+        >
+          ✏ {t("updateFeed")}
+        </h2>
 
         <form onSubmit={handleSubmit} className="edit-feed-form">
 
@@ -365,7 +295,7 @@ function EditFeed() {
           <div className="edit-feed-field edit-feed-date">
             <label
               htmlFor="purchase_date"
-              className="edit-feed-label"
+              style={labelStyle}
             >
               Aankoopdatum
             </label>
@@ -381,24 +311,17 @@ function EditFeed() {
                   setCalendarMonth(selected);
                   setCalendarOpen(true);
                 }}
-                className="edit-feed-input"
                 style={{
-                  display: "block",
+                  ...inputStyle,
                   width: "100%",
-                  height: "50px",
-                  minHeight: "50px",
-                  boxSizing: "border-box",
-                  padding: "12px 14px",
                   textAlign: "left",
                   background: "#fff",
-                  color: "#222",
-                  WebkitTextFillColor: "#222",
                   cursor: "pointer",
                 }}
               >
                 {formData.purchase_date
                   ? formData.purchase_date.split("-").reverse().join("-")
-                  : "DD-MM-YYYY"}
+                  : "Select date"}
               </button>
 
               {calendarOpen && (
@@ -667,7 +590,6 @@ function EditFeed() {
           </div>
 
           <div className="edit-feed-buttons">
-
             <button className="button" type="submit">
               💾 {t("updateFeed")}
             </button>
