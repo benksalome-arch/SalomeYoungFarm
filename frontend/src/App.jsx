@@ -591,6 +591,11 @@ function App() {
           />
 
           <Route
+            path="/rabbit-vaccinations/:id/edit"
+            element={<RabbitVaccinationProfile />}
+          />
+
+          <Route
             path="/rabbit-vaccinations/add"
             element={<AddRabbitVaccination />}
           />
