@@ -93,6 +93,44 @@ function EditRabbitVaccination() {
     }));
   }
 
+  async function handleSubmit(e) {
+    e.preventDefault();
+
+    try {
+      setSaving(true);
+      setError("");
+
+      const response = await fetch(
+        `${API_URL}/api/rabbit-vaccinations/${id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify(form),
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          data.message || "Could not update vaccination."
+        );
+      }
+
+      navigate(`/rabbit-vaccinations/${id}`);
+    } catch (err) {
+      console.error(err);
+      setError(
+        err.message || "Could not update vaccination."
+      );
+    } finally {
+      setSaving(false);
+    }
+  }
+
   function formatDate(dateValue) {
     if (!dateValue) return "";
 
