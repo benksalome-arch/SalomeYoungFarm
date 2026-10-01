@@ -1,44 +1,62 @@
 const db = require("../db");
 
-// ======================================
 // Get all rabbit vaccinations
-// ======================================
-
 exports.getVaccinations = (req, res) => {
-
   db.query(
     `SELECT
         rv.*,
-        r.tag,
+        r.tag AS tag_number,
         r.name,
         r.breed
      FROM rabbit_vaccinations rv
-     JOIN rabbits r
-       ON rv.rabbit_id = r.id
+     JOIN rabbits r ON rv.rabbit_id = r.id
      ORDER BY rv.vaccination_date DESC, rv.id DESC`,
     (err, results) => {
-
       if (err) {
         console.error(err);
-
         return res.status(500).json({
           message: "Database error",
         });
       }
 
       res.json(results);
-
     }
   );
-
 };
 
-// ======================================
+// Get one rabbit vaccination
+exports.getVaccinationById = (req, res) => {
+  db.query(
+    `SELECT
+        rv.*,
+        r.tag AS tag_number,
+        r.name,
+        r.breed
+     FROM rabbit_vaccinations rv
+     JOIN rabbits r ON rv.rabbit_id = r.id
+     WHERE rv.id = ?`,
+    [req.params.id],
+    (err, results) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).json({
+          message: "Database error",
+        });
+      }
+
+      if (results.length === 0) {
+        return res.status(404).json({
+          message: "Rabbit vaccination not found.",
+        });
+      }
+
+      res.json(results[0]);
+    }
+  );
+};
+
 // Record rabbit vaccination
-// ======================================
-
 exports.createVaccination = (req, res) => {
-
   const {
     rabbit_id,
     vaccination_date,
@@ -50,13 +68,11 @@ exports.createVaccination = (req, res) => {
   } = req.body;
 
   db.query(
-    "SELECT id FROM rabbits WHERE id=?",
+    "SELECT id FROM rabbits WHERE id = ?",
     [rabbit_id],
     (checkErr, rabbits) => {
-
       if (checkErr) {
         console.error(checkErr);
-
         return res.status(500).json({
           message: "Database error",
         });
@@ -79,7 +95,7 @@ exports.createVaccination = (req, res) => {
           administered_by,
           notes
         )
-        VALUES (?,?,?,?,?,?,?)`,
+        VALUES (?, ?, ?, ?, ?, ?, ?)`,
         [
           rabbit_id,
           vaccination_date,
@@ -90,10 +106,8 @@ exports.createVaccination = (req, res) => {
           notes,
         ],
         (err, result) => {
-
           if (err) {
             console.error(err);
-
             return res.status(500).json({
               message: "Database error",
             });
@@ -103,39 +117,88 @@ exports.createVaccination = (req, res) => {
             message: "Rabbit vaccination recorded successfully!",
             id: result.insertId,
           });
-
         }
       );
-
     }
   );
-
 };
 
-// ======================================
-// Delete rabbit vaccination
-// ======================================
-
-exports.deleteVaccination = (req, res) => {
+// Update rabbit vaccination
+exports.updateVaccination = (req, res) => {
+  const {
+    rabbit_id,
+    vaccination_date,
+    vaccine_name,
+    dosage,
+    next_due_date,
+    administered_by,
+    notes,
+  } = req.body;
 
   db.query(
-    "DELETE FROM rabbit_vaccinations WHERE id=?",
-    [req.params.id],
-    (err) => {
-
+    `UPDATE rabbit_vaccinations
+     SET
+       rabbit_id = ?,
+       vaccination_date = ?,
+       vaccine_name = ?,
+       dosage = ?,
+       next_due_date = ?,
+       administered_by = ?,
+       notes = ?
+     WHERE id = ?`,
+    [
+      rabbit_id,
+      vaccination_date,
+      vaccine_name,
+      dosage,
+      next_due_date,
+      administered_by,
+      notes,
+      req.params.id,
+    ],
+    (err, result) => {
       if (err) {
         console.error(err);
-
         return res.status(500).json({
           message: "Database error",
+        });
+      }
+
+      if (result.affectedRows === 0) {
+        return res.status(404).json({
+          message: "Rabbit vaccination not found.",
+        });
+      }
+
+      res.json({
+        message: "Rabbit vaccination updated successfully!",
+      });
+    }
+  );
+};
+
+// Delete rabbit vaccination
+exports.deleteVaccination = (req, res) => {
+  db.query(
+    "DELETE FROM rabbit_vaccinations WHERE id = ?",
+    [req.params.id],
+    (err, result) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).json({
+          message: "Database error",
+        });
+      }
+
+      if (result.affectedRows === 0) {
+        return res.status(404).json({
+          message: "Rabbit vaccination not found.",
         });
       }
 
       res.json({
         message: "Rabbit vaccination deleted successfully!",
       });
-
     }
   );
-
 };

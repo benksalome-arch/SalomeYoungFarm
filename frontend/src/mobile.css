@@ -3119,3 +3119,53 @@ canvas {
     text-overflow: ellipsis !important;
   }
 }
+
+/* =========================================================
+   MASTER CALENDAR DATE COLORS
+   Selected/registered date = GREEN
+   Today = BLUE
+   ========================================================= */
+
+/* TODAY — blue */
+[class*="calendar"] .calendar-day.today,
+[class*="calendar"] .rabbit-mortality-calendar-day.today,
+[class*="calendar"] [class~="today"] {
+  background: #1976d2 !important;
+  border-color: #1976d2 !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  font-weight: 700 !important;
+}
+
+/* SELECTED / REGISTERED DATE — green */
+[class*="calendar"] .calendar-day.selected,
+[class*="calendar"] .rabbit-mortality-calendar-day.selected,
+[class*="calendar"] [class~="selected"] {
+  background: #2e7d32 !important;
+  border-color: #2e7d32 !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  font-weight: 800 !important;
+}
+
+/* Selected date always wins if it happens to be today */
+[class*="calendar"] .calendar-day.today.selected,
+[class*="calendar"] .rabbit-mortality-calendar-day.today.selected {
+  background: #2e7d32 !important;
+  border-color: #2e7d32 !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+}
+
+/* Keep the number inside the circle the same color */
+[class*="calendar"] .calendar-day.today span,
+[class*="calendar"] .rabbit-mortality-calendar-day.today span {
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+}
+
+[class*="calendar"] .calendar-day.selected span,
+[class*="calendar"] .rabbit-mortality-calendar-day.selected span {
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+}

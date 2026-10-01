@@ -82,7 +82,121 @@ function Rabbits() {
 
     @media (max-width: 700px) {
       .rabbit-desktop-table {
-        display: none;
+        width: 100% !important;
+        max-width: 100% !important;
+        border-collapse: separate !important;
+        border-spacing: 0 !important;
+        table-layout: auto !important;
+        font-size: 16px !important;
+      }
+
+      .rabbit-desktop-table th {
+        padding: 14px 12px !important;
+        font-size: 15px !important;
+        font-weight: 700 !important;
+        line-height: 1.3 !important;
+        text-align: left !important;
+        vertical-align: middle !important;
+        white-space: nowrap !important;
+      }
+
+      .rabbit-desktop-table td {
+        padding: 15px 12px !important;
+        font-size: 16px !important;
+        line-height: 1.4 !important;
+        vertical-align: middle !important;
+      }
+
+      .rabbit-desktop-table tbody tr {
+        min-height: 58px;
+      }
+
+      .rabbit-desktop-table td:last-child {
+        min-width: 230px !important;
+      }
+
+      .rabbit-desktop-table td:last-child > div {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: flex-start !important;
+        gap: 8px !important;
+        flex-wrap: nowrap !important;
+        min-width: 0 !important;
+      }
+
+      .rabbit-desktop-table td:last-child button,
+      .rabbit-desktop-table td:last-child a {
+        min-height: 38px !important;
+        padding: 8px 12px !important;
+        font-size: 14px !important;
+        white-space: nowrap !important;
+        cursor: pointer !important;
+      }
+
+      .rabbit-desktop-table td:nth-child(1),
+      .rabbit-desktop-table td:nth-child(4),
+      .rabbit-desktop-table td:nth-child(5),
+      .rabbit-desktop-table td:nth-child(6) {
+        text-align: center !important;
+      }
+
+      .rabbit-desktop-table .rabbit-status {
+        font-size: 13px !important;
+        padding: 6px 10px !important;
+      }
+
+
+      .rabbit-desktop-table th {
+        font-size: 15px !important;
+        font-weight: 700 !important;
+        padding: 13px 12px !important;
+        text-align: left !important;
+        vertical-align: middle !important;
+        white-space: nowrap;
+      }
+
+      .rabbit-desktop-table td {
+        font-size: 16px !important;
+        padding: 14px 12px !important;
+        text-align: left !important;
+        vertical-align: middle !important;
+        line-height: 1.35 !important;
+        white-space: normal !important;
+      }
+
+      .rabbit-desktop-table th:nth-child(1),
+      .rabbit-desktop-table td:nth-child(1) {
+        width: 11%;
+      }
+
+      .rabbit-desktop-table th:nth-child(2),
+      .rabbit-desktop-table td:nth-child(2) {
+        width: 17%;
+      }
+
+      .rabbit-desktop-table th:nth-child(3),
+      .rabbit-desktop-table td:nth-child(3) {
+        width: 16%;
+      }
+
+      .rabbit-desktop-table th:nth-child(4),
+      .rabbit-desktop-table td:nth-child(4) {
+        width: 11%;
+      }
+
+      .rabbit-desktop-table th:nth-child(5),
+      .rabbit-desktop-table td:nth-child(5) {
+        width: 10%;
+      }
+
+      .rabbit-desktop-table th:nth-child(6),
+      .rabbit-desktop-table td:nth-child(6) {
+        width: 12%;
+      }
+
+      .rabbit-desktop-table th:nth-child(7),
+      .rabbit-desktop-table td:nth-child(7) {
+        width: 23%;
       }
 
       .rabbit-mobile-list {
@@ -237,17 +351,25 @@ function Rabbits() {
             width: "100%",
             maxWidth: "100%",
             minWidth: 0,
-            tableLayout: "fixed",
             boxSizing: "border-box",
           }}
         >
+          <colgroup>
+            <col style={{ width: "11%" }} />
+            <col style={{ width: "16%" }} />
+            <col style={{ width: "15%" }} />
+            <col style={{ width: "9%" }} />
+            <col style={{ width: "11%" }} />
+            <col style={{ width: "12%" }} />
+            <col style={{ width: "26%" }} />
+          </colgroup>
+
           <thead>
             <tr>
               <th
                 style={{
-                  width: "11%",
                   padding: "10px 5px",
-                  fontSize: "12px",
+
                   whiteSpace: "nowrap",
                 }}
               >
@@ -256,9 +378,8 @@ function Rabbits() {
 
               <th
                 style={{
-                  width: "16%",
                   padding: "10px 5px",
-                  fontSize: "12px",
+
                   whiteSpace: "nowrap",
                 }}
               >
@@ -267,9 +388,8 @@ function Rabbits() {
 
               <th
                 style={{
-                  width: "15%",
                   padding: "10px 5px",
-                  fontSize: "12px",
+
                   whiteSpace: "nowrap",
                 }}
               >
@@ -278,9 +398,8 @@ function Rabbits() {
 
               <th
                 style={{
-                  width: "9%",
                   padding: "10px 5px",
-                  fontSize: "12px",
+
                   whiteSpace: "nowrap",
                 }}
               >
@@ -289,9 +408,8 @@ function Rabbits() {
 
               <th
                 style={{
-                  width: "11%",
                   padding: "10px 5px",
-                  fontSize: "12px",
+
                   whiteSpace: "nowrap",
                 }}
               >
@@ -300,9 +418,8 @@ function Rabbits() {
 
               <th
                 style={{
-                  width: "12%",
                   padding: "10px 5px",
-                  fontSize: "12px",
+
                   whiteSpace: "nowrap",
                 }}
               >
@@ -311,9 +428,8 @@ function Rabbits() {
 
               <th
                 style={{
-                  width: "26%",
                   padding: "10px 5px",
-                  fontSize: "12px",
+
                   whiteSpace: "nowrap",
                 }}
               >
@@ -341,8 +457,9 @@ function Rabbits() {
                   <td
                     style={{
                       padding: "10px 5px",
+                      boxSizing: "border-box",
                       textAlign: "center",
-                      fontSize: "12px",
+
                       whiteSpace: "nowrap",
                     }}
                   >
@@ -352,7 +469,7 @@ function Rabbits() {
                   <td
                     style={{
                       padding: "10px 5px",
-                      fontSize: "12px",
+
                       overflow: "hidden",
                       textOverflow: "ellipsis",
                       whiteSpace: "nowrap",
@@ -375,7 +492,7 @@ function Rabbits() {
                   <td
                     style={{
                       padding: "10px 5px",
-                      fontSize: "12px",
+
                       overflow: "hidden",
                       textOverflow: "ellipsis",
                       whiteSpace: "nowrap",
@@ -388,8 +505,9 @@ function Rabbits() {
                   <td
                     style={{
                       padding: "10px 5px",
+                      boxSizing: "border-box",
                       textAlign: "center",
-                      fontSize: "12px",
+
                       whiteSpace: "nowrap",
                     }}
                   >
@@ -399,8 +517,9 @@ function Rabbits() {
                   <td
                     style={{
                       padding: "10px 5px",
+                      boxSizing: "border-box",
                       textAlign: "center",
-                      fontSize: "12px",
+
                       whiteSpace: "nowrap",
                     }}
                   >
@@ -410,6 +529,7 @@ function Rabbits() {
                   <td
                     style={{
                       padding: "10px 5px",
+                      boxSizing: "border-box",
                       textAlign: "center",
                     }}
                   >
@@ -427,7 +547,7 @@ function Rabbits() {
                         color: "white",
                         padding: "5px 7px",
                         borderRadius: "20px",
-                        fontSize: "10px",
+
                         fontWeight: "bold",
                         whiteSpace: "nowrap",
                       }}
@@ -452,9 +572,10 @@ function Rabbits() {
                         display: "flex",
                         justifyContent: "center",
                         alignItems: "center",
-                        gap: "4px",
+                        gap: "6px",
                         flexWrap: "nowrap",
-                        minWidth: "185px",
+                        width: "100%",
+                        boxSizing: "border-box",
                       }}
                     >
                       <Link
@@ -462,7 +583,7 @@ function Rabbits() {
                         to={`/rabbits/${rabbit.id}`}
                         style={{
                           padding: "5px 7px",
-                          fontSize: "10px",
+
                           whiteSpace: "nowrap",
                         }}
                       >
@@ -474,7 +595,7 @@ function Rabbits() {
                         to={`/rabbits/edit/${rabbit.id}`}
                         style={{
                           padding: "5px 7px",
-                          fontSize: "10px",
+
                           whiteSpace: "nowrap",
                         }}
                       >
@@ -491,7 +612,7 @@ function Rabbits() {
                         }
                         style={{
                           padding: "5px 7px",
-                          fontSize: "10px",
+
                           background: "#D32F2F",
                           color: "white",
                           border: "none",
