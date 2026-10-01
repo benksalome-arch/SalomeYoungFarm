@@ -120,10 +120,25 @@ function RabbitProfile() {
         </div>
 
         <Link
-          className="button"
           to={`/rabbits/edit/${rabbit.id}`}
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: "6px",
+            background: "#2e7d32",
+            color: "#fff",
+            textDecoration: "none",
+            border: "none",
+            padding: "9px 16px",
+            borderRadius: "6px",
+            fontSize: "14px",
+            fontWeight: "600",
+            cursor: "pointer",
+            boxSizing: "border-box",
+          }}
         >
-          ✏ Edit
+          ✏️ {t("edit")}
         </Link>
       </div>
 
@@ -138,98 +153,91 @@ function RabbitProfile() {
           maxWidth: "100%",
           boxSizing: "border-box",
           overflow: "hidden",
+          padding: "0",
+          borderRadius: "10px",
         }}
       >
-        <table
-          className="table"
+        <div
           style={{
-            width: "100%",
-            maxWidth: "100%",
-            tableLayout: "fixed",
+            padding: "16px 20px",
+            background: "#f1f8f2",
+            borderBottom: "1px solid #d7e8d9",
+            fontSize: "17px",
+            fontWeight: "700",
+            color: "#2e7d32",
           }}
         >
-          <colgroup>
-            <col style={{ width: "40%" }} />
-            <col style={{ width: "60%" }} />
-          </colgroup>
+          {t("rabbitInformation")}
+        </div>
 
-          <tbody>
-            <tr>
-              <th>{t("tagNumber")}</th>
-              <td>
-                {rabbit.tag_number || "-"}
-              </td>
-            </tr>
+        <div
+          style={{
+            width: "100%",
+            boxSizing: "border-box",
+          }}
+        >
+          {[
+            [t("tagNumber"), rabbit.tag_number || "-"],
+            [t("name"), rabbit.name || "-"],
+            [t("breed"), rabbit.breed || "-"],
+            [t("sex"), rabbit.sex || "-"],
+            [
+              t("birthDate"),
+              formatDate(rabbit.birth_date),
+            ],
+            [t("source"), rabbit.source || "-"],
+            [t("quantity"), rabbit.quantity ?? 0],
+            [t("status"), rabbit.status || "-"],
+            [
+              t("purchasePriceKES"),
+              `KES ${Number(
+                rabbit.purchase_price || 0
+              ).toLocaleString()}`,
+            ],
+            [t("notes"), rabbit.notes || "-"],
+          ].map(([label, value], index) => (
+            <div
+              key={label}
+              style={{
+                display: "grid",
+                gridTemplateColumns:
+                  "minmax(180px, 35%) minmax(0, 65%)",
+                width: "100%",
+                boxSizing: "border-box",
+                borderBottom:
+                  index < 9
+                    ? "1px solid #e5e5e5"
+                    : "none",
+              }}
+            >
+              <div
+                style={{
+                  padding: "13px 18px",
+                  background: "#f8fbf8",
+                  color: "#2e7d32",
+                  fontWeight: "600",
+                  fontSize: "14px",
+                  boxSizing: "border-box",
+                }}
+              >
+                {label}
+              </div>
 
-            <tr>
-              <th>{t("name")}</th>
-              <td>
-                {rabbit.name || "-"}
-              </td>
-            </tr>
-
-            <tr>
-              <th>{t("breed")}</th>
-              <td>
-                {rabbit.breed || "-"}
-              </td>
-            </tr>
-
-            <tr>
-              <th>{t("sex")}</th>
-              <td>
-                {rabbit.sex || "-"}
-              </td>
-            </tr>
-
-            <tr>
-              <th>{t("birthDate")}</th>
-              <td>
-                {formatDate(
-                  rabbit.birth_date
-                )}
-              </td>
-            </tr>
-
-            <tr>
-              <th>{t("source")}</th>
-              <td>
-                {rabbit.source || "-"}
-              </td>
-            </tr>
-
-            <tr>
-              <th>{t("quantity")}</th>
-              <td>
-                {rabbit.quantity ?? 0}
-              </td>
-            </tr>
-
-            <tr>
-              <th>{t("status")}</th>
-              <td>
-                {rabbit.status || "-"}
-              </td>
-            </tr>
-
-            <tr>
-              <th>{t("purchasePriceKES")}</th>
-              <td>
-                KES{" "}
-                {Number(
-                  rabbit.purchase_price || 0
-                ).toLocaleString()}
-              </td>
-            </tr>
-
-            <tr>
-              <th>{t("notes")}</th>
-              <td>
-                {rabbit.notes || "-"}
-              </td>
-            </tr>
-          </tbody>
-        </table>
+              <div
+                style={{
+                  padding: "13px 18px",
+                  color: "#333",
+                  fontSize: "14px",
+                  background: "#fff",
+                  overflowWrap: "break-word",
+                  boxSizing: "border-box",
+                }}
+              >
+                {value}
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* =====================================
