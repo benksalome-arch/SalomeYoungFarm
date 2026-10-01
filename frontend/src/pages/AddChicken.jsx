@@ -438,7 +438,8 @@ function AddChicken() {
                           type="button"
                           onClick={() => handleDateSelect(day)}
                           style={{
-                            height: "38px",
+                            width: "40px",
+                            height: "40px",
                             border: selected
                               ? "2px solid #1b5e20"
                               : isToday
