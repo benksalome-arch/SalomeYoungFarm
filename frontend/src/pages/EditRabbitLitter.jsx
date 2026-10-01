@@ -612,8 +612,8 @@ function EditRabbitLitter() {
                     }
 
                     #syl-rabbit-clean-calendar .calendar-day.today {
-                      background: #e8f5e9 !important;
-                      border-color: #a5d6a7 !important;
+                      background: #e3f2fd !important;
+                      border-color: #2196f3 !important;
                     }
 
                     #syl-rabbit-clean-calendar .calendar-day.selected {
