@@ -6,7 +6,7 @@ const feedController = require("../controllers/feedController");
 // Get all feed
 const {
   authenticateToken,
-  requireAdmin,
+  requireAdminOrManager,
 } = require("../middleware/authMiddleware");
 
 router.get("/", feedController.getFeeds);
@@ -18,13 +18,19 @@ router.get("/:id", feedController.getFeed);
 router.post("/", feedController.createFeed);
 
 // Update feed
-router.put("/:id",
+router.put(
+  "/:id",
   authenticateToken,
-  requireAdmin, feedController.updateFeed);
+  requireAdminOrManager,
+  feedController.updateFeed
+);
 
 // Delete feed
-router.delete("/:id",
+router.delete(
+  "/:id",
   authenticateToken,
-  requireAdmin, feedController.deleteFeed);
+  requireAdminOrManager,
+  feedController.deleteFeed
+);
 
 module.exports = router;

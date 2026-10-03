@@ -696,23 +696,24 @@ function EditFeed() {
       <style>{`
   .edit-feed-form {
     width: 100%;
-    max-width: 760px;
+    max-width: 620px;
     margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
   }
 
   .edit-feed-field {
-    display: grid;
-    grid-template-columns: 190px minmax(0, 1fr);
-    align-items: center;
-    gap: 18px;
-    margin-bottom: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    min-width: 0;
   }
 
   .edit-feed-label {
     font-weight: 600;
     font-size: 15px;
     line-height: 1.25;
-    text-align: right;
     color: #222;
     overflow-wrap: anywhere;
   }
@@ -736,7 +737,6 @@ function EditFeed() {
     font-family: inherit !important;
     line-height: 1.3 !important;
     outline: none;
-    cursor: text;
   }
 
   .edit-feed-input:hover {
@@ -750,7 +750,6 @@ function EditFeed() {
   }
 
   .edit-feed-input[type="number"] {
-    cursor: text !important;
     text-align: left;
   }
 
@@ -758,48 +757,50 @@ function EditFeed() {
     cursor: pointer !important;
   }
 
-  .edit-feed-notes {
-    display: grid;
-    grid-template-columns: 190px minmax(0, 1fr);
-    align-items: start;
-    gap: 18px;
-    margin-bottom: 22px;
+  .edit-feed-date {
+    position: relative;
   }
 
-  .edit-feed-notes .edit-feed-label {
-    padding-top: 10px;
+  .edit-feed-notes {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
   }
 
   .edit-feed-notes .edit-feed-input {
     min-height: 110px;
+    height: auto !important;
     resize: vertical;
   }
 
   .edit-feed-category {
-    order: 1;
+    order: initial;
   }
 
-  .edit-feed-date {
-    order: 2;
+  .edit-feed-buttons {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 2px;
+  }
+
+  .edit-feed-buttons .button {
+    min-height: 44px;
   }
 
   @media (max-width: 700px) {
     .edit-feed-form {
       max-width: 100%;
+      grid-template-columns: 1fr;
+      gap: 15px;
     }
 
     .edit-feed-field,
     .edit-feed-notes {
-      grid-template-columns: 1fr;
-      gap: 6px;
-      margin-bottom: 15px;
-    }
-
-    .edit-feed-label,
-    .edit-feed-notes .edit-feed-label {
-      text-align: left;
-      padding-top: 0;
-      font-size: 14px;
+      grid-column: 1 / -1;
     }
 
     .edit-feed-input {
@@ -810,6 +811,7 @@ function EditFeed() {
     }
 
     .edit-feed-buttons {
+      grid-column: 1 / -1;
       width: 100%;
       display: flex;
       gap: 10px;
@@ -821,37 +823,36 @@ function EditFeed() {
       min-height: 44px;
     }
   }
-`}</style>
 
-      <div className="page-header">
-        <h1
-          style={{
-            margin: 0,
-            color: "#222",
-            WebkitTextFillColor: "#222",
-          }}
-        >
-          ✏ {t("updateFeed")}
-        </h1>
-      </div>
+`}</style>
 
       <div
         className="card"
         style={{
           width: "100%",
-          maxWidth: "820px",
+          maxWidth: "620px",
           margin: "0 auto",
         }}
       >
-        <h2
+        <div
           style={{
-            marginTop: 0,
-            color: "#222",
-            WebkitTextFillColor: "#222",
+            marginBottom: "24px",
+            paddingBottom: "16px",
+            borderBottom: "1px solid #e5e7eb",
           }}
         >
-          ✏ {t("updateFeed")}
-        </h2>
+          <h1
+            style={{
+              margin: 0,
+              color: "#222",
+              WebkitTextFillColor: "#222",
+              fontSize: "30px",
+              lineHeight: 1.2,
+            }}
+          >
+            ✏️ {t("updateFeed")}
+          </h1>
+        </div>
 
         <form onSubmit={handleSubmit} className="edit-feed-form">
 
@@ -901,10 +902,10 @@ function EditFeed() {
               </button>
 
               {calendarOpen && renderCalendar("purchase_date")}
+            </div>
+          </div>
 
-                    </div>
-
-<div className="edit-feed-field">
+          <div className="edit-feed-field">
             <label className="edit-feed-label">{t("quantity")}</label>
             <input
               className="edit-feed-input"
@@ -967,8 +968,6 @@ function EditFeed() {
             />
           </div>
 
-          </div>
-
           <div className="edit-feed-field edit-feed-category">
             <label className="edit-feed-label">{t("category")}</label>
             <select
@@ -1010,8 +1009,8 @@ function EditFeed() {
           </div>
 
         </form>
-      </div>
     </div>
+  </div>
   )
 
 }

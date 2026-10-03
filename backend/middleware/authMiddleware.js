@@ -54,7 +54,22 @@ function requireAdmin(req, res, next) {
   next();
 }
 
+function requireAdminOrManager(req, res, next) {
+  const role = req.user?.role
+    ? String(req.user.role).toLowerCase()
+    : "";
+
+  if (role !== "admin" && role !== "manager") {
+    return res.status(403).json({
+      message: "Administrator or Manager access required",
+    });
+  }
+
+  next();
+}
+
 module.exports = {
   authenticateToken,
   requireAdmin,
+  requireAdminOrManager,
 };

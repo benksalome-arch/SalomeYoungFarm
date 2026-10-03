@@ -524,12 +524,27 @@ function AddFeed() {
 
               <div style={{ position: "relative", width: "100%" }}>
                 <div
+                  onClick={() => {
+                    const selected = formData.purchase_date
+                      ? new Date(formData.purchase_date + "T00:00:00")
+                      : new Date();
+
+                    setCalendarMonth(
+                      new Date(
+                        selected.getFullYear(),
+                        selected.getMonth(),
+                        1
+                      )
+                    );
+
+                    setCalendarOpen(true);
+                  }}
                   style={{
                     ...inputStyle,
                     width: "100%",
                     color: formData.purchase_date ? "#222" : "#777",
                     WebkitTextFillColor: formData.purchase_date ? "#222" : "#777",
-                    pointerEvents: "none",
+                    cursor: "pointer",
                     display: "flex",
                     alignItems: "center",
                   }}
@@ -542,22 +557,6 @@ function AddFeed() {
                       })
                     : "DD-MM-JJJJ"}
                 </div>
-                <input
-                  type="date"
-                  id="purchase_date"
-                  name="purchase_date"
-                  value={formData.purchase_date || ""}
-                  onChange={handleChange}
-                  required
-                  style={{
-                    position: "absolute",
-                    inset: 0,
-                    width: "100%",
-                    height: "100%",
-                    opacity: 0,
-                    cursor: "pointer",
-                  }}
-                />
 
                 {calendarOpen && (
                   <div
@@ -569,8 +568,13 @@ function AddFeed() {
                       alignItems: "center",
                       justifyContent: "center",
                       zIndex: 99999,
+                    pointerEvents: "auto",
                     }}
-                    onClick={() => setCalendarOpen(false)}
+                    onClick={(e) => {
+                      if (e.target === e.currentTarget) {
+                        setCalendarOpen(false);
+                      }
+                    }}
                   >
                     <div
                       style={{
@@ -580,6 +584,9 @@ function AddFeed() {
                         padding: "18px",
                         boxSizing: "border-box",
                         boxShadow: "0 8px 30px rgba(0,0,0,.25)",
+                        pointerEvents: "auto",
+                        position: "relative",
+                        zIndex: 100000,
                       }}
                       onClick={(e) => e.stopPropagation()}
                     >
