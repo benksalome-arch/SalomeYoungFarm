@@ -141,7 +141,11 @@ function ViewFeedUsage() {
             <span style={labelStyle}>{t("date")}</span>
             <div style={valueStyle}>
               {usage.usage_date
-                ? usage.usage_date.split("T")[0]
+                ? (() => {
+                    const [year, month, day] =
+                      usage.usage_date.split("T")[0].split("-");
+                    return `${day}-${month}-${year}`;
+                  })()
                 : "-"}
             </div>
           </div>
