@@ -28,6 +28,73 @@ exports.getUsage = (req, res) => {
 };
 
 // ============================
+// Get single feed usage
+// ============================
+
+exports.getUsageById = (req, res) => {
+  db.query(
+    `SELECT
+        fu.*,
+        f.feed_name,
+        f.cost_per_unit
+     FROM feed_usage fu
+     LEFT JOIN feed f ON fu.feed_id = f.id
+     WHERE fu.id=?`,
+    [req.params.id],
+    (err, results) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).json({ message: "Database error" });
+      }
+
+      if (results.length === 0) {
+        return res.status(404).json({ message: "Feed usage not found" });
+      }
+
+      res.json(results[0]);
+    }
+  );
+};
+
+// ============================
+// Update feed usage
+// ============================
+
+exports.updateUsage = (req, res) => {
+  const {
+    quantity_used,
+    usage_date,
+    notes,
+  } = req.body;
+
+  db.query(
+    `UPDATE feed_usage
+     SET quantity_used=?, usage_date=?, notes=?
+     WHERE id=?`,
+    [
+      quantity_used,
+      usage_date,
+      notes,
+      req.params.id,
+    ],
+    (err, result) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).json({ message: "Database error" });
+      }
+
+      if (result.affectedRows === 0) {
+        return res.status(404).json({ message: "Feed usage not found" });
+      }
+
+      res.json({
+        message: "Feed usage updated successfully!",
+      });
+    }
+  );
+};
+
+// ============================
 // Record feed usage
 // ============================
 
