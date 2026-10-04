@@ -221,7 +221,45 @@ function EditFeedUsage() {
             font-size: 30px !important;
           }
         }
-      `}</style>
+        /* Professional form controls */
+        .feed-usage-edit-grid label {
+          display: block;
+          margin-bottom: 6px;
+          font-weight: 600;
+          font-size: 14px;
+          color: #555;
+        }
+
+        .feed-usage-edit-grid input,
+        .feed-usage-edit-grid select,
+        .feed-usage-edit-grid textarea {
+          width: 100% !important;
+          box-sizing: border-box !important;
+          padding: 10px 12px !important;
+          min-height: 44px !important;
+          border: 1px solid #ccc !important;
+          border-radius: 6px !important;
+          font-size: 15px !important;
+          font-family: inherit !important;
+          color: #222 !important;
+          background: #fff !important;
+        }
+
+        .feed-usage-edit-grid input:focus,
+        .feed-usage-edit-grid select:focus,
+        .feed-usage-edit-grid textarea:focus {
+          outline: none;
+          border-color: #2e7d32 !important;
+          box-shadow: 0 0 0 2px rgba(46, 125, 50, 0.12);
+        }
+
+        .feed-usage-edit-grid textarea {
+          min-height: 100px !important;
+          resize: vertical;
+        }
+
+        `}
+</style>
 
       <div>
         <div
@@ -530,17 +568,17 @@ function EditFeedUsage() {
                             style={{
                               height: "44px",
                               minWidth: "44px",
-                              border: selected
-                                ? "2px solid #1b5e20"
-                                : isToday
-                                ? "2px solid #2e7d32"
-                                : "1px solid #ddd",
-                              borderRadius: "50%",
-                              background: selected
-                                ? "#2e7d32"
-                                : isToday
-                                ? "#4caf50"
-                                : "#fff",
+                              border: isToday
+                                  ? "2px solid #1565c0"
+                                  : selected
+                                  ? "2px solid #1b5e20"
+                                  : "1px solid #ddd",
+                                borderRadius: "50%",
+                                background: isToday
+                                  ? "#1976d2"
+                                  : selected
+                                  ? "#2e7d32"
+                                  : "#fff",
                               color:
                                 selected || isToday
                                   ? "#fff"
@@ -550,7 +588,7 @@ function EditFeedUsage() {
                               cursor: "pointer",
                               fontSize: "15px",
                               boxShadow: isToday
-                                ? "0 0 0 2px #c8e6c9"
+                                ? "0 0 0 2px #bbdefb"
                                 : "none",
                             }}
                           >
