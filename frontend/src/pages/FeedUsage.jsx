@@ -31,10 +31,20 @@ function FeedUsage() {
     }
 
     try {
-      await fetch(`${API_URL}/api/feed-usage/${id}`, {
+      const response = await fetch(`${API_URL}/api/feed-usage/${id}`, {
         method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
       });
 
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Verwijderen is mislukt.");
+      }
+
+      alert(data.message || "Voergebruik succesvol verwijderd.");
       loadUsage();
     } catch (err) {
       console.error(err);
@@ -89,9 +99,21 @@ function FeedUsage() {
           </p>
         </div>
 
-        <Link className="button" to="/feed/usage/add">
-          ➕ Voergebruik registreren
-        </Link>
+        <div
+          style={{
+            display: "flex",
+            gap: 10,
+            flexWrap: "wrap",
+          }}
+        >
+          <Link className="button" to="/feed">
+            ← {t("back")}
+          </Link>
+
+          <Link className="button" to="/feed/usage/add">
+            ➕ Voergebruik registreren
+          </Link>
+        </div>
       </div>
 
       <div className="card">
@@ -106,8 +128,6 @@ function FeedUsage() {
             <div style={{ fontSize: 50 }}>🌾</div>
 
             <h3>{t("noFeedUsage")}</h3>
-
-            <p>{t("noDailyFeedUsage")}</p>
 
             <Link className="button" to="/feed/usage/add">
               ➕ Eerste registratie toevoegen
@@ -155,15 +175,37 @@ function FeedUsage() {
                     <td>{item.notes || "-"}</td>
 
                     <td>
-                      <button
-                        className="button"
+                      <div
                         style={{
-                          background: "#d32f2f",
+                          display: "flex",
+                          gap: 8,
+                          flexWrap: "wrap",
                         }}
-                        onClick={() => deleteUsage(item.id)}
                       >
-                        🗑 Verwijderen
-                      </button>
+                        <Link
+                          className="button"
+                          to={`/feed/usage/${item.id}`}
+                        >
+                          👁 {t("view")}
+                        </Link>
+
+                        <Link
+                          className="button"
+                          to={`/feed/usage/${item.id}/edit`}
+                        >
+                          ✏️ {t("update")}
+                        </Link>
+
+                        <button
+                          className="button"
+                          style={{
+                            background: "#d32f2f",
+                          }}
+                          onClick={() => deleteUsage(item.id)}
+                        >
+                          🗑 Verwijderen
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))}
