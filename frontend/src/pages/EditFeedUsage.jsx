@@ -108,42 +108,38 @@ function EditFeedUsage() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    setSaving(true);
 
     try {
-      const response = await fetch(`${API_URL}/api/feed-usage/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-        body: JSON.stringify({
-          quantity_used: usage.quantity_used,
-          usage_date: usage.usage_date
-            ? usage.usage_date.split("T")[0]
-            : "",
-          notes: usage.notes || "",
-        }),
-      });
+      const response = await fetch(
+        `${API_URL}/api/feed-usage/${id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+          body: JSON.stringify({
+            quantity_used: usage.quantity_used,
+            usage_date: usage.usage_date
+              ? usage.usage_date.split("T")[0]
+              : "",
+            notes: usage.notes || "",
+          }),
+        }
+      );
 
       const data = await response.json();
 
+      alert(data.message);
+
       if (!response.ok) {
-        throw new Error(
-          data.message || "Failed to update feed usage."
-        );
+        return;
       }
 
-      navigate(`/feed/usage/${id}`, {
-        state: {
-          success: t("feedUsageSaved"),
-        },
-      });
+      navigate(`/feed/usage/${id}`);
     } catch (err) {
       console.error(err);
-      alert(err.message);
-    } finally {
-      setSaving(false);
+      alert("Failed to update feed usage.");
     }
   }
 

@@ -22,35 +22,36 @@ function FeedUsage() {
   }
 
   async function deleteUsage(id) {
-    if (
-      !window.confirm(
-        "Weet je zeker dat je deze registratie wilt verwijderen?"
-      )
-    ) {
+    if (!window.confirm(t("deleteFeedConfirm"))) {
       return;
     }
 
     try {
-      const response = await fetch(`${API_URL}/api/feed-usage/${id}`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
+      const response = await fetch(
+        `${API_URL}/api/feed-usage/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
 
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || "Verwijderen is mislukt.");
+        alert(data.message || "Failed to delete feed usage.");
+        return;
       }
 
-      alert(data.message || "Voergebruik succesvol verwijderd.");
+      alert(data.message || "Feed usage deleted successfully!");
       loadUsage();
     } catch (err) {
       console.error(err);
-      alert("Verwijderen is mislukt.");
+      alert("Failed to delete feed usage.");
     }
   }
+
 
   return (
     <div className="page">
