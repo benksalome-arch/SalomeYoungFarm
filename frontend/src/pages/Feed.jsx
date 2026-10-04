@@ -37,6 +37,9 @@ function Feed() {
     try {
       const response = await fetch(`${API_URL}/api/feed/${id}`, {
         method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
       });
 
       const data = await response.json();
@@ -46,7 +49,7 @@ function Feed() {
         return;
       }
 
-      alert(data.message || t("feedDeleted"));
+      alert(t("feedDeleted"));
       loadFeeds();
     } catch (err) {
       console.error(err);

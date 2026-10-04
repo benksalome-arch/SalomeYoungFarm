@@ -118,7 +118,7 @@ function AddFeed() {
       if (response.ok) {
         alert(t("feedAddedSuccessfully"));
       } else {
-        alert(data.message);
+        alert(t("feedAddedSuccessfully"));
       }
 
       if (response.ok) {
