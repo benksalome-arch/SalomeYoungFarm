@@ -47,7 +47,6 @@ function ViewFeedUsage() {
       <div className="page">
         <div className="card" style={{ padding: 30, textAlign: "center" }}>
           <h2>{t("error")}</h2>
-
           <Link className="button" to="/feed/usage">
             ← {t("back")}
           </Link>
@@ -55,6 +54,36 @@ function ViewFeedUsage() {
       </div>
     );
   }
+
+  const animalType =
+    usage.animal_type === "Goat"
+      ? "Geit"
+      : usage.animal_type === "Chicken"
+      ? "Kip"
+      : usage.animal_type === "Rabbit"
+      ? "Konijn"
+      : usage.animal_type || "-";
+
+  const fieldStyle = {
+    padding: "18px 20px",
+    border: "1px solid #e0e0e0",
+    borderRadius: 10,
+    background: "#fafafa",
+  };
+
+  const labelStyle = {
+    display: "block",
+    fontSize: 14,
+    fontWeight: 700,
+    color: "#666",
+    marginBottom: 7,
+  };
+
+  const valueStyle = {
+    fontSize: 17,
+    fontWeight: 600,
+    color: "#222",
+  };
 
   return (
     <div className="page">
@@ -93,43 +122,57 @@ function ViewFeedUsage() {
         </Link>
       </div>
 
-      <div className="card" style={{ padding: 25 }}>
-        <div style={{ display: "grid", gap: 18 }}>
-          <div>
-            <strong>{t("date")}</strong>
-            <div>
+      <div
+        className="card"
+        style={{
+          padding: 25,
+          maxWidth: 1000,
+          margin: "0 auto",
+        }}
+      >
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
+            gap: 16,
+          }}
+        >
+          <div style={fieldStyle}>
+            <span style={labelStyle}>{t("date")}</span>
+            <div style={valueStyle}>
               {usage.usage_date
                 ? usage.usage_date.split("T")[0]
                 : "-"}
             </div>
           </div>
 
-          <div>
-            <strong>{t("feed")}</strong>
-            <div>{usage.feed_name || "-"}</div>
+          <div style={fieldStyle}>
+            <span style={labelStyle}>{t("feed")}</span>
+            <div style={valueStyle}>{usage.feed_name || "-"}</div>
           </div>
 
-          <div>
-            <strong>{t("animalType")}</strong>
-            <div>
-              {usage.animal_type === "Goat"
-                ? "Geit"
-                : usage.animal_type === "Chicken"
-                ? "Kip"
-                : usage.animal_type === "Rabbit"
-                ? "Konijn"
-                : usage.animal_type || "-"}
+          <div style={fieldStyle}>
+            <span style={labelStyle}>{t("animalType")}</span>
+            <div style={valueStyle}>{animalType}</div>
+          </div>
+
+          <div style={fieldStyle}>
+            <span style={labelStyle}>{t("quantity")}</span>
+            <div style={valueStyle}>
+              {usage.quantity_used} kg
             </div>
           </div>
 
-          <div>
-            <strong>{t("quantity")}</strong>
-            <div>{usage.quantity_used} kg</div>
-          </div>
-
-          <div>
-            <strong>{t("notes")}</strong>
-            <div>{usage.notes || "-"}</div>
+          <div
+            style={{
+              ...fieldStyle,
+              gridColumn: "1 / -1",
+            }}
+          >
+            <span style={labelStyle}>{t("notes")}</span>
+            <div style={valueStyle}>
+              {usage.notes || "-"}
+            </div>
           </div>
         </div>
 
@@ -137,7 +180,7 @@ function ViewFeedUsage() {
           style={{
             display: "flex",
             gap: 10,
-            marginTop: 30,
+            marginTop: 25,
             flexWrap: "wrap",
           }}
         >
@@ -153,6 +196,18 @@ function ViewFeedUsage() {
           </Link>
         </div>
       </div>
+
+      <style>{`
+        @media (max-width: 700px) {
+          .card > div:first-child {
+            grid-template-columns: 1fr !important;
+          }
+
+          .card > div:first-child > div {
+            grid-column: auto !important;
+          }
+        }
+      `}</style>
     </div>
   );
 }
