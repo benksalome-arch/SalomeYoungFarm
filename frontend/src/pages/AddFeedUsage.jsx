@@ -337,41 +337,38 @@ function AddFeedUsage() {
             </label>
 
             <div style={{ position: "relative", width: "100%" }}>
-              <div
+              <button
+                type="button"
+                onClick={() => {
+                  setCalendarMonth(
+                    formData.usage_date
+                      ? new Date(formData.usage_date + "T00:00:00")
+                      : new Date()
+                  );
+                  setCalendarOpen(true);
+                }}
                 style={{
                   ...inputStyle,
                   width: "100%",
                   color: formData.usage_date ? "#222" : "#777",
                   WebkitTextFillColor: formData.usage_date ? "#222" : "#777",
-                  pointerEvents: "none",
                   display: "flex",
                   alignItems: "center",
+                  justifyContent: "flex-start",
+                  textAlign: "left",
+                  cursor: "pointer",
                 }}
               >
                 {formData.usage_date
-                  ? new Date(formData.usage_date + "T00:00:00").toLocaleDateString("nl-NL", {
+                  ? new Date(
+                      formData.usage_date + "T00:00:00"
+                    ).toLocaleDateString("nl-NL", {
                       day: "2-digit",
                       month: "2-digit",
                       year: "numeric",
                     })
                   : "DD-MM-JJJJ"}
-              </div>
-              <input
-                type="date"
-                id="usage_date"
-                name="usage_date"
-                value={formData.usage_date || ""}
-                onChange={handleChange}
-                required
-                style={{
-                  position: "absolute",
-                  inset: 0,
-                  width: "100%",
-                  height: "100%",
-                  opacity: 0,
-                    cursor: "pointer",
-                }}
-              />
+              </button>
 
               {calendarOpen && (
                 <div
@@ -517,22 +514,27 @@ function AddFeedUsage() {
                             type="button"
                             onClick={() => handleDateSelect(day)}
                             style={{
-                              minHeight: "40px",
-                              border:
-                                isToday || isSelected
-                                  ? "2px solid #2e7d32"
-                                  : "1px solid #ddd",
-                              borderRadius: "8px",
-                              background:
-                                isSelected || isToday ? "#e8f5e9" : "#fff",
-                              color: "#222",
-                              fontSize: "15px",
-                              fontWeight: 600,
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
+                              width: "40px",
+                              height: "40px",
+                              minWidth: "40px",
+                              border: "none",
+                              borderRadius: "50%",
+                              background: isSelected
+                                ? "#2e7d32"
+                                : isToday
+                                ? "#e8f5e9"
+                                : "#fff",
+                              color: isSelected
+                                ? "#fff"
+                                : "#222",
+                              fontWeight:
+                                isSelected || isToday ? 700 : 400,
                               cursor: "pointer",
+                              padding: 0,
+                              justifySelf: "center",
+                              boxSizing: "border-box",
                             }}
+                            onMouseDown={(e) => e.preventDefault()}
                           >
                             {day}
                           </button>
