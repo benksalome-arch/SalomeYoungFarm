@@ -115,7 +115,11 @@ function AddFeed() {
 
       const data = await response.json();
 
-      alert(data.message);
+      if (response.ok) {
+        alert(t("feedAddedSuccessfully"));
+      } else {
+        alert(data.message);
+      }
 
       if (response.ok) {
         navigate("/feed");
