@@ -134,7 +134,11 @@ function EditFeedUsage() {
         );
       }
 
-      navigate(`/feed/usage/${id}`);
+      navigate(`/feed/usage/${id}`, {
+        state: {
+          success: t("feedUsageSaved"),
+        },
+      });
     } catch (err) {
       console.error(err);
       alert(err.message);
