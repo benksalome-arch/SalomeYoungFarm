@@ -530,26 +530,27 @@ function AddBreeding() {
                           type="button"
                           onClick={() => selectCalendarDate(day)}
                           style={{
-                            width: "100%",
-                            aspectRatio: "1",
-                            minHeight: "34px",
-                            border: selected
-                              ? "2px solid #1b5e20"
-                              : "1px solid #ddd",
+                            width: "40px",
+                            height: "40px",
+                            minWidth: "40px",
+                            border: "none",
                             borderRadius: "50%",
                             background: selected
                               ? "#2e7d32"
                               : today
-                              ? "#4caf50"
+                              ? "#e8f5e9"
                               : "#fff",
-                            color: selected || today ? "#fff" : "#222",
-                            fontSize: "13px",
+                            color: selected
+                              ? "#fff"
+                              : "#222",
+                            fontWeight:
+                              selected || today ? 700 : 400,
                             cursor: "pointer",
-                            fontWeight: selected || today ? 700 : 400,
-                            boxShadow: today
-                              ? "0 0 0 2px #c8e6c9"
-                              : "none",
+                            padding: 0,
+                            justifySelf: "center",
+                            boxSizing: "border-box",
                           }}
+                          onMouseDown={(e) => e.preventDefault()}
                         >
                           {day}
                         </button>
