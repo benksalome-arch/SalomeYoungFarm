@@ -130,7 +130,7 @@ function EditFeedUsage() {
 
       const data = await response.json();
 
-      alert(data.message);
+      alert(t("feedUsageSaved"));
 
       if (!response.ok) {
         return;

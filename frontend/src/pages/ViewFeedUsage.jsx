@@ -48,7 +48,7 @@ function ViewFeedUsage() {
         <div className="card" style={{ padding: 30, textAlign: "center" }}>
           <h2>{t("error")}</h2>
           <Link className="button" to="/feed/usage">
-            ← {t("back")}
+            {t("cancel")}
           </Link>
         </div>
       </div>
