@@ -309,12 +309,9 @@ function AddBreeding() {
           <p style={labelStyle}>{t("matingDate")}</p>
 
           <div style={{ position: "relative", width: "100%" }}>
-            <input
-              type="text"
-              name="mating_date_display"
-              value={formatDateDisplay(formData.mating_date)}
-              placeholder="DD-MM-JJJJ"
-              readOnly
+            <button
+              type="button"
+              onMouseDown={(e) => e.preventDefault()}
               onClick={openCalendar}
               style={{
                 ...fieldStyle,
@@ -323,8 +320,13 @@ function AddBreeding() {
                 color: "#222",
                 WebkitTextFillColor: "#222",
                 backgroundColor: "#fff",
+                textAlign: "left",
               }}
-            />
+            >
+              {formData.mating_date
+                ? formatDateDisplay(formData.mating_date)
+                : "DD-MM-JJJJ"}
+            </button>
 
             {calendarOpen && (
               <div
