@@ -196,7 +196,7 @@ function ViewFeedUsage() {
           </Link>
 
           <Link className="button" to="/feed/usage">
-            ← {t("back")}
+            {t("cancel")}
           </Link>
         </div>
       </div>

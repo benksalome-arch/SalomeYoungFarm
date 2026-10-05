@@ -153,7 +153,11 @@ function FeedUsage() {
                   <tr key={item.id}>
                     <td>
                       {item.usage_date
-                        ? item.usage_date.split("T")[0]
+                        ? (() => {
+                            const [year, month, day] =
+                              item.usage_date.split("T")[0].split("-");
+                            return `${day}-${month}-${year}`;
+                          })()
                         : "-"}
                     </td>
 
