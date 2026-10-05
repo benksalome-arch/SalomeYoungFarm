@@ -3514,7 +3514,15 @@ canvas {
 
 
 /* Feed Usage table alignment */
-.feed-usage-table th:nth-child(-n+5),
-.feed-usage-table td:nth-child(-n+5) {
-  text-align: left !important;
+.feed-usage-table th,
+.feed-usage-table td {
+  text-align: center !important;
+}
+
+.feed-usage-table td:last-child > div {
+  width: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
