@@ -136,7 +136,7 @@ function FeedUsage() {
           </div>
         ) : (
           <div style={{ overflowX: "auto" }}>
-            <table className="table">
+            <table className="table feed-usage-table">
               <thead>
                 <tr>
                   <th>{t("date")}</th>

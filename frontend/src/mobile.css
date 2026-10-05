@@ -3119,3 +3119,402 @@ canvas {
     text-overflow: ellipsis !important;
   }
 }
+
+/* =========================================================
+   EDIT RABBIT VACCINATION — MOBILE FORM LAYOUT
+   Desktop remains unchanged.
+   Mobile: one full-width field per row.
+   ========================================================= */
+
+@media (max-width: 700px) {
+  .edit-rabbit-vaccination-grid {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+  }
+
+  .edit-rabbit-vaccination-grid > div {
+    width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .edit-rabbit-vaccination-grid > div > label {
+    display: block !important;
+    width: 100% !important;
+    margin-bottom: 6px !important;
+    text-align: left !important;
+  }
+
+  .edit-rabbit-vaccination-grid > div > select,
+  .edit-rabbit-vaccination-grid > div > input,
+  .edit-rabbit-vaccination-grid > div > button {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+}
+
+/* =========================================================
+   EDIT RABBIT VACCINATION — MOBILE VALUE VISIBILITY FIX
+   The API data is loading correctly. Force form values to
+   remain visible on mobile regardless of inherited colours.
+   ========================================================= */
+
+.edit-rabbit-vaccination-form {
+  color: #222 !important;
+  opacity: 1 !important;
+}
+
+.edit-rabbit-vaccination-form input,
+.edit-rabbit-vaccination-form select,
+.edit-rabbit-vaccination-form textarea {
+  color: #222 !important;
+  -webkit-text-fill-color: #222 !important;
+  background: #fff !important;
+  background-color: #fff !important;
+  opacity: 1 !important;
+}
+
+.edit-rabbit-vaccination-form button[type="button"] {
+  color: #222 !important;
+  -webkit-text-fill-color: #222 !important;
+  background: #fff !important;
+  background-color: #fff !important;
+  opacity: 1 !important;
+}
+
+.edit-rabbit-vaccination-form button[type="button"] span {
+  color: #222 !important;
+  -webkit-text-fill-color: #222 !important;
+}
+
+@media (max-width: 700px) {
+  .edit-rabbit-vaccination-form input,
+  .edit-rabbit-vaccination-form select,
+  .edit-rabbit-vaccination-form textarea,
+  .edit-rabbit-vaccination-form button[type="button"] {
+    color: #222 !important;
+    -webkit-text-fill-color: #222 !important;
+  }
+}
+
+/* EDIT FEED — BUTTON SPACING */
+.edit-feed-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.edit-feed-buttons .button {
+  margin: 0 !important;
+}
+
+@media (max-width: 700px) {
+  .edit-feed-buttons {
+    gap: 10px;
+  }
+
+  .edit-feed-buttons .button {
+    flex: 0 1 auto;
+  }
+}
+
+/* =========================================================
+   EDIT FEED — CLEAN RESPONSIVE FORM
+   Desktop: two balanced columns
+   Phone: one full-width field per row
+   ========================================================= */
+
+.edit-feed-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.edit-feed-field {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.edit-feed-label {
+  display: block;
+  width: 100%;
+  margin-bottom: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #333 !important;
+  -webkit-text-fill-color: #333 !important;
+}
+
+.edit-feed-input,
+.edit-feed-date-button {
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  min-height: 42px;
+  box-sizing: border-box;
+  padding: 10px 12px;
+  border: 1px solid #d6d6d6;
+  border-radius: 7px;
+  background: #fff !important;
+  color: #222 !important;
+  -webkit-text-fill-color: #222 !important;
+  font-size: 14px;
+}
+
+.edit-feed-input:focus,
+.edit-feed-date-button:focus {
+  outline: none;
+  border-color: #2e7d32;
+  box-shadow: 0 0 0 2px rgba(46, 125, 50, 0.12);
+}
+
+.edit-feed-date-control {
+  position: relative;
+  width: 100%;
+}
+
+.edit-feed-date-button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-align: left;
+  cursor: pointer;
+}
+
+.edit-feed-calendar-icon {
+  font-size: 18px;
+  line-height: 1;
+  flex: 0 0 auto;
+  margin-left: 10px;
+}
+
+.edit-feed-category,
+.edit-feed-notes {
+  grid-column: 1 / -1;
+}
+
+.edit-feed-calendar {
+  position: absolute;
+  z-index: 9999;
+  top: calc(100% + 6px);
+  left: auto;
+  right: 0;
+  width: 320px;
+  max-width: calc(100vw - 32px);
+  padding: 14px;
+  box-sizing: border-box;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.edit-feed-calendar-selectors {
+  display: grid;
+  grid-template-columns: 1fr 0.8fr;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.edit-feed-calendar-selectors {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  margin-bottom: 14px !important;
+}
+
+.edit-feed-calendar-selectors select.calendar-month-year-select {
+  height: 38px !important;
+  min-height: 38px !important;
+  padding: 0 30px 0 10px !important;
+  border: 1px solid #cfd6cf !important;
+  border-radius: 8px !important;
+  background: #fff !important;
+  color: #222 !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  box-sizing: border-box !important;
+  appearance: auto !important;
+  -webkit-appearance: auto !important;
+}
+
+.edit-feed-calendar-weekdays,
+.edit-feed-calendar-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+  text-align: center;
+}
+
+.edit-feed-calendar-weekdays {
+  margin-bottom: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #666;
+}
+
+.edit-feed-calendar-day,
+.edit-feed-calendar-empty {
+  width: 40px;
+  height: 40px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.edit-feed-calendar-day {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: #333;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.edit-feed-calendar-day:hover {
+  background: #f1f1f1;
+}
+
+.edit-feed-calendar-day.today {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.edit-feed-calendar-day.selected {
+  background: #2e7d32;
+  color: #fff;
+}
+
+.edit-feed-calendar-cancel {
+  display: block;
+  width: 100%;
+  margin-top: 12px;
+  padding: 9px 12px;
+  border: 1px solid #ddd;
+  border-radius: 7px;
+  background: #fff;
+  color: #333;
+  cursor: pointer;
+}
+
+@media (max-width: 700px) {
+  .edit-feed-form {
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+  }
+
+  .edit-feed-field,
+  .edit-feed-category,
+  .edit-feed-notes {
+    grid-column: 1 !important;
+    width: 100% !important;
+  }
+
+  .edit-feed-input,
+  .edit-feed-date-button {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .edit-feed-calendar {
+    width: min(320px, calc(100vw - 32px));
+  }
+}
+
+/* Edit Feed calendar month navigation */
+.edit-feed-calendar-selectors {
+  display: grid;
+  grid-template-columns: 38px minmax(0, 1fr) minmax(0, 0.8fr) 38px;
+  gap: 6px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.edit-feed-calendar-nav {
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  border: 1px solid #d6d6d6;
+  border-radius: 7px;
+  background: #fff;
+  color: #333;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.edit-feed-calendar-nav:hover {
+  background: #f1f1f1;
+}
+
+@media (max-width: 700px) {
+  .edit-feed-calendar-selectors {
+    grid-template-columns: 36px minmax(0, 1fr) minmax(0, 0.8fr) 36px;
+    gap: 5px;
+  }
+
+  .edit-feed-calendar-nav {
+    width: 36px;
+    height: 36px;
+  }
+}
+
+
+/* STANDARD CALENDAR MONTH/YEAR SELECT BOXES */
+.calendar-month-year-select {
+  height: 38px !important;
+  padding: 0 30px 0 10px !important;
+  border: 1px solid #cfd6cf !important;
+  border-radius: 8px !important;
+  background: #fff !important;
+  color: #222 !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  box-sizing: border-box !important;
+  appearance: auto !important;
+  -webkit-appearance: auto !important;
+}
+
+/* FINAL REFERENCE CALENDAR SELECT BOX STYLE */
+.edit-feed-calendar-selectors select.calendar-month-year-select {
+  height: 38px !important;
+  min-height: 38px !important;
+  padding: 0 30px 0 10px !important;
+  border: 1px solid #cfd6cf !important;
+  border-radius: 8px !important;
+  background: #fff !important;
+  color: #222 !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  box-sizing: border-box !important;
+  appearance: auto !important;
+  -webkit-appearance: auto !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+
+/* Feed Usage table alignment */
+.feed-usage-table th:nth-child(-n+5),
+.feed-usage-table td:nth-child(-n+5) {
+  text-align: left !important;
+}
