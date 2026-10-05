@@ -78,6 +78,8 @@ import AddFeed from "./pages/AddFeed";
 import EditFeed from "./pages/EditFeed";
 import FeedUsage from "./pages/FeedUsage";
 import AddFeedUsage from "./pages/AddFeedUsage";
+import ViewFeedUsage from "./pages/ViewFeedUsage";
+import EditFeedUsage from "./pages/EditFeedUsage";
 
 // ======================
 // Chickens
@@ -387,6 +389,16 @@ function App() {
           <Route
             path="/feed/usage/add"
             element={<AddFeedUsage />}
+          />
+
+          <Route
+            path="/feed/usage/:id"
+            element={<ViewFeedUsage />}
+          />
+
+          <Route
+            path="/feed/usage/:id/edit"
+            element={<EditFeedUsage />}
           />
 
           {/* ======================

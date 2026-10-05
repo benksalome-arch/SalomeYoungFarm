@@ -355,15 +355,41 @@ function AddInventory() {
             </label>
 
             <div style={{ position: "relative", width: "100%" }}>
-              <div
+              <button
+                type="button"
+                onMouseDown={(e) => e.preventDefault()}
+                onClick={() => {
+                  if (formData.purchase_date) {
+                    const selected = new Date(
+                      formData.purchase_date + "T00:00:00"
+                    );
+                    setCalendarMonth(
+                      new Date(
+                        selected.getFullYear(),
+                        selected.getMonth(),
+                        1
+                      )
+                    );
+                  } else {
+                    const today = new Date();
+                    setCalendarMonth(
+                      new Date(
+                        today.getFullYear(),
+                        today.getMonth(),
+                        1
+                      )
+                    );
+                  }
+                  setCalendarOpen(true);
+                }}
                 style={{
                   ...inputStyle,
                   width: "100%",
+                  textAlign: "left",
                   color: formData.purchase_date ? "#222" : "#777",
                   WebkitTextFillColor: formData.purchase_date ? "#222" : "#777",
-                  pointerEvents: "none",
-                  display: "flex",
-                  alignItems: "center",
+                  background: "#fff",
+                  cursor: "pointer",
                 }}
               >
                 {formData.purchase_date
@@ -373,23 +399,7 @@ function AddInventory() {
                       year: "numeric",
                     })
                   : "DD-MM-JJJJ"}
-              </div>
-              <input
-                type="date"
-                id="purchase_date"
-                name="purchase_date"
-                value={formData.purchase_date || ""}
-                onChange={handleChange}
-                required
-                style={{
-                  position: "absolute",
-                  inset: 0,
-                  width: "100%",
-                  height: "100%",
-                  opacity: 0,
-                    cursor: "pointer",
-                }}
-              />
+              </button>
 
               {calendarOpen && (
                 <div

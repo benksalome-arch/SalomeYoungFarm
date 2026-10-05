@@ -95,6 +95,7 @@ function AddFeedUsage() {
 
 
   const [feeds, setFeeds] = useState([]);
+  const [feedSearch, setFeedSearch] = useState("");
 
   const [formData, setFormData] = useState({
     feed_id: "",
@@ -126,49 +127,62 @@ function AddFeedUsage() {
     });
   }
 
-  function getDaysInMonth(date) {
-    return new Date(
-      date.getFullYear(),
-      date.getMonth() + 1,
-      0
-    ).getDate();
+  const currentYear = new Date().getFullYear();
+
+  const calendarYears = Array.from(
+    { length: 101 },
+    (_, index) => currentYear - index
+  );
+
+  const monthNames = [
+    "Januari", "Februari", "Maart", "April", "Mei", "Juni",
+    "Juli", "Augustus", "September", "Oktober", "November", "December"
+  ];
+
+  const weekDays = ["Zo", "Ma", "Di", "Wo", "Do", "Vr", "Za"];
+
+  function formatDateDisplay(value) {
+    if (!value) return "";
+    const [year, month, day] = value.split("-");
+    return year && month && day ? `${day}-${month}-${year}` : "";
   }
 
-  function getFirstDayOfMonth(date) {
-    return new Date(
-      date.getFullYear(),
-      date.getMonth(),
-      1
-    ).getDay();
-  }
+  function selectCalendarDate(day) {
+    const year = calendarMonth.getFullYear();
+    const month = String(calendarMonth.getMonth() + 1).padStart(2, "0");
+    const date = String(day).padStart(2, "0");
 
-  function goPreviousMonth() {
-    setCalendarMonth(
-      (prev) => new Date(prev.getFullYear(), prev.getMonth() - 1, 1)
-    );
-  }
-
-  function goNextMonth() {
-    setCalendarMonth(
-      (prev) => new Date(prev.getFullYear(), prev.getMonth() + 1, 1)
-    );
-  }
-
-  function handleDateSelect(day) {
-    const value =
-      calendarMonth.getFullYear() +
-      "-" +
-      String(calendarMonth.getMonth() + 1).padStart(2, "0") +
-      "-" +
-      String(day).padStart(2, "0");
-
-    setFormData((prev) => ({
-      ...prev,
-      usage_date: value,
+    setFormData((previous) => ({
+      ...previous,
+      usage_date: `${year}-${month}-${date}`,
     }));
 
     setCalendarOpen(false);
   }
+
+  function changeCalendarMonth(offset) {
+    setCalendarMonth(
+      new Date(
+        calendarMonth.getFullYear(),
+        calendarMonth.getMonth() + offset,
+        1
+      )
+    );
+  }
+
+  const daysInMonth = new Date(
+    calendarMonth.getFullYear(),
+    calendarMonth.getMonth() + 1,
+    0
+  ).getDate();
+
+  const firstDay = new Date(
+    calendarMonth.getFullYear(),
+    calendarMonth.getMonth(),
+    1
+  ).getDay();
+
+  const today = new Date();
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -195,7 +209,16 @@ function AddFeedUsage() {
 
       const data = await response.json();
 
-      alert(data.message || "Voergebruik opgeslagen.");
+      if (!response.ok) {
+        if (data.message === "Feed not found") {
+          alert(t("feedNotFound"));
+        } else {
+          alert(data.message || t("saveFailed"));
+        }
+        return;
+      }
+
+      alert(t("feedUsageSaved"));
       navigate("/feed/usage");
     } catch (err) {
       console.error(err);
@@ -222,7 +245,7 @@ function AddFeedUsage() {
             lineHeight: "1.05",
           }}
         >
-          🌾 Voergebruik registreren
+          🌾 {t("registerFeedUsage")}
         </h1>
 
         <p style={{ margin: 0 }}>
@@ -261,21 +284,81 @@ function AddFeedUsage() {
               Voer
             </label>
 
-            <select
-              name="feed_id"
-              value={formData.feed_id}
-              onChange={handleChange}
-              required
-              style={inputStyle}
-            >
-              <option value="">{t("selectFeed")}</option>
+            <div style={{ position: "relative", width: "100%" }}>
+              <input
+                type="text"
+                value={feedSearch}
+                onChange={(e) => {
+                  setFeedSearch(e.target.value);
+                  setFormData((prev) => ({
+                    ...prev,
+                    feed_id: "",
+                  }));
+                }}
+                placeholder={t("selectFeed")}
+                required={!formData.feed_id}
+                style={inputStyle}
+                autoComplete="off"
+              />
 
-              {feeds.map((feed) => (
-                <option key={feed.id} value={feed.id}>
-                  {feed.feed_name}
-                </option>
-              ))}
-            </select>
+              {feedSearch.trim() &&
+                !formData.feed_id &&
+                feeds.filter((feed) =>
+                  String(feed.feed_name || "")
+                    .toLowerCase()
+                    .includes(feedSearch.trim().toLowerCase())
+                ).length > 0 && (
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: "calc(100% + 4px)",
+                      left: 0,
+                      right: 0,
+                      background: "#fff",
+                      border: "1px solid #cfd6cf",
+                      borderRadius: "7px",
+                      boxShadow: "0 4px 12px rgba(0,0,0,0.12)",
+                      maxHeight: "220px",
+                      overflowY: "auto",
+                      zIndex: 20,
+                    }}
+                  >
+                    {feeds
+                      .filter((feed) =>
+                        String(feed.feed_name || "")
+                          .toLowerCase()
+                          .includes(feedSearch.trim().toLowerCase())
+                      )
+                      .map((feed) => (
+                        <button
+                          key={feed.id}
+                          type="button"
+                          onClick={() => {
+                            setFormData((prev) => ({
+                              ...prev,
+                              feed_id: feed.id,
+                            }));
+                            setFeedSearch(feed.feed_name);
+                          }}
+                          style={{
+                            display: "block",
+                            width: "100%",
+                            padding: "10px 12px",
+                            border: "none",
+                            borderBottom: "1px solid #eee",
+                            background: "#fff",
+                            color: "#222",
+                            textAlign: "left",
+                            cursor: "pointer",
+                            fontSize: "15px",
+                          }}
+                        >
+                          {feed.feed_name}
+                        </button>
+                      ))}
+                  </div>
+                )}
+            </div>
           </div>
 
           <div className="feed-usage-field">
@@ -331,88 +414,163 @@ function AddFeedUsage() {
             />
           </div>
 
-          <div className="feed-usage-field">
-            <label htmlFor="usage_date" style={labelStyle}>
-              Datum
-            </label>
+          {/* Birth Date */}
+          <div className="feed-usage-field" style={{ position: "relative" }}>
+            <label style={labelStyle}>Datum</label>
 
             <div style={{ position: "relative", width: "100%" }}>
-              <button
-                type="button"
+              <input
+                type="text"
+                value={
+                  formData.usage_date
+                    ? formData.usage_date.split("-").reverse().join("-")
+                    : ""
+                }
+                placeholder="DD-MM-JJJJ"
+                readOnly
                 onClick={() => {
+                  const selected = formData.usage_date
+                    ? new Date(formData.usage_date + "T00:00:00")
+                    : new Date();
+
                   setCalendarMonth(
-                    formData.usage_date
-                      ? new Date(formData.usage_date + "T00:00:00")
-                      : new Date()
+                    new Date(
+                      selected.getFullYear(),
+                      selected.getMonth(),
+                      1
+                    )
                   );
+
                   setCalendarOpen(true);
                 }}
                 style={{
                   ...inputStyle,
                   width: "100%",
-                  color: formData.usage_date ? "#222" : "#777",
-                  WebkitTextFillColor: formData.usage_date ? "#222" : "#777",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "flex-start",
-                  textAlign: "left",
                   cursor: "pointer",
+                  color: "#222",
+                  WebkitTextFillColor: "#222",
+                  backgroundColor: "#fff",
                 }}
-              >
-                {formData.usage_date
-                  ? new Date(
-                      formData.usage_date + "T00:00:00"
-                    ).toLocaleDateString("nl-NL", {
-                      day: "2-digit",
-                      month: "2-digit",
-                      year: "numeric",
-                    })
-                  : "DD-MM-JJJJ"}
-              </button>
+              />
 
               {calendarOpen && (
                 <div
+                  onClick={(e) => {
+                    if (e.target === e.currentTarget) {
+                      setCalendarOpen(false);
+                    }
+                  }}
                   style={{
                     position: "fixed",
                     inset: 0,
-                    background: "rgba(0,0,0,.35)",
+                    background: "rgba(0, 0, 0, 0.35)",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
                     zIndex: 99999,
+                    padding: "16px",
+                    boxSizing: "border-box",
                   }}
-                  onClick={() => setCalendarOpen(false)}
                 >
                   <div
+                    onClick={(e) => e.stopPropagation()}
                     style={{
-                      width: "min(92vw,360px)",
+                      width: "min(92vw, 360px)",
                       background: "#fff",
                       borderRadius: "14px",
                       padding: "18px",
                       boxSizing: "border-box",
-                      boxShadow: "0 8px 30px rgba(0,0,0,.25)",
+                      boxShadow:
+                        "0 12px 35px rgba(0,0,0,0.25)",
                     }}
-                    onClick={(e) => e.stopPropagation()}
                   >
                     <div
                       style={{
                         display: "flex",
                         alignItems: "center",
-                        justifyContent: "space-between",
+                        justifyContent: "center",
+                        gap: "8px",
                         marginBottom: "14px",
+                      }}
+                    >
+                      <select
+                        value={calendarMonth.getMonth()}
+                        onChange={(e) =>
+                          setCalendarMonth(
+                            new Date(
+                              calendarMonth.getFullYear(),
+                              Number(e.target.value),
+                              1
+                            )
+                          )
+                        }
+                        style={{
+                          height: "38px",
+                          padding: "0 30px 0 10px",
+                          border: "1px solid #cfd6cf",
+                          borderRadius: "8px",
+                          background: "#fff",
+                          color: "#222",
+                          fontSize: "14px",
+                          fontWeight: 600,
+                        }}
+                      >
+                        {monthNames.map((month, index) => (
+                          <option key={month} value={index}>
+                            {month}
+                          </option>
+                        ))}
+                      </select>
+
+                      <select
+                        value={calendarMonth.getFullYear()}
+                        onChange={(e) =>
+                          setCalendarMonth(
+                            new Date(
+                              Number(e.target.value),
+                              calendarMonth.getMonth(),
+                              1
+                            )
+                          )
+                        }
+                        style={{
+                          height: "38px",
+                          padding: "0 30px 0 10px",
+                          border: "1px solid #cfd6cf",
+                          borderRadius: "8px",
+                          background: "#fff",
+                          color: "#222",
+                          fontSize: "14px",
+                          fontWeight: 600,
+                        }}
+                      >
+                        {calendarYears.map((year) => (
+                          <option key={year} value={year}>
+                            {year}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        marginBottom: "10px",
                       }}
                     >
                       <button
                         type="button"
-                        onClick={goPreviousMonth}
+                        onClick={() => changeCalendarMonth(-1)}
                         style={{
                           width: "38px",
                           height: "38px",
-                          border: "1px solid #ccc",
+                          border: "1px solid #cfd6cf",
                           borderRadius: "8px",
                           background: "#fff",
-                          color: "#222",
                           fontSize: "20px",
+                          fontWeight: "700",
                           cursor: "pointer",
                         }}
                       >
@@ -421,29 +579,25 @@ function AddFeedUsage() {
 
                       <div
                         style={{
-                          textAlign: "center",
-                          fontSize: "18px",
-                          fontWeight: 700,
-                          color: "#222",
+                          fontSize: "19px",
+                          fontWeight: "700",
                         }}
                       >
-                        {calendarMonth.toLocaleDateString("default", {
-                          month: "long",
-                          year: "numeric",
-                        })}
+                        {monthNames[calendarMonth.getMonth()]}{" "}
+                        {calendarMonth.getFullYear()}
                       </div>
 
                       <button
                         type="button"
-                        onClick={goNextMonth}
+                        onClick={() => changeCalendarMonth(1)}
                         style={{
                           width: "38px",
                           height: "38px",
-                          border: "1px solid #ccc",
+                          border: "1px solid #cfd6cf",
                           borderRadius: "8px",
                           background: "#fff",
-                          color: "#222",
                           fontSize: "20px",
+                          fontWeight: "700",
                           cursor: "pointer",
                         }}
                       >
@@ -455,42 +609,60 @@ function AddFeedUsage() {
                       style={{
                         display: "grid",
                         gridTemplateColumns: "repeat(7, 1fr)",
-                        gap: "6px",
+                        gap: "4px",
+                        marginBottom: "6px",
                       }}
                     >
-                      {[
-                        t("sun"),
-                        t("mon"),
-                        t("tue"),
-                        t("wed"),
-                        t("thu"),
-                        t("fri"),
-                        t("sat"),
-                      ].map((day) => (
+                      {weekDays.map((day) => (
                         <div
                           key={day}
                           style={{
                             textAlign: "center",
-                            fontWeight: 600,
+                            fontWeight: 700,
                             fontSize: "13px",
-                            padding: "6px 0",
-                            color: "#222",
+                            color: "#555",
+                            padding: "5px 0",
                           }}
                         >
                           {day}
                         </div>
                       ))}
+                    </div>
 
+                    <div
+                      style={{
+                        display: "grid",
+                        gridTemplateColumns: "repeat(7, 1fr)",
+                        gap: "4px",
+                      }}
+                    >
                       {Array.from({
-                        length: getFirstDayOfMonth(calendarMonth),
+                        length: new Date(
+                          calendarMonth.getFullYear(),
+                          calendarMonth.getMonth(),
+                          1
+                        ).getDay(),
                       }).map((_, index) => (
                         <div key={`empty-${index}`} />
                       ))}
 
                       {Array.from({
-                        length: getDaysInMonth(calendarMonth),
+                        length: new Date(
+                          calendarMonth.getFullYear(),
+                          calendarMonth.getMonth() + 1,
+                          0
+                        ).getDate(),
                       }).map((_, index) => {
                         const day = index + 1;
+
+                        const dateValue =
+                          `${calendarMonth.getFullYear()}-` +
+                          `${String(calendarMonth.getMonth() + 1).padStart(2, "0")}-` +
+                          `${String(day).padStart(2, "0")}`;
+
+                        const selected =
+                          formData.usage_date === dateValue;
+
                         const today = new Date();
 
                         const isToday =
@@ -498,37 +670,27 @@ function AddFeedUsage() {
                           calendarMonth.getMonth() === today.getMonth() &&
                           calendarMonth.getFullYear() === today.getFullYear();
 
-                        const selectedDate = formData.usage_date
-                          ? new Date(formData.usage_date + "T00:00:00")
-                          : null;
-
-                        const isSelected =
-                          selectedDate &&
-                          day === selectedDate.getDate() &&
-                          calendarMonth.getMonth() === selectedDate.getMonth() &&
-                          calendarMonth.getFullYear() === selectedDate.getFullYear();
-
                         return (
                           <button
                             key={day}
                             type="button"
-                            onClick={() => handleDateSelect(day)}
+                            onClick={() => selectCalendarDate(day)}
                             style={{
                               width: "40px",
                               height: "40px",
                               minWidth: "40px",
                               border: "none",
                               borderRadius: "50%",
-                              background: isSelected
+                              background: selected
                                 ? "#2e7d32"
                                 : isToday
                                 ? "#e8f5e9"
                                 : "#fff",
-                              color: isSelected
+                              color: selected
                                 ? "#fff"
                                 : "#222",
                               fontWeight:
-                                isSelected || isToday ? 700 : 400,
+                                selected || isToday ? 700 : 400,
                               cursor: "pointer",
                               padding: 0,
                               justifySelf: "center",
@@ -547,24 +709,24 @@ function AddFeedUsage() {
                       onClick={() => setCalendarOpen(false)}
                       style={{
                         width: "100%",
-                        marginTop: "14px",
-                        minHeight: "44px",
-                        border: "1px solid #2e7d32",
+                        marginTop: "16px",
+                        padding: "10px",
+                        border: "1px solid #ccc",
                         borderRadius: "8px",
-                        background: "#2e7d32",
-                        color: "#fff",
-                        fontSize: "15px",
-                        fontWeight: 600,
+                        background: "#fff",
+                        color: "#222",
                         cursor: "pointer",
+                        fontWeight: 600,
                       }}
                     >
-                      {t("cancel")}
+                      Annuleren
                     </button>
                   </div>
                 </div>
               )}
             </div>
           </div>
+
 
           <div className="feed-usage-notes">
             <label htmlFor="notes" style={labelStyle}>

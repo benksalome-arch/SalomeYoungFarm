@@ -565,12 +565,12 @@ function EditRabbitLitter() {
                     }
 
                     #syl-rabbit-clean-calendar .calendar-empty {
-                      width: 34px !important;
-                      height: 34px !important;
-                      min-width: 34px !important;
-                      min-height: 34px !important;
-                      max-width: 34px !important;
-                      max-height: 34px !important;
+                      width: 40px !important;
+                      height: 40px !important;
+                      min-width: 40px !important;
+                      min-height: 40px !important;
+                      max-width: 40px !important;
+                      max-height: 40px !important;
                       margin: 0 auto !important;
                       padding: 0 !important;
                       border: 0 !important;
@@ -582,12 +582,12 @@ function EditRabbitLitter() {
                     }
 
                     #syl-rabbit-clean-calendar .calendar-day {
-                      width: 34px !important;
-                      height: 34px !important;
-                      min-width: 34px !important;
-                      min-height: 34px !important;
-                      max-width: 34px !important;
-                      max-height: 34px !important;
+                      width: 40px !important;
+                      height: 40px !important;
+                      min-width: 40px !important;
+                      min-height: 40px !important;
+                      max-width: 40px !important;
+                      max-height: 40px !important;
                       justify-self: center !important;
                       align-self: center !important;
                       padding: 0 !important;
@@ -612,8 +612,8 @@ function EditRabbitLitter() {
                     }
 
                     #syl-rabbit-clean-calendar .calendar-day.today {
-                      background: #e3f2fd !important;
-                      border-color: #2196f3 !important;
+                      background: #e8f5e9 !important;
+                      border-color: #c8e6c9 !important;
                     }
 
                     #syl-rabbit-clean-calendar .calendar-day.selected {
@@ -696,13 +696,13 @@ function EditRabbitLitter() {
                       }
 
                       #syl-rabbit-clean-calendar .calendar-day {
-                        width: 30px !important;
-                        height: 30px !important;
-                        min-width: 30px !important;
-                        min-height: 30px !important;
-                        max-width: 30px !important;
-                        max-height: 30px !important;
-                        font-size: 13px !important;
+                        width: 40px !important;
+                        height: 40px !important;
+                        min-width: 40px !important;
+                        min-height: 40px !important;
+                        max-width: 40px !important;
+                        max-height: 40px !important;
+                        font-size: 14px !important;
                       }
 
                       #syl-rabbit-clean-calendar .calendar-cancel {

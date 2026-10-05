@@ -1,5 +1,5 @@
 import API_URL from "../api";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useLanguage } from "../context/LanguageContext";
 
@@ -26,10 +26,65 @@ function EditRabbitVaccination() {
   const [calendarOpen, setCalendarOpen] = useState(false);
   const [calendarField, setCalendarField] = useState("");
   const [calendarMonth, setCalendarMonth] = useState(new Date());
+  const calendarRef = useRef(null);
+  const calendarAnchorRef = useRef(null);
+  const [calendarPosition, setCalendarPosition] = useState({
+    top: 0,
+    left: 0,
+  });
 
   useEffect(() => {
-    loadData();
-  }, [id]);
+    if (!calendarOpen || !calendarAnchorRef.current) return;
+
+    const updateCalendarPosition = () => {
+      const anchor = calendarAnchorRef.current;
+
+      if (!anchor) return;
+
+      const rect = anchor.getBoundingClientRect();
+      const calendarWidth = Math.min(320, window.innerWidth - 24);
+      const calendarHeight = calendarRef.current
+        ? calendarRef.current.getBoundingClientRect().height
+        : 430;
+
+      let left = rect.left;
+
+      if (left + calendarWidth > window.innerWidth - 12) {
+        left = window.innerWidth - calendarWidth - 12;
+      }
+
+      if (left < 12) {
+        left = 12;
+      }
+
+      let top = rect.bottom + 6;
+
+      if (top + calendarHeight > window.innerHeight - 12) {
+        top = rect.top - calendarHeight - 6;
+      }
+
+      if (top < 12) {
+        top = 12;
+      }
+
+      setCalendarPosition({
+        top,
+        left,
+      });
+    };
+
+    const frame = requestAnimationFrame(updateCalendarPosition);
+
+    window.addEventListener("resize", updateCalendarPosition);
+    window.addEventListener("scroll", updateCalendarPosition, true);
+
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("resize", updateCalendarPosition);
+      window.removeEventListener("scroll", updateCalendarPosition, true);
+    };
+  }, [calendarOpen]);
+
 
   async function loadData() {
     try {
@@ -83,6 +138,21 @@ function EditRabbitVaccination() {
       setLoading(false);
     }
   }
+
+  useEffect(() => {
+    let cancelled = false;
+
+    const runLoad = async () => {
+      if (cancelled) return;
+      await loadData();
+    };
+
+    runLoad();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [id]);
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -141,7 +211,7 @@ function EditRabbitVaccination() {
     return `${parts[2]}-${parts[1]}-${parts[0]}`;
   }
 
-  function openCalendar(fieldName) {
+  function openCalendar(fieldName, anchorElement) {
     const currentValue = form[fieldName];
 
     let initialDate = new Date();
@@ -158,6 +228,7 @@ function EditRabbitVaccination() {
       }
     }
 
+    calendarAnchorRef.current = anchorElement;
     setCalendarField(fieldName);
     setCalendarMonth(initialDate);
     setCalendarOpen(true);
@@ -204,6 +275,13 @@ function EditRabbitVaccination() {
   ];
 
   const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+  const currentYear = new Date().getFullYear();
+
+  const calendarYears = Array.from(
+    { length: 21 },
+    (_, index) => currentYear - 10 + index
+  );
 
   function renderCalendar(fieldName) {
     if (!calendarOpen || calendarField !== fieldName) {
@@ -514,6 +592,9 @@ function EditRabbitVaccination() {
             id="syl-rabbit-clean-calendar"
             onClick={(e) => e.stopPropagation()}
             style={{
+                        width: "min(360px, calc(100vw - 24px))",
+                        maxWidth: "calc(100vw - 24px)",
+                        boxSizing: "border-box",
               pointerEvents: "auto",
               top: calendarPosition.top,
               left: calendarPosition.left,
@@ -677,6 +758,24 @@ function EditRabbitVaccination() {
     );
   }
 
+  const inputStyle = {
+    width: "100%",
+    boxSizing: "border-box",
+    padding: "11px 12px",
+    border: "1px solid #d6d6d6",
+    borderRadius: "7px",
+    fontSize: "14px",
+    background: "#fff",
+  };
+
+  const labelStyle = {
+    display: "block",
+    marginBottom: "6px",
+    fontWeight: "600",
+    fontSize: "14px",
+    color: "#333",
+  };
+
   if (loading) {
     return (
       <div className="card">
@@ -707,7 +806,13 @@ function EditRabbitVaccination() {
         }}
       >
         <div>
-          <h1 style={{ margin: 0 }}>
+          <h1
+            style={{
+              margin: 0,
+              color: "#222",
+              WebkitTextFillColor: "#222",
+            }}
+          >
             ✏️ {t("edit")} {t("rabbitVaccinations")}
           </h1>
         </div>
@@ -737,7 +842,7 @@ function EditRabbitVaccination() {
 
       <form
         onSubmit={handleSubmit}
-        className="card"
+        className="card edit-rabbit-vaccination-form"
         style={{
           maxWidth: "900px",
           margin: "0 auto",
@@ -745,6 +850,7 @@ function EditRabbitVaccination() {
         }}
       >
         <div
+          className="edit-rabbit-vaccination-grid"
           style={{
             display: "grid",
             gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
@@ -779,7 +885,7 @@ function EditRabbitVaccination() {
 
             <button
               type="button"
-              onClick={() => openCalendar("vaccination_date")}
+              onClick={(e) => openCalendar("vaccination_date", e.currentTarget)}
               style={{
                 ...inputStyle,
                 textAlign: "left",
@@ -794,7 +900,7 @@ function EditRabbitVaccination() {
                 {formatDate(form.vaccination_date) || "-"}
               </span>
 
-              <span style={{ fontSize: "16px" }}>▣</span>
+              <span style={{ fontSize: "18px", lineHeight: 1 }}>📅</span>
             </button>
 
             {renderCalendar("vaccination_date")}
@@ -836,7 +942,7 @@ function EditRabbitVaccination() {
 
             <button
               type="button"
-              onClick={() => openCalendar("next_due_date")}
+              onClick={(e) => openCalendar("next_due_date", e.currentTarget)}
               style={{
                 ...inputStyle,
                 textAlign: "left",
@@ -851,7 +957,7 @@ function EditRabbitVaccination() {
                 {formatDate(form.next_due_date) || "-"}
               </span>
 
-              <span style={{ fontSize: "16px" }}>▣</span>
+              <span style={{ fontSize: "18px", lineHeight: 1 }}>📅</span>
             </button>
 
             {renderCalendar("next_due_date")}
