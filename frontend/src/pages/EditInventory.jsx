@@ -736,7 +736,7 @@ function EditInventory() {
               className="button"
               to="/inventory"
             >
-              {t("cancel")}
+              ← {t("back")}
             </Link>
           </div>
         </form>
