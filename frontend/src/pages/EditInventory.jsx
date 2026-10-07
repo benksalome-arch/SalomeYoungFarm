@@ -239,8 +239,32 @@ function EditInventory() {
         }
       `}</style>
 
-      <div className="page-header">
+      <div
+        className="page-header"
+        style={{
+          position: "relative",
+        }}
+      >
         <h1>✏️ {t("editInventoryItem")}</h1>
+
+        <Link
+          className="button"
+          to="/inventory"
+          style={{
+            position: "absolute",
+            right: "0",
+            top: "50%",
+            transform: "translateY(-50%)",
+            minHeight: "44px",
+            padding: "10px 18px",
+            borderRadius: "8px",
+            textDecoration: "none",
+            boxSizing: "border-box",
+            whiteSpace: "nowrap",
+          }}
+        >
+          ← {t("back")}
+        </Link>
       </div>
 
       <div className="card">
@@ -725,29 +749,12 @@ function EditInventory() {
           </div>
 
           <div className="edit-inventory-actions">
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                width: "100%",
-                gap: "12px",
-              }}
+            <button
+              className="button"
+              type="submit"
             >
-              <button
-                className="button"
-                type="submit"
-              >
-                💾 {t("updateItem")}
-              </button>
-
-              <Link
-                className="button"
-                to="/inventory"
-              >
-                ← {t("back")}
-              </Link>
-            </div>
+              💾 {t("updateItem")}
+            </button>
 
             <Link
               className="button"
