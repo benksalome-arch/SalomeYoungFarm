@@ -3540,3 +3540,49 @@ canvas {
 .inventory-table td {
   font-size: 14px !important;
 }
+
+/* Feed Usage - professional mobile layout */
+@media (max-width: 700px) {
+  .page h1 {
+    color: #222 !important;
+    font-size: 28px !important;
+    line-height: 1.2 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+
+  .feed-usage-table {
+    min-width: 720px !important;
+    width: 720px !important;
+  }
+
+  .feed-usage-table th,
+  .feed-usage-table td {
+    font-size: 14px !important;
+    white-space: nowrap !important;
+    vertical-align: middle !important;
+  }
+
+  .feed-usage-table th {
+    font-size: 15px !important;
+  }
+
+  .feed-usage-table td:last-child > div {
+    width: max-content !important;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-wrap: nowrap !important;
+    gap: 8px !important;
+  }
+
+  .feed-usage-table td:last-child .button {
+    width: auto !important;
+    min-width: 0 !important;
+    white-space: nowrap !important;
+    word-break: normal !important;
+    overflow-wrap: normal !important;
+    flex-shrink: 0 !important;
+  }
+}
