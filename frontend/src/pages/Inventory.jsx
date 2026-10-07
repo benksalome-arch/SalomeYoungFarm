@@ -50,6 +50,9 @@ function Inventory() {
         `${API_URL}/api/inventory/${deleteItemId}`,
         {
           method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         }
       );
 
