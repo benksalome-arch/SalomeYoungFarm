@@ -29,33 +29,37 @@ function AddInventory() {
     });
   }
 
-  function getDaysInMonth(date) {
-    return new Date(
-      date.getFullYear(),
-      date.getMonth() + 1,
-      0
-    ).getDate();
-  }
+  const monthNames = [
+    "Januari",
+    "Februari",
+    "Maart",
+    "April",
+    "Mei",
+    "Juni",
+    "Juli",
+    "Augustus",
+    "September",
+    "Oktober",
+    "November",
+    "December",
+  ];
 
-  function getFirstDayOfMonth(date) {
-    return new Date(
-      date.getFullYear(),
-      date.getMonth(),
-      1
-    ).getDay();
-  }
+  const weekDays = ["Zo", "Ma", "Di", "Wo", "Do", "Vr", "Za"];
 
-  function goPreviousMonth() {
+  const currentYear = new Date().getFullYear();
+
+  const calendarYears = Array.from(
+    { length: 101 },
+    (_, index) => currentYear - index
+  );
+
+  function changeCalendarMonth(offset) {
     setCalendarMonth(
-      (prev) =>
-        new Date(prev.getFullYear(), prev.getMonth() - 1, 1)
-    );
-  }
-
-  function goNextMonth() {
-    setCalendarMonth(
-      (prev) =>
-        new Date(prev.getFullYear(), prev.getMonth() + 1, 1)
+      new Date(
+        calendarMonth.getFullYear(),
+        calendarMonth.getMonth() + offset,
+        1
+      )
     );
   }
 
@@ -403,80 +407,141 @@ function AddInventory() {
 
               {calendarOpen && (
                 <div
+                  onClick={(e) => {
+                    if (e.target === e.currentTarget) {
+                      setCalendarOpen(false);
+                    }
+                  }}
                   style={{
                     position: "fixed",
                     inset: 0,
-                    background: "rgba(0,0,0,.35)",
+                    background: "rgba(0, 0, 0, 0.35)",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
                     zIndex: 99999,
+                    padding: "16px",
+                    boxSizing: "border-box",
                   }}
-                  onClick={() => setCalendarOpen(false)}
                 >
                   <div
+                    onClick={(e) => e.stopPropagation()}
                     style={{
-                      width: "min(92vw,360px)",
+                      width: "min(92vw, 420px)",
                       background: "#fff",
                       borderRadius: "14px",
                       padding: "18px",
-                      boxSizing: "border-box",
-                      boxShadow: "0 8px 30px rgba(0,0,0,.25)",
+                      boxShadow: "0 10px 30px rgba(0,0,0,0.2)",
                     }}
-                    onClick={(e) => e.stopPropagation()}
                   >
                     <div
                       style={{
                         display: "flex",
                         alignItems: "center",
-                        justifyContent: "space-between",
+                        justifyContent: "center",
+                        gap: "8px",
                         marginBottom: "14px",
+                      }}
+                    >
+                      <select
+                        value={calendarMonth.getMonth()}
+                        onChange={(e) =>
+                          setCalendarMonth(
+                            new Date(
+                              calendarMonth.getFullYear(),
+                              Number(e.target.value),
+                              1
+                            )
+                          )
+                        }
+                        style={{
+                          height: "38px",
+                          padding: "0 30px 0 10px",
+                          border: "1px solid #cfd6cf",
+                          borderRadius: "8px",
+                          background: "#fff",
+                          color: "#222",
+                          fontSize: "14px",
+                          fontWeight: 600,
+                        }}
+                      >
+                        {monthNames.map((month, index) => (
+                          <option key={month} value={index}>
+                            {month}
+                          </option>
+                        ))}
+                      </select>
+
+                      <select
+                        value={calendarMonth.getFullYear()}
+                        onChange={(e) =>
+                          setCalendarMonth(
+                            new Date(
+                              Number(e.target.value),
+                              calendarMonth.getMonth(),
+                              1
+                            )
+                          )
+                        }
+                        style={{
+                          height: "38px",
+                          padding: "0 30px 0 10px",
+                          border: "1px solid #cfd6cf",
+                          borderRadius: "8px",
+                          background: "#fff",
+                          color: "#222",
+                          fontSize: "14px",
+                          fontWeight: 600,
+                        }}
+                      >
+                        {calendarYears.map((year) => (
+                          <option key={year} value={year}>
+                            {year}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        marginBottom: "8px",
                       }}
                     >
                       <button
                         type="button"
-                        onClick={goPreviousMonth}
+                        onClick={() => changeCalendarMonth(-1)}
                         style={{
                           width: "38px",
                           height: "38px",
-                          border: "1px solid #ccc",
+                          border: "1px solid #ddd",
                           borderRadius: "8px",
                           background: "#fff",
-                          color: "#222",
-                          fontSize: "20px",
                           cursor: "pointer",
+                          fontSize: "22px",
                         }}
                       >
                         ‹
                       </button>
 
-                      <div
-                        style={{
-                          textAlign: "center",
-                          fontSize: "18px",
-                          fontWeight: 700,
-                          color: "#222",
-                          WebkitTextFillColor: "#222",
-                        }}
-                      >
-                        {calendarMonth.toLocaleDateString("default", {
-                          month: "long",
-                          year: "numeric",
-                        })}
-                      </div>
+                      <strong>
+                        {monthNames[calendarMonth.getMonth()]}{" "}
+                        {calendarMonth.getFullYear()}
+                      </strong>
 
                       <button
                         type="button"
-                        onClick={goNextMonth}
+                        onClick={() => changeCalendarMonth(1)}
                         style={{
                           width: "38px",
                           height: "38px",
-                          border: "1px solid #ccc",
+                          border: "1px solid #ddd",
                           borderRadius: "8px",
                           background: "#fff",
-                          color: "#222",
-                          fontSize: "20px",
                           cursor: "pointer",
+                          fontSize: "22px",
                         }}
                       >
                         ›
@@ -487,64 +552,69 @@ function AddInventory() {
                       style={{
                         display: "grid",
                         gridTemplateColumns: "repeat(7, 1fr)",
-                        gap: "6px",
+                        gap: "4px",
+                        marginBottom: "6px",
                       }}
                     >
-                      {[
-                        t("sun"),
-                        t("mon"),
-                        t("tue"),
-                        t("wed"),
-                        t("thu"),
-                        t("fri"),
-                        t("sat"),
-                      ].map((day) => (
+                      {weekDays.map((day) => (
                         <div
                           key={day}
                           style={{
                             textAlign: "center",
-                            fontWeight: 600,
+                            fontWeight: 700,
                             fontSize: "13px",
-                            padding: "6px 0",
-                            color: "#222",
-                            WebkitTextFillColor: "#222",
+                            color: "#555",
+                            padding: "5px 0",
                           }}
                         >
                           {day}
                         </div>
                       ))}
+                    </div>
 
+                    <div
+                      style={{
+                        display: "grid",
+                        gridTemplateColumns: "repeat(7, 1fr)",
+                        gap: "8px",
+                      }}
+                    >
                       {Array.from({
-                        length: getFirstDayOfMonth(calendarMonth),
+                        length: new Date(
+                          calendarMonth.getFullYear(),
+                          calendarMonth.getMonth(),
+                          1
+                        ).getDay(),
                       }).map((_, index) => (
                         <div key={`empty-${index}`} />
                       ))}
 
                       {Array.from({
-                        length: getDaysInMonth(calendarMonth),
+                        length: new Date(
+                          calendarMonth.getFullYear(),
+                          calendarMonth.getMonth() + 1,
+                          0
+                        ).getDate(),
                       }).map((_, index) => {
                         const day = index + 1;
+
+                        const dateValue =
+                          `${calendarMonth.getFullYear()}-` +
+                          `${String(
+                            calendarMonth.getMonth() + 1
+                          ).padStart(2, "0")}-` +
+                          `${String(day).padStart(2, "0")}`;
+
+                        const selected =
+                          formData.purchase_date &&
+                          formData.purchase_date.split("T")[0] === dateValue;
+
                         const today = new Date();
 
                         const isToday =
                           day === today.getDate() &&
                           calendarMonth.getMonth() === today.getMonth() &&
-                          calendarMonth.getFullYear() ===
-                            today.getFullYear();
-
-                        const selectedDate = formData.purchase_date
-                          ? new Date(
-                              formData.purchase_date + "T00:00:00"
-                            )
-                          : null;
-
-                        const isSelected =
-                          selectedDate &&
-                          day === selectedDate.getDate() &&
-                          calendarMonth.getMonth() ===
-                            selectedDate.getMonth() &&
-                          calendarMonth.getFullYear() ===
-                            selectedDate.getFullYear();
+                          calendarMonth.getFullYear() === today.getFullYear();
 
                         return (
                           <button
@@ -552,24 +622,30 @@ function AddInventory() {
                             type="button"
                             onClick={() => handleDateSelect(day)}
                             style={{
-                              minHeight: "40px",
-                              border:
-                                isToday || isSelected
-                                  ? "2px solid #2e7d32"
-                                  : "1px solid #ddd",
-                              borderRadius: "8px",
-                              background:
-                                isSelected || isToday
-                                  ? "#e8f5e9"
-                                  : "#fff",
-                              color: "#222",
-                              WebkitTextFillColor: "#222",
-                              fontSize: "15px",
-                              fontWeight: 600,
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
+                              height: "44px",
+                              minWidth: "44px",
+                              border: isToday
+                                ? "2px solid #1565c0"
+                                : selected
+                                ? "2px solid #1b5e20"
+                                : "1px solid #ddd",
+                              borderRadius: "50%",
+                              background: isToday
+                                ? "#1976d2"
+                                : selected
+                                ? "#2e7d32"
+                                : "#fff",
+                              color:
+                                selected || isToday
+                                  ? "#fff"
+                                  : "#222",
+                              fontWeight:
+                                selected || isToday ? 800 : 400,
                               cursor: "pointer",
+                              fontSize: "15px",
+                              boxShadow: isToday
+                                ? "0 0 0 2px #bbdefb"
+                                : "none",
                             }}
                           >
                             {day}
@@ -583,15 +659,12 @@ function AddInventory() {
                       onClick={() => setCalendarOpen(false)}
                       style={{
                         width: "100%",
-                        marginTop: "14px",
-                        minHeight: "44px",
-                        border: "1px solid #2e7d32",
+                        marginTop: "16px",
+                        padding: "10px",
+                        border: "1px solid #ccc",
                         borderRadius: "8px",
-                        background: "#2e7d32",
-                        color: "#fff",
-                        WebkitTextFillColor: "#fff",
-                        fontSize: "15px",
-                        fontWeight: 600,
+                        background: "#fff",
+                        color: "#222",
                         cursor: "pointer",
                       }}
                     >
