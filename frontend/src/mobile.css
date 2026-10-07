@@ -3531,3 +3531,12 @@ canvas {
 .inventory-table th {
   text-align: center !important;
 }
+
+/* Inventory table readability */
+.inventory-table th {
+  font-size: 15px !important;
+}
+
+.inventory-table td {
+  font-size: 14px !important;
+}
