@@ -146,12 +146,22 @@ function Inventory() {
         <div
           style={{
             display: "flex",
-            flexDirection: "column",
+            flexDirection: "row",
             alignItems: "flex-end",
             gap: "10px",
             flexShrink: 0,
           }}
         >
+          <Link
+            className="button"
+            to="/inventory/add"
+            style={{
+              whiteSpace: "nowrap",
+            }}
+          >
+            ➕ {t("addItem")}
+          </Link>
+
           <button
             type="button"
             className="button"
@@ -162,16 +172,6 @@ function Inventory() {
           >
             ← {t("back")}
           </button>
-
-          <Link
-            className="button"
-            to="/inventory/add"
-            style={{
-              whiteSpace: "nowrap",
-            }}
-          >
-            ➕ {t("addItem")}
-          </Link>
         </div>
       </div>
 
