@@ -253,7 +253,7 @@ function Inventory() {
                   <tr key={item.id}>
                     {/* ITEM */}
 
-                    <td
+                    <td data-label={t("itemName")}
                       style={{
                         ...cellStyle,
                         overflow: "hidden",
@@ -267,7 +267,7 @@ function Inventory() {
 
                     {/* CATEGORY */}
 
-                    <td
+                    <td data-label={t("category")}
                       style={{
                         ...cellStyle,
                         overflow: "hidden",
@@ -281,7 +281,7 @@ function Inventory() {
 
                     {/* QUANTITY */}
 
-                    <td
+                    <td data-label={t("quantity")}
                       style={{
                         ...cellStyle,
                         textAlign: "center",
@@ -293,7 +293,7 @@ function Inventory() {
 
                     {/* UNIT */}
 
-                    <td
+                    <td data-label={t("unit")}
                       style={{
                         ...cellStyle,
                         textAlign: "center",
@@ -305,7 +305,7 @@ function Inventory() {
 
                     {/* STATUS */}
 
-                    <td
+                    <td data-label={t("status")}
                       style={{
                         ...cellStyle,
                         textAlign: "center",
@@ -333,7 +333,7 @@ function Inventory() {
 
                     {/* SUPPLIER */}
 
-                    <td
+                    <td data-label={t("supplier")}
                       style={{
                         ...cellStyle,
                         overflow: "hidden",
@@ -347,7 +347,7 @@ function Inventory() {
 
                     {/* PRICE */}
 
-                    <td
+                    <td data-label={t("purchasePriceKES")}
                       style={{
                         ...cellStyle,
                         textAlign: "center",
@@ -363,7 +363,7 @@ function Inventory() {
 
                     {/* ACTIONS */}
 
-                    <td
+                    <td data-label={t("actions")}
                       style={{
                         padding: "8px 4px",
                         verticalAlign: "middle",
