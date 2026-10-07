@@ -188,7 +188,7 @@ function Inventory() {
         }}
       >
         <table
-          className="table"
+          className="table inventory-table"
           style={{
             width: "100%",
             maxWidth: "100%",

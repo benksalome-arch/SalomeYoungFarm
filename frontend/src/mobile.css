@@ -3526,3 +3526,8 @@ canvas {
   align-items: center !important;
   justify-content: center !important;
 }
+
+/* Inventory table heading alignment */
+.inventory-table th {
+  text-align: center !important;
+}
