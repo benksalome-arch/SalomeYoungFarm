@@ -277,6 +277,7 @@ function Finance() {
           }}
         >
           <table
+            className="finance-transactions-table"
             style={{
               width: "100%",
               minWidth: "850px",
@@ -346,7 +347,7 @@ function Finance() {
                       style={{
                         padding: "10px 4px",
                         textAlign: "center",
-                        fontSize: "10px",
+                        fontSize: "14px",
                         whiteSpace: "nowrap",
                       }}
                     >
@@ -359,7 +360,7 @@ function Finance() {
                       style={{
                         padding: "10px 4px",
                         textAlign: "center",
-                        fontSize: "9px",
+                        fontSize: "14px",
                         whiteSpace: "nowrap",
                       }}
                     >
@@ -372,7 +373,7 @@ function Finance() {
                       style={{
                         padding: "10px 4px",
                         textAlign: "center",
-                        fontSize: "10px",
+                        fontSize: "14px",
                         overflow: "hidden",
                         textOverflow: "ellipsis",
                         whiteSpace: "nowrap",
@@ -384,7 +385,7 @@ function Finance() {
                     <td
                       style={{
                         padding: "10px 4px",
-                        fontSize: "10px",
+                        fontSize: "14px",
                         overflow: "hidden",
                         textOverflow: "ellipsis",
                         whiteSpace: "nowrap",
@@ -397,7 +398,7 @@ function Finance() {
                     <td
                       style={{
                         padding: "10px 4px",
-                        fontSize: "10px",
+                        fontSize: "14px",
                         overflow: "hidden",
                         textOverflow: "ellipsis",
                         whiteSpace: "nowrap",
@@ -413,7 +414,7 @@ function Finance() {
                       style={{
                         padding: "10px 4px",
                         textAlign: "center",
-                        fontSize: "10px",
+                        fontSize: "14px",
                         whiteSpace: "nowrap",
                       }}
                     >
@@ -426,7 +427,7 @@ function Finance() {
                     <td
                       style={{
                         padding: "10px 4px",
-                        fontSize: "10px",
+                        fontSize: "14px",
                         overflow: "hidden",
                         textOverflow: "ellipsis",
                         whiteSpace: "nowrap",
@@ -456,8 +457,8 @@ function Finance() {
                           className="button"
                           to={`/finance/edit/${transaction.id}`}
                           style={{
-                            padding: "5px 6px",
-                            fontSize: "10px",
+                            padding: "7px 10px",
+                            fontSize: "13px",
                             whiteSpace: "nowrap",
                           }}
                         >
@@ -473,8 +474,8 @@ function Finance() {
                             )
                           }
                           style={{
-                            padding: "5px 6px",
-                            fontSize: "10px",
+                            padding: "7px 10px",
+                            fontSize: "13px",
                             background: "#D32F2F",
                             color: "white",
                             border: "none",
