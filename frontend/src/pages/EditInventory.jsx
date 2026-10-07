@@ -165,25 +165,38 @@ function EditInventory() {
       <style>{`
         .edit-inventory-form {
           width: 100%;
+          max-width: 680px;
+          margin: 0 auto;
         }
 
         .edit-inventory-field {
           display: grid;
-          grid-template-columns: 150px minmax(0, 1fr);
+          grid-template-columns: 150px 420px;
           align-items: center;
-          gap: 14px;
-          margin-bottom: 16px;
+          justify-content: center;
+          gap: 16px;
+          margin-bottom: 18px;
+        }
+
+        .edit-inventory-field input,
+        .edit-inventory-field select,
+        .edit-inventory-field textarea {
+          width: 100%;
+          box-sizing: border-box;
         }
 
         .edit-inventory-field textarea {
           resize: vertical;
+          min-height: 110px;
         }
 
         .edit-inventory-actions {
           display: flex;
           justify-content: center;
-          gap: 10px;
-          margin-top: 8px;
+          gap: 12px;
+          margin-top: 24px;
+          padding-top: 18px;
+          border-top: 1px solid #e5e7e5;
         }
 
         .edit-inventory-actions .button {
@@ -195,13 +208,24 @@ function EditInventory() {
         }
 
         @media (max-width: 700px) {
+          .edit-inventory-form {
+            max-width: 100%;
+          }
+
           .edit-inventory-field {
             grid-template-columns: 1fr;
             gap: 6px;
+            margin-bottom: 16px;
           }
 
           .edit-inventory-field label {
             text-align: left !important;
+          }
+
+          .edit-inventory-field input,
+          .edit-inventory-field select,
+          .edit-inventory-field textarea {
+            width: 100%;
           }
 
           .edit-inventory-actions {
