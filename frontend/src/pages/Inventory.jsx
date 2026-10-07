@@ -6,6 +6,8 @@ import { useLanguage } from "../context/LanguageContext";
 function Inventory() {
   const { t } = useLanguage();
   const [items, setItems] = useState([]);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [deleteItemId, setDeleteItemId] = useState(null);
 
   useEffect(() => {
     loadItems();
@@ -32,14 +34,20 @@ function Inventory() {
     }
   }
 
-  async function deleteItem(id) {
-    if (!window.confirm(t("deleteInventoryItem"))) {
+  function requestDeleteItem(id) {
+    setDeleteItemId(id);
+    setDeleteModalOpen(true);
+  }
+
+  async function confirmDeleteItem() {
+    if (!deleteItemId) {
+      setDeleteModalOpen(false);
       return;
     }
 
     try {
       const response = await fetch(
-        `${API_URL}/api/inventory/${id}`,
+        `${API_URL}/api/inventory/${deleteItemId}`,
         {
           method: "DELETE",
         }
@@ -47,25 +55,25 @@ function Inventory() {
 
       const data = await response.json();
 
+      setDeleteModalOpen(false);
+      setDeleteItemId(null);
+
       if (!response.ok) {
-        alert(
-          data.message ||
-            "Failed to delete inventory item."
-        );
+        alert(t("failedToDeleteInventory"));
         return;
       }
 
-      alert(
-        data.message ||
-          "Inventory item deleted successfully."
-      );
+      alert(t("inventoryDeletedSuccessfully"));
 
       loadItems();
     } catch (err) {
       console.error(err);
+      setDeleteModalOpen(false);
+      setDeleteItemId(null);
       alert(t("failedToDeleteInventory"));
     }
   }
+
 
   const headerStyle = {
     padding: "12px 7px",
@@ -363,7 +371,7 @@ function Inventory() {
                           type="button"
                           className="button"
                           onClick={() =>
-                            deleteItem(item.id)
+                            requestDeleteItem(item.id)
                           }
                           style={{
                             padding: "6px 7px",
@@ -386,6 +394,131 @@ function Inventory() {
           </tbody>
         </table>
       </div>
+
+      {deleteModalOpen && (
+        <div
+          onClick={(e) => {
+            if (e.target === e.currentTarget) {
+              setDeleteModalOpen(false);
+              setDeleteItemId(null);
+            }
+          }}
+          style={{
+            position: "fixed",
+            inset: 0,
+            background: "rgba(0, 0, 0, 0.45)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: 99999,
+            padding: "16px",
+            boxSizing: "border-box",
+          }}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              width: "min(92vw, 430px)",
+              background: "#fff",
+              borderRadius: "14px",
+              padding: "24px",
+              boxShadow: "0 12px 35px rgba(0,0,0,0.25)",
+              boxSizing: "border-box",
+            }}
+          >
+            <div
+              style={{
+                textAlign: "center",
+                marginBottom: "20px",
+              }}
+            >
+              <div
+                style={{
+                  width: "52px",
+                  height: "52px",
+                  margin: "0 auto 14px",
+                  borderRadius: "50%",
+                  background: "#ffebee",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontSize: "25px",
+                }}
+              >
+                🗑️
+              </div>
+
+              <h2
+                style={{
+                  margin: "0 0 8px",
+                  fontSize: "20px",
+                  color: "#222",
+                }}
+              >
+                {t("deleteInventoryTitle")}
+              </h2>
+
+              <p
+                style={{
+                  margin: 0,
+                  color: "#666",
+                  fontSize: "15px",
+                  lineHeight: 1.5,
+                }}
+              >
+                {t("deleteInventoryMessage")}
+              </p>
+            </div>
+
+            <div
+              style={{
+                display: "flex",
+                gap: "10px",
+                justifyContent: "center",
+              }}
+            >
+              <button
+                type="button"
+                onClick={() => {
+                  setDeleteModalOpen(false);
+                  setDeleteItemId(null);
+                }}
+                style={{
+                  flex: 1,
+                  minHeight: "44px",
+                  border: "1px solid #ccc",
+                  borderRadius: "8px",
+                  background: "#fff",
+                  color: "#333",
+                  fontSize: "14px",
+                  fontWeight: 600,
+                  cursor: "pointer",
+                }}
+              >
+                {t("cancel")}
+              </button>
+
+              <button
+                type="button"
+                onClick={confirmDeleteItem}
+                style={{
+                  flex: 1,
+                  minHeight: "44px",
+                  border: "1px solid #c62828",
+                  borderRadius: "8px",
+                  background: "#c62828",
+                  color: "#fff",
+                  fontSize: "14px",
+                  fontWeight: 600,
+                  cursor: "pointer",
+                }}
+              >
+                {t("delete")}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
