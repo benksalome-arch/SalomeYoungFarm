@@ -151,7 +151,7 @@ function FeedUsage() {
               <tbody>
                 {usage.map((item) => (
                   <tr key={item.id}>
-                    <td>
+                    <td data-label={t("date")}>
                       {item.usage_date
                         ? (() => {
                             const [year, month, day] =
@@ -161,9 +161,9 @@ function FeedUsage() {
                         : "-"}
                     </td>
 
-                    <td>{item.feed_name || "-"}</td>
+                    <td data-label={t("feed")}>{item.feed_name || "-"}</td>
 
-                    <td>
+                    <td data-label={t("animalType")}>
                       {item.animal_type === "Goat"
                         ? "Geit"
                         : item.animal_type === "Chicken"
@@ -173,13 +173,13 @@ function FeedUsage() {
                         : item.animal_type || "-"}
                     </td>
 
-                    <td>
+                    <td data-label={t("quantity")}>
                       <strong>{item.quantity_used} kg</strong>
                     </td>
 
-                    <td>{item.notes || "-"}</td>
+                    <td data-label={t("notes")}>{item.notes || "-"}</td>
 
-                    <td>
+                    <td data-label={t("actions")}>
                       <div
                         style={{
                           display: "flex",
