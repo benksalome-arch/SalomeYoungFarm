@@ -93,7 +93,7 @@ function AddInventory() {
 
       const data = await response.json();
 
-      alert(data.message);
+      alert(t("inventorySavedSuccessfully"));
 
       navigate("/inventory");
     } catch (error) {
