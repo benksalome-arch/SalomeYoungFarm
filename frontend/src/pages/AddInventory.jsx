@@ -277,36 +277,35 @@ function AddInventory() {
             <label htmlFor="quantity" style={labelStyle}>
               {t("quantity")}
             </label>
-            <input
-              id="quantity"
-              type="number"
-              step="0.01"
-              name="quantity"
-              value={formData.quantity}
-              onChange={handleChange}
-              required
-              style={inputStyle}
-            />
-          </div>
 
-          <div className="inventory-field">
-            <label htmlFor="unit" style={labelStyle}>
-              {t("unit")}
-            </label>
-            <select
-              id="unit"
-              name="unit"
-              value={formData.unit}
-              onChange={handleChange}
-              style={inputStyle}
-            >
-              <option value="kg">{t("kg")}</option>
-              <option value="bags">{t("bags")}</option>
-              <option value="litres">{t("litres")}</option>
-              <option value="pieces">{t("pieces")}</option>
-              <option value="bottles">{t("bottles")}</option>
-              <option value="packets">{t("packets")}</option>
-            </select>
+            <div className="inventory-quantity-control">
+              <input
+                id="quantity"
+                type="number"
+                step="0.01"
+                name="quantity"
+                value={formData.quantity}
+                onChange={handleChange}
+                required
+                style={inputStyle}
+              />
+
+              <select
+                id="unit"
+                name="unit"
+                value={formData.unit}
+                onChange={handleChange}
+                aria-label={t("unit")}
+                className="inventory-unit-select"
+              >
+                <option value="kg">{t("kg")}</option>
+                <option value="bags">{t("bags")}</option>
+                <option value="litres">{t("litres")}</option>
+                <option value="pieces">{t("pieces")}</option>
+                <option value="bottles">{t("bottles")}</option>
+                <option value="packets">{t("packets")}</option>
+              </select>
+            </div>
           </div>
 
           <div className="inventory-field">

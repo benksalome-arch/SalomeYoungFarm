@@ -199,13 +199,12 @@ function Inventory() {
           }}
         >
           <colgroup>
-            <col style={{ width: "17%" }} />
+            <col style={{ width: "19%" }} />
+            <col style={{ width: "16%" }} />
             <col style={{ width: "14%" }} />
-            <col style={{ width: "11%" }} />
-            <col style={{ width: "9%" }} />
-            <col style={{ width: "12%" }} />
-            <col style={{ width: "14%" }} />
-            <col style={{ width: "11%" }} />
+            <col style={{ width: "13%" }} />
+            <col style={{ width: "16%" }} />
+            <col style={{ width: "10%" }} />
             <col style={{ width: "12%" }} />
           </colgroup>
 
@@ -214,7 +213,6 @@ function Inventory() {
               <th style={headerStyle}>{t("itemName")}</th>
               <th style={headerStyle}>{t("category")}</th>
               <th style={headerStyle}>{t("quantity")}</th>
-              <th style={headerStyle}>{t("unit")}</th>
               <th style={headerStyle}>{t("status")}</th>
               <th style={headerStyle}>{t("supplier")}</th>
               <th style={headerStyle}>{t("purchasePriceKES")}</th>
@@ -226,7 +224,7 @@ function Inventory() {
             {items.length === 0 ? (
               <tr>
                 <td
-                  colSpan="8"
+                  colSpan="7"
                   style={{
                     textAlign: "center",
                     padding: "30px 10px",
@@ -288,19 +286,12 @@ function Inventory() {
                         whiteSpace: "nowrap",
                       }}
                     >
-                      {item.quantity ?? 0}
-                    </td>
-
-                    {/* UNIT */}
-
-                    <td data-label={t("unit")}
-                      style={{
-                        ...cellStyle,
-                        textAlign: "center",
-                        whiteSpace: "nowrap",
-                      }}
-                    >
-                      {item.unit || "-"}
+                      <span className="inventory-quantity-value">
+                        {item.quantity ?? 0}
+                      </span>
+                      <span className="inventory-quantity-unit">
+                        {item.unit || ""}
+                      </span>
                     </td>
 
                     {/* STATUS */}
