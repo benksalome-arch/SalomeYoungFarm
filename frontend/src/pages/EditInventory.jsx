@@ -725,19 +725,29 @@ function EditInventory() {
           </div>
 
           <div className="edit-inventory-actions">
-            <button
-              className="button"
-              type="submit"
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                width: "100%",
+                gap: "12px",
+              }}
             >
-              💾 {t("updateItem")}
-            </button>
+              <button
+                className="button"
+                type="submit"
+              >
+                💾 {t("updateItem")}
+              </button>
 
-            <Link
-              className="button"
-              to="/inventory"
-            >
-              ← {t("back")}
-            </Link>
+              <Link
+                className="button"
+                to="/inventory"
+              >
+                ← {t("back")}
+              </Link>
+            </div>
 
             <Link
               className="button"
