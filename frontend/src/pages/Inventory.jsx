@@ -98,7 +98,14 @@ function Inventory() {
       justify-content: center;
       align-items: center;
       gap: 4px;
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
+      width: max-content;
+      margin: 0 auto;
+    }
+
+    .inventory-actions-cell {
+      white-space: nowrap;
+      min-width: 205px;
     }
 
     .inventory-action-button {
@@ -124,9 +131,16 @@ function Inventory() {
     }
 
     @media (max-width: 700px) {
+      .inventory-actions-cell {
+        min-width: 0;
+      }
+
       .inventory-action-buttons {
         justify-content: flex-start;
         gap: 6px;
+        width: 100%;
+        flex-wrap: wrap;
+        margin: 0;
       }
 
       .inventory-action-button {
@@ -404,7 +418,9 @@ function Inventory() {
 
                     {/* ACTIONS */}
 
-                    <td data-label={t("actions")}
+                    <td
+                      className="inventory-actions-cell"
+                      data-label={t("actions")}
                       style={{
                         padding: "8px 4px",
                         verticalAlign: "middle",
