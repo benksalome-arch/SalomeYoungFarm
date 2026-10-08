@@ -390,11 +390,7 @@ function Finance() {
                   {tr("date", "Date")}
                 </th>
 
-                <th>
-                  {tr("created", "Created")}
-                </th>
-
-                <th>
+<th>
                   {tr("type", "Type")}
                 </th>
 
@@ -455,20 +451,7 @@ function Finance() {
                       )}
                     </td>
 
-                    <td
-                      style={{
-                        padding: "10px 4px",
-                        textAlign: "center",
-                        fontSize: "14px",
-                        whiteSpace: "nowrap",
-                      }}
-                    >
-                      {formatDateTime(
-                        transaction.created_at
-                      )}
-                    </td>
-
-                    <td
+<td
                       style={{
                         padding: "10px 4px",
                         textAlign: "center",
@@ -613,12 +596,7 @@ function Finance() {
                   </strong>
                 </div>
 
-                <div className="finance-mobile-row">
-                  <span>{tr("created", "Created")}</span>
-                  <span>{formatDateTime(transaction.created_at)}</span>
-                </div>
-
-                <div className="finance-mobile-row">
+<div className="finance-mobile-row">
                   <span>{tr("type", "Type")}</span>
                   <span>{transaction.type || "-"}</span>
                 </div>
