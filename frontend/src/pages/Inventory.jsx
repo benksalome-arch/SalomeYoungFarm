@@ -248,16 +248,16 @@ function Inventory() {
           maxWidth: "100%",
           minWidth: 0,
           boxSizing: "border-box",
-          overflow: "hidden",
+          overflowX: "auto",
+          overflowY: "hidden",
         }}
       >
         <table
           className="table inventory-table"
           style={{
             width: "100%",
-            maxWidth: "100%",
-            minWidth: 0,
-            tableLayout: "fixed",
+            minWidth: "980px",
+            tableLayout: "auto",
             borderCollapse: "collapse",
             boxSizing: "border-box",
           }}
@@ -267,9 +267,9 @@ function Inventory() {
             <col style={{ width: "16%" }} />
             <col style={{ width: "14%" }} />
             <col style={{ width: "13%" }} />
-            <col style={{ width: "16%" }} />
-            <col style={{ width: "10%" }} />
-            <col style={{ width: "12%" }} />
+            <col style={{ width: "14%" }} />
+            <col style={{ width: "9%" }} />
+            <col style={{ width: "15%" }} />
           </colgroup>
 
           <thead>
