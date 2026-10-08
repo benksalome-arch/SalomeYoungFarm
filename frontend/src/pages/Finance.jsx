@@ -136,6 +136,24 @@ function Finance() {
 
   const profit = income - expense;
 
+  const translateTransactionType = (value) => {
+    if (value === "Income") return tr("income", "Income");
+    if (value === "Expense") return tr("expense", "Expense");
+    return value || "-";
+  };
+
+  const translateTransactionCategory = (value) => {
+    if (value === "Inventory") return tr("inventory", "Inventory");
+    if (value === "Feed") return tr("feed", "Feed");
+    return value || "-";
+  };
+
+  const translatePaymentMethod = (value) => {
+    if (value === "Cash") return tr("cash", "Cash");
+    if (value === "Bank") return tr("bank", "Bank");
+    return value || "-";
+  };
+
   const financeMobileStyles = `
     .finance-mobile-transactions {
       display: none;
@@ -474,7 +492,7 @@ function Finance() {
                         whiteSpace: "nowrap",
                       }}
                     >
-                      {transaction.type || "-"}
+                      {translateTransactionType(transaction.type)}
                     </td>
 
                     <td
@@ -487,7 +505,7 @@ function Finance() {
                       }}
                       title={transaction.category || ""}
                     >
-                      {transaction.category || "-"}
+                      {translateTransactionCategory(transaction.category)}
                     </td>
 
                     <td
@@ -531,7 +549,7 @@ function Finance() {
                         transaction.payment_method || ""
                       }
                     >
-                      {transaction.payment_method || "-"}
+                      {translatePaymentMethod(transaction.payment_method)}
                     </td>
 
                     <td
@@ -611,12 +629,12 @@ function Finance() {
 
 <div className="finance-mobile-row">
                   <span>{tr("type", "Type")}</span>
-                  <span>{transaction.type || "-"}</span>
+                  <span>{translateTransactionType(transaction.type)}</span>
                 </div>
 
                 <div className="finance-mobile-row">
                   <span>{tr("category", "Category")}</span>
-                  <span>{transaction.category || "-"}</span>
+                  <span>{translateTransactionCategory(transaction.category)}</span>
                 </div>
 
                 <div className="finance-mobile-row">
@@ -626,7 +644,7 @@ function Finance() {
 
                 <div className="finance-mobile-row">
                   <span>{tr("paymentMethod", "Payment Method")}</span>
-                  <span>{transaction.payment_method || "-"}</span>
+                  <span>{translatePaymentMethod(transaction.payment_method)}</span>
                 </div>
 
                 <div className="finance-mobile-actions">
