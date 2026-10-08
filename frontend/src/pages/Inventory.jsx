@@ -94,15 +94,16 @@ function Inventory() {
 
   const actionStyles = `
     .inventory-table th {
-      font-size: 14px !important;
+      font-size: 15px !important;
+      font-weight: 700 !important;
     }
 
     .inventory-table td {
-      font-size: 14px !important;
+      font-size: 16px !important;
     }
 
     .inventory-table td span {
-      font-size: 12px;
+      font-size: 13px;
     }
 
     .inventory-action-buttons {
@@ -128,8 +129,8 @@ function Inventory() {
       min-width: 0 !important;
       max-width: none !important;
       flex: 0 0 auto !important;
-      padding: 8px 10px !important;
-      font-size: 12px !important;
+      padding: 9px 12px !important;
+      font-size: 13px !important;
       line-height: 1.2 !important;
       white-space: nowrap !important;
       box-sizing: border-box !important;
