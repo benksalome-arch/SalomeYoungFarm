@@ -3898,3 +3898,14 @@ canvas {
     color: #222 !important;
   }
 }
+
+
+/* EDIT FINANCE MOBILE TITLE */
+@media (max-width: 700px) {
+  .edit-finance-title {
+    font-size: 32px !important;
+    line-height: 1.2 !important;
+    letter-spacing: normal !important;
+    margin-bottom: 8px !important;
+  }
+}

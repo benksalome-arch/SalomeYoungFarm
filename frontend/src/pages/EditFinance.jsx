@@ -223,6 +223,7 @@ function EditFinance() {
       >
         <div>
           <h1
+            className="edit-finance-title"
             style={{
               margin: "0 0 8px 0",
               fontSize: "42px",
