@@ -295,25 +295,6 @@ function changeCalendarMonth(offset) {
             </label>
 
             <div style={{ position: "relative", width: "100%" }}>
-              <div
-                style={{
-                  ...inputStyle,
-                  width: "100%",
-                  color: formData.transaction_date ? "#222" : "#777",
-                  WebkitTextFillColor: formData.transaction_date ? "#222" : "#777",
-                  pointerEvents: "none",
-                  display: "flex",
-                  alignItems: "center",
-                }}
-              >
-                {formData.transaction_date
-                  ? new Date(formData.transaction_date + "T00:00:00").toLocaleDateString("nl-NL", {
-                      day: "2-digit",
-                      month: "2-digit",
-                      year: "numeric",
-                    })
-                  : "DD-MM-JJJJ"}
-              </div>
               <input
                 type="text"
                 id="transaction_date"
@@ -583,13 +564,13 @@ function changeCalendarMonth(offset) {
                               border: selected
                                 ? "2px solid #1b5e20"
                                 : isToday
-                                ? "2px solid #2e7d32"
+                                ? "2px solid #1976d2"
                                 : "1px solid #ddd",
                               borderRadius: "50%",
                               background: selected
                                 ? "#2e7d32"
                                 : isToday
-                                ? "#4caf50"
+                                ? "#1976d2"
                                 : "#fff",
                               color: selected || isToday ? "#fff" : "#222",
                               fontWeight:
@@ -597,7 +578,7 @@ function changeCalendarMonth(offset) {
                               cursor: "pointer",
                               fontSize: "14px",
                               boxShadow: isToday
-                                ? "0 0 0 2px #c8e6c9"
+                                ? "0 0 0 2px #bbdefb"
                                 : "none",
                             }}
                           >
