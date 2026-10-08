@@ -136,6 +136,103 @@ function Finance() {
 
   const profit = income - expense;
 
+  const financeMobileStyles = `
+    .finance-mobile-transactions {
+      display: none;
+    }
+
+    @media (max-width: 700px) {
+      .finance-transactions-table {
+        display: none !important;
+      }
+
+      .finance-mobile-transactions {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        width: 100%;
+      }
+
+      .finance-mobile-card {
+        width: 100%;
+        box-sizing: border-box;
+        background: #fff;
+        border: 1px solid #dfe4df;
+        border-radius: 12px;
+        padding: 16px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+      }
+
+      .finance-mobile-card-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding-bottom: 12px;
+        margin-bottom: 10px;
+        border-bottom: 1px solid #e5e8e5;
+        font-size: 16px;
+        color: #222;
+      }
+
+      .finance-mobile-card-header strong:last-child {
+        color: #2e7d32;
+        white-space: nowrap;
+      }
+
+      .finance-mobile-row {
+        display: grid;
+        grid-template-columns: 42% minmax(0, 1fr);
+        gap: 10px;
+        padding: 7px 0;
+        font-size: 14px;
+        line-height: 1.4;
+      }
+
+      .finance-mobile-row span:first-child {
+        font-weight: 600;
+        color: #666;
+      }
+
+      .finance-mobile-row span:last-child {
+        color: #222;
+        overflow-wrap: anywhere;
+        min-width: 0;
+      }
+
+      .finance-mobile-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-top: 14px;
+        padding-top: 12px;
+        border-top: 1px solid #e5e8e5;
+      }
+
+      .finance-mobile-actions .button {
+        width: 100% !important;
+        min-width: 0 !important;
+        box-sizing: border-box;
+        text-align: center;
+        white-space: nowrap;
+        padding: 10px 8px !important;
+        font-size: 14px !important;
+      }
+
+      .finance-mobile-actions .button:last-child {
+        background: #D32F2F !important;
+        color: #fff !important;
+        border: none !important;
+      }
+
+      .finance-mobile-empty {
+        padding: 30px 15px;
+        text-align: center;
+        color: #666;
+      }
+    }
+  `;
+
   return (
     <div
       style={{
@@ -145,6 +242,8 @@ function Finance() {
         boxSizing: "border-box",
       }}
     >
+      <style>{financeMobileStyles}</style>
+
       {/* PAGE HEADER */}
 
       <div
@@ -492,6 +591,72 @@ function Finance() {
               )}
             </tbody>
           </table>
+        </div>
+
+        <div className="finance-mobile-transactions">
+          {transactions.length === 0 ? (
+            <div className="finance-mobile-empty">
+              {tr("noTransactions", "No transactions found.")}
+            </div>
+          ) : (
+            transactions.map((transaction) => (
+              <div
+                key={`mobile-${transaction.id}`}
+                className="finance-mobile-card"
+              >
+                <div className="finance-mobile-card-header">
+                  <strong>
+                    {formatDate(transaction.transaction_date)}
+                  </strong>
+                  <strong>
+                    KES {Number(transaction.amount || 0).toLocaleString()}
+                  </strong>
+                </div>
+
+                <div className="finance-mobile-row">
+                  <span>{tr("created", "Created")}</span>
+                  <span>{formatDateTime(transaction.created_at)}</span>
+                </div>
+
+                <div className="finance-mobile-row">
+                  <span>{tr("type", "Type")}</span>
+                  <span>{transaction.type || "-"}</span>
+                </div>
+
+                <div className="finance-mobile-row">
+                  <span>{tr("category", "Category")}</span>
+                  <span>{transaction.category || "-"}</span>
+                </div>
+
+                <div className="finance-mobile-row">
+                  <span>{tr("description", "Description")}</span>
+                  <span>{transaction.description || "-"}</span>
+                </div>
+
+                <div className="finance-mobile-row">
+                  <span>{tr("paymentMethod", "Payment Method")}</span>
+                  <span>{transaction.payment_method || "-"}</span>
+                </div>
+
+                <div className="finance-mobile-actions">
+                  <Link
+                    className="button"
+                    to={`/finance/edit/${transaction.id}`}
+                  >
+                    ✏ {tr("edit", "Edit")}
+                  </Link>
+
+                  <button
+                    type="button"
+                    className="button"
+                    onClick={() => deleteTransaction(transaction.id)}
+                  >
+                    🗑 {tr("delete", "Delete")}
+                  </button>
+                </div>
+              </div>
+            ))
+          )}
         </div>
       </div>
     </div>
