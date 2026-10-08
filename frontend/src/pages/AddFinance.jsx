@@ -136,7 +136,7 @@ function changeCalendarMonth(offset) {
         return;
       }
 
-      alert(data.message || t("saveTransaction"));
+      alert(t("transactionSavedSuccessfully", "Transaction saved successfully!"));
       navigate("/finance");
     } catch (error) {
       console.error(error);
@@ -223,18 +223,32 @@ function changeCalendarMonth(offset) {
     }
 
     @media (max-width: 700px) {
+      .page-header {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+      }
+
       .page-header h1 {
-        font-size: 30px !important;
-        line-height: 1.15 !important;
+        font-size: 28px !important;
+        line-height: 1.2 !important;
         margin-bottom: 6px !important;
         padding: 0 4px !important;
+        text-align: center !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+      }
+
+      .page-header > p {
+        text-align: center !important;
       }
 
       .page-header > .button {
         position: static !important;
-        display: flex !important;
+        display: inline-flex !important;
         width: max-content !important;
-        margin: 12px 0 0 auto !important;
+        margin: 12px auto 0 !important;
+        align-self: center !important;
       }
 
       .finance-field,
