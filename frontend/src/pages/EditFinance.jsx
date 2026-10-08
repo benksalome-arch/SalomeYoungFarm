@@ -163,7 +163,7 @@ function EditFinance() {
         return;
       }
 
-      alert(data.message || "Transaction updated successfully.");
+      alert(t("financialRecordUpdatedSuccessfully"));
       navigate("/finance");
     } catch (error) {
       console.error(error);

@@ -176,6 +176,7 @@ const translations = {
     failedToSaveTransaction: "Failed to save transaction.",
     createFinancialRecord: "Create a new financial record.",
     updateFinancialRecord: "Update financial record",
+    financialRecordUpdatedSuccessfully: "Financial record updated successfully.",
     deworming: "Deworming",
     displayPreferences: "Display Preferences",
     displayPreferencesDescription: 
@@ -742,6 +743,7 @@ const translations = {
     failedToSaveTransaction: "Imeshindwa kuhifadhi muamala.",
     createFinancialRecord: "Unda rekodi mpya ya kifedha.",
     updateFinancialRecord: "Sasisha rekodi ya kifedha",
+    financialRecordUpdatedSuccessfully: "Rekodi ya kifedha imesasishwa kikamilifu.",
     deworming: 'Kuondoa Minyoo',
     displayPreferences: "Mipangilio ya Muonekano",
     displayPreferencesDescription: 
@@ -1313,6 +1315,7 @@ const translations = {
     failedToSaveTransaction: "Transactie opslaan mislukt.",
     createFinancialRecord: "Maak een nieuw financieel record.",
     updateFinancialRecord: "Financieel record bijwerken",
+    financialRecordUpdatedSuccessfully: "Financieel record succesvol bijgewerkt.",
     deworming: 'Ontworming',
     displayPreferences: "Weergavevoorkeuren",
     displayPreferencesDescription: 
