@@ -68,6 +68,7 @@ import Receipts from "./pages/Receipts";
 import Inventory from "./pages/Inventory";
 import AddInventory from "./pages/AddInventory";
 import EditInventory from "./pages/EditInventory";
+import ViewInventory from "./pages/ViewInventory";
 
 // ======================
 // Feed
@@ -355,6 +356,11 @@ function App() {
           <Route
             path="/inventory/add"
             element={<AddInventory />}
+          />
+
+          <Route
+            path="/inventory/view/:id"
+            element={<ViewInventory />}
           />
 
           <Route

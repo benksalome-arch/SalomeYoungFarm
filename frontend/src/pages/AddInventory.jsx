@@ -189,7 +189,7 @@ function AddInventory() {
       height: 100% !important;
       margin: 0 !important;
       border: 0 !important;
-      border-left: 1px solid #e1e5e1 !important;
+      border-left: 0 !important;
       border-radius: 0 !important;
       box-sizing: border-box !important;
       background: #fff !important;

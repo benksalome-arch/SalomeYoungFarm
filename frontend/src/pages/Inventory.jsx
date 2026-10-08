@@ -92,6 +92,54 @@ function Inventory() {
     verticalAlign: "middle",
   };
 
+  const actionStyles = `
+    .inventory-action-buttons {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 4px;
+      flex-wrap: wrap;
+    }
+
+    .inventory-action-button {
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      width: auto !important;
+      min-width: 0 !important;
+      max-width: none !important;
+      flex: 0 0 auto !important;
+      padding: 6px 7px !important;
+      font-size: 10px !important;
+      line-height: 1.2 !important;
+      white-space: nowrap !important;
+      box-sizing: border-box !important;
+    }
+
+    .inventory-delete-button {
+      background: #D32F2F !important;
+      color: white !important;
+      border: none !important;
+      cursor: pointer !important;
+    }
+
+    @media (max-width: 700px) {
+      .inventory-action-buttons {
+        justify-content: flex-start;
+        gap: 6px;
+      }
+
+      .inventory-action-button {
+        width: auto !important;
+        min-width: 0 !important;
+        max-width: max-content !important;
+        flex: 0 0 auto !important;
+        padding: 7px 9px !important;
+        font-size: 11px !important;
+      }
+    }
+  `;
+
   return (
     <div
       style={{
@@ -102,6 +150,8 @@ function Inventory() {
         overflow: "hidden",
       }}
     >
+      <style>{actionStyles}</style>
+
       {/* PAGE HEADER */}
 
       <div
@@ -360,42 +410,27 @@ function Inventory() {
                         verticalAlign: "middle",
                       }}
                     >
-                      <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          gap: "4px",
-                          flexWrap: "wrap",
-                        }}
-                      >
+                      <div className="inventory-action-buttons">
                         <Link
-                          className="button"
+                          className="button inventory-action-button"
+                          to={`/inventory/view/${item.id}`}
+                        >
+                          👁 {t("view")}
+                        </Link>
+
+                        <Link
+                          className="button inventory-action-button"
                           to={`/inventory/edit/${item.id}`}
-                          style={{
-                            padding: "6px 7px",
-                            fontSize: "10px",
-                            whiteSpace: "nowrap",
-                          }}
                         >
                           ✏ {t("edit")}
                         </Link>
 
                         <button
                           type="button"
-                          className="button"
+                          className="button inventory-action-button inventory-delete-button"
                           onClick={() =>
                             requestDeleteItem(item.id)
                           }
-                          style={{
-                            padding: "6px 7px",
-                            fontSize: "10px",
-                            background: "#D32F2F",
-                            color: "white",
-                            border: "none",
-                            whiteSpace: "nowrap",
-                            cursor: "pointer",
-                          }}
                         >
                           🗑 {t("delete")}
                         </button>
