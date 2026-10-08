@@ -223,6 +223,20 @@ function changeCalendarMonth(offset) {
     }
 
     @media (max-width: 700px) {
+      .page-header h1 {
+        font-size: 30px !important;
+        line-height: 1.15 !important;
+        margin-bottom: 6px !important;
+        padding: 0 4px !important;
+      }
+
+      .page-header > .button {
+        position: static !important;
+        display: flex !important;
+        width: max-content !important;
+        margin: 12px 0 0 auto !important;
+      }
+
       .finance-field,
       .finance-description {
         grid-template-columns: 105px minmax(0, 1fr);

@@ -233,7 +233,7 @@ function EditFinance() {
               color: "#111",
             }}
           >
-            ✏️ {t("edit")} {t("transaction", "Transaction")}
+            ✏️ {t("editTransaction", "Edit transaction")}
           </h1>
 
           <p
