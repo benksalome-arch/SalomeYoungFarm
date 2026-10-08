@@ -111,16 +111,21 @@ function EditInventory() {
     e.preventDefault();
 
     try {
-      await fetch(
+      const response = await fetch(
         `${API_URL}/api/inventory/${id}`,
         {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
           body: JSON.stringify(formData),
         }
       );
+
+      if (!response.ok) {
+        throw new Error(`Inventory update failed: ${response.status}`);
+      }
 
       alert(t("inventoryUpdatedSuccessfully"));
 
@@ -248,7 +253,7 @@ function EditInventory() {
         <h1>✏️ {t("editInventoryItem")}</h1>
 
         <Link
-          className="button"
+          className="button inventory-back-button"
           to="/inventory"
           style={{
             position: "absolute",
