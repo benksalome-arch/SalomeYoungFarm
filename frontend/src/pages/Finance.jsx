@@ -283,16 +283,37 @@ function Finance() {
           </p>
         </div>
 
-        <Link
-          className="button"
-          to="/finance/add"
+        <div
           style={{
-            whiteSpace: "nowrap",
+            display: "flex",
+            alignItems: "center",
+            gap: "10px",
             flexShrink: 0,
+            flexWrap: "wrap",
           }}
         >
-          ➕ {tr("addTransaction", "Add Transaction")}
-        </Link>
+          <Link
+            className="button"
+            to="/"
+            style={{
+              width: "auto",
+              whiteSpace: "nowrap",
+            }}
+          >
+            ← {tr("back", "Terug")}
+          </Link>
+
+          <Link
+            className="button"
+            to="/finance/add"
+            style={{
+              whiteSpace: "nowrap",
+            }}
+          >
+            ➕ {tr("addTransaction", "Add Transaction")}
+          </Link>
+
+        </div>
       </div>
 
       {/* FINANCIAL SUMMARY */}
@@ -358,15 +379,7 @@ function Finance() {
             {tr("transactions", "Transactions")}
           </h2>
 
-          <Link
-            className="button"
-            to="/finance/add"
-            style={{
-              whiteSpace: "nowrap",
-            }}
-          >
-            ➕ {tr("addTransaction", "Add Transaction")}
-          </Link>
+
         </div>
 
         <div
