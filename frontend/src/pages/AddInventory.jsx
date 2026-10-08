@@ -159,6 +159,24 @@ function AddInventory() {
       font-size: 15px !important;
     }
 
+    .inventory-quantity-control {
+      display: flex;
+      align-items: center;
+      width: 100%;
+    }
+
+    .inventory-quantity-control > input {
+      flex: 1 1 auto;
+      width: auto !important;
+      min-width: 0;
+    }
+
+    .inventory-quantity-control > select {
+      flex: 0 0 auto;
+      width: auto !important;
+      min-width: 90px;
+    }
+
     .inventory-notes {
       display: grid;
       grid-template-columns: 150px minmax(0, 320px);

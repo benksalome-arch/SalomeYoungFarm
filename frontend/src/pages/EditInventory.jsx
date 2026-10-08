@@ -124,15 +124,18 @@ function EditInventory() {
       );
 
       if (!response.ok) {
-        throw new Error(`Inventory update failed: ${response.status}`);
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(
+          errorData.message || `Inventory update failed: ${response.status}`
+        );
       }
 
       alert(t("inventoryUpdatedSuccessfully"));
 
       navigate("/inventory");
     } catch (error) {
-      console.error(error);
-      alert(t("failedToUpdateInventory"));
+      console.error("Inventory update error:", error);
+      alert(`${t("failedToUpdateInventory")}: ${error.message}`);
     }
   }
 
@@ -188,6 +191,24 @@ function EditInventory() {
         .edit-inventory-field textarea {
           width: 100%;
           box-sizing: border-box;
+        }
+
+        .edit-inventory-field .inventory-quantity-control {
+          display: flex;
+          align-items: center;
+          width: 100%;
+        }
+
+        .edit-inventory-field .inventory-quantity-control > input {
+          flex: 1 1 auto;
+          width: auto;
+          min-width: 0;
+        }
+
+        .edit-inventory-field .inventory-quantity-control > select {
+          flex: 0 0 auto;
+          width: auto;
+          min-width: 90px;
         }
 
         .edit-inventory-field textarea {
