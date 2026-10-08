@@ -93,11 +93,23 @@ function Inventory() {
   };
 
   const actionStyles = `
+    .inventory-table th {
+      font-size: 14px !important;
+    }
+
+    .inventory-table td {
+      font-size: 14px !important;
+    }
+
+    .inventory-table td span {
+      font-size: 12px;
+    }
+
     .inventory-action-buttons {
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: 4px;
+      gap: 6px;
       flex-wrap: nowrap;
       width: max-content;
       margin: 0 auto;
@@ -116,8 +128,8 @@ function Inventory() {
       min-width: 0 !important;
       max-width: none !important;
       flex: 0 0 auto !important;
-      padding: 6px 7px !important;
-      font-size: 10px !important;
+      padding: 8px 10px !important;
+      font-size: 12px !important;
       line-height: 1.2 !important;
       white-space: nowrap !important;
       box-sizing: border-box !important;
