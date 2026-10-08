@@ -286,6 +286,23 @@ function AddFinance() {
                 name="transaction_date"
                 value={formData.transaction_date || ""}
                 onChange={handleChange}
+                onClick={() => {
+                  const selected = formData.transaction_date
+                    ? new Date(
+                        formData.transaction_date + "T00:00:00"
+                      )
+                    : new Date();
+
+                  setCalendarMonth(
+                    new Date(
+                      selected.getFullYear(),
+                      selected.getMonth(),
+                      1
+                    )
+                  );
+
+                  setCalendarOpen(true);
+                }}
                 required
                 style={{
                   position: "absolute",
