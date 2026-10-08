@@ -7,7 +7,7 @@ const inventoryController = require("../controllers/inventoryController");
 // Get all inventory items
 const {
   authenticateToken,
-  requireAdmin,
+  requireAdminOrManager,
 } = require("../middleware/authMiddleware");
 
 router.get("/", inventoryController.getItems);
@@ -21,11 +21,11 @@ router.post("/", inventoryController.createItem);
 // Update inventory item
 router.put("/:id",
   authenticateToken,
-  requireAdmin, inventoryController.updateItem);
+  requireAdminOrManager, inventoryController.updateItem);
 
 // Delete inventory item
 router.delete("/:id",
   authenticateToken,
-  requireAdmin, inventoryController.deleteItem);
+  requireAdminOrManager, inventoryController.deleteItem);
 
 module.exports = router;
