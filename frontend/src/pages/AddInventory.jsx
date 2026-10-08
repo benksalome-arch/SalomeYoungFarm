@@ -161,20 +161,38 @@ function AddInventory() {
 
     .inventory-quantity-control {
       display: flex;
-      align-items: center;
+      align-items: stretch;
       width: 100%;
+      height: 44px;
+      box-sizing: border-box;
+      border: 1px solid #cfd6cf;
+      border-radius: 7px;
+      overflow: hidden;
+      background: #fff;
     }
 
     .inventory-quantity-control > input {
       flex: 1 1 auto;
       width: auto !important;
       min-width: 0;
+      height: 100% !important;
+      margin: 0 !important;
+      border: 0 !important;
+      border-radius: 0 !important;
+      box-sizing: border-box !important;
     }
 
     .inventory-quantity-control > select {
-      flex: 0 0 auto;
-      width: auto !important;
+      flex: 0 0 90px;
+      width: 90px !important;
       min-width: 90px;
+      height: 100% !important;
+      margin: 0 !important;
+      border: 0 !important;
+      border-left: 1px solid #e1e5e1 !important;
+      border-radius: 0 !important;
+      box-sizing: border-box !important;
+      background: #fff !important;
     }
 
     .inventory-notes {
