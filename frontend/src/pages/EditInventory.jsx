@@ -334,24 +334,21 @@ function EditInventory() {
                 style={inputStyle}
               />
 
-              <div className="inventory-unit-select-wrap">
-                <select
-                  id="unit"
-                  name="unit"
-                  value={formData.unit}
-                  onChange={handleChange}
-                  aria-label={t("unit")}
-                  className="inventory-unit-select"
-                >
+              <select
+                id="unit"
+                name="unit"
+                value={formData.unit}
+                onChange={handleChange}
+                aria-label={t("unit")}
+                className="inventory-unit-select"
+              >
                 <option value="kg">{t("kg")}</option>
                 <option value="bags">{t("bags")}</option>
                 <option value="litres">{t("litres")}</option>
                 <option value="pieces">{t("pieces")}</option>
                 <option value="bottles">{t("bottles")}</option>
                 <option value="packets">{t("packets")}</option>
-                </select>
-                <span className="inventory-unit-arrow" aria-hidden="true">▼</span>
-              </div>
+              </select>
             </div>
           </div>
 

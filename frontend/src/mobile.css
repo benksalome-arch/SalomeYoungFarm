@@ -3898,54 +3898,50 @@ canvas {
   }
 }
 
-/* Inventory Aantal unit selector — phone only */
+
+/* Inventory Aantal + unit selector — phone only */
 @media (max-width: 700px) {
-  .inventory-field .inventory-unit-select-wrap,
-  .edit-inventory-field .inventory-unit-select-wrap {
-    position: relative !important;
-    width: 110px !important;
-    height: 100% !important;
-    min-width: 110px !important;
-    max-width: 110px !important;
-    display: flex !important;
+  .inventory-field .inventory-quantity-control,
+  .edit-inventory-field .inventory-quantity-control {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) 110px !important;
     align-items: stretch !important;
-    justify-content: stretch !important;
+    width: 100% !important;
+    height: 52px !important;
     box-sizing: border-box !important;
+    border: 1px solid #d8ded8 !important;
+    border-radius: 8px !important;
+    overflow: hidden !important;
     background: #fff !important;
   }
 
-  .inventory-field .inventory-unit-select-wrap .inventory-unit-select,
-  .edit-inventory-field .inventory-unit-select-wrap .inventory-unit-select {
+  .inventory-field .inventory-quantity-control > input,
+  .edit-inventory-field .inventory-quantity-control > input {
     width: 100% !important;
-    min-width: 0 !important;
-    max-width: none !important;
     height: 100% !important;
-    padding: 10px 30px 10px 8px !important;
     margin: 0 !important;
+    padding: 10px 12px !important;
     border: 0 !important;
     border-radius: 0 !important;
-    background: transparent !important;
-    appearance: none !important;
-    -webkit-appearance: none !important;
+    outline: none !important;
     box-sizing: border-box !important;
-    font-size: 14px !important;
-    color: #222 !important;
-    cursor: pointer !important;
   }
 
-  .inventory-field .inventory-unit-arrow,
-  .edit-inventory-field .inventory-unit-arrow {
-    position: absolute !important;
-    right: 9px !important;
-    top: 50% !important;
-    transform: translateY(-50%) !important;
-    display: block !important;
-    width: auto !important;
-    height: auto !important;
-    font-size: 11px !important;
-    line-height: 1 !important;
-    color: #333 !important;
-    pointer-events: none !important;
-    z-index: 2 !important;
+  .inventory-field .inventory-quantity-control > .inventory-unit-select,
+  .edit-inventory-field .inventory-quantity-control > .inventory-unit-select {
+    width: 110px !important;
+    min-width: 110px !important;
+    max-width: 110px !important;
+    height: 100% !important;
+    margin: 0 !important;
+    padding: 10px 28px 10px 8px !important;
+    border: 0 !important;
+    border-left: 1px solid #e1e5e1 !important;
+    border-radius: 0 !important;
+    outline: none !important;
+    box-sizing: border-box !important;
+    background-color: #fff !important;
+    font-size: 14px !important;
+    color: #222 !important;
   }
 }
