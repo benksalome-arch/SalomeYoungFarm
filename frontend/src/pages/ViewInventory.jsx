@@ -234,7 +234,7 @@ function ViewInventory() {
 
         <div className="view-inventory-grid">
           <div style={labelStyle}>{t("status")}</div>
-          <div>
+          <div style={{ ...valueStyle, justifyContent: "flex-start" }}>
             <span
               className="view-inventory-status"
               style={{
