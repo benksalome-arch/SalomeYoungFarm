@@ -9,6 +9,13 @@ const {
 // Login
 router.post("/login", authController.login);
 
+// Validate current logged-in session
+router.get(
+  "/me",
+  authenticateToken,
+  authController.me
+);
+
 // Create new account
 router.post("/register", authController.register);
 

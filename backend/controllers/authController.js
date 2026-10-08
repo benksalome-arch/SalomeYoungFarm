@@ -38,6 +38,20 @@ async function sendResetEmail({ to, subject, text, html }) {
 }
 
 // =====================================
+// CURRENT USER / SESSION VALIDATION
+// =====================================
+
+exports.me = (req, res) => {
+  return res.json({
+    user: {
+      id: req.user.id,
+      role: req.user.role,
+      name: req.user.name,
+    },
+  });
+};
+
+// =====================================
 // LOGIN
 // =====================================
 
@@ -107,7 +121,7 @@ exports.login = (req, res) => {
         },
         JWT_SECRET,
         {
-          expiresIn: "7d",
+          expiresIn: "30d",
         }
       );
 

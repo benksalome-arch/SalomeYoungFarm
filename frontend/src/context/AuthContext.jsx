@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 const AuthContext = createContext();
 
@@ -50,6 +50,59 @@ export function AuthProvider({ children }) {
     }
   });
 
+  const [sessionChecked, setSessionChecked] = useState(false);
+
+  // =====================================
+  // VALIDATE SAVED SESSION
+  // =====================================
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      setSessionChecked(true);
+      return;
+    }
+
+    fetch("/api/auth/me", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then(async (response) => {
+        if (!response.ok) {
+          throw new Error(`Session validation failed: ${response.status}`);
+        }
+
+        return response.json();
+      })
+      .then((data) => {
+        if (data?.user) {
+          const normalizedUser = normalizeUser({
+            ...data.user,
+            full_name: data.user.name,
+          });
+
+          localStorage.setItem(
+            "user",
+            JSON.stringify(normalizedUser)
+          );
+
+          setUser(normalizedUser);
+        }
+      })
+      .catch((error) => {
+        console.warn("Stored session is no longer valid:", error);
+
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        setUser(null);
+      })
+      .finally(() => {
+        setSessionChecked(true);
+      });
+  }, []);
+
   // =====================================
   // LOGIN
   // =====================================
@@ -82,6 +135,7 @@ export function AuthProvider({ children }) {
         user,
         login,
         logout,
+        sessionChecked,
       }}
     >
       {children}
