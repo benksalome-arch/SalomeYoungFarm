@@ -284,20 +284,6 @@ function Feed() {
       {/* PAGE HEADER */}
 
       <div className="feed-header">
-        <button
-          type="button"
-          className="button"
-          onClick={() => {
-            if (window.history.length > 1) {
-              window.history.back();
-            } else {
-              window.location.href = "/dashboard";
-            }
-          }}
-        >
-          ← {t("back", "Terug")}
-        </button>
-
         <Link
           className="button feed-add-button"
           to="/feed/add"
