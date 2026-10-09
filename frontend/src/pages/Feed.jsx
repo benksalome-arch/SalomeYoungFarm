@@ -285,6 +285,14 @@ function Feed() {
 
       <div className="feed-header">
         <Link
+          className="button"
+          to="/"
+          style={{ textDecoration: "none", whiteSpace: "nowrap" }}
+        >
+          ← {t("back", "Terug")}
+        </Link>
+
+        <Link
           className="button feed-add-button"
           to="/feed/add"
         >
