@@ -1,12 +1,18 @@
 import API_URL from "../api";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams, Link } from "react-router-dom";
+import { useNavigate, useParams, useLocation, Link } from "react-router-dom";
 import { useLanguage } from "../context/LanguageContext";
 
 function EditFeed() {
   const { t } = useLanguage();
   const { id } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
+  const backTo =
+    typeof location.state?.from === "string" &&
+    location.state.from.startsWith("/")
+      ? location.state.from
+      : "/feed";
 
   const [calendarOpen, setCalendarOpen] = useState(false);
 
@@ -307,6 +313,19 @@ function EditFeed() {
             borderBottom: "1px solid #e5e7eb",
           }}
         >
+          <Link
+            className="button"
+            to={backTo}
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              minHeight: "44px",
+              marginBottom: "14px",
+              textDecoration: "none",
+            }}
+          >
+            ← {t("back", "Terug")}
+          </Link>
           <h1
             style={{
               margin: 0,

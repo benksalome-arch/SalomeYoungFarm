@@ -1,9 +1,10 @@
 import API_URL from "../api";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useLanguage } from "../context/LanguageContext";
 
 function Feed() {
+  const location = useLocation();
   const { t } = useLanguage();
   const [feeds, setFeeds] = useState([]);
 
@@ -283,6 +284,20 @@ function Feed() {
       {/* PAGE HEADER */}
 
       <div className="feed-header">
+        <button
+          type="button"
+          className="button"
+          onClick={() => {
+            if (window.history.length > 1) {
+              window.history.back();
+            } else {
+              window.location.href = "/dashboard";
+            }
+          }}
+        >
+          ← {t("back", "Terug")}
+        </button>
+
         <Link
           className="button feed-add-button"
           to="/feed/add"
@@ -397,6 +412,7 @@ function Feed() {
                           <Link
                             className="button"
                             to={`/feed/edit/${feed.id}`}
+                            state={{ from: location.pathname + location.search }}
                             style={{
                               padding: "6px 8px",
                               fontSize: "11px",
@@ -526,6 +542,7 @@ function Feed() {
                     <Link
                       className="button feed-action"
                       to={`/feed/edit/${feed.id}`}
+                      state={{ from: location.pathname + location.search }}
                       style={{
                         textDecoration: "none",
                       }}
