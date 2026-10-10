@@ -823,8 +823,8 @@ function Reports() {
           }}
         >
           <colgroup>
-            <col style={{ width: "70%" }} />
-            <col style={{ width: "30%" }} />
+            <col style={{ width: "55%" }} />
+            <col style={{ width: "45%" }} />
           </colgroup>
 
           <thead>
@@ -835,8 +835,11 @@ function Reports() {
                   WebkitTextFillColor: "#263238",
                   textAlign: "left",
                   fontSize: "13px",
-                  padding: "12px 14px",
-                  whiteSpace: "nowrap",
+                  padding: "12px 6px",
+                  whiteSpace: "normal",
+                  overflowWrap: "anywhere",
+                  lineHeight: 1.3,
+                  verticalAlign: "middle",
                 }}
               >
                 {t("animal")}
@@ -848,8 +851,11 @@ function Reports() {
                   WebkitTextFillColor: "#263238",
                   textAlign: "center",
                   fontSize: "13px",
-                  padding: "12px 14px",
-                  whiteSpace: "nowrap",
+                  padding: "12px 6px",
+                  whiteSpace: "normal",
+                  overflowWrap: "anywhere",
+                  lineHeight: 1.3,
+                  verticalAlign: "middle",
                 }}
               >
                 {t("totalRecords")}

@@ -313,6 +313,7 @@ function Finance() {
           <Link
             className="button"
             to="/"
+            state={{ highlightPath: "/finance" }}
             style={{
               width: "auto",
               whiteSpace: "nowrap",
@@ -356,9 +357,16 @@ function Finance() {
           </p>
         </div>
 
-        <div className="card">
-          <h3>{tr("expenses", "Expenses")}</h3>
-          <p>
+        <div
+          className="card"
+          style={{
+            borderTop: "4px solid #ef6c00",
+          }}
+        >
+          <h3 style={{ color: "#ef6c00" }}>
+            {tr("expenses", "Expenses")}
+          </h3>
+          <p style={{ color: "#ef6c00" }}>
             KES {expense.toLocaleString()}
           </p>
         </div>
