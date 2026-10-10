@@ -108,6 +108,14 @@ body {
 }
 
 @media (max-width: 900px) {
+  .page-header h1 {
+    font-size: 28px;
+  }
+
+  .page-header p {
+    font-size: 15px;
+  }
+
   .dashboard-cards {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -140,7 +148,9 @@ main,
 }
 
 .card {
-  overflow-x: auto;
+  min-width: 0;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 .table {
@@ -194,7 +204,10 @@ main,
   }
 
   .table {
-    min-width: 680px;
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    table-layout: fixed;
   }
 
   .table th,

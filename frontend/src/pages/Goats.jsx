@@ -48,19 +48,18 @@ function Goats() {
         boxSizing: "border-box",
       }}
     >
-      {/* =========================
-          PAGE HEADER
-      ========================= */}
-
+      {/* PAGE HEADER */}
       <div
+        className="goats-page-header"
         style={{
           width: "100%",
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          gap: "20px",
+          gap: "10px",
           marginBottom: "25px",
           boxSizing: "border-box",
+          flexWrap: "wrap",
         }}
       >
         <h1
@@ -68,10 +67,26 @@ function Goats() {
             margin: 0,
             fontSize: "42px",
             lineHeight: 1.2,
+            flex: "1 1 100%",
+            color: "#222",
+            WebkitTextFillColor: "#222",
+            opacity: 1,
           }}
         >
           🐐 {t("goatManagement")}
         </h1>
+
+        <Link
+          to="/"
+          className="button"
+          style={{
+            display: "inline-block",
+            textDecoration: "none",
+            whiteSpace: "nowrap",
+          }}
+        >
+          ← {t("back")}
+        </Link>
 
         <Link
           to="/goats/add"
