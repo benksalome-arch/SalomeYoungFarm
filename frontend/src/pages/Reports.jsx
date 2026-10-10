@@ -356,7 +356,7 @@ function Reports() {
 
             <h2
               style={{
-                color: "#c62828",
+                color: "#ef6c00",
                 fontSize: "24px",
               }}
             >
@@ -428,7 +428,7 @@ function Reports() {
               key: "expenses",
               label: t("totalExpenses"),
               value: expenses,
-              color: "#c62828",
+              color: "#ef6c00",
             },
             {
               key: "result",
@@ -833,9 +833,9 @@ function Reports() {
                 style={{
                   color: "#263238",
                   WebkitTextFillColor: "#263238",
-                  textAlign: "center",
+                  textAlign: "left",
                   fontSize: "13px",
-                  padding: "12px 6px",
+                  padding: "12px 24px",
                   whiteSpace: "normal",
                   overflowWrap: "anywhere",
                   lineHeight: 1.3,
