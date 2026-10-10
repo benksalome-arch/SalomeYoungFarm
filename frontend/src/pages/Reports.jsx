@@ -833,7 +833,7 @@ function Reports() {
                 style={{
                   color: "#263238",
                   WebkitTextFillColor: "#263238",
-                  textAlign: "left",
+                  textAlign: "center",
                   fontSize: "13px",
                   padding: "12px 6px",
                   whiteSpace: "normal",
