@@ -520,15 +520,17 @@ const inputStyle = {
 };
 
 const thStyle = {
-  textAlign: "left",
+  textAlign: "center",
   padding: "12px 10px",
   borderBottom: "2px solid #ddd",
+  verticalAlign: "middle",
 };
 
 const tdStyle = {
   padding: "12px 10px",
   borderBottom: "1px solid #eee",
   verticalAlign: "middle",
+  textAlign: "center",
 };
 
 export default Receipts;
