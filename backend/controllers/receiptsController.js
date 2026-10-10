@@ -12,7 +12,12 @@ function query(sql, params) {
 
 exports.getReceipts = async (req, res) => {
   try {
-    const rows = await query(`SELECT r.*, f.description AS finance_description FROM receipts r LEFT JOIN finance f ON r.finance_id = f.id ORDER BY r.receipt_date DESC, r.id DESC`);
+    const rows = await query(
+      `SELECT r.*, f.description AS finance_description
+       FROM receipts r
+       LEFT JOIN finance f ON r.finance_id = f.id
+       ORDER BY r.receipt_date DESC, r.id DESC`
+    );
     res.json(rows);
   } catch (err) {
     console.error("Get receipts error:", err);
@@ -21,12 +26,27 @@ exports.getReceipts = async (req, res) => {
 };
 
 exports.uploadReceipt = async (req, res) => {
-  if (!req.file) return res.status(400).json({ message: "No receipt selected." });
+  if (!req.file) {
+    return res.status(400).json({ message: "No receipt selected." });
+  }
+
+  let blob;
 
   try {
-    const { finance_id, receipt_date, supplier, amount, description, created_by } = req.body;
+    const {
+      finance_id,
+      receipt_date,
+      supplier,
+      amount,
+      description,
+      created_by,
+    } = req.body;
 
-    const blob = await put(
+    if (!receipt_date) {
+      return res.status(400).json({ message: "Receipt date is required." });
+    }
+
+    blob = await put(
       `receipts/${Date.now()}-${req.file.originalname}`,
       req.file.buffer,
       {
@@ -38,7 +58,8 @@ exports.uploadReceipt = async (req, res) => {
 
     const result = await query(
       `INSERT INTO receipts
-       (finance_id, receipt_date, supplier, amount, description, file_url, file_name, file_type, created_by)
+       (finance_id, receipt_date, supplier, amount, description,
+        file_url, file_name, file_type, created_by)
        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
         finance_id || null,
@@ -64,21 +85,132 @@ exports.uploadReceipt = async (req, res) => {
   }
 };
 
+exports.updateReceipt = async (req, res) => {
+  const id = req.params.id;
+  let replacementBlob = null;
+
+  try {
+    const rows = await query(
+      "SELECT id, file_url FROM receipts WHERE id = ?",
+      [id]
+    );
+
+    if (!rows.length) {
+      return res.status(404).json({ message: "Receipt not found." });
+    }
+
+    const {
+      finance_id,
+      receipt_date,
+      supplier,
+      amount,
+      description,
+    } = req.body;
+
+    if (!receipt_date) {
+      return res.status(400).json({ message: "Receipt date is required." });
+    }
+
+    if (req.file) {
+      replacementBlob = await put(
+        `receipts/${Date.now()}-${req.file.originalname}`,
+        req.file.buffer,
+        {
+          access: "public",
+          contentType: req.file.mimetype,
+          token: process.env.BLOB_READ_WRITE_TOKEN,
+        }
+      );
+    }
+
+    if (replacementBlob) {
+      await query(
+        `UPDATE receipts
+         SET finance_id = ?, receipt_date = ?, supplier = ?, amount = ?,
+             description = ?, file_url = ?, file_name = ?, file_type = ?
+         WHERE id = ?`,
+        [
+          finance_id || null,
+          receipt_date,
+          supplier || null,
+          amount || null,
+          description || null,
+          replacementBlob.url,
+          req.file.originalname,
+          req.file.mimetype,
+          id,
+        ]
+      );
+    } else {
+      await query(
+        `UPDATE receipts
+         SET finance_id = ?, receipt_date = ?, supplier = ?, amount = ?,
+             description = ?
+         WHERE id = ?`,
+        [
+          finance_id || null,
+          receipt_date,
+          supplier || null,
+          amount || null,
+          description || null,
+          id,
+        ]
+      );
+    }
+
+    // Delete the old file only after the database update succeeds.
+    if (replacementBlob && rows[0].file_url) {
+      try {
+        await del(rows[0].file_url, {
+          token: process.env.BLOB_READ_WRITE_TOKEN,
+        });
+      } catch (blobErr) {
+        console.error("Old receipt file cleanup error:", blobErr);
+      }
+    }
+
+    res.json({ message: "Receipt updated successfully.", id });
+  } catch (err) {
+    console.error("Receipt update error:", err);
+
+    // Avoid leaving an unreferenced replacement file if the update failed.
+    if (replacementBlob) {
+      try {
+        await del(replacementBlob.url, {
+          token: process.env.BLOB_READ_WRITE_TOKEN,
+        });
+      } catch (blobErr) {
+        console.error("Replacement receipt cleanup error:", blobErr);
+      }
+    }
+
+    res.status(500).json({ message: "Failed to update receipt." });
+  }
+};
+
 exports.deleteReceipt = async (req, res) => {
   try {
-    const rows = await query("SELECT file_url FROM receipts WHERE id=?", [req.params.id]);
+    const rows = await query(
+      "SELECT file_url FROM receipts WHERE id = ?",
+      [req.params.id]
+    );
 
-    if (!rows.length) return res.status(404).json({ message: "Receipt not found." });
+    if (!rows.length) {
+      return res.status(404).json({ message: "Receipt not found." });
+    }
+
+    await query("DELETE FROM receipts WHERE id = ?", [req.params.id]);
 
     if (rows[0].file_url) {
       try {
-        await del(rows[0].file_url, { token: process.env.BLOB_READ_WRITE_TOKEN });
+        await del(rows[0].file_url, {
+          token: process.env.BLOB_READ_WRITE_TOKEN,
+        });
       } catch (blobErr) {
         console.error("Receipt blob delete error:", blobErr);
       }
     }
 
-    await query("DELETE FROM receipts WHERE id=?", [req.params.id]);
     res.json({ message: "Receipt deleted successfully!" });
   } catch (err) {
     console.error("Delete receipt error:", err);
