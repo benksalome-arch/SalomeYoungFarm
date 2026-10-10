@@ -893,7 +893,24 @@ function Reports() {
           overflow: "hidden",
         }}
       >
-        <h2>🐾 {t("animalSummary")}</h2>
+        <h2
+          className="animal-summary-heading"
+          style={{
+            display: "block",
+            width: "100%",
+            margin: "0 0 16px",
+            padding: "0",
+            color: "#222",
+            WebkitTextFillColor: "#222",
+            fontSize: "22px",
+            fontWeight: 700,
+            lineHeight: 1.35,
+            visibility: "visible",
+            opacity: 1,
+          }}
+        >
+          🐾 {t("animalSummary")}
+        </h2>
 
         <table
           className="table"
