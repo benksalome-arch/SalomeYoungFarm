@@ -382,17 +382,23 @@ function Reports() {
       {/* BUSINESS PERFORMANCE */}
 
       <div
-        className="card"
+        className="card reports-performance-card"
         style={{
           width: "100%",
           maxWidth: "none",
+          minWidth: 0,
           boxSizing: "border-box",
           marginBottom: "25px",
+          overflow: "hidden",
         }}
       >
-        <h2>📈 {t("businessPerformance")}</h2>
+        <h2 style={{ marginTop: 0, marginBottom: "8px" }}>
+          📈 {t("businessPerformance")}
+        </h2>
 
-        <p>{t("businessPerformanceDescription")}</p>
+        <p style={{ marginTop: 0, marginBottom: "24px", color: "#666" }}>
+          {t("businessPerformanceDescription")}
+        </p>
 
         {(() => {
           const income = totalIncome;
@@ -406,238 +412,126 @@ function Reports() {
             1
           );
 
-          const scale = (value) =>
-            Math.max((Math.abs(value) / maxValue) * 150, value === 0 ? 0 : 8);
+          const items = [
+            {
+              key: "income",
+              label: t("totalIncome"),
+              value: income,
+              color: "#1565c0",
+            },
+            {
+              key: "expenses",
+              label: t("totalExpenses"),
+              value: expenses,
+              color: "#c62828",
+            },
+            {
+              key: "result",
+              label: result >= 0 ? t("profit") : t("loss"),
+              value: Math.abs(result),
+              color: result >= 0 ? "#2e7d32" : "#c62828",
+              isResult: true,
+            },
+          ];
 
           return (
             <div
               style={{
-                width: "100%",
-                height: "260px",
-                marginTop: "15px",
-                position: "relative",
-                boxSizing: "border-box",
-                padding: "0 30px",
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 220px), 1fr))",
+                gap: "16px",
+                alignItems: "stretch",
               }}
             >
-              {/* ZERO LINE */}
-              <div
-                style={{
-                  position: "absolute",
-                  left: "30px",
-                  right: "30px",
-                  top: "125px",
-                  borderTop: "2px solid #444",
-                  zIndex: 1,
-                }}
-              />
+              {items.map((item) => {
+                const barWidth = item.isResult && result === 0
+                  ? 0
+                  : Math.min((item.value / maxValue) * 100, 100);
 
-              {/* ZERO LABEL */}
-              <div
-                style={{
-                  position: "absolute",
-                  left: "0",
-                  top: "115px",
-                  fontSize: "13px",
-                  fontWeight: "bold",
-                  color: "#555",
-                }}
-              >
-                KES 0
-              </div>
-
-              <div
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  display: "grid",
-                  gridTemplateColumns: "repeat(3, 1fr)",
-                  columnGap: "35px",
-                }}
-              >
-
-                {/* INCOME */}
-                <div
-                  style={{
-                    position: "relative",
-                    height: "100%",
-                  }}
-                >
+                return (
                   <div
+                    key={item.key}
                     style={{
-                      position: "absolute",
-                      bottom: "135px",
-                      left: "50%",
-                      transform: "translateX(-50%)",
-                      width: "70%",
-                      maxWidth: "180px",
-                      height: `${scale(income)}px`,
-                      background: "#1565c0",
-                      borderRadius: "8px 8px 0 0",
-                    }}
-                  />
-
-                  <div
-                    style={{
-                      position: "absolute",
-                      bottom: `${140 + scale(income)}px`,
-                      width: "100%",
-                      textAlign: "center",
-                      fontWeight: "bold",
-                      color: "#1565c0",
+                      minWidth: 0,
+                      padding: "18px",
+                      border: "1px solid #e0e0e0",
+                      borderRadius: "12px",
+                      background: "#fff",
+                      boxSizing: "border-box",
                     }}
                   >
-                    KES {income.toLocaleString()}
-                  </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "flex-start",
+                        gap: "10px",
+                        flexWrap: "wrap",
+                        marginBottom: "16px",
+                      }}
+                    >
+                      <span
+                        style={{
+                          fontSize: "14px",
+                          fontWeight: 600,
+                          color: "#555",
+                        }}
+                      >
+                        {item.label}
+                      </span>
 
-                  <div
-                    style={{
-                      position: "absolute",
-                      top: "157px",
-                      width: "100%",
-                      textAlign: "center",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    {t("totalIncome")}
-                  </div>
-                </div>
+                      <span
+                        style={{
+                          fontSize: "16px",
+                          fontWeight: 700,
+                          color: item.color,
+                          overflowWrap: "anywhere",
+                          textAlign: "right",
+                        }}
+                      >
+                        KES {item.value.toLocaleString()}
+                      </span>
+                    </div>
 
-                {/* EXPENSES */}
-                <div
-                  style={{
-                    position: "relative",
-                    height: "100%",
-                  }}
-                >
-                  <div
-                    style={{
-                      position: "absolute",
-                      bottom: "135px",
-                      left: "50%",
-                      transform: "translateX(-50%)",
-                      width: "70%",
-                      maxWidth: "180px",
-                      height: `${scale(expenses)}px`,
-                      background: "#c62828",
-                      borderRadius: "8px 8px 0 0",
-                    }}
-                  />
-
-                  <div
-                    style={{
-                      position: "absolute",
-                      bottom: `${140 + scale(expenses)}px`,
-                      width: "100%",
-                      textAlign: "center",
-                      fontWeight: "bold",
-                      color: "#c62828",
-                    }}
-                  >
-                    KES {expenses.toLocaleString()}
-                  </div>
-
-                  <div
-                    style={{
-                      position: "absolute",
-                      top: "157px",
-                      width: "100%",
-                      textAlign: "center",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    {t("totalExpenses")}
-                  </div>
-                </div>
-
-                {/* PROFIT / LOSS */}
-                <div
-                  style={{
-                    position: "relative",
-                    height: "100%",
-                  }}
-                >
-
-                  {result >= 0 ? (
-                    <>
-                      {/* PROFIT BAR UPWARD */}
+                    <div
+                      role="presentation"
+                      style={{
+                        width: "100%",
+                        height: "12px",
+                        background: "#eeeeee",
+                        borderRadius: "999px",
+                        overflow: "hidden",
+                      }}
+                    >
                       <div
                         style={{
-                          position: "absolute",
-                          bottom: "135px",
-                          left: "50%",
-                          transform: "translateX(-50%)",
-                          width: "70%",
-                          maxWidth: "180px",
-                          height: `${scale(result)}px`,
-                          background: "#2e7d32",
-                          borderRadius: "8px 8px 0 0",
+                          width: `${barWidth}%`,
+                          height: "100%",
+                          background: item.color,
+                          borderRadius: "999px",
+                          transition: "width 0.25s ease",
                         }}
                       />
+                    </div>
 
-                      <div
-                        style={{
-                          position: "absolute",
-                          bottom: `${140 + scale(result)}px`,
-                          width: "100%",
-                          textAlign: "center",
-                          fontWeight: "bold",
-                          color: "#2e7d32",
-                        }}
-                      >
-                        {t("profit")}: KES {result.toLocaleString()}
-                      </div>
-
-                      <div
-                        style={{
-                          position: "absolute",
-                          top: "157px",
-                          width: "100%",
-                          textAlign: "center",
-                          fontWeight: "bold",
-                          color: "#2e7d32",
-                        }}
-                      >
-                        {t("profit")}
-                      </div>
-                    </>
-                  ) : (
-                    <>
-                      {/* LOSS BAR DOWNWARD */}
-                      <div
-                        style={{
-                          position: "absolute",
-                          top: "200px",
-                          left: "50%",
-                          transform: "translateX(-50%)",
-                          width: "70%",
-                          maxWidth: "180px",
-                          height: `${scale(result)}px`,
-                          background: "#c62828",
-                          borderRadius: "0 0 8px 8px",
-                        }}
-                      />
-
-                      <div
-                        style={{
-                          position: "absolute",
-                          top: `${160 + scale(result)}px`,
-                          left: "50%",
-                          transform: "translateX(-50%)",
-                          width: "100%",
-                          textAlign: "center",
-                          fontWeight: "bold",
-                          color: "#c62828",
-                        }}
-                      >
-                        {t("loss")}: KES {Math.abs(result).toLocaleString()}
-                      </div>
-                    </>
-                  )}
-
-                </div>
-
-              </div>
+                    <div
+                      style={{
+                        marginTop: "10px",
+                        fontSize: "12px",
+                        color: "#777",
+                      }}
+                    >
+                      {item.key === "income"
+                        ? "Income"
+                        : item.key === "expenses"
+                          ? "Expenses"
+                          : result >= 0
+                            ? t("profit")
+                            : t("loss")}
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           );
         })()}
@@ -913,7 +807,7 @@ function Reports() {
         </h2>
 
         <table
-          className="table"
+          className="table animal-summary-table"
           style={{
             width: "100%",
             maxWidth: "none",
@@ -932,6 +826,8 @@ function Reports() {
             <tr>
               <th
                 style={{
+                  color: "#263238",
+                  WebkitTextFillColor: "#263238",
                   textAlign: "left",
                   fontSize: "13px",
                   padding: "12px 14px",
@@ -943,6 +839,8 @@ function Reports() {
 
               <th
                 style={{
+                  color: "#263238",
+                  WebkitTextFillColor: "#263238",
                   textAlign: "center",
                   fontSize: "13px",
                   padding: "12px 14px",
@@ -958,6 +856,8 @@ function Reports() {
             <tr>
               <td
                 style={{
+                  color: "#263238",
+                  WebkitTextFillColor: "#263238",
                   textAlign: "left",
                   padding: "12px 14px",
                 }}
@@ -966,6 +866,8 @@ function Reports() {
               </td>
               <td
                 style={{
+                  color: "#263238",
+                  WebkitTextFillColor: "#263238",
                   textAlign: "center",
                   padding: "12px 14px",
                 }}
@@ -977,6 +879,8 @@ function Reports() {
             <tr>
               <td
                 style={{
+                  color: "#263238",
+                  WebkitTextFillColor: "#263238",
                   textAlign: "left",
                   padding: "12px 14px",
                 }}
@@ -985,6 +889,8 @@ function Reports() {
               </td>
               <td
                 style={{
+                  color: "#263238",
+                  WebkitTextFillColor: "#263238",
                   textAlign: "center",
                   padding: "12px 14px",
                 }}
@@ -996,6 +902,8 @@ function Reports() {
             <tr>
               <td
                 style={{
+                  color: "#263238",
+                  WebkitTextFillColor: "#263238",
                   textAlign: "left",
                   padding: "12px 14px",
                 }}
@@ -1004,6 +912,8 @@ function Reports() {
               </td>
               <td
                 style={{
+                  color: "#263238",
+                  WebkitTextFillColor: "#263238",
                   textAlign: "center",
                   padding: "12px 14px",
                 }}
@@ -1015,6 +925,8 @@ function Reports() {
             <tr>
               <td
                 style={{
+                  color: "#263238",
+                  WebkitTextFillColor: "#263238",
                   textAlign: "left",
                   padding: "12px 14px",
                   fontWeight: "700",
@@ -1025,6 +937,8 @@ function Reports() {
 
               <td
                 style={{
+                  color: "#263238",
+                  WebkitTextFillColor: "#263238",
                   textAlign: "center",
                   padding: "12px 14px",
                   fontWeight: "700",
