@@ -169,6 +169,9 @@ function Reports() {
         minWidth: 0,
         boxSizing: "border-box",
         padding: "0 20px 30px",
+        color: "#263238",
+        WebkitTextFillColor: "#263238",
+        colorScheme: "light",
       }}
     >
       {/* PAGE HEADER */}
@@ -193,6 +196,8 @@ function Reports() {
               margin: 0,
               fontSize: "34px",
               lineHeight: 1.2,
+              color: "#263238",
+              WebkitTextFillColor: "#263238",
             }}
           >
             📊 Farm Reports
@@ -244,8 +249,8 @@ function Reports() {
             overflow: "hidden",
           }}
         >
-          <h3>🐐 {t("goats")}</h3>
-          <h2>{goats.length}</h2>
+          <h3 style={{ color: "#263238", WebkitTextFillColor: "#263238" }}>🐐 {t("goats")}</h3>
+          <h2 style={{ color: "#263238", WebkitTextFillColor: "#263238" }}>{goats.length}</h2>
         </div>
 
         <div
@@ -256,8 +261,8 @@ function Reports() {
             overflow: "hidden",
           }}
         >
-          <h3>🐔 {t("chickens")}</h3>
-          <h2>{chickens.length}</h2>
+          <h3 style={{ color: "#263238", WebkitTextFillColor: "#263238" }}>🐔 {t("chickens")}</h3>
+          <h2 style={{ color: "#263238", WebkitTextFillColor: "#263238" }}>{chickens.length}</h2>
         </div>
 
         <div
@@ -268,8 +273,8 @@ function Reports() {
             overflow: "hidden",
           }}
         >
-          <h3>🐇 {t("rabbits")}</h3>
-          <h2>{rabbits.length}</h2>
+          <h3 style={{ color: "#263238", WebkitTextFillColor: "#263238" }}>🐇 {t("rabbits")}</h3>
+          <h2 style={{ color: "#263238", WebkitTextFillColor: "#263238" }}>{rabbits.length}</h2>
         </div>
 
         <div
@@ -280,8 +285,8 @@ function Reports() {
             overflow: "hidden",
           }}
         >
-          <h3>🐾 {t("totalAnimals")}</h3>
-          <h2>{totalAnimals}</h2>
+          <h3 style={{ color: "#263238", WebkitTextFillColor: "#263238" }}>🐾 {t("totalAnimals")}</h3>
+          <h2 style={{ color: "#263238", WebkitTextFillColor: "#263238" }}>{totalAnimals}</h2>
         </div>
 
         <div
@@ -292,8 +297,8 @@ function Reports() {
             overflow: "hidden",
           }}
         >
-          <h3>🌾 {t("feedTypes")}</h3>
-          <h2>{feed.length}</h2>
+          <h3 style={{ color: "#263238", WebkitTextFillColor: "#263238" }}>🌾 {t("feedTypes")}</h3>
+          <h2 style={{ color: "#263238", WebkitTextFillColor: "#263238" }}>{feed.length}</h2>
         </div>
 
         <div
@@ -304,8 +309,8 @@ function Reports() {
             overflow: "hidden",
           }}
         >
-          <h3>📦 Inventory Items</h3>
-          <h2>{inventory.length}</h2>
+          <h3 style={{ color: "#263238", WebkitTextFillColor: "#263238" }}>📦 Inventory Items</h3>
+          <h2 style={{ color: "#263238", WebkitTextFillColor: "#263238" }}>{inventory.length}</h2>
         </div>
       </div>
 
