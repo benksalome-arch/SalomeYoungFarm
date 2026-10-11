@@ -249,31 +249,31 @@ function Sidebar() {
                 borderRadius: "10px",
                 textDecoration: "none",
                 color: (
-                  location.state?.highlightPath || location.pathname
+                  location.pathname
                 ) === item.path || (
                   item.path !== "/" &&
-                  (location.state?.highlightPath || location.pathname)
+                  (location.pathname)
                     .startsWith(item.path + "/")
                 ) ? "#FFFFFF" : "white",
                 background: (
-                  location.state?.highlightPath || location.pathname
+                  location.pathname
                 ) === item.path || (
                   item.path !== "/" &&
-                  (location.state?.highlightPath || location.pathname)
+                  (location.pathname)
                     .startsWith(item.path + "/")
                 ) ? "#14532D" : "transparent",
                 border: (
-                  location.state?.highlightPath || location.pathname
+                  location.pathname
                 ) === item.path || (
                   item.path !== "/" &&
-                  (location.state?.highlightPath || location.pathname)
+                  (location.pathname)
                     .startsWith(item.path + "/")
                 ) ? "2px solid #8BC34A" : "2px solid transparent",
                 boxShadow: (
-                  location.state?.highlightPath || location.pathname
+                  location.pathname
                 ) === item.path || (
                   item.path !== "/" &&
-                  (location.state?.highlightPath || location.pathname)
+                  (location.pathname)
                     .startsWith(item.path + "/")
                 ) ? "0 0 0 2px rgba(139, 195, 74, 0.25)" : "none",
                 transition: "background 0.2s, border-color 0.2s, box-shadow 0.2s",
