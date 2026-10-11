@@ -141,7 +141,7 @@ function Breeding() {
           <button
             type="button"
             className="button back-button"
-            onClick={() => navigate(-1)}
+            onClick={() => navigate("/goats")}
             style={{
               background: "#2e7d32",
               color: "#fff",
