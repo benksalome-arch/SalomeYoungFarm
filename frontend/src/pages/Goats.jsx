@@ -77,7 +77,7 @@ function Goats() {
         </h1>
 
         <Link
-          to="/"
+          to="/goats"
           className="button"
           style={{
             display: "inline-block",

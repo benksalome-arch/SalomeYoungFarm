@@ -242,7 +242,7 @@ function Inventory() {
           <button
             type="button"
             className="button"
-            onClick={() => window.history.back()}
+            onClick={() => window.location.assign("/")}
             style={{
               whiteSpace: "nowrap",
             }}

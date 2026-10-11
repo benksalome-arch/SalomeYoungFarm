@@ -312,8 +312,7 @@ function Finance() {
         >
           <Link
             className="button"
-            to="/"
-            state={{ highlightPath: "/finance" }}
+            to="/finance"
             style={{
               width: "auto",
               whiteSpace: "nowrap",
