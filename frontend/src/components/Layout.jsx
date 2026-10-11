@@ -367,7 +367,7 @@ function Layout() {
               }
             }}
           >
-            <Sidebar />
+            <Sidebar mobileMenuOpen={mobileMenuOpen} />
           </div>
         </div>
 

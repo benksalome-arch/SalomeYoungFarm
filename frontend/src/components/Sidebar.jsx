@@ -1,9 +1,16 @@
 import { Link, useLocation } from "react-router-dom";
+import { useEffect, useRef } from "react";
 import { useLanguage } from "../context/LanguageContext";
 
-function Sidebar() {
+function Sidebar({ mobileMenuOpen = false }) {
   const location = useLocation();
   const { t } = useLanguage();
+  const sidebarRef = useRef(null);
+
+  useEffect(() => {
+    const activeLink = sidebarRef.current?.querySelector('a[aria-current="page"]');
+    activeLink?.scrollIntoView({ block: "nearest", behavior: "auto" });
+  }, [location.pathname, mobileMenuOpen]);
 
   const menuItems = [
 
@@ -192,6 +199,7 @@ function Sidebar() {
 
   return (
     <div
+      ref={sidebarRef}
       style={{
         width: "270px",
         minHeight: "100vh",
@@ -242,6 +250,7 @@ function Sidebar() {
             <Link
               key={item.path}
               to={item.path}
+              aria-current={location.pathname === item.path || (item.path !== "/" && location.pathname.startsWith(item.path + "/")) ? "page" : undefined}
               style={{
                 display: "block",
                 padding: "10px 14px",
