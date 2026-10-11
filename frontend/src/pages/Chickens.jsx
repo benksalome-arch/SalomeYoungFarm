@@ -199,6 +199,18 @@ function Chickens() {
 
         <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
           <Link
+            to="/"
+            className="button"
+            style={{
+              display: "inline-block",
+              textDecoration: "none",
+              whiteSpace: "nowrap",
+            }}
+          >
+            ← {t("back")}
+          </Link>
+
+        <Link
             className="button"
             to="/chickens/add"
             style={{

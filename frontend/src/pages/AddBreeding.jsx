@@ -235,6 +235,13 @@ function AddBreeding() {
           margin: "0 auto",
         }}
       >
+        <Link
+          className="button back-button"
+          to="/breeding"
+          style={{ textDecoration: "none", whiteSpace: "nowrap" }}
+        >
+          ← {t("back")}
+        </Link>
         <h1
           style={{
             color: "#222",

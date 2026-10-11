@@ -119,7 +119,14 @@ function EditWorker() {
     <div className="page">
 
       <div className="page-header">
-        <h1>✏ {t("editWorker")}</h1>
+        <Link
+          className="button back-button"
+          to="/workers"
+          style={{ textDecoration: "none", whiteSpace: "nowrap" }}
+        >
+          ← {t("back")}
+        </Link>
+                <h1>✏ {t("editWorker")}</h1>
         <p>{t("updateWorkerInformation")}</p>
       </div>
 

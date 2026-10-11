@@ -169,6 +169,19 @@ function Rabbits() {
     >
       {/* PAGE HEADER */}
 
+      <Link
+        to="/"
+        className="button"
+        style={{
+          display: "inline-block",
+          textDecoration: "none",
+          whiteSpace: "nowrap",
+          marginBottom: "16px",
+        }}
+      >
+        ← {t("back")}
+      </Link>
+
       <div
         style={{
           width: "100%",

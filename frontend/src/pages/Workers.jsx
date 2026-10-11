@@ -84,6 +84,17 @@ function Workers() {
   return (
     <div className="page">
       <div className="page-header">
+        <Link
+          to="/"
+          className="button"
+          style={{
+            display: "inline-block",
+            textDecoration: "none",
+            whiteSpace: "nowrap",
+          }}
+        >
+          ← {t("back")}
+        </Link>
         <h1>👥 {t("workerManagement")}</h1>
         <p>{t("manageUsersDescription")}</p>
       </div>

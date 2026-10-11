@@ -59,6 +59,18 @@ function EggProduction() {
           <p>{t("dailyEggCollection")}</p>
         </div>
 
+        <Link
+          to="/"
+          className="button"
+          style={{
+            display: "inline-block",
+            textDecoration: "none",
+            whiteSpace: "nowrap",
+          }}
+        >
+          ← {t("back")}
+        </Link>
+
         <Link className="button" to="/egg-production/add">
           ➕ {t("recordProduction")}
         </Link>

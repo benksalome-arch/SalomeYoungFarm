@@ -208,6 +208,18 @@ export default function GoatMortality() {
           </h1>
 
           <Link
+            to="/"
+            className="button"
+            style={{
+              display: "inline-block",
+              textDecoration: "none",
+              whiteSpace: "nowrap",
+            }}
+          >
+            ← {t("back")}
+          </Link>
+
+          <Link
             className="button"
             to="/goat-mortality/add"
           >

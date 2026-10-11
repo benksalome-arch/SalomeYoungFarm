@@ -125,6 +125,18 @@ function EggSales() {
         </div>
 
         <Link
+          to="/"
+          className="button"
+          style={{
+            display: "inline-block",
+            textDecoration: "none",
+            whiteSpace: "nowrap",
+          }}
+        >
+          ← {t("back")}
+        </Link>
+
+        <Link
           className="button"
           to="/egg-sales/add"
           style={{

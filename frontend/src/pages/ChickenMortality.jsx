@@ -155,6 +155,18 @@ function ChickenMortality() {
         </div>
 
         <Link
+          to="/"
+          className="button"
+          style={{
+            display: "inline-block",
+            textDecoration: "none",
+            whiteSpace: "nowrap",
+          }}
+        >
+          ← {t("back")}
+        </Link>
+
+        <Link
           className="button"
           to="/chicken-mortality/add"
           style={{

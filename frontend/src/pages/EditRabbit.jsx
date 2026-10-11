@@ -317,7 +317,14 @@ function EditRabbit() {
           marginBottom: "25px",
         }}
       >
-        <h1 style={{ margin: 0, lineHeight: 1.15 }}>
+        <Link
+          className="button back-button"
+          to="/rabbits"
+          style={{ textDecoration: "none", whiteSpace: "nowrap" }}
+        >
+          ← {t("back")}
+        </Link>
+                <h1 style={{ margin: 0, lineHeight: 1.15 }}>
           🐇 {t("editRabbit")}
         </h1>
       </div>

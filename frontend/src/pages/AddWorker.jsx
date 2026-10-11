@@ -93,7 +93,14 @@ function AddWorker() {
           marginBottom: "24px",
         }}
       >
-        <h1
+        <Link
+          className="button back-button"
+          to="/workers"
+          style={{ textDecoration: "none", whiteSpace: "nowrap" }}
+        >
+          ← {t("back")}
+        </Link>
+                <h1
           style={{
             margin: "0 0 6px 0",
             color: "#222",

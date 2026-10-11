@@ -230,6 +230,13 @@ function AddRabbit() {
 
       <div className="page">
         <div className="page-header">
+          <Link
+            className="button back-button"
+            to="/rabbits"
+            style={{ textDecoration: "none", whiteSpace: "nowrap" }}
+          >
+            ← {t("back")}
+          </Link>
           <h1
             style={{
               margin: 0,
