@@ -311,7 +311,7 @@ function Finance() {
           }}
         >
           <Link
-            className="button"
+            className="button back-button"
             to="/finance"
             style={{
               width: "auto",

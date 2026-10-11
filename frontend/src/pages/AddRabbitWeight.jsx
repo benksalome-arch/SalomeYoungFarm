@@ -159,7 +159,7 @@ function AddRabbitWeight() {
         )}
 
         <Link
-          className="button"
+          className="button back-button"
           to="/rabbits"
         >
           ← {t("back")}
@@ -198,7 +198,7 @@ function AddRabbitWeight() {
         </div>
 
         <Link
-          className="button"
+          className="button back-button"
           to={`/rabbits/${id}/weight`}
         >
           ← {t("back")}

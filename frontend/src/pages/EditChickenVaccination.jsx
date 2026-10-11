@@ -335,7 +335,7 @@ function EditChickenVaccination() {
         </div>
 
         <Link
-          className="button"
+          className="button back-button"
           to="/chicken-vaccinations"
           style={{
             whiteSpace: "nowrap",

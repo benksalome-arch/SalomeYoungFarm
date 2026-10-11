@@ -273,7 +273,7 @@ function AddEggSale() {
         </p>
 
         <Link
-          className="button"
+          className="button back-button"
           to="/egg-sales"
           style={{
             textDecoration: "none",

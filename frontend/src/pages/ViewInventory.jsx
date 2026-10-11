@@ -97,7 +97,7 @@ function ViewInventory() {
 
           <button
             type="button"
-            className="button"
+            className="button back-button"
             onClick={() => navigate("/inventory")}
           >
             ← {t("back")}
@@ -196,7 +196,7 @@ function ViewInventory() {
         </h1>
 
         <Link
-          className="button"
+          className="button back-button"
           to="/inventory"
           style={{
             width: "auto",
@@ -284,7 +284,7 @@ function ViewInventory() {
           </Link>
 
           <Link
-            className="button"
+            className="button back-button"
             to="/inventory"
           >
             ← {t("back")}

@@ -107,7 +107,7 @@ function FeedUsage() {
             flexWrap: "wrap",
           }}
         >
-          <Link className="button" to="/feed">
+          <Link className="button back-button" to="/feed">
             ← {t("back")}
           </Link>
 

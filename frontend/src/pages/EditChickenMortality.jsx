@@ -178,7 +178,7 @@ function EditChickenMortality() {
           🐔 {t("edit")} {t("chickenMortality")}
         </h1>
 
-        <Link className="button" to="/chicken-mortality">
+        <Link className="button back-button" to="/chicken-mortality">
           ← {t("back")}
         </Link>
       </div>

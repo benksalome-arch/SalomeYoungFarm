@@ -190,7 +190,7 @@ function AddRabbitVaccination() {
         </h1>
 
         <Link
-          className="button"
+          className="button back-button"
           to="/rabbit-vaccinations"
           style={{
             position: "static",

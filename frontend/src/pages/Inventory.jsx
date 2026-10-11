@@ -241,7 +241,7 @@ function Inventory() {
 
           <button
             type="button"
-            className="button"
+            className="button back-button"
             onClick={() => window.location.assign("/")}
             style={{
               whiteSpace: "nowrap",

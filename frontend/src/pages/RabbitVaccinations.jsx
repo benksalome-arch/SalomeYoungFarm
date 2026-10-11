@@ -141,7 +141,7 @@ function RabbitVaccinations() {
           </Link>
 
           <Link
-            className="button"
+            className="button back-button"
             to="/rabbits"
           >
             ← {t("back")}

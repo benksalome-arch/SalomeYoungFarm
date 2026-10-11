@@ -245,7 +245,7 @@ function AddInventory() {
         </p>
 
         <Link
-          className="button inventory-back-button"
+          className="button inventory-back-button back-button"
           to="/inventory"
           style={{
             textDecoration: "none",

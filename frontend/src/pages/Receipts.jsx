@@ -249,7 +249,7 @@ function Receipts() {
 
       <div style={{ marginBottom: 16 }}>
         <Link
-          className="button"
+          className="button back-button"
           to="/"
           state={{ highlightPath: "/receipts" }}
           style={{

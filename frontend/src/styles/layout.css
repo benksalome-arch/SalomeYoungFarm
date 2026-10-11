@@ -216,3 +216,10 @@ main,
     font-size: 12px;
   }
 }
+
+/* Keep back buttons consistent with the Goats page button. */
+.button.back-button {
+  display: inline-block;
+  text-decoration: none;
+  white-space: nowrap;
+}

@@ -139,7 +139,7 @@ function Breeding() {
           }}
         >
           <Link
-            className="button"
+            className="button back-button"
             to="/"
           >
             ← {t("back")}

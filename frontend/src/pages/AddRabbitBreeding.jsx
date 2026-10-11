@@ -319,7 +319,7 @@ function AddRabbitBreeding() {
         </div>
 
         <Link
-          className="button"
+          className="button back-button"
           to={`/rabbits/${id}/breeding`}
         >
           ← {t("back")}

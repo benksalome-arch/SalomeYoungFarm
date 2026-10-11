@@ -307,7 +307,7 @@ function AddChickenMortality() {
         </div>
 
         <Link
-          className="button"
+          className="button back-button"
           to="/chicken-mortality"
         >
           ← {t("back")}

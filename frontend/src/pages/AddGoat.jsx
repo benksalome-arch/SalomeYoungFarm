@@ -250,7 +250,7 @@ function AddGoat() {
 
         <Link
           to="/goats"
-          className="button"
+          className="button back-button"
           style={{
             textDecoration: "none",
           }}

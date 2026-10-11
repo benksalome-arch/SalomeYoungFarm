@@ -163,7 +163,7 @@ function ChickenProfile() {
         </div>
 
         <Link
-          className="button"
+          className="button back-button"
           to="/chickens"
           style={{
             textDecoration: "none",

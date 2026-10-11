@@ -137,7 +137,7 @@ function AddRabbitHealth() {
         </div>
 
         <Link
-          className="button"
+          className="button back-button"
           to={`/rabbits/${id}/health`}
         >
           ← {t("back")} to Health

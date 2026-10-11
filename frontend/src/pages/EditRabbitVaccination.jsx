@@ -818,7 +818,7 @@ function EditRabbitVaccination() {
         </div>
 
         <Link
-          className="button"
+          className="button back-button"
           to={`/rabbit-vaccinations/${id}`}
         >
           ← {t("back")}

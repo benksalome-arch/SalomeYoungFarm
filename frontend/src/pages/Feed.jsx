@@ -285,7 +285,7 @@ function Feed() {
 
       <div className="feed-header">
         <Link
-          className="button"
+          className="button back-button"
           to="/"
           style={{ textDecoration: "none", whiteSpace: "nowrap" }}
         >

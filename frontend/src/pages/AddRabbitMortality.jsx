@@ -603,7 +603,7 @@ function AddRabbitMortality() {
         </div>
 
         <Link
-          className="button rabbit-mortality-back"
+          className="button rabbit-mortality-back back-button"
           to="/rabbit-mortality"
         >
           ← {t("back")}

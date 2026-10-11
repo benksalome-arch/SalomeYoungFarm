@@ -444,7 +444,7 @@ function EditRabbitMortality() {
             </div>
 
             <Link
-              className="button"
+              className="button back-button"
               to="/rabbit-mortality"
             >
               ← {t("back")}

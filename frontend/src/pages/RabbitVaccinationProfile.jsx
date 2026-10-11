@@ -78,7 +78,7 @@ function RabbitVaccinationProfile() {
         <p>Vaccination record not found.</p>
 
         <Link
-          className="button"
+          className="button back-button"
           to="/rabbit-vaccinations"
         >
           ← {t("back")}
@@ -176,7 +176,7 @@ function RabbitVaccinationProfile() {
           </Link>
 
           <Link
-            className="button"
+            className="button back-button"
             to="/rabbit-vaccinations"
           >
             ← {t("back")}

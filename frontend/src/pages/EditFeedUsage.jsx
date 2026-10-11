@@ -172,7 +172,7 @@ function EditFeedUsage() {
           <h2>{t("error")}</h2>
 
           <Link
-            className="button"
+            className="button back-button"
             to="/feed/usage"
           >
             ← {t("back")}
@@ -294,7 +294,7 @@ function EditFeedUsage() {
             </div>
 
             <Link
-              className="button"
+              className="button back-button"
               to={`/feed/usage/${id}`}
             >
               ← {t("back")}
@@ -716,7 +716,7 @@ function EditFeedUsage() {
             </button>
 
             <Link
-              className="button"
+              className="button back-button"
               to={`/feed/usage/${id}`}
               style={{
                 minWidth: 100,

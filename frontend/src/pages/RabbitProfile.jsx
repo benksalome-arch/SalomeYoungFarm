@@ -78,7 +78,7 @@ function RabbitProfile() {
         <p>{t("rabbitNotFound")}</p>
 
         <Link
-          className="button"
+          className="button back-button"
           to="/rabbits"
         >
           ← {t("back")}
@@ -308,7 +308,7 @@ function RabbitProfile() {
         }}
       >
         <Link
-          className="button"
+          className="button back-button"
           to="/rabbits"
         >
           ← {t("back")}

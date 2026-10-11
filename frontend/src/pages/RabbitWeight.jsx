@@ -77,7 +77,7 @@ function RabbitWeight() {
           </Link>
 
           <Link
-            className="button"
+            className="button back-button"
             to={`/rabbits/${id}`}
           >
             ← {t("back")}

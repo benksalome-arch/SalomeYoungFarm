@@ -253,7 +253,7 @@ function AddFeedUsage() {
         </p>
 
         <Link
-          className="button"
+          className="button back-button"
           to="/feed/usage"
           style={{
             textDecoration: "none",

@@ -314,7 +314,7 @@ function EditFeed() {
           }}
         >
           <Link
-            className="button"
+            className="button back-button"
             to={backTo}
             style={{
               display: "inline-flex",

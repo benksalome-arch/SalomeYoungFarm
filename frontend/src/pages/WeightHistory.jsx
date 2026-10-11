@@ -38,7 +38,7 @@ function WeightHistory() {
             marginBottom: "20px",
           }}
         >
-          <Link className="button" to={`/goats/${id}`}>
+          <Link className="button back-button" to={`/goats/${id}`}>
             ← {t("back")} to Goat
           </Link>
 

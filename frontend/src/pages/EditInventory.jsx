@@ -292,7 +292,7 @@ function EditInventory() {
         <h1>✏️ {t("editInventoryItem")}</h1>
 
         <Link
-          className="button inventory-back-button"
+          className="button inventory-back-button back-button"
           to="/inventory"
           style={{
             position: "absolute",

@@ -105,7 +105,7 @@ function GoatProfile() {
 
         <Link
           to="/goats"
-          className="button"
+          className="button back-button"
         >
           ← {t("back")}
         </Link>

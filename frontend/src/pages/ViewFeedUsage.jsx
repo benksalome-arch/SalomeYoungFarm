@@ -117,7 +117,7 @@ function ViewFeedUsage() {
           🌾 {t("view")} {t("feedUsage")}
         </h1>
 
-        <Link className="button" to="/feed/usage">
+        <Link className="button back-button" to="/feed/usage">
           ← {t("back")}
         </Link>
       </div>

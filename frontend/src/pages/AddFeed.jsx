@@ -270,7 +270,7 @@ function AddFeed() {
         </p>
 
         <Link
-          className="button"
+          className="button back-button"
           to="/feed"
           style={{
             textDecoration: "none",

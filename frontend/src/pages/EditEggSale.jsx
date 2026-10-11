@@ -303,7 +303,7 @@ function EditEggSale() {
         </div>
 
         <Link
-          className="button"
+          className="button back-button"
           to="/egg-sales"
           style={{
             textDecoration: "none",

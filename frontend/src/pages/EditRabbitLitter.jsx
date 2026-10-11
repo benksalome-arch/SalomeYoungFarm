@@ -326,7 +326,7 @@ function EditRabbitLitter() {
 
         <button
           type="button"
-          className="button"
+          className="button back-button"
           onClick={() => navigate("/rabbit-litters")}
         >
           ← {t("back") || "Terug"}
