@@ -138,12 +138,23 @@ function Breeding() {
             flexWrap: "wrap",
           }}
         >
-          <Link
+          <button
+            type="button"
             className="button back-button"
-            to="/"
+            onClick={() => navigate(-1)}
+            style={{
+              background: "#2e7d32",
+              color: "#fff",
+              border: "none",
+              borderRadius: "8px",
+              padding: "12px 20px",
+              cursor: "pointer",
+              fontWeight: 600,
+              minHeight: "44px",
+            }}
           >
-            ← {t("back")}
-          </Link>
+            ← {t("back", "Terug")}
+          </button>
 
           <Link
             className="button"
