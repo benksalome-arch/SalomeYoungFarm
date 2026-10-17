@@ -251,8 +251,7 @@ export default function EditGoatMortality() {
     t("december"),
   ];
 
-  if (loading) {
-    function getCalendarDays() {
+  function getCalendarDays() {
     const year = calendarMonth.getFullYear();
     const month = calendarMonth.getMonth();
     const firstDay = new Date(year, month, 1).getDay();
@@ -265,6 +264,7 @@ export default function EditGoatMortality() {
     return days;
   }
 
+  if (loading) {
 
   return (
       <div style={{ padding: "20px" }}>
