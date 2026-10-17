@@ -252,7 +252,21 @@ export default function EditGoatMortality() {
   ];
 
   if (loading) {
-    return (
+    function getCalendarDays() {
+    const year = calendarMonth.getFullYear();
+    const month = calendarMonth.getMonth();
+    const firstDay = new Date(year, month, 1).getDay();
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    const days = [];
+
+    for (let i = 0; i < firstDay; i++) days.push(null);
+    for (let day = 1; day <= daysInMonth; day++) days.push(day);
+
+    return days;
+  }
+
+
+  return (
       <div style={{ padding: "20px" }}>
         <h1 style={{ color: "#222" }}>
           💀 {t("edit", "Edit")} {t("goatMortality")}
