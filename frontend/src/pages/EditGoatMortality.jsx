@@ -143,7 +143,28 @@ export default function EditGoatMortality() {
           1
         )
     );
-  };
+  }
+
+  const calendarYears = Array.from(
+    { length: 101 },
+    (_, index) => new Date().getFullYear() - index
+  );
+
+  function changeCalendarYear(year) {
+    setCalendarMonth(
+      new Date(Number(year), calendarMonth.getMonth(), 1)
+    );
+  }
+
+  function changeCalendarMonth(amount) {
+    setCalendarMonth(
+      new Date(
+        calendarMonth.getFullYear(),
+        calendarMonth.getMonth() + amount,
+        1
+      )
+    );
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -314,6 +335,25 @@ export default function EditGoatMortality() {
             flexWrap: "wrap",
           }}
         >
+          <Link
+            to="/goat-mortality"
+            className="button back-button-goat-mortality"
+            style={{
+              backgroundColor: "#2e7d32",
+              color: "#ffffff",
+              textDecoration: "none",
+              display: "inline-flex",
+              alignItems: "center",
+              justifyContent: "center",
+              minHeight: "40px",
+              padding: "8px 16px",
+              borderRadius: "8px",
+              boxSizing: "border-box",
+              flexShrink: 0,
+            }}
+          >
+            ← {t("back", "Terug")}
+          </Link>
           <h1
             style={{
               margin: 0,
@@ -428,7 +468,7 @@ export default function EditGoatMortality() {
               >
                 <div
                   style={{
-                    width: "min(92vw,360px)",
+                    width: "min(92vw,340px)",
                     background: "#fff",
                     borderRadius: "14px",
                     padding: "18px",
@@ -441,46 +481,87 @@ export default function EditGoatMortality() {
                     style={{
                       display: "flex",
                       alignItems: "center",
-                      justifyContent: "space-between",
+                      gap: "8px",
                       marginBottom: "14px",
                     }}
                   >
                     <button
                       type="button"
-                      onClick={goPreviousMonth}
+                      onClick={() => changeCalendarMonth(-1)}
                       style={{
-                        border: "1px solid #ddd",
-                        background: "#fff",
-                        borderRadius: "8px",
+                        border: "none",
+                        background: "#f1f1f1",
+                        borderRadius: "7px",
                         width: "38px",
-                        height: "38px",
-                        fontSize: "22px",
+                        height: "36px",
+                        fontSize: "24px",
                         cursor: "pointer",
                       }}
                     >
                       ‹
                     </button>
 
-                    <div
+                    <select
+                      value={calendarMonth.getMonth()}
+                      onChange={(e) =>
+                        setCalendarMonth(
+                          new Date(
+                            calendarMonth.getFullYear(),
+                            Number(e.target.value),
+                            1
+                          )
+                        )
+                      }
                       style={{
-                        fontSize: "18px",
-                        fontWeight: "700",
+                        flex: 1,
+                        minWidth: 0,
+                        padding: "6px",
+                        borderRadius: "7px",
+                        border: "1px solid #ddd",
+                        background: "#fff",
                         color: "#222",
+                        fontSize: "15px",
+                        fontWeight: 700,
                       }}
                     >
-                      {monthNames[month]} {year}
-                    </div>
+                      {monthNames.map((month, index) => (
+                        <option key={month} value={index}>
+                          {month}
+                        </option>
+                      ))}
+                    </select>
+
+                    <select
+                      value={calendarMonth.getFullYear()}
+                      onChange={(e) => changeCalendarYear(e.target.value)}
+                      style={{
+                        width: "90px",
+                        padding: "6px",
+                        borderRadius: "7px",
+                        border: "1px solid #ddd",
+                        background: "#fff",
+                        color: "#222",
+                        fontSize: "15px",
+                        fontWeight: 700,
+                      }}
+                    >
+                      {calendarYears.map((year) => (
+                        <option key={year} value={year}>
+                          {year}
+                        </option>
+                      ))}
+                    </select>
 
                     <button
                       type="button"
-                      onClick={goNextMonth}
+                      onClick={() => changeCalendarMonth(1)}
                       style={{
-                        border: "1px solid #ddd",
-                        background: "#fff",
-                        borderRadius: "8px",
+                        border: "none",
+                        background: "#f1f1f1",
+                        borderRadius: "7px",
                         width: "38px",
-                        height: "38px",
-                        fontSize: "22px",
+                        height: "36px",
+                        fontSize: "24px",
                         cursor: "pointer",
                       }}
                     >
@@ -491,7 +572,7 @@ export default function EditGoatMortality() {
                   <div
                     style={{
                       display: "grid",
-                      gridTemplateColumns: "repeat(7,1fr)",
+                      gridTemplateColumns: "repeat(7,minmax(0,1fr))",
                       gap: "6px",
                     }}
                   >
@@ -510,28 +591,30 @@ export default function EditGoatMortality() {
                       </div>
                     ))}
 
-                    {Array.from({ length: firstDay }).map(
-                      (_, index) => (
-                        <div key={`empty-${index}`} />
-                      )
-                    )}
-
-                    {Array.from({ length: daysInMonth }).map(
+                    {Array.from({ length: firstDay + daysInMonth }).map(
                       (_, index) => {
-                        const day = index + 1;
-                        const today = new Date();
+                        const day = index - firstDay + 1;
 
+                        if (day < 1 || day > daysInMonth) {
+                          return (
+                            <div
+                              key={`empty-${index}`}
+                              style={{ textAlign: "center" }}
+                            >
+                              <div style={{ height: "36px" }} />
+                            </div>
+                          );
+                        }
+
+                        const today = new Date();
                         const isToday =
                           day === today.getDate() &&
                           month === today.getMonth() &&
                           year === today.getFullYear();
 
-                        const selectedDate =
-                          formData.mortality_date
-                            ? new Date(
-                                `${formData.mortality_date}T00:00:00`
-                              )
-                            : null;
+                        const selectedDate = formData.mortality_date
+                          ? new Date(`${formData.mortality_date}T00:00:00`)
+                          : null;
 
                         const isSelected =
                           selectedDate &&
@@ -540,38 +623,32 @@ export default function EditGoatMortality() {
                           year === selectedDate.getFullYear();
 
                         return (
-                          <button
-                            key={day}
-                            type="button"
-                            onClick={() =>
-                              handleDateSelect(day)
-                            }
-                            style={{
-                              minHeight: "40px",
-                              border: isSelected
-                                ? "2px solid #2e7d32"
-                                : isToday
-                                ? "2px solid #2e7d32"
-                                : "1px solid #ddd",
-                              borderRadius: "8px",
-                              background:
-                                isSelected || isToday
-                                  ? "#e8f5e9"
-                                  : "#fff",
-                              color: "#222",
-                              fontSize: "15px",
-                              fontWeight:
-                                isSelected || isToday
-                                  ? "700"
-                                  : "500",
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              cursor: "pointer",
-                            }}
+                          <div
+                            key={`${day}-${index}`}
+                            style={{ textAlign: "center" }}
                           >
-                            {day}
-                          </button>
+                            <button
+                              type="button"
+                              onClick={() => handleDateSelect(day)}
+                              style={{
+                                width: "100%",
+                                height: "36px",
+                                borderRadius: "7px",
+                                border: isSelected
+                                  ? "1px solid #1976d2"
+                                  : isToday
+                                  ? "2px solid #1976d2"
+                                  : "1px solid #ddd",
+                                background: isSelected ? "#1976d2" : "#fff",
+                                color: isSelected ? "#fff" : "#222",
+                                fontWeight: isSelected ? "700" : "400",
+                                cursor: "pointer",
+                                fontSize: "14px",
+                              }}
+                            >
+                              {day}
+                            </button>
+                          </div>
                         );
                       }
                     )}
@@ -581,11 +658,12 @@ export default function EditGoatMortality() {
                     type="button"
                     onClick={() => setCalendarOpen(false)}
                     style={{
-                      width: "100%",
-                      marginTop: "14px",
-                      padding: "10px",
+                      width: "auto",
+                      margin: "16px auto 0",
+                      display: "block",
+                      padding: "9px 18px",
                       border: "none",
-                      borderRadius: "8px",
+                      borderRadius: "7px",
                       background: "#2e7d32",
                       color: "#fff",
                       fontWeight: "600",
