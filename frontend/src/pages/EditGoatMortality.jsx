@@ -472,15 +472,12 @@ export default function EditGoatMortality() {
               <div
                 className="edit-goat-mortality-calendar"
                 style={{
-                  position: "fixed",
-                  inset: 0,
-                  background: "rgba(0,0,0,.35)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
+                  position: "absolute",
+                  top: "100%",
+                  left: 0,
+                  marginTop: "6px",
                   zIndex: 99999,
                 }}
-                onClick={(e) => { if (e.target === e.currentTarget) setCalendarOpen(false); }}
               >
                 <div
                   style={{
