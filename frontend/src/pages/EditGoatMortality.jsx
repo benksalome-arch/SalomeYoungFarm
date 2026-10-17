@@ -410,45 +410,47 @@ export default function EditGoatMortality() {
               </label>
 
               <div style={{ position: "relative", width: "100%" }}>
-                <div
+                <button
+                  type="button"
+                  onMouseDown={(e) => e.preventDefault()}
+                  onClick={() => {
+                    if (formData.mortality_date) {
+                      const selectedDate = new Date(
+                        `${formData.mortality_date}T00:00:00`
+                      );
+                      setCalendarMonth(
+                        new Date(
+                          selectedDate.getFullYear(),
+                          selectedDate.getMonth(),
+                          1
+                        )
+                      );
+                    }
+                    setCalendarOpen(true);
+                  }}
                   style={{
                     ...inputStyle,
+                    display: "block",
                     width: "100%",
-                    color: formData.mortality_date
-                      ? "#222"
-                      : "#777",
-                    WebkitTextFillColor: formData.mortality_date
-                      ? "#222"
-                      : "#777",
-                    pointerEvents: "none",
+                    minWidth: 0,
+                    minHeight: "42px",
+                    boxSizing: "border-box",
+                    padding: "10px 12px",
+                    cursor: "pointer",
+                    color: formData.mortality_date ? "#222" : "#777",
+                    WebkitTextFillColor: formData.mortality_date ? "#222" : "#777",
+                    backgroundColor: "#fff",
+                    textAlign: "left",
                   }}
                 >
                   {formData.mortality_date
-                    ? new Date(
-                        formData.mortality_date + "T00:00:00"
-                      ).toLocaleDateString("nl-NL", {
+                    ? new Date(`${formData.mortality_date}T00:00:00`).toLocaleDateString("nl-NL", {
                         day: "2-digit",
                         month: "2-digit",
                         year: "numeric",
                       })
                     : "DD-MM-JJJJ"}
-                </div>
-
-                <input
-                  type="date"
-                  name="mortality_date"
-                  value={formData.mortality_date || ""}
-                  onChange={handleChange}
-                  required
-                  style={{
-                    position: "absolute",
-                    inset: 0,
-                    width: "100%",
-                    height: "100%",
-                    opacity: 0,
-                    cursor: "pointer",
-                  }}
-                />
+                </button>
               </div>
             </div>
 
@@ -464,7 +466,7 @@ export default function EditGoatMortality() {
                   justifyContent: "center",
                   zIndex: 99999,
                 }}
-                onClick={() => setCalendarOpen(false)}
+                onClick={(e) => { if (e.target === e.currentTarget) setCalendarOpen(false); }}
               >
                 <div
                   style={{
@@ -570,89 +572,57 @@ export default function EditGoatMortality() {
                   </div>
 
                   <div
-                    style={{
-                      display: "grid",
-                      gridTemplateColumns: "repeat(7,minmax(0,1fr))",
-                      gap: "6px",
-                    }}
-                  >
-                    {weekdays.map((day) => (
-                      <div
-                        key={day}
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(7, 1fr)",
+                gap: "6px",
+              }}
+            >
+              {getCalendarDays().map((day, index) => {
+                const dateValue = day
+                  ? `${calendarMonth.getFullYear()}-${String(
+                      calendarMonth.getMonth() + 1
+                    ).padStart(2, "0")}-${String(day).padStart(2, "0")}`
+                  : "";
+                const selected = Boolean(day) && formData.mortality_date === dateValue;
+                const now = new Date();
+                const today =
+                  Boolean(day) &&
+                  now.getFullYear() === calendarMonth.getFullYear() &&
+                  now.getMonth() === calendarMonth.getMonth() &&
+                  now.getDate() === day;
+
+                return (
+                  <div key={`${day ?? "empty"}-${index}`} style={{ textAlign: "center" }}>
+                    {day ? (
+                      <button
+                        type="button"
+                        onClick={() => handleDateSelect(day)}
                         style={{
-                          textAlign: "center",
-                          fontWeight: "600",
-                          fontSize: "13px",
-                          padding: "6px 0",
-                          color: "#222",
+                          width: "100%",
+                          height: "36px",
+                          borderRadius: "7px",
+                          border: selected
+                            ? "1px solid #1976d2"
+                            : today
+                            ? "2px solid #1976d2"
+                            : "1px solid #ddd",
+                          background: selected ? "#1976d2" : "#fff",
+                          color: selected ? "#fff" : "#222",
+                          fontWeight: selected ? "700" : "400",
+                          cursor: "pointer",
+                          fontSize: "14px",
                         }}
                       >
                         {day}
-                      </div>
-                    ))}
-
-                    {Array.from({ length: firstDay + daysInMonth }).map(
-                      (_, index) => {
-                        const day = index - firstDay + 1;
-
-                        if (day < 1 || day > daysInMonth) {
-                          return (
-                            <div
-                              key={`empty-${index}`}
-                              style={{ textAlign: "center" }}
-                            >
-                              <div style={{ height: "36px" }} />
-                            </div>
-                          );
-                        }
-
-                        const today = new Date();
-                        const isToday =
-                          day === today.getDate() &&
-                          month === today.getMonth() &&
-                          year === today.getFullYear();
-
-                        const selectedDate = formData.mortality_date
-                          ? new Date(`${formData.mortality_date}T00:00:00`)
-                          : null;
-
-                        const isSelected =
-                          selectedDate &&
-                          day === selectedDate.getDate() &&
-                          month === selectedDate.getMonth() &&
-                          year === selectedDate.getFullYear();
-
-                        return (
-                          <div
-                            key={`${day}-${index}`}
-                            style={{ textAlign: "center" }}
-                          >
-                            <button
-                              type="button"
-                              onClick={() => handleDateSelect(day)}
-                              style={{
-                                width: "100%",
-                                height: "36px",
-                                borderRadius: "7px",
-                                border: isSelected
-                                  ? "1px solid #1976d2"
-                                  : isToday
-                                  ? "2px solid #1976d2"
-                                  : "1px solid #ddd",
-                                background: isSelected ? "#1976d2" : "#fff",
-                                color: isSelected ? "#fff" : "#222",
-                                fontWeight: isSelected ? "700" : "400",
-                                cursor: "pointer",
-                                fontSize: "14px",
-                              }}
-                            >
-                              {day}
-                            </button>
-                          </div>
-                        );
-                      }
+                      </button>
+                    ) : (
+                      <div style={{ height: "36px" }} />
                     )}
                   </div>
+                );
+              })}
+            </div>
 
                   <button
                     type="button"
